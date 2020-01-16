@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export class AuthPage extends Component {
     render() {
         return (
             <div>
-               AuthPage 
+               AuthPage
             </div>
-        )
+        );
     }
 }

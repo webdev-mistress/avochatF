@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-max-props-per-line */
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import CSSModules from 'react-css-modules';
 
 import { AuthPage, MainPage } from '../../pages';
 
-import styles from './app.css';
+import styles from './app.module.css';
 
 class App extends React.Component {
     render() {
         const { history } = this.props;
+
+        console.log(styles, 'myLog styles');
 
         return (
             <div className={styles.container}>
@@ -25,4 +26,4 @@ class App extends React.Component {
     }
 }
 
-export default CSSModules(App, styles);
+export default App;

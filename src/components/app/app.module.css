@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background: #333333;
+}
+.container {
+    font-family: Roboto;
+    max-width: 1020px;
+}
