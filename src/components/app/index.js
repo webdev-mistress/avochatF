@@ -1,29 +1,29 @@
 /* eslint-disable react/jsx-max-props-per-line */
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 
-import { AuthPage, MainPage } from '../../pages';
+import { AuthPage, ChatPage } from '../../pages';
 
-import styles from './app.module.css';
+import styles from './styles.module.sass';
 
 class App extends React.Component {
     render() {
-        const { history } = this.props;
-
-        console.log(styles, 'myLog styles');
+        const { isAuth } = this.props;
 
         return (
-            <div className={styles.container}>
+            <Container className={styles.container}>
                 <BrowserRouter>
                     <Switch>
-                        <Route history={history} path="/auth" component={AuthPage} />
-                        <Route history={history} path="/main" component={MainPage} />
-                        <Redirect from="/" to="/auth" />
+                        <Route exact path={isAuth ? '/chat' : '/auth'} component={isAuth ? ChatPage : AuthPage} />
+                        <Redirect from="/" to={isAuth ? '/chat' : '/auth'} />
                     </Switch>
                 </BrowserRouter>
-            </div>
+            </Container>
         );
     }
 }
+const mapStateToProps = state => ({ isAuth: state.user.isAuth });
 
-export default App;
+export default connect(mapStateToProps)(App);

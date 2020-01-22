@@ -1,4 +1,4 @@
 import { AuthPage } from './auth';
-import { MainPage } from './main';
+import { ChatPage } from './chat';
 
-export { AuthPage, MainPage };
+export { AuthPage, ChatPage };
