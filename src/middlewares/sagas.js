@@ -1,14 +1,18 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { getLoto } from '../api';
-import { SET_USER_DATA, SET_AUTH } from '../constants/store';
+import { getUser } from '../api';
+import { USER_FETCH_REQUESTED, USER_FETCH_SUCCEEDED, USER_FETCH_FAILED } from '../constants/store';
 
-function* fetchLoto() {
-    const loto = yield call(getLoto);
+function* fetchUser(action) {
+    try {
+        const user = yield call(getUser, action.user);
 
-    yield put({ type: SET_AUTH, user: loto });
+        yield put({ type: USER_FETCH_SUCCEEDED, user });
+    } catch (err) {
+        yield put({ type: USER_FETCH_FAILED });
+    }
 }
 
-export function* mySaga() {
-    yield takeEvery(SET_USER_DATA, fetchLoto);
+export function* userSaga() {
+    yield takeEvery(USER_FETCH_REQUESTED, fetchUser);
 }

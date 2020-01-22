@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, Typography, Card, CardContent, Button, FormGroup } from '@material-ui/core';
+import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
-import { setUserData, setAuth } from '../../store/user/actions';
+import { requestUser } from '../../store/user/actions';
 
 import styles from './styles.module.sass';
-import { Link } from 'react-router-dom';
+import { getMessages } from '../../api';
 
 class AuthForm extends Component {
     state = {
@@ -13,14 +13,14 @@ class AuthForm extends Component {
         password: '',
     }
 
-    onAuth = () => {
+    onAuth = (event) => {
+        getMessages()
+            .then(console.log)
+            .catch(console.error);
+        event.preventDefault();
         const { login, password } = this.state;
 
-        this.props.setUserData({ login, password });
-
-        if (login === 'Lena' && password === 'love') {
-            this.props.setAuth(true);
-        }
+        this.props.requestUser({ login, password });
     }
 
     onChange = (event, name) => this.setState({ [name]: event.target.value })
@@ -30,7 +30,7 @@ class AuthForm extends Component {
             <Card className={styles.card}>
                 <CardContent className={styles.cardContent}>
                     <Typography variant="h4">Authorization</Typography>
-                    <FormGroup>
+                    <form type="post" className={styles.form}>
                         <TextField
                             required
                             id="authLogin"
@@ -44,12 +44,14 @@ class AuthForm extends Component {
                             label="password"
                             onChange={(event) => this.onChange(event, 'password')}
                         />
-                        <Link to="/chat">
-                            <Button color="primary" variant="contained" onClick={this.onAuth}>
-                                Log in
-                            </Button>
-                        </Link>
-                    </FormGroup>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            onClick={this.onAuth}
+                        >
+                            Log in
+                        </Button>
+                    </form>
                 </CardContent>
             </Card>
         );
@@ -59,8 +61,7 @@ const mapStateToProps = () => ({
     // state,
 });
 const mapDispatchToProps = dispatch => ({
-    setUserData: userData => dispatch(setUserData(userData)),
-    setAuth: isAuth => dispatch(setAuth(isAuth)),
+    requestUser: userData => dispatch(requestUser(userData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);

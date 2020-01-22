@@ -1,3 +1,4 @@
 /* user */
-export const SET_USER_DATA = 'SET_USER_DATA';
-export const SET_AUTH = 'SET_AUTH';
+export const USER_FETCH_REQUESTED = 'USER_FETCH_REQUESTED';
+export const USER_FETCH_SUCCEEDED = 'USER_FETCH_SUCCEEDED';
+export const USER_FETCH_FAILED = 'USER_FETCH_FAILED';

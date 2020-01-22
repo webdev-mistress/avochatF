@@ -1,5 +1,8 @@
-import { SET_USER_DATA, SET_AUTH } from '../../constants/store';
+import { USER_FETCH_REQUESTED, USER_FETCH_FAILED, USER_FETCH_SUCCEEDED } from '../../constants/store';
 
-export const setUserData = user => ({ type: SET_USER_DATA, user });
+export const requestUser = user => ({ type: USER_FETCH_REQUESTED, user });
 
-export const setAuth = isAuth => ({ type: SET_AUTH, isAuth });
+export const getUser = user => ({ type: USER_FETCH_SUCCEEDED, user });
+
+export const failedUser = () => ({ type: USER_FETCH_FAILED });
+

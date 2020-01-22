@@ -10,15 +10,14 @@ import styles from './styles.module.sass';
 
 class App extends React.Component {
     render() {
-        const { history, isAuth } = this.props;
+        const { isAuth } = this.props;
 
         return (
             <Container className={styles.container}>
                 <BrowserRouter>
                     <Switch>
-                        {isAuth && <Route history={history} path="/chat" component={ChatPage} />}
-                        <Route history={history} path="/auth" component={AuthPage} />
-                        <Redirect from="/" to="/auth" />
+                        <Route exact path={isAuth ? '/chat' : '/auth'} component={isAuth ? ChatPage : AuthPage} />
+                        <Redirect from="/" to={isAuth ? '/chat' : '/auth'} />
                     </Switch>
                 </BrowserRouter>
             </Container>

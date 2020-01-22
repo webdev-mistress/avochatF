@@ -7,22 +7,24 @@ const createHeader = (body) => ({
     body: JSON.stringify(body),
 });
 
-const url = 'http://80.87.201.216:3000/loto';
+const baseUrl = 'http://80.87.201.216:4170';
 
-export const getLoto = async () => {
-    const response = await fetch(url);
+const getResourse = async (url, body) => {
+    const response = await fetch(`${baseUrl}${url}`, body && createHeader(body));
 
-    return response.json();
-};
-
-export const updateLoto = async (num, countUsed) => {
-    const response = await fetch(`${url}/update`, createHeader({ num, countUsed }));
+    if (!response.ok) {
+        throw response.status;
+    }
 
     return response.json();
 };
 
-export const zeroizeLoto = async () => {
-    const response = await fetch(`${url}/zeroize`, createHeader({ }));
+export const getUser = user => getResourse('/user', user);
 
-    return response.json();
+export const getMessages = () => getResourse('/messages');
+
+export const sendMessage = async (login, message) => {
+    const messages = await getResourse('/messages/send', ({ login, message }));
+
+    return messages;
 };

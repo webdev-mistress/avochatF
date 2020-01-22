@@ -1,19 +1,28 @@
-import { SET_USER_DATA, SET_AUTH } from '../../constants/store';
+import _ from 'lodash';
+
+import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED } from '../../constants/store';
 
 const initialState = {
-    login: '',
-    password: '',
     isAuth: false,
 };
 
 export function userReducer(state = initialState, action) {
-    switch (action.type) {
-        case SET_USER_DATA:
-            const { login, password } = action.user;
+    const cloneState = _.cloneDeep(state);
 
-            return { ...state, login, password };
-        case SET_AUTH:
-            return { ...state, isAuth: true || action.isAuth };
+    switch (action.type) {
+        case USER_FETCH_SUCCEEDED:
+            if(action.user.isAuth) {
+                delete cloneState.errorMessage;
+            }
+
+            return {
+                ...cloneState,
+                ...action.user,
+            };
+        case USER_FETCH_FAILED:
+            return {
+                isAuth: false,
+            };
         default:
             return state;
     }

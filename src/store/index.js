@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { mySaga } from '../middlewares/sagas';
+import { userSaga } from '../middlewares/sagas';
 
 import { contextReducer } from './context/reducer';
 import { userReducer } from './user/reducer';
@@ -15,10 +15,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 const composeEnhancers =
   typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose;
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
 const enhancer = composeEnhancers(
   applyMiddleware(sagaMiddleware)
@@ -26,4 +24,4 @@ const enhancer = composeEnhancers(
 
 export const store = createStore(rootReducer, enhancer);
 
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(userSaga);
