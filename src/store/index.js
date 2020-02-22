@@ -6,22 +6,27 @@ import { userSaga } from '../middlewares/sagas';
 import { contextReducer } from './context/reducer';
 import { userReducer } from './user/reducer';
 
-const rootReducer = combineReducers({
-    user: userReducer,
-    context: contextReducer,
-});
-
-const sagaMiddleware = createSagaMiddleware();
-
 const composeEnhancers =
   typeof window === 'object' &&
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(sagaMiddleware)
-);
+const storageState = localStorage.getItem('_avochat_F#A823_reduxState')
+    ? JSON.parse(localStorage.getItem('_avochat_F#A823_reduxState')) : {};
 
-export const store = createStore(rootReducer, enhancer);
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(combineReducers({
+    user: userReducer,
+    context: contextReducer,
+}), {
+    user: storageState.user,
+}, composeEnhancers(applyMiddleware(sagaMiddleware)));
+
+store.subscribe(() => localStorage.setItem('_avochat_F#A823_reduxState', JSON.stringify(store.getState())));
 
 sagaMiddleware.run(userSaga);
+
+window.store = store;
+
+export { store };
