@@ -2,7 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Container } from '@material-ui/core';
 
 import { AuthPage, ChatPage } from '../../pages';
 
@@ -13,14 +12,14 @@ class App extends React.Component {
         const { isAuth } = this.props;
 
         return (
-            <Container className={styles.container}>
+            <div className={styles.container}>
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={isAuth ? '/chat' : '/auth'} component={isAuth ? ChatPage : AuthPage} />
                         <Redirect from="/" to={isAuth ? '/chat' : '/auth'} />
                     </Switch>
                 </BrowserRouter>
-            </Container>
+            </div>
         );
     }
 }

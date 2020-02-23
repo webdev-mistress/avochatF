@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
-import { requestUser } from '../../store/user/actions';
+import { requestUser } from '../../../store/user/actions';
 
 import styles from './styles.module.sass';
-import { getMessages } from '../../api';
 
 class AuthForm extends Component {
     state = {
@@ -14,9 +13,6 @@ class AuthForm extends Component {
     }
 
     onAuth = (event) => {
-        getMessages()
-            .then(console.log)
-            .catch(console.error);
         event.preventDefault();
         const { login, password } = this.state;
 

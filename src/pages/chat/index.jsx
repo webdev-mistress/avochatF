@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Container } from '@material-ui/core';
 import { connect } from 'react-redux';
+
+import { LeftChat } from './LeftChat';
+import { MainChat } from './MainChat';
+import styles from './styles.module.sass';
 
 class ChatPageComponent extends Component {
     state = {
@@ -10,10 +13,10 @@ class ChatPageComponent extends Component {
 
     render() {
         return (
-            <Container>
-                Chat page
-                Welcome to chat {this.props.userName}
-            </Container>
+            <div className={styles.wrapper}>
+                <LeftChat />
+                <MainChat />
+            </div>
         );
     }
 }
