@@ -9,7 +9,15 @@ function* fetchUser(action) {
 
         yield put({ type: USER_FETCH_SUCCEEDED, user });
     } catch (err) {
-        yield put({ type: USER_FETCH_FAILED });
+        let errorMessage = err;
+
+        if (typeof errorMessage !== 'number') {
+            errorMessage = err.message;
+        } else {
+            errorMessage = `Error: ${err}`;
+        }
+
+        yield put({ type: USER_FETCH_FAILED, payload: errorMessage });
     }
 }
 
