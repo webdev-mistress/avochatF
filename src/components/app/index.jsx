@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import { AuthPage, ChatPage } from '../../pages';
+import { AuthPage, ChatPage, PomodoroPage } from '../../pages';
 
 import styles from './styles.module.sass';
 
@@ -16,6 +16,7 @@ class App extends React.Component {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={isAuth ? '/chat' : '/auth'} component={isAuth ? ChatPage : AuthPage} />
+                        <Route exact path={'/pomodoro'} component={PomodoroPage} />
                         <Redirect from="/" to={isAuth ? '/chat' : '/auth'} />
                     </Switch>
                 </BrowserRouter>
