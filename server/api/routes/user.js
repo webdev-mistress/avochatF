@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getUserByLogin } = require('../db/mysql');
+const { getUserByLogin, getChats } = require('../db/mysql');
 
 const con = require('./');
 
@@ -18,8 +18,17 @@ router.post('/', (req, res) => {
         }
 
         if (user.login === login && user.password === password) {
-            delete user.password;
-            res.json({ ...user, isAuth: true });
+            con.query(getChats(user.userId), (err, chatResult) => {
+                if (err) {
+                    throw err;
+                }
+                delete user.password,
+                res.json({
+                    ...user,
+                    isAuth: true,
+                    chats: chatResult,
+                 });
+            });
         } else {
             res.json({ isAuth: false, errorMessage: 'Invalid password' });
         }

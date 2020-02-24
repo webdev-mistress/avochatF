@@ -7,7 +7,8 @@ const createHeader = (body) => ({
     body: JSON.stringify(body),
 });
 
-const baseUrl = 'http://80.87.201.216:4170';
+const devMode = true;
+const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4170';
 
 const getResourse = async (url, body) => {
     const response = await fetch(`${baseUrl}${url}`, body && createHeader(body));

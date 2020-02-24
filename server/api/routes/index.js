@@ -1,9 +1,11 @@
 const mysql = require('mysql');
 
+const devMode = true;
 const con = mysql.createConnection({
     host: 'localhost',
-    user: 'leyrus',
-    password: '55667788',
+    port: devMode ? 3307 : 3306,
+    user: devMode ? 'root' : 'leyrus',
+    password: devMode ? '' : '55667788',
     database: 'avochat',
 });
 
