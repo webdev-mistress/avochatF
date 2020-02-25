@@ -11,11 +11,18 @@ class LeftChatComponent extends Component {
                     {this.props.userName}
                 </div>
                 <div className={styles.mainBlock}>
-                    Chats...
+                    <ul>
+                        {this.props.chatsProps}
+                    </ul>
                 </div>
             </div>
         );
     }
 }
 
-export const LeftChat = connect(state => ({ userName: state.user.name }))(LeftChatComponent);
+const mapStateToProps = (state) => ({
+    userName: state.user.name,
+    chatsProps: state.user.chats,
+});
+
+export const LeftChat = connect(mapStateToProps, null)(LeftChatComponent);
