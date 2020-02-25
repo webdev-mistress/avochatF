@@ -11,7 +11,7 @@ class LeftChatComponent extends Component {
                     {this.props.userName}
                 </div>
                 <div className={styles.mainBlock}>
-                    {this.props.chatsProps.map((chatItem, id) => (<div key={id.chatId}>{chatItem.name}</div>))}
+                    {this.props.chatsProps.map((chatItem) => (<div key={chatItem.chatId}>{chatItem.name}</div>))}
                 </div>
             </div>
         );
