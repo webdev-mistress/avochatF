@@ -22,10 +22,10 @@ const getResourse = async (url, body) => {
 
 export const getUser = user => getResourse('/user', user);
 
-export const getMessages = () => getResourse('/messages');
+export const getMessages = (chatId) => getResourse('/messages/get', { chatId });
 
-export const sendMessage = async (login, message) => {
-    const messages = await getResourse('/messages/send', ({ login, message }));
+export const sendMessage = async (userId, chatId, message) => {
+    const messages = await getResourse('/messages/send', ({ userId, chatId, message }));
 
     return messages;
 };

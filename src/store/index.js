@@ -5,6 +5,7 @@ import { userSaga } from '../middlewares/sagas';
 
 import { contextReducer } from './context/reducer';
 import { userReducer } from './user/reducer';
+import { chatReducer } from './chat/reducer';
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -19,6 +20,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
     user: userReducer,
     context: contextReducer,
+    chat: chatReducer,
 }), {
     user: storageState.user,
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));

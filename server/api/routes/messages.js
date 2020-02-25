@@ -1,28 +1,40 @@
 const { Router } = require('express');
-const { getMessages, sendMessage } = require('../db/mysql');
+const { getMessages, sendMessage, getUsersByChatId } = require('../db/mysql');
 
 const router = Router();
 
 const con = require('./');
 
-router.get('/', (req, res) => {
-    con.query(getMessages(), (err, result) => {
-        if (err) {
-            throw err;
-        }
-        console.log(result, 'myLog result');
-        res.json({ messages: result });
+router.post('/get', (req, res) => {
+    con.query(getMessages(req.body.chatId), (err, messages) => {
+        con.query(getUsersByChatId(req.body.chatId), (err, users) => {
+            if (err) {
+                throw err;
+            }
+            const fullMessages = messages.map(message => {
+                const user = users.find(user => user.user_id === message.userId);
+
+                return ({
+                    messageId: message.messageId,
+                    content: message.content,
+                    dateCreate: message.dateCreate,
+                    author: {
+                        userId: message.userId,
+                        name: user.name,
+                        login: user.login,
+                    },
+                });
+            });
+
+            res.json({ messages: fullMessages });
+        });
     });
 });
 
 router.post('/send', (req, res) => {
-    con.query(getMessages(), (err, messages) => {
-        if (err) {
-            throw err;
-        }
-        const { login, message } = req.body;
+        const { userId, chatId, message } = req.body;
 
-        con.query(sendMessage(login, message, messages.length), err => {
+        con.query(sendMessage(userId, chatId, message), err => {
             if (err) {
                 throw err;
             }
@@ -33,7 +45,6 @@ router.post('/send', (req, res) => {
                 res.json({ messages });
             });
         });
-    });
 });
 
 module.exports = router;

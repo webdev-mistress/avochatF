@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-const devMode = true;
+const devMode = false;
 const con = mysql.createConnection({
     host: 'localhost',
     port: devMode ? 3307 : 3306,
