@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -27,16 +28,17 @@ class LeftChatComponent extends Component {
     render() {
         return (
             <div className={styles.wrapper}>
-                <div className={styles.topBlock}>
-                    {this.props.userName}
+                <div className={styles.topBlockWrapper}>
+                    <div
+                        className={styles.logoutWrapper}
+                        onClick={this.onAuthLogout}
+                    >
+                        <ExitToAppIcon />
+                    </div>
+                    <div className={styles.topBlock}>
+                        {this.props.userName}
+                    </div>
                 </div>
-                <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={this.onAuthLogout}
-                >
-                    Log out
-                </Button>
                 <div className={styles.mainBlock}>
                     <List className={styles.root}>
                         {this.props.chatsProps.map((chatItem) => (

@@ -2,12 +2,23 @@
     display: flex
     flex-direction: column
     width: 250px
-.topBlock
-    height: 60px
+.topBlockWrapper
     display: flex
-    justify-content: center
     align-items: center
     border: 1px solid #222222
+    .logoutWrapper
+        margin-left: 10px
+        transition: all 0.3s
+        cursor: pointer
+        color: #DCB4FF
+        &:hover
+            color: #A588BF
+    .topBlock
+        flex-grow: 1
+        height: 60px
+        display: flex
+        justify-content: center
+        align-items: center
 .mainBlock
     border: 1px solid #222222
     height: 100%
