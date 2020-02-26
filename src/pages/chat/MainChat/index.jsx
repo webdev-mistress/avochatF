@@ -21,9 +21,13 @@ export class MainChatComponent extends Component {
 
             if(activeChat) {
                 getMessagesFromApi(activeChat.chatId)
-                    .then(({ messages }) => this.props.getMessages(messages));
+                    .then(({ messages }) => {
+                        if (this.props.messages.length !== messages.length) {
+                            this.props.getMessages(messages);
+                        }
+                    });
             }
-        }, 5000);
+        }, 1000);
     }
 
     componentWillUnmount() {

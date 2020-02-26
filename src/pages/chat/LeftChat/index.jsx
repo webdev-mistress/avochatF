@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 
-import styles from './styles.module.sass';
 import { logoutUser } from '../../../store/user/actions';
 import { getActiveChat, getMessages } from '../../../store/chat/actions';
 import { getMessages as getMessagesFromApi } from '../../../api';
+
+import styles from './styles.module.sass';
 
 class LeftChatComponent extends Component {
     onLoadChat = (chatItem) => {
@@ -32,11 +38,27 @@ class LeftChatComponent extends Component {
                     Log out
                 </Button>
                 <div className={styles.mainBlock}>
-                    {this.props.chatsProps.map((chatItem) => (
-                        <div onClick={() => this.onLoadChat(chatItem)} key={chatItem.chatId}>
-                            {chatItem.name}
-                        </div>)
-                    )}
+                    <List className={styles.root}>
+                        {this.props.chatsProps.map((chatItem) => (
+                            <ListItem
+                                className={styles.chatItem}
+                                key={chatItem.chatId}
+                                onClick={() => this.onLoadChat(chatItem)}
+                            >
+                                <ListItemAvatar>
+                                    <Avatar
+                                        className={styles.avatar}
+                                        alt={chatItem.name}
+                                        src="/static/images/avatar/3.jpg"
+                                    />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    className={styles.chatItemText}
+                                    primary={chatItem.name}
+                                    secondary={'Chat'} />
+                            </ListItem>
+                        ))}
+                    </List>
                 </div>
             </div>
         );
