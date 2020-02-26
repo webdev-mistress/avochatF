@@ -1,2 +1,36 @@
 .wrapper
-    padding: 20px;
+    display: flex
+    box-sizing: border-box
+    max-width: 900px
+    height: 100%
+    flex-direction: column
+    flex-grow: 1
+.messageWrapper
+    padding: 20px 40px
+    display: flex
+    flex-direction: column
+    overflow-y: scroll
+    align-items: flex-start
+    flex-grow: 1
+    .message
+        margin: 7px 0
+        padding: 10px
+        background: #444
+        border-radius: 10px
+    .myMessage
+        align-self: flex-end
+.topBlock
+    padding: 20px 40px
+    border: 1px solid #222
+.form
+    color: #fff
+    display: flex
+    padding: 20px
+    div
+        flex-grow: 1
+        label, input
+            margin-left: 5px
+            color: #ffffff
+    button
+        border-radius: 20%
+        margin-left: 10px
