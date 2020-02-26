@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
