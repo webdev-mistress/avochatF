@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED } from '../../constants/store';
+import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT } from '../../constants/store';
 
 const initialState = {
     isAuth: false,
@@ -24,6 +24,12 @@ export function userReducer(state = initialState, action) {
                 isAuth: false,
                 errorMessage: action.payload,
             };
+
+        case USER_LOGOUT:
+            return {
+                isAuth: false,
+            };
+
         default:
             return state;
     }
