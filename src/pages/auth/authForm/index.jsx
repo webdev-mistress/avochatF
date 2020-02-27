@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
-import { requestUser } from '../../../store/user/actions';
+import { requestUser, removeErrorMessage } from '../../../store/user/actions';
 
 import styles from './styles.module.sass';
 
@@ -19,13 +19,19 @@ class AuthForm extends Component {
         this.props.requestUser({ login, password });
     }
 
-    onChange = (event, name) => this.setState({ [name]: event.target.value })
+    onChange = (event, name) => {
+        if (this.props.errorMessage) {
+            this.props.removeErrorMessage();
+        }
+        this.setState({ [name]: event.target.value });
+    }
 
     render() {
         return (
             <Card className={styles.card}>
                 <CardContent className={styles.cardContent}>
                     <Typography variant="h4">Authorization</Typography>
+                    <div className={styles.errorMessage}>{this.props.errorMessage}</div>
                     <form type="post" className={styles.form}>
                         <TextField
                             required
@@ -44,6 +50,7 @@ class AuthForm extends Component {
                             color="primary"
                             variant="contained"
                             onClick={this.onAuth}
+                            disabled={!this.state.login || !this.state.password || this.props.errorMessage}
                         >
                             Log in
                         </Button>
@@ -53,11 +60,13 @@ class AuthForm extends Component {
         );
     }
 }
-const mapStateToProps = () => ({
-    // state,
+const mapStateToProps = (state) => ({
+    errorMessage: state.user.errorMessage,
 });
+
 const mapDispatchToProps = dispatch => ({
     requestUser: userData => dispatch(requestUser(userData)),
+    removeErrorMessage: () => dispatch(removeErrorMessage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT } from '../../constants/store';
+import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT, REMOVE_AUTH_ERROR_MESSAGE } from '../../constants/store';
 
 const initialState = {
     isAuth: false,
@@ -19,6 +19,10 @@ export function userReducer(state = initialState, action) {
                 ...cloneState,
                 ...action.user,
             };
+        case REMOVE_AUTH_ERROR_MESSAGE:
+            delete cloneState.errorMessage;
+
+            return cloneState;
         case USER_FETCH_FAILED:
             return {
                 isAuth: false,
