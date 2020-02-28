@@ -23,7 +23,10 @@ class AuthForm extends Component {
         if (this.props.errorMessage) {
             this.props.removeErrorMessage();
         }
-        this.setState({ [name]: event.target.value });
+
+        const { value } = event.target;
+
+        this.setState({ [name]: name === 'login' ? value.trim() : value });
     }
 
     render() {
@@ -50,7 +53,7 @@ class AuthForm extends Component {
                             color="primary"
                             variant="contained"
                             onClick={this.onAuth}
-                            disabled={!this.state.login || !this.state.password || this.props.errorMessage}
+                            disabled={!this.state.login || !this.state.password || !!this.props.errorMessage}
                         >
                             Log in
                         </Button>
