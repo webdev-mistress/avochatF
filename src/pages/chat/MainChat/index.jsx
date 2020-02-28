@@ -6,12 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
-import { sendMessage, getMessages as getMessagesFromApi } from '../../../api';
 
-import { getMessages } from '../../../store/chat/actions';
+import { selectUserId } from '../../../store/user/selectors';
+import { requestMessages, sendMessage } from '../../../store/chat/actions';
 
 import styles from './styles.module.sass';
-import { selectUserId } from '../../../store/user/selectors';
 
 export class MainChatComponent extends Component {
     state = {
@@ -20,17 +19,10 @@ export class MainChatComponent extends Component {
 
     componentDidMount() {
         this.intervalCheckMessage = setInterval(() => {
-            const { activeChat } = this.props;
-
-            if(activeChat) {
-                getMessagesFromApi(activeChat.chatId)
-                    .then(({ messages }) => {
-                        if (this.props.messages.length !== messages.length) {
-                            this.props.getMessages(messages);
-                        }
-                    });
+            if(!_.isEmpty(this.props.activeChat)) {
+                this.props.requestMessages(this.props.activeChat.chatId);
             }
-        }, 1000);
+        }, 3000);
     }
 
     componentDidUpdate() {
@@ -44,9 +36,7 @@ export class MainChatComponent extends Component {
     }
 
     onSendMessage = () => {
-        const { userId, activeChat } = this.props;
-
-        sendMessage(userId, activeChat.chatId, this.state.messageText);
+        this.props.sendMessage(this.state.messageText);
         this.setState({ messageText: '' });
     }
 
@@ -102,7 +92,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    getMessages: (messages) => dispatch(getMessages(messages)),
+    requestMessages: (chatId) => dispatch(requestMessages(chatId)),
+    sendMessage: (messageText) => dispatch(sendMessage(messageText)),
 });
 
 export const MainChat = connect(mapStateToProps, mapDispatchToProps)(MainChatComponent);

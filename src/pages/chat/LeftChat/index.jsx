@@ -8,16 +8,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
 import { logoutUser } from '../../../store/user/actions';
-import { getActiveChat, getMessages } from '../../../store/chat/actions';
-import { getMessages as getMessagesFromApi } from '../../../api';
+import { getActiveChat, requestMessages } from '../../../store/chat/actions';
 
 import styles from './styles.module.sass';
+import { selectUserName, selectUserChats } from '../../../store/user/selectors';
 
 class LeftChatComponent extends Component {
-    onLoadChat = (chatItem) => {
-        this.props.getActiveChat(chatItem);
-        getMessagesFromApi(chatItem.chatId)
-            .then(({ messages }) => this.props.getMessages(messages));
+    onLoadChat = (chat) => {
+        this.props.getActiveChat(chat);
+        this.props.requestMessages(chat.chatId);
     }
 
     onAuthLogout = () => {
@@ -40,22 +39,22 @@ class LeftChatComponent extends Component {
                 </div>
                 <div className={styles.mainBlock}>
                     <List className={styles.root}>
-                        {this.props.chatsProps.map((chatItem) => (
+                        {this.props.chats.map((chat) => (
                             <ListItem
                                 className={styles.chatItem}
-                                key={chatItem.chatId}
-                                onClick={() => this.onLoadChat(chatItem)}
+                                key={chat.chatId}
+                                onClick={() => this.onLoadChat(chat)}
                             >
                                 <ListItemAvatar>
                                     <Avatar
                                         className={styles.avatar}
-                                        alt={chatItem.name}
+                                        alt={chat.name}
                                         src="/static/images/avatar/3.jpg"
                                     />
                                 </ListItemAvatar>
                                 <ListItemText
                                     className={styles.chatItemText}
-                                    primary={chatItem.name}
+                                    primary={chat.name}
                                     secondary={'Chat'} />
                             </ListItem>
                         ))}
@@ -67,13 +66,13 @@ class LeftChatComponent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    userName: state.user.name,
-    chatsProps: state.user.chats,
+    userName: selectUserName(state),
+    chats: selectUserChats(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     getActiveChat: (chatId) => dispatch(getActiveChat(chatId)),
-    getMessages: (messages) => dispatch(getMessages(messages)),
+    requestMessages: (chatId) => dispatch(requestMessages(chatId)),
     logoutUser: () => dispatch(logoutUser()),
 });
 
