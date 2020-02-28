@@ -32,7 +32,7 @@ export class MainChatComponent extends Component {
 
     componentDidUpdate() {
         if(this.messageWrapper){
-            this.messageWrapper.scrollTop = 9999;
+            this.messageWrapper.scrollTop = 999999;
         }
     }
 
