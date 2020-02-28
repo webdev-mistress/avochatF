@@ -24,6 +24,7 @@ const store = createStore(combineReducers({
     context: contextReducer,
     chat: chatReducer,
 }), {
+    chat: storageState.chat,
     user: storageState.user,
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));
 

@@ -10,8 +10,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { logoutUser } from '../../../store/user/actions';
 import { getActiveChat, requestMessages } from '../../../store/chat/actions';
 
-import styles from './styles.module.sass';
 import { selectUserName, selectUserChats } from '../../../store/user/selectors';
+
+import styles from './styles.module.scss';
 
 class LeftChatComponent extends Component {
     onLoadChat = (chat) => {

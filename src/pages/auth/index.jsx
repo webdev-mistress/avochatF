@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AuthForm from './authForm';
 import { Container } from '@material-ui/core';
 
-import style from './styles.module.sass';
+import style from './styles.module.scss';
 
 export class AuthPage extends Component {
     render() {

@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { AuthPage, ChatPage, PomodoroPage } from '../../pages';
 
-import styles from './styles.module.sass';
+import styles from './styles.module.scss';
 
 class App extends React.Component {
     render() {

@@ -1,0 +1,67 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.topBlockWrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #222222;
+}
+
+.topBlockWrapper .logoutWrapper {
+    margin-left: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+    color: #DCB4FF;
+}
+
+.topBlockWrapper .logoutWrapper:hover {
+    color: #A588BF;
+}
+
+.topBlockWrapper .topBlock {
+    flex-grow: 1;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainBlock {
+    border: 1px solid #222222;
+    height: 100%;
+}
+
+.root {
+    width: '100%';
+    max-width: 360px;
+}
+
+.chatItem {
+    background-color: #444;
+    transition: all 0.3s;
+    border: 1px solid #222222;
+    cursor: pointer;
+}
+
+.chatItem:hover {
+    background-color: #333;
+}
+
+.chatItem .avatar {
+    color: #222;
+}
+
+.chatItem .chatItemText span {
+    font-size: 18px;
+}
+
+.chatItem .chatItemText p {
+    color: #ddd;
+}
+
+.inline {
+    display: 'inline';
+}

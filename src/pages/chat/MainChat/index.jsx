@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import cn from 'classnames';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CachedIcon from '@material-ui/icons/Cached';
+
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
 
 import { selectUserId } from '../../../store/user/selectors';
-import { requestMessages, sendMessage } from '../../../store/chat/actions';
+import { requestMessages, sendMessage, deleteMessage } from '../../../store/chat/actions';
 
-import styles from './styles.module.sass';
+import styles from './styles.module.scss';
 
 export class MainChatComponent extends Component {
     state = {
@@ -20,9 +25,9 @@ export class MainChatComponent extends Component {
     componentDidMount() {
         this.intervalCheckMessage = setInterval(() => {
             if(!_.isEmpty(this.props.activeChat)) {
-                this.props.requestMessages(this.props.activeChat.chatId);
+                this.requestMessages();
             }
-        }, 3000);
+        }, 20000);
     }
 
     componentDidUpdate() {
@@ -44,26 +49,55 @@ export class MainChatComponent extends Component {
 
     onChangeMessage = event => this.setState({ messageText: event.target.value })
 
+    onRefreshChat = () => {
+        this.setState({ isRefreshing: true });
+        setTimeout(() => this.setState({ isRefreshing: false }), 2100);
+        this.requestMessages();
+    }
+
+    requestMessages = () => this.props.requestMessages(this.props.activeChat.chatId);
+
+    renderMessages = () => this.props.messages.map(message => {
+        const userIsAuthor = this.props.userId === message.author.userId;
+
+        return (
+            <div
+                key={message.messageId}
+                className={cn(styles.message, userIsAuthor && styles.myMessage)}
+            >
+                <div className={styles.messageBlock}>
+                    <div>{message.author.name}</div>
+                    <div>{message.content}</div>
+                </div>
+                {userIsAuthor && (
+                    <div className={styles.buttonBlock}>
+                        <EditIcon />
+                        <DeleteIcon onClick={() => this.props.deleteMessage(message.messageId)} />
+                    </div>
+                )}
+            </div>
+        );
+    });
+
     render() {
+        const { isRefreshing } = this.state;
         const hasActiveChat = !_.isEmpty(this.props.activeChat);
 
         return (
             <div className={styles.wrapper}>
                 <div className={styles.topBlock}>
-                    {hasActiveChat ? `Active chat: ${this.props.activeChat.name}` : 'Choose a chat'}
+                    <CachedIcon
+                        className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
+                        onClick={this.onRefreshChat}
+                    />
+                    <div className={styles.title}>
+                        {hasActiveChat ? `Active chat: ${this.props.activeChat.name}` : 'Choose a chat'}
+                    </div>
                 </div>
                 { hasActiveChat && (
                     <>
                         <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
-                            {this.props.messages.map(message => (
-                                <div
-                                    key={message.messageId}
-                                    className={`${styles.message} 
-                                        ${this.props.userId === message.author.userId && styles.myMessage }`}
-                                >
-                                    {`${message.author.login}: ${message.content}`}
-                                </div>
-                            ))}
+                            {this.renderMessages()}
                         </div>
                         <div className={styles.form}>
                             <TextField
@@ -94,6 +128,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     requestMessages: (chatId) => dispatch(requestMessages(chatId)),
     sendMessage: (messageText) => dispatch(sendMessage(messageText)),
+    deleteMessage: (messageId) => dispatch(deleteMessage(messageId)),
 });
 
 export const MainChat = connect(mapStateToProps, mapDispatchToProps)(MainChatComponent);

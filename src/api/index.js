@@ -20,8 +20,10 @@ const getResourse = async (url, body) => {
     return response.json();
 };
 
+/* user */
 export const getUser = user => getResourse('/user', user);
 
+/* messages */
 export const getMessages = (chatId) => getResourse('/messages/get', { chatId });
 
 export const sendMessage = async (userId, chatId, message) => {
@@ -29,3 +31,5 @@ export const sendMessage = async (userId, chatId, message) => {
 
     return messages;
 };
+
+export const deleteMessage = messageId => getResourse('/messages/delete',{ messageId });

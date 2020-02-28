@@ -1,0 +1,33 @@
+.card {
+    width: 100%;
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardContent h4 {
+    text-align: center;
+}
+
+.cardContent div:first-child {
+    margin-top: 0;
+}
+
+.cardContent div {
+    margin-top: 10px;
+}
+
+.cardContent button:last-child {
+    margin-top: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.errorMessage {
+    color: red;
+}

@@ -22,6 +22,8 @@ const getMessages = (chatId) => `SELECT
     message_id AS messageId, user_id as userId, content, date_create as dateCreate    
     FROM messages WHERE  messages.chat_id = '${chatId}'`;
 
+const deleteMessage = (messageId) => `DELETE from messages WHERE message_id = ${messageId}`;
+
 /* chat */
 
 const getChats = (userId) => `SELECT chat.chat_id as chatId, chat.name FROM \`party\` JOIN \`chat\` 
@@ -36,6 +38,7 @@ module.exports = {
     getUserByLogin,
     getUserById,
     sendMessage,
+    deleteMessage,
     getMessages,
     getChats,
     getUsersByChatId,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { LeftChat } from './LeftChat';
 import { MainChat } from './MainChat';
-import styles from './styles.module.sass';
+import styles from './styles.module.scss';
 
 class ChatPageComponent extends Component {
     state = {

@@ -4,7 +4,7 @@ import { TextField, Typography, Card, CardContent, Button } from '@material-ui/c
 
 import { requestUser, removeErrorMessage } from '../../../store/user/actions';
 
-import styles from './styles.module.sass';
+import styles from './styles.module.scss';
 
 class AuthForm extends Component {
     state = {
