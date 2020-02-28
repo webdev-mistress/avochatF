@@ -1,4 +1,4 @@
-import { GET_MESSAGES, GET_ACTIVE_CHAT } from '../../constants/store';
+import { GET_MESSAGES, GET_ACTIVE_CHAT, USER_LOGOUT } from '../../constants/store';
 
 const initialState = {
     messages: [],
@@ -16,7 +16,9 @@ export function chatReducer(state = initialState, action) {
                 ...state,
                 activeChat: action.payload,
             };
-        default:
+            case USER_LOGOUT:
+                return initialState;
+            default:
             return state;
     }
 }
