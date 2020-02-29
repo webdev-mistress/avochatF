@@ -58,6 +58,16 @@
     }
 }
 
+.chatItemActive {
+    background-color: #222;
+    transition: all 0.3s;
+    border: 1px solid #222222;
+    cursor: default;
+    &:hover {
+        background-color: #222;
+    }
+}
+
 .inline {
     display: 'inline';
 }

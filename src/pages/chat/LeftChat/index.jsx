@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import cn from 'classnames';
+
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,6 +15,7 @@ import { getActiveChat, requestMessages } from '../../../store/chat/actions';
 import { selectUserName, selectUserChats } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
+import { selectActiveChatId } from '../../../store/chat/selectors';
 
 class LeftChatComponent extends Component {
     onLoadChat = (chat) => {
@@ -25,43 +28,48 @@ class LeftChatComponent extends Component {
     };
 
     render() {
-        return (
-            <div className={styles.wrapper}>
-                <div className={styles.topBlockWrapper}>
-                    <div
-                        className={styles.logoutWrapper}
-                        onClick={this.onAuthLogout}
-                    >
-                        <ExitToAppIcon />
-                    </div>
-                    <div className={styles.topBlock}>
-                        {this.props.userName}
-                    </div>
-                </div>
-                <div className={styles.mainBlock}>
-                    <List className={styles.root}>
-                        {this.props.chats.map((chat) => (
-                            <ListItem
-                                className={styles.chatItem}
-                                key={chat.chatId}
-                                onClick={() => this.onLoadChat(chat)}
-                            >
-                                <ListItemAvatar>
-                                    <Avatar
-                                        className={styles.avatar}
-                                        alt={chat.name}
-                                        src="/static/images/avatar/3.jpg"
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    className={styles.chatItemText}
-                                    primary={chat.name}
-                                    secondary={'Chat'} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </div>
+return (
+    <div className={styles.wrapper}>
+        <div className={styles.topBlockWrapper}>
+            <div
+                className={styles.logoutWrapper}
+                onClick={this.onAuthLogout}
+            >
+                <ExitToAppIcon />
             </div>
+            <div className={styles.topBlock}>
+                {this.props.userName}
+            </div>
+        </div>
+        <div className={styles.mainBlock}>
+            <List className={styles.root}>
+                {this.props.chats.map((chat) => {
+                    const chatIsActive = chat.chatId === this.props.activeChatId;
+
+                    return (
+                        <ListItem
+                            className={cn(styles.chatItem, chatIsActive && styles.chatItemActive)}
+                            key={chat.chatId}
+                            onClick={() => this.onLoadChat(chat)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar
+                                    className={styles.avatar}
+                                    alt={chat.name}
+                                    src="/static/images/avatar/3.jpg"
+                                />
+                            </ListItemAvatar>
+                            <ListItemText
+                                className={styles.chatItemText}
+                                primary={chat.name}
+                                secondary={'Chat'}
+                            />
+                        </ListItem>
+                    );
+                })}
+            </List>
+        </div>
+    </div>
         );
     }
 }
@@ -69,6 +77,7 @@ class LeftChatComponent extends Component {
 const mapStateToProps = (state) => ({
     userName: selectUserName(state),
     chats: selectUserChats(state),
+    activeChatId: selectActiveChatId(state),
 });
 
 const mapDispatchToProps = dispatch => ({
