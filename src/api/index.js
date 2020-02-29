@@ -7,7 +7,7 @@ const createHeader = (body) => ({
     body: JSON.stringify(body),
 });
 
-const devMode = false;
+const devMode = true;
 const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4170';
 
 const getResourse = async (url, body) => {
@@ -33,3 +33,5 @@ export const sendMessage = async (userId, chatId, message) => {
 };
 
 export const deleteMessage = messageId => getResourse('/messages/delete',{ messageId });
+
+export const editMessages = (messageId, content) => getResourse('/messages/edit', { messageId, content });
