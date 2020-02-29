@@ -1,4 +1,9 @@
 /* user */
+
+const createUser = (name, login, password) => `INSERT INTO 
+    users(name, login, password) 
+    VALUES ('${name}', '${login}', '${password}')`;
+
 const getUserByLogin = login => `SELECT 
     users.name,
     users.login,
@@ -39,6 +44,7 @@ const getUsersByChatId = (chatId) => `SELECT *
 from party JOIN users ON party.user_id = users.user_id AND party.chat_id = '${chatId}'`;
 
 module.exports = {
+    createUser,
     getUserByLogin,
     getUserById,
     sendMessage,
