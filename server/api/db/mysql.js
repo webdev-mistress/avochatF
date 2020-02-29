@@ -1,4 +1,9 @@
 /* user */
+
+const createUser = (name, login, password) => `INSERT INTO 
+    users(name, login, password) 
+    VALUES ('${name}', '${login}', '${password}')`;
+
 const getUserByLogin = login => `SELECT 
     users.name,
     users.login,
@@ -24,6 +29,10 @@ const getMessages = (chatId) => `SELECT
 
 const deleteMessage = (messageId) => `DELETE from messages WHERE message_id = ${messageId}`;
 
+const editMessage = (messageId, content, time) => `UPDATE messages
+    SET content='${content}', date_create=${time}
+    WHERE message_id=${messageId}`;
+
 /* chat */
 
 const getChats = (userId) => `SELECT chat.chat_id as chatId, chat.name FROM \`party\` JOIN \`chat\` 
@@ -35,10 +44,12 @@ const getUsersByChatId = (chatId) => `SELECT *
 from party JOIN users ON party.user_id = users.user_id AND party.chat_id = '${chatId}'`;
 
 module.exports = {
+    createUser,
     getUserByLogin,
     getUserById,
     sendMessage,
     deleteMessage,
+    editMessage,
     getMessages,
     getChats,
     getUsersByChatId,

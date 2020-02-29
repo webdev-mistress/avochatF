@@ -33,3 +33,5 @@ export const sendMessage = async (userId, chatId, message) => {
 };
 
 export const deleteMessage = messageId => getResourse('/messages/delete',{ messageId });
+
+export const editMessages = (messageId, content) => getResourse('/messages/edit', { messageId, content });
