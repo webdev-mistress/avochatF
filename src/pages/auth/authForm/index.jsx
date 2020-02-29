@@ -19,6 +19,8 @@ class AuthForm extends Component {
         this.props.requestUser({ login, password });
     }
 
+    onAuthEnter = event => event.key === 'Enter' && this.onAuth(event);
+
     onChange = (event, name) => {
         if (this.props.errorMessage) {
             this.props.removeErrorMessage();
@@ -41,6 +43,7 @@ class AuthForm extends Component {
                             id="authLogin"
                             label="Login"
                             onChange={(event) => this.onChange(event, 'login')}
+                            onKeyUp={(event) => this.onAuthEnter(event)}
                         />
                         <TextField
                             required
@@ -48,6 +51,7 @@ class AuthForm extends Component {
                             id="authPassword"
                             label="password"
                             onChange={(event) => this.onChange(event, 'password')}
+                            onKeyUp={(event) => this.onAuthEnter(event)}
                         />
                         <Button
                             color="primary"
