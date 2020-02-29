@@ -57,6 +57,8 @@ export class MainChatComponent extends Component {
 
     requestMessages = () => this.props.requestMessages(this.props.activeChat.chatId);
 
+    renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
+
     renderMessages = () => this.props.messages.map(message => {
         const userIsAuthor = this.props.userId === message.author.userId;
 
@@ -82,25 +84,27 @@ export class MainChatComponent extends Component {
     render() {
         const { isRefreshing } = this.state;
         const hasActiveChat = !_.isEmpty(this.props.activeChat);
+        const hasMessages = !_.isEmpty(this.props.messages);
 
         return (
             <div className={styles.wrapper}>
                 <div className={styles.topBlock}>
-                    <CachedIcon
-                        className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
-                        onClick={this.onRefreshChat}
-                    />
+                    {hasActiveChat && (
+                        <CachedIcon
+                            className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
+                            onClick={this.onRefreshChat}
+                        />
+                    )}
                     <div className={styles.title}>
                         {hasActiveChat ? `Active chat: ${this.props.activeChat.name}` : 'Choose a chat'}
                     </div>
                 </div>
-                { hasActiveChat && (
-                    <>
-                        <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
-                            {this.renderMessages()}
-                        </div>
-                        <div className={styles.form}>
-                            <TextField
+                <>
+                    <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
+                        {hasMessages ? this.renderMessages() : this.renderNoMessages()}
+                    </div>
+                    <div className={styles.form}>
+                        <TextField
                                 id="standard-basic"
                                 color="primary"
                                 label="Enter Your Message"
@@ -108,12 +112,11 @@ export class MainChatComponent extends Component {
                                 onKeyUp={this.onPressEnter}
                                 value={this.state.messageText}
                             />
-                            <Button variant="contained" color="primary" onClick={this.onSendMessage}>
-                                <SendIcon />
-                            </Button>
-                        </div>
-                    </>
-                )}
+                        <Button variant="contained" color="primary" onClick={this.onSendMessage}>
+                            <SendIcon />
+                        </Button>
+                    </div>
+                </>
             </div>
         );
     }

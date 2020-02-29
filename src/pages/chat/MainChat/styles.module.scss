@@ -72,13 +72,31 @@
     .cachedIcon {
         transition: all 0.3s;
         margin-right: 20px;
-        color: grey;
+        color:gray;
         cursor: pointer;
         &:hover {
             opacity: 0.8;
         }
     }
+    .noActiveChat {
+        transition: all 0.3s;
+        margin-right: 20px;
+        color: #333;
+        cursor: default;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
 
+}
+
+.noMessage {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-size: 25px;
 }
 
 .form {
