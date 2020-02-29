@@ -1,6 +1,6 @@
 import { MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, MESSAGES_REQUESTED,
      MESSAGES_FAILED, SEND_MESSAGE, SEND_MESSAGE_FAILED, DELETE_MESSAGE,
-     DELETE_MESSAGE_FAILED } from '../../constants/store';
+     DELETE_MESSAGE_FAILED, CLEAR_CHAT } from '../../constants/store';
 
 export const getMessages = (messages) => ({ type: MESSAGES_SUCCEEDED, payload: messages });
 
@@ -17,3 +17,5 @@ export const deleteMessage = (messageId) => ({ type: DELETE_MESSAGE, payload: { 
 export const deleteMessageFailed = (errorMessage) => ({ type: DELETE_MESSAGE_FAILED, payload: { errorMessage } });
 
 export const getActiveChat = (chat) => ({ type: GET_ACTIVE_CHAT, payload: chat });
+
+export const clearChat = () => ({ type: CLEAR_CHAT });

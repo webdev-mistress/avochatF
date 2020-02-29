@@ -99,12 +99,13 @@ export class MainChatComponent extends Component {
                         {hasActiveChat ? `Active chat: ${this.props.activeChat.name}` : 'Choose a chat'}
                     </div>
                 </div>
-                <>
-                    <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
-                        {hasMessages ? this.renderMessages() : this.renderNoMessages()}
-                    </div>
-                    <div className={styles.form}>
-                        <TextField
+                {hasActiveChat && (
+                    <>
+                        <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
+                            {hasMessages ? this.renderMessages() : this.renderNoMessages()}
+                        </div>
+                        <div className={styles.form}>
+                            <TextField
                                 id="standard-basic"
                                 color="primary"
                                 label="Enter Your Message"
@@ -112,11 +113,12 @@ export class MainChatComponent extends Component {
                                 onKeyUp={this.onPressEnter}
                                 value={this.state.messageText}
                             />
-                        <Button variant="contained" color="primary" onClick={this.onSendMessage}>
-                            <SendIcon />
-                        </Button>
-                    </div>
-                </>
+                            <Button variant="contained" color="primary" onClick={this.onSendMessage}>
+                                <SendIcon />
+                            </Button>
+                        </div>
+                    </>
+                )}
             </div>
         );
     }
