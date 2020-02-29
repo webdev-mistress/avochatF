@@ -5,22 +5,20 @@
 .cardContent {
     display: flex;
     flex-direction: column;
-}
-
-.cardContent h4 {
-    text-align: center;
-}
-
-.cardContent div:first-child {
-    margin-top: 0;
-}
-
-.cardContent div {
-    margin-top: 10px;
-}
-
-.cardContent button:last-child {
-    margin-top: 20px;
+    h4 {
+        text-align: center;
+    }
+    div {
+        margin-top: 10px;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    button {
+        &:last-child {
+            margin-top: 20px;
+        }
+    }
 }
 
 .form {

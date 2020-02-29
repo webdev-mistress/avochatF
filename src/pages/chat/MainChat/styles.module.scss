@@ -14,55 +14,48 @@
     overflow-y: scroll;
     align-items: flex-start;
     flex-grow: 1;
-}
-
-.messageWrapper .message {
-    margin: 7px 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: #444;
-    border-radius: 10px;
-}
-
-.messageWrapper .message .messageBlock div:first-child {
-    font-weight: 600;
-    font-style: 22px;
-}
-
-.messageWrapper .message .messageBlock div:last-child {
-    margin: 3px 10px 0px 2px;
-}
-
-.messageWrapper .message .buttonBlock {
-    display: flex;
-    margin-left: 20px;
-    justify-content: space-between;
-    flex-direction: column;
-}
-
-.messageWrapper .message .buttonBlock svg {
-    font-size: 18px;
-    transition: all 0.3s;
-}
-
-.messageWrapper .message .buttonBlock svg:first-child {
-    color: grey;
-    opacity: 0.4;
-}
-
-.messageWrapper .message .buttonBlock svg:last-child {
-    cursor: pointer;
-    color: grey;
-}
-
-.messageWrapper .message .buttonBlock svg:last-child:hover {
-    opacity: 0.8;
-}
-
-.messageWrapper .myMessage {
-    align-self: flex-end;
-    background: #404;
+    .message {
+        margin: 7px 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background: #444;
+        border-radius: 10px;
+        .messageBlock {
+            div:first-child {
+                font-weight: 600;
+                font-style: 22px;
+            }
+            div:last-child {
+                margin: 3px 10px 0px 2px;
+            }
+        }
+        .buttonBlock {
+            display: flex;
+            margin-left: 20px;
+            justify-content: space-between;
+            flex-direction: column;
+            svg {
+                font-size: 18px;
+                transition: all 0.3s;
+                &:first-child {
+                    color: grey;
+                    opacity: 0.4;
+                }
+                &:last-child {
+                    cursor: pointer;
+                    color: grey;
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+            }
+        }
+    }
+    .myMessage {
+        align-self: flex-end;
+        background: #404;
+    }
 }
 
 .topBlock {
@@ -92,20 +85,17 @@
     color: #fff;
     display: flex;
     padding: 20px;
-}
-
-.form div {
-    flex-grow: 1;
-}
-
-.form div label, .form div input {
-    margin-left: 5px;
-    color: #ffffff;
-}
-
-.form button {
-    border-radius: 20%;
-    margin-left: 10px;
+    div {
+        flex-grow: 1;
+        label, input {
+            margin-left: 5px;
+            color: #ffffff;
+        }
+    }
+    button {
+        border-radius: 20%;
+        margin-left: 10px;
+    }
 }
 
 @keyframes rotateIcon {
