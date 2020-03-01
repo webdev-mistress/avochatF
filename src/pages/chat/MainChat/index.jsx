@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import cn from 'classnames';
+import format from 'date-fns/format';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
@@ -61,22 +62,29 @@ export class MainChatComponent extends Component {
 
     renderMessages = () => this.props.messages.map(message => {
         const userIsAuthor = this.props.userId === message.author.userId;
+        const messageDate = format(new Date(message.dateCreate), 'H:m:ss DD.MM.YYYY');
 
         return (
             <div
                 key={message.messageId}
-                className={cn(styles.message, userIsAuthor && styles.myMessage)}
+                className={cn(styles.messageContainer, userIsAuthor && styles.myMessageWrapper)}
+
             >
-                <div className={styles.messageBlock}>
-                    <div>{message.author.name}</div>
-                    <div>{message.content}</div>
-                </div>
-                {userIsAuthor && (
+                <div>{messageDate}</div>
+                <div
+                    className={cn(styles.message, userIsAuthor && styles.myMessage)}
+                >
+                    <div className={styles.messageBlock}>
+                        <div>{message.author.name}</div>
+                        <div>{message.content}</div>
+                    </div>
+                    {userIsAuthor && (
                     <div className={styles.buttonBlock}>
                         <EditIcon />
                         <DeleteIcon onClick={() => this.props.deleteMessage(message.messageId)} />
                     </div>
                 )}
+                </div>
             </div>
         );
     });
