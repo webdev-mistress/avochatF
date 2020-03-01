@@ -62,7 +62,7 @@ export class MainChatComponent extends Component {
 
     renderMessages = () => this.props.messages.map(message => {
         const userIsAuthor = this.props.userId === message.author.userId;
-        const messageDate = format(new Date(message.dateCreate), 'H:m:ss DD.MM.YYYY');
+        const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
 
         return (
             <div
@@ -70,7 +70,7 @@ export class MainChatComponent extends Component {
                 className={cn(styles.messageContainer, userIsAuthor && styles.myMessageWrapper)}
 
             >
-                <div>{messageDate}</div>
+                <div className={styles.dateWrapper}>{messageDate}</div>
                 <div
                     className={cn(styles.message, userIsAuthor && styles.myMessage)}
                 >
