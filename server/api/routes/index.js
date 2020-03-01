@@ -13,7 +13,7 @@ con.connect(function (err) {
     if (err) {
         throw err;
     }
-    console.log('Connected games!');
+    console.debug('Connected DB!');
 });
 
 module.exports = con;

@@ -23,6 +23,9 @@ const getResourse = async (url, body) => {
 /* user */
 export const getUser = user => getResourse('/user', user);
 
+export const createUser = (name, login, password1, password2) =>
+    getResourse('/user/create', { name, login, password1, password2 });
+
 /* messages */
 export const getMessages = (chatId) => getResourse('/messages/get', { chatId });
 

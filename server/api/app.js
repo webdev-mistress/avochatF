@@ -15,4 +15,4 @@ app.use('/messages', routerMessages);
 
 const port = 4170;
 
-app.listen(port, () => console.log('Server is listening on port ' + port));
+app.listen(port, () => console.debug('Server is listening on port ' + port));
