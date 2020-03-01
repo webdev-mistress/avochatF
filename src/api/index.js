@@ -39,3 +39,8 @@ export const deleteMessage = messageId => getResourse('/messages/delete',{ messa
 
 export const editMessage = (messageId, content) => getResourse('/messages/edit', { messageId, content });
 
+/* chat */
+
+export const createChat = (name, userId) => getResourse('/chat/create', { name, userId });
+
+export const deleteChat = (chatId) => getResourse('/chat/delete', { chatId });

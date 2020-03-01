@@ -38,6 +38,11 @@ const editMessage = (messageId, content, time) => `UPDATE messages
 const getChats = (userId) => `SELECT chat.chat_id as chatId, chat.name FROM \`party\` JOIN \`chat\` 
     ON chat.chat_id = party.chat_id AND party.user_id = ${userId};`;
 
+const createChat = (name, userId) => `INSERT INTO \`chat\`(\`name\`, \`user_id\`) 
+    VALUES ('${name}', ${userId});`;
+
+const deleteChat = (chatId) => `DELETE FROM chat WHERE chat_id = '${chatId}';`;
+
 /* party */
 
 const getUsersByChatId = (chatId) => `SELECT *
@@ -51,6 +56,8 @@ module.exports = {
     deleteMessage,
     editMessage,
     getMessages,
+    createChat,
+    deleteChat,
     getChats,
     getUsersByChatId,
 };
