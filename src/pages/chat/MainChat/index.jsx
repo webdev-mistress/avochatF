@@ -42,6 +42,9 @@ export class MainChatComponent extends Component {
     }
 
     onSendMessage = () => {
+        if(!this.state.messageText) {
+            return;
+        }
         this.props.sendMessage(this.state.messageText);
         this.setState({ messageText: '' });
     }
@@ -121,7 +124,12 @@ export class MainChatComponent extends Component {
                                 onKeyUp={this.onPressEnter}
                                 value={this.state.messageText}
                             />
-                            <Button variant="contained" color="primary" onClick={this.onSendMessage}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.onSendMessage}
+                                disabled={!this.state.messageText}
+                            >
                                 <SendIcon />
                             </Button>
                         </div>
