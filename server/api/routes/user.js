@@ -12,7 +12,7 @@ router.post('/create', (req, res) => {
         return res.send({ isAuth: false, errorMessage: 'Different password' });
     }
 
-    const userId = +Date.now().toString().slice(5);
+    const userId = +Date.now().toString().slice(2, 11);
 
     con.query(getUserByLogin(login), (err, result) => {
         if (result.length) {
