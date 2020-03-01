@@ -24,13 +24,13 @@ const sendMessage = (userId, chatId, message) => `
     VALUES('${chatId}', '${userId}', '${message}', '${Date.now()}');`;
 
 const getMessages = (chatId) => `SELECT
-    message_id AS messageId, user_id as userId, content, date_create as dateCreate    
+    message_id AS messageId, user_id as userId, content, date_create as dateCreate, date_change as dateChange
     FROM messages WHERE  messages.chat_id = '${chatId}'`;
 
 const deleteMessage = (messageId) => `DELETE from messages WHERE message_id = ${messageId}`;
 
 const editMessage = (messageId, content, time) => `UPDATE messages
-    SET content='${content}', date_create=${time}
+    SET content='${content}', date_change=${time}
     WHERE message_id=${messageId}`;
 
 /* chat */
