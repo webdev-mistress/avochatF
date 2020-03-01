@@ -44,3 +44,14 @@ export const editMessage = (messageId, content) => getResourse('/messages/edit',
 export const createChat = (name, userId) => getResourse('/chat/create', { name, userId });
 
 export const deleteChat = (chatId) => getResourse('/chat/delete', { chatId });
+
+export const addUserToChat = (userId, chatId) => getResourse('/chat/user/add', { userId, chatId });
+
+export const deleteUserFromChat = (userId, chatId) => getResourse('/chat/user/delete', { userId, chatId });
+
+window.createChat = createChat;
+window.addUserToChat = addUserToChat;
+window.deleteUserFromChat = deleteUserFromChat;
+window.createUser = createUser;
+window.deleteChat = deleteChat;
+window.editMessage = editMessage;

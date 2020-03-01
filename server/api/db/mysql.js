@@ -48,6 +48,12 @@ const deleteChat = (chatId) => `DELETE FROM chat WHERE chat_id = '${chatId}';`;
 const getUsersByChatId = (chatId) => `SELECT *
 from party JOIN users ON party.user_id = users.user_id AND party.chat_id = '${chatId}'`;
 
+const addUserToChat = (userId, chatId) => `INSERT INTO party(user_id, chat_id) 
+    VALUES('${userId}', '${chatId}')`;
+
+const deleteUserFromChat = (userId, chatId) => `DELETE FRoM party 
+    WHERE user_id = '${userId}' AND chat_id = '${chatId}'`;
+
 module.exports = {
     createUser,
     getUserByLogin,
@@ -56,6 +62,8 @@ module.exports = {
     deleteMessage,
     editMessage,
     getMessages,
+    addUserToChat,
+    deleteUserFromChat,
     createChat,
     deleteChat,
     getChats,
