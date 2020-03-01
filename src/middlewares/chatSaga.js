@@ -3,19 +3,16 @@ import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE } from '../constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
-import { selectMessages, selectActiveChatId } from '../store/chat/selectors';
+import { selectActiveChatId } from '../store/chat/selectors';
 import { selectUserId } from '../store/user/selectors';
 import { getErrorMessage } from '../helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage } from '../api';
 
 function* fetchRequestMessages(action) {
     try {
-        const state = yield select(state => state);
         const { messages } = yield call(getMessagesFromApi, action.payload.chatId);
 
-        if(selectMessages(state).length !== messages.length) {
-            yield put(getMessages(messages));
-        }
+        yield put(getMessages(messages));
     } catch (error) {
         yield put(errorMessages(getErrorMessage(error)));
     }

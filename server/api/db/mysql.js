@@ -1,8 +1,8 @@
 /* user */
 
-const createUser = (name, login, password) => `INSERT INTO 
-    users(name, login, password) 
-    VALUES ('${name}', '${login}', '${password}')`;
+const createUser = (name, login, password, userId) => `INSERT INTO 
+    users(name, login, password, user_id) 
+    VALUES ('${name}', '${login}', '${password}', ${userId})`;
 
 const getUserByLogin = login => `SELECT 
     users.name,
@@ -21,8 +21,8 @@ FROM users WHERE login='${userId}'`;
 /* messages */
 const sendMessage = (userId, chatId, message) => `
     INSERT INTO messages(chat_id, user_id, content, date_create) 
-    VALUES('${chatId}', '${userId}', '${message}', '${Date.now()}');
-`;
+    VALUES('${chatId}', '${userId}', '${message}', '${Date.now()}');`;
+
 const getMessages = (chatId) => `SELECT
     message_id AS messageId, user_id as userId, content, date_create as dateCreate    
     FROM messages WHERE  messages.chat_id = '${chatId}'`;
