@@ -12,6 +12,14 @@ class AuthForm extends Component {
         password: '',
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.errorMessage !== prevProps.errorMessage) {
+            this.setState({
+                password: '',
+            });
+        }
+    }
+
     onAuth = (event) => {
         event.preventDefault();
         const { login, password } = this.state;
@@ -40,6 +48,7 @@ class AuthForm extends Component {
                     <form type="post" className={styles.form}>
                         <TextField
                             required
+                            value={this.state.login}
                             id="authLogin"
                             label="Login"
                             onChange={(event) => this.onChange(event, 'login')}
@@ -47,6 +56,7 @@ class AuthForm extends Component {
                         />
                         <TextField
                             required
+                            value={this.state.password}
                             type="password"
                             id="authPassword"
                             label="password"
@@ -57,7 +67,7 @@ class AuthForm extends Component {
                             color="primary"
                             variant="contained"
                             onClick={this.onAuth}
-                            disabled={!this.state.login || !this.state.password || !!this.props.errorMessage}
+                            disabled={!this.state.login || !this.state.password}
                         >
                             Log in
                         </Button>
