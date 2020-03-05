@@ -3,24 +3,26 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import cn from 'classnames';
 import format from 'date-fns/format';
+
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CachedIcon from '@material-ui/icons/Cached';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
-
 import { selectUserId } from '../../../store/user/selectors';
 import { requestMessages, sendMessage, deleteMessage } from '../../../store/chat/actions';
+import { editMessage } from '../../../api/index';
 
 import styles from './styles.module.scss';
 
 export class MainChatComponent extends Component {
     state = {
         messageText: '',
+        isEditMode: false,
     }
 
     componentDidMount() {
@@ -28,7 +30,7 @@ export class MainChatComponent extends Component {
             if(!_.isEmpty(this.props.activeChat)) {
                 this.requestMessages();
             }
-        }, 20000);
+        }, 200000);
     }
 
     componentDidUpdate() {
@@ -51,6 +53,8 @@ export class MainChatComponent extends Component {
 
     onPressEnter = event => event.key === 'Enter' && this.onSendMessage();
 
+    onPressEditEnter = event => event.key === 'Enter' && this.onSendEditMessage();
+
     onChangeMessage = event => this.setState({ messageText: event.target.value })
 
     onRefreshChat = () => {
@@ -59,19 +63,48 @@ export class MainChatComponent extends Component {
         this.requestMessages();
     }
 
+    onEditMode = (messageId, isEditMode) => {
+        this.setState({
+            isEditMode,
+            editMessageId: messageId,
+        });
+    }
+
+    onEditMessageChange = (event) => {
+        this.setState({
+            messageEdit: event.target.value,
+        });
+    }
+
+    onSendEditMessage = () => {
+        editMessage(this.state.editMessageId, this.state.messageEdit);
+        setTimeout(() => {
+            this.setState({
+                isEditMode: false,
+                editMessageId: 0,
+                messageEdit: '',
+            });
+        }, 500);
+
+        setTimeout(() => {
+            this.requestMessages();
+        }, 300);
+    }
+
     requestMessages = () => this.props.requestMessages(this.props.activeChat.chatId);
 
     renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
 
     renderMessages = () => this.props.messages.map(message => {
         const userIsAuthor = this.props.userId === message.author.userId;
+
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
+        const isEditMessage = this.state.isEditMode && this.state.editMessageId === message.messageId;
 
         return (
             <div
                 key={message.messageId}
                 className={cn(styles.messageContainer, userIsAuthor && styles.myMessageWrapper)}
-
             >
                 <div className={styles.dateWrapper}>{messageDate}</div>
                 <div
@@ -79,12 +112,33 @@ export class MainChatComponent extends Component {
                 >
                     <div className={styles.messageBlock}>
                         <div>{message.author.name}</div>
-                        <div>{message.content}</div>
+                        {isEditMessage ? (
+                            <TextField
+                                defaultValue={message.content}
+                                onChange={this.onEditMessageChange}
+                                onKeyUp={this.onPressEditEnter}
+                                value={this.state.messageEdit}
+                            />
+                        ) : (
+                            <div>{message.content}</div>
+                        )}
                     </div>
                     {userIsAuthor && (
                     <div className={styles.buttonBlock}>
-                        <EditIcon />
-                        <DeleteIcon onClick={() => this.props.deleteMessage(message.messageId)} />
+                        {isEditMessage ?
+                            (
+                                <>
+                                    <CloseIcon onClick={() => this.onEditMode(0, false)} />
+                                    <SendIcon onClick={this.onSendEditMessage} />
+                                </>
+                            ) :
+                            (
+                                <>
+                                    <EditIcon onClick={() => this.onEditMode(message.messageId, true)} />
+                                    <DeleteIcon onClick={() => this.props.deleteMessage(message.messageId)} />
+                                </>
+                            )
+                        }
                     </div>
                 )}
                 </div>
