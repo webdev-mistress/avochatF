@@ -11,6 +11,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CachedIcon from '@material-ui/icons/Cached';
 import CloseIcon from '@material-ui/icons/Close';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
 import { selectUserId } from '../../../store/user/selectors';
@@ -53,7 +55,7 @@ export class MainChatComponent extends Component {
 
     onPressEnter = event => event.key === 'Enter' && this.onSendMessage();
 
-    onPressEditEnter = event => event.key === 'Enter' && this.onSendEditMessage();
+    onPressEditEnter = (event, content) => event.key === 'Enter' && this.onSendEditMessage(content);
 
     onChangeMessage = event => this.setState({ messageText: event.target.value })
 
@@ -63,12 +65,15 @@ export class MainChatComponent extends Component {
         this.requestMessages();
     }
 
-    onEditMode = (messageId, isEditMode) => {
+    onEditMode = ({ messageId, content }) => {
         this.setState({
-            isEditMode,
+            isEditMode: true,
             editMessageId: messageId,
+            messageEdit: content,
         });
     }
+
+    onEditClose = () => this.setState({ isEditMode: false, editMessageId: -1, messageEdit: '' })
 
     onEditMessageChange = (event) => {
         this.setState({
@@ -76,14 +81,13 @@ export class MainChatComponent extends Component {
         });
     }
 
-    onSendEditMessage = () => {
+    onSendEditMessage = (content) => {
+        if(content === this.state.messageEdit){
+            return this.onEditClose();
+        }
         editMessage(this.state.editMessageId, this.state.messageEdit);
         setTimeout(() => {
-            this.setState({
-                isEditMode: false,
-                editMessageId: 0,
-                messageEdit: '',
-            });
+           this.onEditClose();
         }, 500);
 
         setTimeout(() => {
@@ -99,6 +103,7 @@ export class MainChatComponent extends Component {
         const userIsAuthor = this.props.userId === message.author.userId;
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
+        const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss DD.MM.YYYY') : '';
         const isEditMessage = this.state.isEditMode && this.state.editMessageId === message.messageId;
 
         return (
@@ -114,9 +119,10 @@ export class MainChatComponent extends Component {
                         <div>{message.author.name}</div>
                         {isEditMessage ? (
                             <TextField
-                                defaultValue={message.content}
+                                autoFocus
+                                className={styles.form}
                                 onChange={this.onEditMessageChange}
-                                onKeyUp={this.onPressEditEnter}
+                                onKeyUp={(event) => this.onPressEditEnter(event, message.content)}
                                 value={this.state.messageEdit}
                             />
                         ) : (
@@ -128,14 +134,40 @@ export class MainChatComponent extends Component {
                         {isEditMessage ?
                             (
                                 <>
-                                    <CloseIcon onClick={() => this.onEditMode(0, false)} />
-                                    <SendIcon onClick={this.onSendEditMessage} />
+                                    <CloseIcon
+                                        onClick={this.onEditClose}
+                                        className={styles.icons}
+                                    />
+                                    {message.content !== this.state.messageEdit &&
+                                        (<SendIcon
+                                            onClick={() => this.onSendEditMessage(message.content)}
+                                            className={styles.icons}
+                                        />)
+                                    }
                                 </>
                             ) :
                             (
                                 <>
-                                    <EditIcon onClick={() => this.onEditMode(message.messageId, true)} />
-                                    <DeleteIcon onClick={() => this.props.deleteMessage(message.messageId)} />
+                                    {message.dateChange ? (
+                                        <Tooltip
+                                            title={messageDateChange}
+                                            placement="right-start"
+                                        >
+                                            <BorderColorIcon
+                                                onClick={() => this.onEditMode(message)}
+                                                className={styles.icons}
+                                            />
+                                        </Tooltip>
+                                    ) : (
+                                        <EditIcon
+                                            onClick={() => this.onEditMode(message)}
+                                            className={styles.icons}
+                                        />
+                                    )}
+                                    <DeleteIcon
+                                        onClick={() => this.props.deleteMessage(message.messageId)}
+                                        className={styles.icons}
+                                    />
                                 </>
                             )
                         }
@@ -171,8 +203,9 @@ export class MainChatComponent extends Component {
                         </div>
                         <div className={styles.form}>
                             <TextField
+                                autoFocus
                                 id="standard-basic"
-                                color="primary"
+                                color="primery"
                                 label="Enter Your Message"
                                 onChange={this.onChangeMessage}
                                 onKeyUp={this.onPressEnter}
