@@ -6,7 +6,7 @@ import { requestUser, removeErrorMessage } from '../../../store/user/actions';
 
 import styles from './styles.module.scss';
 
-class AuthForm extends Component {
+class AuthFormComponent extends Component {
     state = {
         login: '',
         password: '',
@@ -71,6 +71,15 @@ class AuthForm extends Component {
                         >
                             Log in
                         </Button>
+                        <div className={styles.signUpWrapper}>
+                            <Button
+                                color="primary"
+                                variant="outlined"
+                                onClick={() => this.props.onOpenRegForm(false)}
+                            >
+                                Sign Up
+                            </Button>
+                        </div>
                     </form>
                 </CardContent>
             </Card>
@@ -86,4 +95,4 @@ const mapDispatchToProps = dispatch => ({
     removeErrorMessage: () => dispatch(removeErrorMessage()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);
+export const AuthForm = connect(mapStateToProps, mapDispatchToProps)(AuthFormComponent);

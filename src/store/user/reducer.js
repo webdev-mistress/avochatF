@@ -26,7 +26,7 @@ export function userReducer(state = initialState, action) {
         case USER_FETCH_FAILED:
             return {
                 isAuth: false,
-                errorMessage: action.payload,
+                errorMessage: action.payload.errorMessage,
             };
 
         case USER_LOGOUT:
