@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
+
+import { selectErrorMessage } from '../../store/user/selectors';
+import { removeErrorMessage } from '../../store/user/actions';
 
 import style from './styles.module.scss';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 
-export class AuthPage extends Component {
+class AuthPageComponent extends Component {
     state = {
         isAuthForm: false,
     }
 
-    onToggleForm = (isAuthForm) => this.setState({ isAuthForm });
+    onToggleForm = (isAuthForm) => {
+        if (this.props.errorMessage) {
+            this.props.removeErrorMessage();
+        }
+
+        this.setState({ isAuthForm });
+    }
 
     render() {
         return (
@@ -24,3 +34,15 @@ export class AuthPage extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    errorMessage: selectErrorMessage(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+    // requestCreateUser: userData => dispatch(requestCreateUser(userData)),
+    removeErrorMessage: () => dispatch(removeErrorMessage()),
+
+});
+
+export const AuthPage = connect(mapStateToProps, mapDispatchToProps)(AuthPageComponent);

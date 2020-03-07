@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
 import { requestUser, removeErrorMessage } from '../../../store/user/actions';
+import { selectErrorMessage } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
 
@@ -87,7 +88,7 @@ class AuthFormComponent extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    errorMessage: state.user.errorMessage,
+    errorMessage: selectErrorMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
