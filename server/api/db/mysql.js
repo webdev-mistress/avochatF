@@ -27,6 +27,10 @@ const getMessages = (chatId) => `SELECT
     message_id AS messageId, user_id as userId, content, date_create as dateCreate, date_change as dateChange
     FROM messages WHERE  messages.chat_id = '${chatId}'`;
 
+const getMessageById = (messageId) => `SELECT
+    message_id AS messageId, user_id as userId, content, date_create as dateCreate, date_change as dateChange
+    FROM messages WHERE  messages.message_id = '${messageId}'`;
+
 const deleteMessage = (messageId) => `DELETE from messages WHERE message_id = ${messageId}`;
 
 const editMessage = (messageId, content, time) => `UPDATE messages
@@ -62,6 +66,7 @@ module.exports = {
     deleteMessage,
     editMessage,
     getMessages,
+    getMessageById,
     addUserToChat,
     deleteUserFromChat,
     createChat,

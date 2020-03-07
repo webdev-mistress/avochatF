@@ -85,7 +85,8 @@ export class MainChatComponent extends Component {
         if(content === this.state.messageEdit){
             return this.onEditClose();
         }
-        editMessage(this.state.editMessageId, this.state.messageEdit);
+        editMessage(this.state.editMessageId, this.state.messageEdit)
+            .then(console.log);
         setTimeout(() => {
            this.onEditClose();
         }, 500);

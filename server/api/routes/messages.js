@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { getMessages, deleteMessage, sendMessage,
-    editMessage, getUsersByChatId } = require('../db/mysql');
+    editMessage, getUsersByChatId, getMessageById } = require('../db/mysql');
 
 const router = Router();
 
@@ -72,11 +72,11 @@ router.post('/edit', (req, res) => {
             if (err) {
                 throw err;
             }
-            con.query(getMessages(), (err, messages) => {
+            con.query(getMessageById(messageId), (err, message) => {
                 if (err) {
                     throw err;
                 }
-                res.json({ messages });
+                res.send({ message: message.length ? message[0] : {} });
             });
         });
 });
