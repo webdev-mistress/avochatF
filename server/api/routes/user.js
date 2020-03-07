@@ -26,28 +26,23 @@ router.post('/create', (req, res) => {
                 if (err) {
                     throw err;
                 }
-                const { login, password1 } = req.body;
                 const user = result[0];
 
                 if (!user) {
                     return res.json({ isAuth: false, errorMessage: 'Passwords are not equal' });
                 }
 
-                if (user.login === login && user.password === password1) {
-                        con.query(getChats(user.userId), (err, chatResult) => {
-                            if (err) {
-                                throw err;
-                            }
-                            delete user.password,
-                            res.json({
-                                ...user,
-                                isAuth: true,
-                                chats: chatResult,
-                            });
-                        });
-                } else {
-                    res.json({ isAuth: false, errorMessage: 'Invalid login or password' });
-                }
+                con.query(getChats(user.userId), (err, chatResult) => {
+                    if (err) {
+                        throw err;
+                    }
+                    delete user.password,
+                    res.json({
+                        ...user,
+                        isAuth: true,
+                        chats: chatResult,
+                    });
+                });
             });
         });
     });
