@@ -1,12 +1,12 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
-import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE } from '../constants/store';
+import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE } from '../constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
-import { selectActiveChatId } from '../store/chat/selectors';
+import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
 import { selectUserId } from '../store/user/selectors';
 import { getErrorMessage } from '../helpers/sagas';
-import { getMessages as getMessagesFromApi, sendMessage, deleteMessage } from '../api';
+import { getMessages as getMessagesFromApi, sendMessage, deleteMessage, editMessage } from '../api';
 
 function* fetchRequestMessages(action) {
     try {
@@ -45,8 +45,24 @@ function* fetchDeleteMessage(action) {
     }
 }
 
+function* fetchEditMessage(action) {
+    try {
+        const { editMessageId, messageEdit } = action.payload.messageData;
+
+        const { message: editedMessage } = yield call(editMessage, editMessageId, messageEdit);
+
+        const messages = yield select(selectMessages);
+        const newMessages = messages.map((message) =>
+            message.messageId === editedMessage.messageId ? editedMessage : message);
+        yield put(getMessages(newMessages));
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* chatSaga() {
     yield takeEvery(MESSAGES_REQUESTED, fetchRequestMessages);
     yield takeEvery(SEND_MESSAGE, fetchSendMessage);
     yield takeEvery(DELETE_MESSAGE, fetchDeleteMessage);
+    yield takeEvery(EDIT_MESSAGE, fetchEditMessage);
 }

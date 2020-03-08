@@ -11,7 +11,7 @@ import { RegForm } from './regForm';
 
 class AuthPageComponent extends Component {
     state = {
-        isAuthForm: false,
+        isAuthForm: true,
     }
 
     onToggleForm = (isAuthForm) => {

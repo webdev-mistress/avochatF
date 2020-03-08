@@ -16,8 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
 import { selectUserId } from '../../../store/user/selectors';
-import { requestMessages, sendMessage, deleteMessage } from '../../../store/chat/actions';
-import { editMessage } from '../../../api/index';
+import { requestMessages, sendMessage, deleteMessage, editMessage } from '../../../store/chat/actions';
 
 import styles from './styles.module.scss';
 
@@ -82,18 +81,14 @@ export class MainChatComponent extends Component {
     }
 
     onSendEditMessage = (content) => {
-        if(content === this.state.messageEdit){
+        const { editMessageId, messageEdit } = this.state;
+
+        if(content === messageEdit){
             return this.onEditClose();
         }
-        editMessage(this.state.editMessageId, this.state.messageEdit)
-            .then(console.log);
-        setTimeout(() => {
-           this.onEditClose();
-        }, 500);
 
-        setTimeout(() => {
-            this.requestMessages();
-        }, 300);
+        this.props.editMessage({ editMessageId, messageEdit });
+        this.onEditClose();
     }
 
     requestMessages = () => this.props.requestMessages(this.props.activeChat.chatId);
@@ -206,7 +201,7 @@ export class MainChatComponent extends Component {
                             <TextField
                                 autoFocus
                                 id="standard-basic"
-                                color="primery"
+                                color="primary"
                                 label="Enter Your Message"
                                 onChange={this.onChangeMessage}
                                 onKeyUp={this.onPressEnter}
@@ -238,6 +233,7 @@ const mapDispatchToProps = dispatch => ({
     requestMessages: (chatId) => dispatch(requestMessages(chatId)),
     sendMessage: (messageText) => dispatch(sendMessage(messageText)),
     deleteMessage: (messageId) => dispatch(deleteMessage(messageId)),
+    editMessage: (messageData) => dispatch(editMessage(messageData)),
 });
 
 export const MainChat = connect(mapStateToProps, mapDispatchToProps)(MainChatComponent);

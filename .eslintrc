@@ -68,7 +68,6 @@
             // { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
         ],
         "newline-before-return": "error",
-        "newline-after-var": "error",
         "complexity": [
             "error",
             100
