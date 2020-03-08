@@ -16,7 +16,7 @@ const getUserById = userId => `SELECT
     users.login,
     users.password,
     users.user_id as userId
-FROM users WHERE login='${userId}'`;
+FROM users WHERE user_id ='${userId}'`;
 
 /* messages */
 const sendMessage = (userId, chatId, message) => `
