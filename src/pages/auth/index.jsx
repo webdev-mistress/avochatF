@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
 
@@ -9,38 +9,33 @@ import style from './styles.module.scss';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 
-class AuthPageComponent extends Component {
-    state = {
-        isAuthForm: true,
-    }
+const AuthPageComponent = (props) => {
+    const [isAuthForm, setIsAuthForm] = useState(true);
 
-    onToggleForm = (isAuthForm) => {
-        if (this.props.errorMessage) {
-            this.props.removeErrorMessage();
+    const onToggleForm = (isAuthForm) => {
+        if (props.errorMessage) {
+            props.removeErrorMessage();
         }
 
-        this.setState({ isAuthForm });
-    }
+        setIsAuthForm(isAuthForm);
+    };
 
-    render() {
-        return (
-            <Container maxWidth="sm" className={style.wrapper}>
-                {this.state.isAuthForm ? <AuthForm
-                    onOpenRegForm={this.onToggleForm}
-                /> : <RegForm
-                    onOpenAuthForm={this.onToggleForm}
-                /> }
-            </Container>
-        );
-    }
-}
+    return (
+        <Container maxWidth="sm" className={style.wrapper}>
+            {isAuthForm ? <AuthForm
+                onOpenRegForm={onToggleForm}
+            /> : <RegForm
+                onOpenAuthForm={onToggleForm}
+            /> }
+        </Container>
+    );
+};
 
 const mapStateToProps = (state) => ({
     errorMessage: selectErrorMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    // requestCreateUser: userData => dispatch(requestCreateUser(userData)),
     removeErrorMessage: () => dispatch(removeErrorMessage()),
 
 });
