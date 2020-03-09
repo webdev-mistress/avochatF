@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import cn from 'classnames';
@@ -20,87 +20,81 @@ import { requestMessages, sendMessage, deleteMessage, editMessage } from '../../
 
 import styles from './styles.module.scss';
 
-export class MainChatComponent extends Component {
-    state = {
+const MainChatComponent = (props) => {
+    const initialState = {
         messageText: '',
         isEditMode: false,
-    }
+    };
 
-    componentDidMount() {
-        this.intervalCheckMessage = setInterval(() => {
-            if(!_.isEmpty(this.props.activeChat)) {
-                this.requestMessages();
-            }
-        }, 200000);
-    }
+    const [state, setState] = useState(initialState);
 
-    componentDidUpdate() {
-        if(this.messageWrapper){
-            this.messageWrapper.scrollTop = 999999;
+    const messageScroll = useRef(null);
+
+    useEffect(() => {
+        if(messageScroll.current){
+            messageScroll.current.scrollTop = 999999;
         }
-    }
+    });
 
-    componentWillUnmount() {
-        clearInterval(this.intervalCheckMessage);
-    }
-
-    onSendMessage = () => {
-        if(!this.state.messageText) {
+    const onSendMessage = () => {
+        if(!state.messageText) {
             return;
         }
-        this.props.sendMessage(this.state.messageText);
-        this.setState({ messageText: '' });
-    }
+        props.sendMessage(state.messageText);
+        setState({ ...state, messageText: '' });
+    };
 
-    onPressEnter = event => event.key === 'Enter' && this.onSendMessage();
+    const onPressEnter = event => event.key === 'Enter' && onSendMessage();
 
-    onPressEditEnter = (event, content) => event.key === 'Enter' && this.onSendEditMessage(content);
+    const onPressEditEnter = (event, content) => event.key === 'Enter' && onSendEditMessage(content);
 
-    onChangeMessage = event => this.setState({ messageText: event.target.value })
+    const onChangeMessage = event => setState({ ...state, messageText: event.target.value });
 
-    onRefreshChat = () => {
-        this.setState({ isRefreshing: true });
-        setTimeout(() => this.setState({ isRefreshing: false }), 2100);
-        this.requestMessages();
-    }
+    const onRefreshChat = () => {
+        setState({ ...state, isRefreshing: true });
+        setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
+        requestMessages();
+    };
 
-    onEditMode = ({ messageId, content }) => {
-        this.setState({
+    const onEditMode = ({ messageId, content }) => {
+        setState({
+            ...state,
             isEditMode: true,
             editMessageId: messageId,
             messageEdit: content,
         });
-    }
+    };
 
-    onEditClose = () => this.setState({ isEditMode: false, editMessageId: -1, messageEdit: '' })
+    const onEditClose = () => setState({ ...state, isEditMode: false, editMessageId: -1, messageEdit: '' });
 
-    onEditMessageChange = (event) => {
-        this.setState({
+    const onEditMessageChange = (event) => {
+        setState({
+            ...state,
             messageEdit: event.target.value,
         });
-    }
+    };
 
-    onSendEditMessage = (content) => {
-        const { editMessageId, messageEdit } = this.state;
+    const onSendEditMessage = (content) => {
+        const { editMessageId, messageEdit } = state;
 
         if(content === messageEdit){
-            return this.onEditClose();
+            return onEditClose();
         }
 
-        this.props.editMessage({ editMessageId, messageEdit });
-        this.onEditClose();
-    }
+        props.editMessage({ editMessageId, messageEdit });
+        onEditClose();
+    };
 
-    requestMessages = () => this.props.requestMessages(this.props.activeChat.chatId);
+    const requestMessages = () => props.requestMessages(props.activeChat.chatId);
 
-    renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
+    const renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
 
-    renderMessages = () => this.props.messages.map(message => {
-        const userIsAuthor = this.props.userId === message.author.userId;
+    const renderMessages = () => props.messages.map(message => {
+        const userIsAuthor = props.userId === message.author.userId;
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
         const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss DD.MM.YYYY') : '';
-        const isEditMessage = this.state.isEditMode && this.state.editMessageId === message.messageId;
+        const isEditMessage = state.isEditMode && state.editMessageId === message.messageId;
 
         return (
             <div
@@ -117,9 +111,9 @@ export class MainChatComponent extends Component {
                             <TextField
                                 autoFocus
                                 className={styles.form}
-                                onChange={this.onEditMessageChange}
-                                onKeyUp={(event) => this.onPressEditEnter(event, message.content)}
-                                value={this.state.messageEdit}
+                                onChange={onEditMessageChange}
+                                onKeyUp={(event) => onPressEditEnter(event, message.content)}
+                                value={state.messageEdit}
                             />
                         ) : (
                             <div>{message.content}</div>
@@ -131,12 +125,12 @@ export class MainChatComponent extends Component {
                             (
                                 <>
                                     <CloseIcon
-                                        onClick={this.onEditClose}
+                                        onClick={onEditClose}
                                         className={styles.icons}
                                     />
-                                    {message.content !== this.state.messageEdit &&
+                                    {message.content !== state.messageEdit &&
                                         (<SendIcon
-                                            onClick={() => this.onSendEditMessage(message.content)}
+                                            onClick={() => onSendEditMessage(message.content)}
                                             className={styles.icons}
                                         />)
                                     }
@@ -150,18 +144,18 @@ export class MainChatComponent extends Component {
                                             placement="right-start"
                                         >
                                             <BorderColorIcon
-                                                onClick={() => this.onEditMode(message)}
+                                                onClick={() => onEditMode(message)}
                                                 className={styles.icons}
                                             />
                                         </Tooltip>
                                     ) : (
                                         <EditIcon
-                                            onClick={() => this.onEditMode(message)}
+                                            onClick={() => onEditMode(message)}
                                             className={styles.icons}
                                         />
                                     )}
                                     <DeleteIcon
-                                        onClick={() => this.props.deleteMessage(message.messageId)}
+                                        onClick={() => props.deleteMessage(message.messageId)}
                                         className={styles.icons}
                                     />
                                 </>
@@ -174,54 +168,52 @@ export class MainChatComponent extends Component {
         );
     });
 
-    render() {
-        const { isRefreshing } = this.state;
-        const hasActiveChat = !_.isEmpty(this.props.activeChat);
-        const hasMessages = !_.isEmpty(this.props.messages);
+    const { isRefreshing } = state;
+    const hasActiveChat = !_.isEmpty(props.activeChat);
+    const hasMessages = !_.isEmpty(props.messages);
 
-        return (
-            <div className={styles.wrapper}>
-                <div className={styles.topBlock}>
-                    {hasActiveChat && (
-                        <CachedIcon
-                            className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
-                            onClick={this.onRefreshChat}
-                        />
-                    )}
-                    <div className={styles.title}>
-                        {hasActiveChat ? `Active chat: ${this.props.activeChat.name}` : 'Choose a chat'}
-                    </div>
-                </div>
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.topBlock}>
                 {hasActiveChat && (
-                    <>
-                        <div ref={(ref) => this.messageWrapper = ref} className={styles.messageWrapper}>
-                            {hasMessages ? this.renderMessages() : this.renderNoMessages()}
-                        </div>
-                        <div className={styles.form}>
-                            <TextField
-                                autoFocus
-                                id="standard-basic"
-                                color="primary"
-                                label="Enter Your Message"
-                                onChange={this.onChangeMessage}
-                                onKeyUp={this.onPressEnter}
-                                value={this.state.messageText}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.onSendMessage}
-                                disabled={!this.state.messageText}
-                            >
-                                <SendIcon />
-                            </Button>
-                        </div>
-                    </>
+                    <CachedIcon
+                        className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
+                        onClick={onRefreshChat}
+                    />
                 )}
+                <div className={styles.title}>
+                    {hasActiveChat ? `Active chat: ${props.activeChat.name}` : 'Choose a chat'}
+                </div>
             </div>
-        );
-    }
-}
+            {hasActiveChat && (
+                <>
+                    <div ref={messageScroll} className={styles.messageWrapper}>
+                        {hasMessages ? renderMessages() : renderNoMessages()}
+                    </div>
+                    <div className={styles.form}>
+                        <TextField
+                            autoFocus
+                            id="standard-basic"
+                            color="primary"
+                            label="Enter Your Message"
+                            onChange={onChangeMessage}
+                            onKeyUp={onPressEnter}
+                            value={state.messageText}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onSendMessage}
+                            disabled={!state.messageText}
+                        >
+                            <SendIcon />
+                        </Button>
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
 
 const mapStateToProps = state => ({
     userId: selectUserId(state),

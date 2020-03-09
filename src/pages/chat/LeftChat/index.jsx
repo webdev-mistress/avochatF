@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 
@@ -17,70 +17,68 @@ import { selectUserName, selectUserChats } from '../../../store/user/selectors';
 import styles from './styles.module.scss';
 import { selectActiveChatId, selectActiveChat } from '../../../store/chat/selectors';
 
-class LeftChatComponent extends Component {
-    onLoadChat = (chat) => {
-        this.props.getActiveChat(chat);
-        this.props.requestMessages(chat.chatId);
-    }
-
-    onAuthLogout = () => {
-        this.props.logoutUser();
-        this.props.clearChat();
+const LeftChatComponent = (props) => {
+    const onLoadChat = (chat) => {
+        props.getActiveChat(chat);
+        props.requestMessages(chat.chatId);
     };
 
-    onClearActiveChat = () => {
-        this.props.clearChat();
-    }
+    const onAuthLogout = () => {
+        props.logoutUser();
+        props.clearChat();
+    };
 
-    render() {
-        return (
-            <div className={styles.wrapper}>
-                <div className={styles.topBlockWrapper}>
-                    <div
-                        className={styles.logoutWrapper}
-                        onClick={this.onAuthLogout}
-                    >
-                        <ExitToAppIcon />
-                    </div>
-                    <div
-                        className={styles.topBlock}
-                        onClick={this.onClearActiveChat}
-                    >
-                        {this.props.userName}
-                    </div>
+    const onClearActiveChat = () => {
+        props.clearChat();
+    };
+
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.topBlockWrapper}>
+                <div
+                    className={styles.logoutWrapper}
+                    onClick={onAuthLogout}
+                >
+                    <ExitToAppIcon />
                 </div>
-                <div className={styles.mainBlock}>
-                    <List className={styles.root}>
-                        {this.props.chats.map((chat) => {
-                            const chatIsActive = chat.chatId === this.props.activeChatId;
-
-                            return (
-                                <ListItem
-                                    className={cn(styles.chatItem, chatIsActive && styles.chatItemActive)}
-                                    key={chat.chatId}
-                                    onClick={() => this.onLoadChat(chat)}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar
-                                            className={styles.avatar}
-                                            alt={chat.name}
-                                            src="/static/images/avatar/3.jpg"
-                                        />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        className={styles.chatItemText}
-                                        primary={chat.name}
-                                        secondary={'Chat'}
-                                    />
-                                </ListItem>
-                            );
-                        })}
-                    </List>
+                <div
+                    className={styles.topBlock}
+                    onClick={onClearActiveChat}
+                >
+                    {props.userName}
                 </div>
             </div>
-        );
-    }
-}
+            <div className={styles.mainBlock}>
+                <List className={styles.root}>
+                    {props.chats.map((chat) => {
+                        const chatIsActive = chat.chatId === props.activeChatId;
+
+                        return (
+                            <ListItem
+                                className={cn(styles.chatItem, chatIsActive && styles.chatItemActive)}
+                                key={chat.chatId}
+                                onClick={() => onLoadChat(chat)}
+                            >
+                                <ListItemAvatar>
+                                    <Avatar
+                                        className={styles.avatar}
+                                        alt={chat.name}
+                                        src="/static/images/avatar/3.jpg"
+                                    />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    className={styles.chatItemText}
+                                    primary={chat.name}
+                                    secondary={'Chat'}
+                                />
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </div>
+        </div>
+    );
+};
 
 const mapStateToProps = (state) => ({
     userName: selectUserName(state),

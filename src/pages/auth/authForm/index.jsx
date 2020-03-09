@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
@@ -7,86 +7,77 @@ import { selectErrorMessage } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
 
-class AuthFormComponent extends Component {
-    state = {
-        login: '',
-        password: '',
-    }
+const AuthFormComponent = (props) => {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
 
-    componentDidUpdate(prevProps) {
-        if(this.props.errorMessage !== prevProps.errorMessage) {
-            this.setState({
-                password: '',
-            });
-        }
-    }
+    useEffect(() => {
+        setPassword('');
+    }, [props.errorMessage]);
 
-    onAuth = (event) => {
+    const onAuth = (event) => {
         event.preventDefault();
-        const { login, password } = this.state;
 
-        this.props.requestUser({ login, password });
-    }
+        props.requestUser({ login, password });
+    };
 
-    onAuthEnter = event => event.key === 'Enter' && this.onAuth(event);
+    const onAuthEnter = event => event.key === 'Enter' && onAuth(event);
 
-    onChange = (event, name) => {
-        if (this.props.errorMessage) {
-            this.props.removeErrorMessage();
+    const onChange = (event, name, setState) => {
+        if (props.errorMessage) {
+            props.removeErrorMessage();
         }
 
         const { value } = event.target;
 
-        this.setState({ [name]: name === 'login' ? value.trim() : value });
-    }
+        setState(name === 'login' ? value.trim() : value);
+    };
 
-    render() {
-        return (
-            <Card className={styles.card}>
-                <CardContent className={styles.cardContent}>
-                    <Typography variant="h4">Authorization</Typography>
-                    <div className={styles.errorMessage}>{this.props.errorMessage}</div>
-                    <form type="post" className={styles.form}>
-                        <TextField
-                            required
-                            value={this.state.login}
-                            id="authLogin"
-                            label="Login"
-                            onChange={(event) => this.onChange(event, 'login')}
-                            onKeyUp={(event) => this.onAuthEnter(event)}
-                        />
-                        <TextField
-                            required
-                            value={this.state.password}
-                            type="password"
-                            id="authPassword"
-                            label="password"
-                            onChange={(event) => this.onChange(event, 'password')}
-                            onKeyUp={(event) => this.onAuthEnter(event)}
-                        />
+    return (
+        <Card className={styles.card}>
+            <CardContent className={styles.cardContent}>
+                <Typography variant="h4">Authorization</Typography>
+                <div className={styles.errorMessage}>{props.errorMessage}</div>
+                <form type="post" className={styles.form}>
+                    <TextField
+                        required
+                        value={login}
+                        id="authLogin"
+                        label="Login"
+                        onChange={(event) => onChange(event, 'login', setLogin)}
+                        onKeyUp={(event) => onAuthEnter(event)}
+                    />
+                    <TextField
+                        required
+                        value={password}
+                        type="password"
+                        id="authPassword"
+                        label="password"
+                        onChange={(event) => onChange(event, 'password', setPassword)}
+                        onKeyUp={(event) => onAuthEnter(event)}
+                    />
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={onAuth}
+                        disabled={!login || !password}
+                    >
+                        Log in
+                    </Button>
+                    <div className={styles.signUpWrapper}>
                         <Button
                             color="primary"
-                            variant="contained"
-                            onClick={this.onAuth}
-                            disabled={!this.state.login || !this.state.password}
+                            variant="outlined"
+                            onClick={() => props.onOpenRegForm(false)}
                         >
-                            Log in
+                            Sign Up
                         </Button>
-                        <div className={styles.signUpWrapper}>
-                            <Button
-                                color="primary"
-                                variant="outlined"
-                                onClick={() => this.props.onOpenRegForm(false)}
-                            >
-                                Sign Up
-                            </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
-        );
-    }
-}
+                    </div>
+                </form>
+            </CardContent>
+        </Card>
+    );
+};
 const mapStateToProps = (state) => ({
     errorMessage: selectErrorMessage(state),
 });
