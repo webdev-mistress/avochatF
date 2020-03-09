@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
@@ -8,7 +8,7 @@ import { selectErrorMessage } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
 
-const RegFormComponent = (props) => {
+export const RegForm = (props) => {
     const initialState = {
         name: '',
         login: '',
@@ -17,22 +17,23 @@ const RegFormComponent = (props) => {
         disabledButton: false,
     };
     const [state, setState] = useState(initialState);
-
     const { name, login, password1, password2 } = state;
+    const errorMessage = useSelector(selectErrorMessage);
+    const dispatch = useDispatch();
 
     const onCreateUser = (event) => {
         event.preventDefault();
 
         setState({ ...state, disabledButton: true });
 
-        props.requestCreateUser({ name, login, password1, password2 });
+        dispatch(requestCreateUser({ name, login, password1, password2 }));
     };
 
     const onCreateUserEnter = event => event.key === 'Enter' && onCreateUser(event);
 
     const onChange = (event, name) => {
-        if (props.errorMessage) {
-            props.removeErrorMessage();
+        if (errorMessage) {
+            dispatch(removeErrorMessage());
         }
 
         const { value } = event.target;
@@ -50,7 +51,7 @@ const RegFormComponent = (props) => {
         <Card className={styles.card}>
             <CardContent className={styles.cardContent}>
                 <Typography variant="h4">Registration</Typography>
-                <div className={styles.errorMessage}>{props.errorMessage}</div>
+                <div className={styles.errorMessage}>{errorMessage}</div>
                 <form type="post" className={styles.form}>
                     <TextField
                         required
@@ -108,15 +109,3 @@ const RegFormComponent = (props) => {
         </Card>
     );
 };
-
-const mapStateToProps = (state) => ({
-    errorMessage: selectErrorMessage(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    requestCreateUser: userData => dispatch(requestCreateUser(userData)),
-    removeErrorMessage: () => dispatch(removeErrorMessage()),
-
-});
-
-export const RegForm = connect(mapStateToProps, mapDispatchToProps)(RegFormComponent);

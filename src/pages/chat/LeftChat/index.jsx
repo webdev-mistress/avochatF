@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -15,21 +15,26 @@ import { getActiveChat, requestMessages, clearChat } from '../../../store/chat/a
 import { selectUserName, selectUserChats } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
-import { selectActiveChatId, selectActiveChat } from '../../../store/chat/selectors';
+import { selectActiveChatId } from '../../../store/chat/selectors';
 
-const LeftChatComponent = (props) => {
+export const LeftChat = () => {
+    const userName = useSelector(selectUserName);
+    const chats = useSelector(selectUserChats);
+    const activeChatId = useSelector(selectActiveChatId);
+    const dispatch = useDispatch();
+
     const onLoadChat = (chat) => {
-        props.getActiveChat(chat);
-        props.requestMessages(chat.chatId);
+        dispatch(getActiveChat(chat));
+        dispatch(requestMessages(chat.chatId));
     };
 
     const onAuthLogout = () => {
-        props.logoutUser();
-        props.clearChat();
+        dispatch(logoutUser());
+        dispatch(clearChat());
     };
 
     const onClearActiveChat = () => {
-        props.clearChat();
+        dispatch(clearChat());
     };
 
     return (
@@ -45,13 +50,13 @@ const LeftChatComponent = (props) => {
                     className={styles.topBlock}
                     onClick={onClearActiveChat}
                 >
-                    {props.userName}
+                    {userName}
                 </div>
             </div>
             <div className={styles.mainBlock}>
                 <List className={styles.root}>
-                    {props.chats.map((chat) => {
-                        const chatIsActive = chat.chatId === props.activeChatId;
+                    {chats.map((chat) => {
+                        const chatIsActive = chat.chatId === activeChatId;
 
                         return (
                             <ListItem
@@ -79,19 +84,3 @@ const LeftChatComponent = (props) => {
         </div>
     );
 };
-
-const mapStateToProps = (state) => ({
-    userName: selectUserName(state),
-    chats: selectUserChats(state),
-    activeChatId: selectActiveChatId(state),
-    activeChat: selectActiveChat(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    getActiveChat: (chatId) => dispatch(getActiveChat(chatId)),
-    requestMessages: (chatId) => dispatch(requestMessages(chatId)),
-    logoutUser: () => dispatch(logoutUser()),
-    clearChat: () => dispatch(clearChat()),
-});
-
-export const LeftChat = connect(mapStateToProps, mapDispatchToProps)(LeftChatComponent);

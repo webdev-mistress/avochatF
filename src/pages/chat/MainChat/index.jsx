@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import cn from 'classnames';
 import format from 'date-fns/format';
@@ -20,14 +20,17 @@ import { requestMessages, sendMessage, deleteMessage, editMessage } from '../../
 
 import styles from './styles.module.scss';
 
-const MainChatComponent = (props) => {
+export const MainChat = () => {
     const initialState = {
         messageText: '',
         isEditMode: false,
     };
 
     const [state, setState] = useState(initialState);
-
+    const dispatch = useDispatch();
+    const userId = useSelector(selectUserId);
+    const activeChat = useSelector(selectActiveChat);
+    const messages = useSelector(selectMessages);
     const messageScroll = useRef(null);
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const MainChatComponent = (props) => {
         if(!state.messageText) {
             return;
         }
-        props.sendMessage(state.messageText);
+        dispatch(sendMessage(state.messageText));
         setState({ ...state, messageText: '' });
     };
 
@@ -53,7 +56,7 @@ const MainChatComponent = (props) => {
     const onRefreshChat = () => {
         setState({ ...state, isRefreshing: true });
         setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
-        requestMessages();
+        dispatch(requestMessages(activeChat.chatId));
     };
 
     const onEditMode = ({ messageId, content }) => {
@@ -81,16 +84,14 @@ const MainChatComponent = (props) => {
             return onEditClose();
         }
 
-        props.editMessage({ editMessageId, messageEdit });
+        dispatch(editMessage({ editMessageId, messageEdit }));
         onEditClose();
     };
 
-    const requestMessages = () => props.requestMessages(props.activeChat.chatId);
-
     const renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
 
-    const renderMessages = () => props.messages.map(message => {
-        const userIsAuthor = props.userId === message.author.userId;
+    const renderMessages = () => messages.map(message => {
+        const userIsAuthor = userId === message.author.userId;
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
         const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss DD.MM.YYYY') : '';
@@ -155,7 +156,7 @@ const MainChatComponent = (props) => {
                                         />
                                     )}
                                     <DeleteIcon
-                                        onClick={() => props.deleteMessage(message.messageId)}
+                                        onClick={() => dispatch(deleteMessage(message.messageId))}
                                         className={styles.icons}
                                     />
                                 </>
@@ -169,8 +170,8 @@ const MainChatComponent = (props) => {
     });
 
     const { isRefreshing } = state;
-    const hasActiveChat = !_.isEmpty(props.activeChat);
-    const hasMessages = !_.isEmpty(props.messages);
+    const hasActiveChat = !_.isEmpty(activeChat);
+    const hasMessages = !_.isEmpty(messages);
 
     return (
         <div className={styles.wrapper}>
@@ -182,7 +183,7 @@ const MainChatComponent = (props) => {
                     />
                 )}
                 <div className={styles.title}>
-                    {hasActiveChat ? `Active chat: ${props.activeChat.name}` : 'Choose a chat'}
+                    {hasActiveChat ? `Active chat: ${activeChat.name}` : 'Choose a chat'}
                 </div>
             </div>
             {hasActiveChat && (
@@ -214,18 +215,3 @@ const MainChatComponent = (props) => {
         </div>
     );
 };
-
-const mapStateToProps = state => ({
-    userId: selectUserId(state),
-    activeChat: selectActiveChat(state),
-    messages: selectMessages(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    requestMessages: (chatId) => dispatch(requestMessages(chatId)),
-    sendMessage: (messageText) => dispatch(sendMessage(messageText)),
-    deleteMessage: (messageId) => dispatch(deleteMessage(messageId)),
-    editMessage: (messageData) => dispatch(editMessage(messageData)),
-});
-
-export const MainChat = connect(mapStateToProps, mapDispatchToProps)(MainChatComponent);

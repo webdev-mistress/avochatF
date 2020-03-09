@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
 import { requestUser, removeErrorMessage } from '../../../store/user/actions';
@@ -7,25 +7,27 @@ import { selectErrorMessage } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
 
-const AuthFormComponent = (props) => {
+export const AuthForm = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const errorMessage = useSelector(selectErrorMessage);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setPassword('');
-    }, [props.errorMessage]);
+    }, [errorMessage]);
 
     const onAuth = (event) => {
         event.preventDefault();
 
-        props.requestUser({ login, password });
+        dispatch(requestUser({ login, password }));
     };
 
     const onAuthEnter = event => event.key === 'Enter' && onAuth(event);
 
     const onChange = (event, name, setState) => {
-        if (props.errorMessage) {
-            props.removeErrorMessage();
+        if (errorMessage) {
+            dispatch(removeErrorMessage());
         }
 
         const { value } = event.target;
@@ -37,7 +39,7 @@ const AuthFormComponent = (props) => {
         <Card className={styles.card}>
             <CardContent className={styles.cardContent}>
                 <Typography variant="h4">Authorization</Typography>
-                <div className={styles.errorMessage}>{props.errorMessage}</div>
+                <div className={styles.errorMessage}>{errorMessage}</div>
                 <form type="post" className={styles.form}>
                     <TextField
                         required
@@ -78,13 +80,3 @@ const AuthFormComponent = (props) => {
         </Card>
     );
 };
-const mapStateToProps = (state) => ({
-    errorMessage: selectErrorMessage(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    requestUser: userData => dispatch(requestUser(userData)),
-    removeErrorMessage: () => dispatch(removeErrorMessage()),
-});
-
-export const AuthForm = connect(mapStateToProps, mapDispatchToProps)(AuthFormComponent);

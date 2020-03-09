@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container } from '@material-ui/core';
 
 import { selectErrorMessage } from '../../store/user/selectors';
@@ -9,12 +9,14 @@ import style from './styles.module.scss';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 
-const AuthPageComponent = (props) => {
+export const AuthPage = () => {
     const [isAuthForm, setIsAuthForm] = useState(true);
+    const errorMessage = useSelector(selectErrorMessage);
+    const dispatch = useDispatch();
 
     const onToggleForm = (isAuthForm) => {
-        if (props.errorMessage) {
-            props.removeErrorMessage();
+        if (errorMessage) {
+            dispatch(removeErrorMessage());
         }
 
         setIsAuthForm(isAuthForm);
@@ -30,14 +32,3 @@ const AuthPageComponent = (props) => {
         </Container>
     );
 };
-
-const mapStateToProps = (state) => ({
-    errorMessage: selectErrorMessage(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    removeErrorMessage: () => dispatch(removeErrorMessage()),
-
-});
-
-export const AuthPage = connect(mapStateToProps, mapDispatchToProps)(AuthPageComponent);
