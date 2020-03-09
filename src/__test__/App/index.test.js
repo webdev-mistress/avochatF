@@ -1,7 +1,7 @@
-import App from '../../components/app';
+import { App } from '../../components/app';
 
 describe('<App />', () => {
-    it('some', () => {
+    it('App is defined', () => {
         expect(App).toBeDefined();
     });
 });
