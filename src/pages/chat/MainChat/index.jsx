@@ -7,12 +7,13 @@ import format from 'date-fns/format';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import CachedIcon from '@material-ui/icons/Cached';
 import CloseIcon from '@material-ui/icons/Close';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Tooltip from '@material-ui/core/Tooltip';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { selectActiveChat, selectMessages } from '../../../store/chat/selectors';
 import { selectUserId } from '../../../store/user/selectors';
@@ -33,11 +34,22 @@ export const MainChat = () => {
     const messages = useSelector(selectMessages);
     const messageScroll = useRef(null);
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
     useEffect(() => {
         if(messageScroll.current){
             messageScroll.current.scrollTop = 999999;
         }
     });
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
 
     const onSendMessage = () => {
         if(!state.messageText) {
@@ -60,12 +72,16 @@ export const MainChat = () => {
     };
 
     const onEditMode = ({ messageId, content }) => {
-        setState({
-            ...state,
-            isEditMode: true,
-            editMessageId: messageId,
-            messageEdit: content,
-        });
+        handleClose();
+
+        setTimeout(() => {
+            setState({
+                ...state,
+                isEditMode: true,
+                editMessageId: messageId,
+                messageEdit: content,
+            });
+        }, 0);
     };
 
     const onEditClose = () => setState({ ...state, isEditMode: false, editMessageId: -1, messageEdit: '' });
@@ -88,6 +104,42 @@ export const MainChat = () => {
         onEditClose();
     };
 
+    const renderMenu = (message) => (
+        <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open}
+            onClick={handleClose}
+        >
+            <MenuItem
+                onClick={() => onEditMode(message)}
+                className={styles.icons}
+            >
+                Edit
+            </MenuItem>
+            <MenuItem
+                onClick={() => dispatch(deleteMessage(message.messageId))}
+                className={styles.icons}
+            >
+                Delete
+            </MenuItem>
+        </Menu>
+    );
+
+    const renderEditIcon = (message, messageDateChange) => (
+        message.dateChange && (
+            <Tooltip
+                title={messageDateChange}
+                placement="right-start"
+            >
+                <BorderColorIcon
+                    className={styles.editIcon}
+                />
+            </Tooltip>
+        )
+    );
+
     const renderNoMessages = () => (<div className={styles.noMessage}>You have no messages</div>);
 
     const renderMessages = () => messages.map(message => {
@@ -103,9 +155,7 @@ export const MainChat = () => {
                 className={cn(styles.messageContainer, userIsAuthor && styles.myMessageWrapper)}
             >
                 <div className={styles.dateWrapper}>{messageDate}</div>
-                <div
-                    className={cn(styles.message, userIsAuthor && styles.myMessage)}
-                >
+                <div className={cn(styles.message, userIsAuthor && styles.myMessage)}>
                     <div className={styles.messageBlock}>
                         <div>{message.author.name}</div>
                         {isEditMessage ? (
@@ -116,54 +166,43 @@ export const MainChat = () => {
                                 onKeyUp={(event) => onPressEditEnter(event, message.content)}
                                 value={state.messageEdit}
                             />
-                        ) : (
-                            <div>{message.content}</div>
-                        )}
+                        ) : (<div>{message.content}</div>)}
                     </div>
-                    {userIsAuthor && (
-                    <div className={styles.buttonBlock}>
-                        {isEditMessage ?
-                            (
-                                <>
-                                    <CloseIcon
-                                        onClick={onEditClose}
-                                        className={styles.icons}
-                                    />
-                                    {message.content !== state.messageEdit &&
-                                        (<SendIcon
-                                            onClick={() => onSendEditMessage(message.content)}
-                                            className={styles.icons}
-                                        />)
-                                    }
-                                </>
-                            ) :
-                            (
-                                <>
-                                    {message.dateChange ? (
-                                        <Tooltip
-                                            title={messageDateChange}
-                                            placement="right-start"
-                                        >
-                                            <BorderColorIcon
-                                                onClick={() => onEditMode(message)}
-                                                className={styles.icons}
-                                            />
-                                        </Tooltip>
-                                    ) : (
-                                        <EditIcon
-                                            onClick={() => onEditMode(message)}
+                    {userIsAuthor ? (
+                        <div className={styles.buttonBlock}>
+                            {isEditMessage ?
+                                (
+                                    <>
+                                        <CloseIcon
+                                            onClick={onEditClose}
                                             className={styles.icons}
                                         />
-                                    )}
-                                    <DeleteIcon
-                                        onClick={() => dispatch(deleteMessage(message.messageId))}
-                                        className={styles.icons}
-                                    />
-                                </>
-                            )
-                        }
-                    </div>
-                )}
+                                        {message.content !== state.messageEdit &&
+                                            (<SendIcon
+                                                onClick={() => onSendEditMessage(message.content)}
+                                                className={styles.icons}
+                                            />)
+                                        }
+                                    </>
+                                ) :
+                                (
+                                    <>
+                                        <MoreVertIcon
+                                            aria-label="more"
+                                            aria-controls="long-menu"
+                                            aria-haspopup="true"
+                                            onClick={handleClick}
+                                            className={styles.icons}
+                                        />
+                                        <div>
+                                            {renderMenu(message)}
+                                            {renderEditIcon(message, messageDateChange)}
+                                        </div>
+                                    </>
+                                )
+                            }
+                        </div>
+                    ) : message.dateChange && renderEditIcon(message, messageDateChange)}
                 </div>
             </div>
         );

@@ -139,7 +139,17 @@
 }
 
 .icons {
-    color: #ffffff !important;
+    display: flex;
+    flex-direction: column;
     opacity: 0.99 !important;
     cursor: pointer;
+}
+
+.editIcon {
+    color: white !important;
+    opacity: 0.9 !important;
+    margin-top: 5px;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: default !important;
 }
