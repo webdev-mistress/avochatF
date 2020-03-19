@@ -25,6 +25,7 @@ export const MainChat = () => {
     const initialState = {
         messageText: '',
         isEditMode: false,
+        selectedMessage: null,
     };
 
     const [state, setState] = useState(initialState);
@@ -43,11 +44,12 @@ export const MainChat = () => {
         }
     });
 
-    const handleClick = event => {
+    const onOpenMenu = (event, message) => {
+        setState({ ...state, selectedMessage: message });
         setAnchorEl(event.currentTarget);
       };
 
-      const handleClose = () => {
+      const onCloseMenu = () => {
         setAnchorEl(null);
       };
 
@@ -71,20 +73,19 @@ export const MainChat = () => {
         dispatch(requestMessages(activeChat.chatId));
     };
 
-    const onEditMode = ({ messageId, content }) => {
-        handleClose();
+    const onEditMode = () => {
+        onCloseMenu();
 
         setTimeout(() => {
             setState({
                 ...state,
                 isEditMode: true,
-                editMessageId: messageId,
-                messageEdit: content,
+                messageEdit: state.selectedMessage.content,
             });
         }, 0);
     };
 
-    const onEditClose = () => setState({ ...state, isEditMode: false, editMessageId: -1, messageEdit: '' });
+    const onEditClose = () => setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
 
     const onEditMessageChange = (event) => {
         setState({
@@ -94,32 +95,32 @@ export const MainChat = () => {
     };
 
     const onSendEditMessage = (content) => {
-        const { editMessageId, messageEdit } = state;
+        const { selectedMessage, messageEdit } = state;
 
         if(content === messageEdit){
             return onEditClose();
         }
 
-        dispatch(editMessage({ editMessageId, messageEdit }));
+        dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
         onEditClose();
     };
 
-    const renderMenu = (message) => (
+    const renderMenu = () => (
         <Menu
             id="long-menu"
             anchorEl={anchorEl}
             keepMounted
             open={open}
-            onClick={handleClose}
+            onClick={onCloseMenu}
         >
             <MenuItem
-                onClick={() => onEditMode(message)}
+                onClick={() => onEditMode()}
                 className={styles.icons}
             >
                 Edit
             </MenuItem>
             <MenuItem
-                onClick={() => dispatch(deleteMessage(message.messageId))}
+                onClick={() => dispatch(deleteMessage(state.selectedMessage.messageId))}
                 className={styles.icons}
             >
                 Delete
@@ -147,7 +148,7 @@ export const MainChat = () => {
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
         const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss DD.MM.YYYY') : '';
-        const isEditMessage = state.isEditMode && state.editMessageId === message.messageId;
+        const isEditMessage = state.isEditMode && state.selectedMessage.messageId === message.messageId;
 
         return (
             <div
@@ -191,11 +192,11 @@ export const MainChat = () => {
                                             aria-label="more"
                                             aria-controls="long-menu"
                                             aria-haspopup="true"
-                                            onClick={handleClick}
+                                            onClick={(event) => onOpenMenu(event, message)}
                                             className={styles.icons}
                                         />
                                         <div>
-                                            {renderMenu(message)}
+                                            {renderMenu()}
                                             {renderEditIcon(message, messageDateChange)}
                                         </div>
                                     </>

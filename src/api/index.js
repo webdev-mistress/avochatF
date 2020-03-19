@@ -7,7 +7,7 @@ const createHeader = (body) => ({
     body: JSON.stringify(body),
 });
 
-const devMode = false;
+const devMode = process.env.devMode === 'production' || false;
 const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4170';
 
 const getResourse = async (url, body) => {
@@ -45,9 +45,9 @@ export const createChat = (name, userId) => getResourse('/chat/create', { name, 
 
 export const deleteChat = (chatId) => getResourse('/chat/delete', { chatId });
 
-export const addUserToChat = (userId, chatId) => getResourse('/chat/user/add', { userId, chatId });
+export const addUserToChat = (login, chatId) => getResourse('/chat/user/add', { login, chatId });
 
-export const deleteUserFromChat = (userId, chatId) => getResourse('/chat/user/delete', { userId, chatId });
+export const deleteUserFromChat = (login, chatId) => getResourse('/chat/user/delete', { login, chatId });
 
 window.createChat = createChat;
 window.addUserToChat = addUserToChat;

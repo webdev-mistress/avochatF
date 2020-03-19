@@ -54,6 +54,7 @@ export const RegForm = (props) => {
                 <div className={styles.errorMessage}>{errorMessage}</div>
                 <form type="post" className={styles.form}>
                     <TextField
+                        autoFocus
                         required
                         value={name}
                         id="authLogin"

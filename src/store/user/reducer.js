@@ -11,13 +11,13 @@ export function userReducer(state = initialState, action) {
 
     switch (action.type) {
         case USER_FETCH_SUCCEEDED:
-            if(action.payload.user.isAuth) {
+            if(action.payload.userData.isAuth) {
                 delete cloneState.errorMessage;
             }
 
             return {
                 ...cloneState,
-                ...action.payload.user,
+                ...action.payload.userData.user,
             };
         case REMOVE_AUTH_ERROR_MESSAGE:
             delete cloneState.errorMessage;

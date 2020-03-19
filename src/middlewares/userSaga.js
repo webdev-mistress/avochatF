@@ -7,9 +7,9 @@ import { getUser, createUser } from '../api';
 
 function* fetchUser(action) {
     try {
-        const user = yield call(getUser, action.payload.user);
+        const userData = yield call(getUser, action.payload.user);
 
-        yield put({ type: USER_FETCH_SUCCEEDED, payload: { user } });
+        yield put({ type: USER_FETCH_SUCCEEDED, payload: { userData } });
     } catch (error) {
         yield put({ type: USER_FETCH_FAILED, payload: getErrorMessage(error) });
     }
@@ -20,7 +20,7 @@ function* fetchCreateUser(action) {
         const { name, login, password1, password2 } = action.payload.userData;
         const newUser = yield call(createUser, name, login, password1, password2);
 
-        yield put({ type: USER_FETCH_SUCCEEDED, payload: { user: newUser } });
+        yield put({ type: USER_FETCH_SUCCEEDED, payload: { userData: newUser } });
     } catch (error) {
         yield put({ type: USER_FETCH_FAILED, payload: getErrorMessage(error) });
     }
