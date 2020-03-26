@@ -17,7 +17,7 @@ export function userReducer(state = initialState, action) {
 
             return {
                 ...cloneState,
-                ...action.payload.userData.user,
+                ...action.payload.userData,
             };
         case REMOVE_AUTH_ERROR_MESSAGE:
             delete cloneState.errorMessage;
