@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT,
-    REMOVE_AUTH_ERROR_MESSAGE } from '../../constants/store';
+    REMOVE_AUTH_ERROR_MESSAGE, ADD_NEW_CHAT, DELETE_OLD_CHAT } from '../../constants/store';
 
 const initialState = {
     isAuth: false,
@@ -29,7 +29,20 @@ export function userReducer(state = initialState, action) {
                 isAuth: false,
                 errorMessage: action.payload.errorMessage,
             };
+        case ADD_NEW_CHAT:
+            const { chat } = action.payload;
 
+            return {
+                ...state,
+                chats: [...state.chats, chat ],
+            };
+        case DELETE_OLD_CHAT:
+            const { chatId } = action.payload;
+
+            return {
+                ...state,
+                chats: state.chats.filter(chat => chat.chatId !== chatId),
+            };
         case USER_LOGOUT:
             return initialState;
         default:

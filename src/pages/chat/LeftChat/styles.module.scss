@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 320px;
 }
 
 .topBlockWrapper {
@@ -38,9 +38,13 @@
     height: 100%;
 }
 
-.root {
+.list {
     width: '100%';
     max-width: 360px;
+    button {
+        width: 100%;
+        color: green
+    }
 }
 
 .chatItem {

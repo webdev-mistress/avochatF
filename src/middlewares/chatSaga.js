@@ -1,12 +1,15 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
-import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE } from '../constants/store';
+import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
+    CREATE_CHAT, DELETE_CHAT } from '../constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
 import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
-import { selectUserId } from '../store/user/selectors';
+import { selectUserId, selectUserLogin } from '../store/user/selectors';
 import { getErrorMessage } from '../helpers/sagas';
-import { getMessages as getMessagesFromApi, sendMessage, deleteMessage, editMessage } from '../api';
+import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
+    editMessage, createChat, deleteChat } from '../api';
+import { addNewChat, deleteOldChat } from '../store/user/actions';
 
 function* fetchRequestMessages(action) {
     try {
@@ -60,9 +63,38 @@ function* fetchEditMessage(action) {
     }
 }
 
+function* fetchCreateChat(action) {
+    try {
+        const login = yield select(selectUserLogin);
+        const { chatName } = action.payload;
+        const response = yield call(createChat, chatName, login);
+        if (response.ok) {
+            yield put(addNewChat(response.chat));
+        } else {
+            console.error(response.errorMessage);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function* fetchDeleteChat(action) {
+    try {
+        const { chatId } = action.payload;
+        const response = yield call(deleteChat, chatId);
+        if (response.ok) {
+            yield put(deleteOldChat(chatId));
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* chatSaga() {
     yield takeEvery(MESSAGES_REQUESTED, fetchRequestMessages);
     yield takeEvery(SEND_MESSAGE, fetchSendMessage);
     yield takeEvery(DELETE_MESSAGE, fetchDeleteMessage);
     yield takeEvery(EDIT_MESSAGE, fetchEditMessage);
+    yield takeEvery(CREATE_CHAT, fetchCreateChat);
+    yield takeEvery(DELETE_CHAT, fetchDeleteChat);
 }

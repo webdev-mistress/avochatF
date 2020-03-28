@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions,
     TextField, Button } from '@material-ui/core';
 
-export const FormDialog = ({ title, positiveBtnText, negativeBtnText, isShowDialog, closeDialog, onPositiveClick }) => {
+export const FormDialog = ({ title, positiveBtnText, negativeBtnText, label,
+    isShow, closeDialog, onPositiveClick }) => {
     const [fieldValue, setFieldValue] = useState('');
 
     const onNegativeClick = () => closeDialog();
@@ -13,15 +14,14 @@ export const FormDialog = ({ title, positiveBtnText, negativeBtnText, isShowDial
 
     return (
         <div>
-            <Dialog open={isShowDialog} onClose={closeDialog} aria-labelledby="form-dialog-title">
+            <Dialog open={isShow} onClose={closeDialog} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{title}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label={`User's login`}
-                        type="login"
+                        label={label}
                         fullWidth
                         onKeyUp={event => event.key === 'Enter' && _onPositiveClick()}
                         onChange={onChangeFieldValue}
@@ -41,6 +41,8 @@ export const FormDialog = ({ title, positiveBtnText, negativeBtnText, isShowDial
 };
 
 FormDialog.defaultProps = {
+    title: '',
     negativeBtnText: 'Cancle',
     positiveBtnText: 'Ok',
+    label: '',
 };

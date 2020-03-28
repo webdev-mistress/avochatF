@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 
 export const AlertDialog = ({ isShow, onClose, onPositiveClick,
-    nagativeBtnText, positiveBtnText, contentText }) => (
+    negativeBtnText, positiveBtnText, contentText, title }) => (
         <div>
             <Dialog
                 open={isShow}
@@ -10,7 +10,7 @@ export const AlertDialog = ({ isShow, onClose, onPositiveClick,
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{'Are you sure you want to logout?'}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {contentText}
@@ -18,7 +18,7 @@ export const AlertDialog = ({ isShow, onClose, onPositiveClick,
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onClose} color="primary">
-                        {nagativeBtnText}
+                        {negativeBtnText}
                     </Button>
                     <Button onClick={onPositiveClick} color="primary" autoFocus>
                         {positiveBtnText}
@@ -31,4 +31,6 @@ export const AlertDialog = ({ isShow, onClose, onPositiveClick,
 AlertDialog.defaultProps = {
     negativeBtnText: 'Cancle',
     positiveBtnText: 'Ok',
+    title: '',
+    contentText: '',
 };
