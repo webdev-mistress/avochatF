@@ -2,8 +2,9 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { getErrorMessage } from '../helpers/sagas';
 import { USER_FETCH_REQUESTED, USER_FETCH_SUCCEEDED, USER_FETCH_FAILED,
-    USER_CREATE_REQUESTED } from '../constants/store';
-import { getUser, createUser } from '../api';
+    USER_CREATE_REQUESTED,
+    ADD_USER_TO_CHAT } from '../constants/store';
+import { getUser, createUser, addUserToChat } from '../api';
 
 function* fetchUser(action) {
     try {
@@ -26,7 +27,17 @@ function* fetchCreateUser(action) {
     }
 }
 
+function* fetchAddUserToChat(action) {
+    try {
+        const { login, selectedChatId } = action.payload.chatData;
+        yield call(addUserToChat, login, selectedChatId);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* userSaga() {
     yield takeEvery(USER_FETCH_REQUESTED, fetchUser);
     yield takeEvery(USER_CREATE_REQUESTED, fetchCreateUser);
+    yield takeEvery(ADD_USER_TO_CHAT, fetchAddUserToChat);
 }

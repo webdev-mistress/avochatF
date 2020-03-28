@@ -24,11 +24,9 @@ export const AuthPage = () => {
 
     return (
         <Container maxWidth="sm" className={style.wrapper}>
-            {isAuthForm ? <AuthForm
-                onOpenRegForm={onToggleForm}
-            /> : <RegForm
-                onOpenAuthForm={onToggleForm}
-            /> }
+            {isAuthForm
+                ? <AuthForm onOpenRegForm={onToggleForm} />
+                : <RegForm onOpenAuthForm={onToggleForm} /> }
         </Container>
     );
 };

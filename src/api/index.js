@@ -7,7 +7,7 @@ const createHeader = (body) => ({
     body: JSON.stringify(body),
 });
 
-const devMode = process.env.devMode === 'production' || false;
+const devMode = process.env.devMode === 'production' || true;
 const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4170';
 
 const getResourse = async (url, body) => {

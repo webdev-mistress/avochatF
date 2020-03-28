@@ -7,18 +7,20 @@ import { selectErrorMessage } from '../../../store/user/selectors';
 
 import styles from './styles.module.scss';
 
-export const AuthForm = (props) => {
+export const AuthForm = ({ onOpenRegForm }) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const errorMessage = useSelector(selectErrorMessage);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        setPassword('');
-    }, [errorMessage]);
+    useEffect(() => errorMessage && setPassword(''), [errorMessage]);
 
     const onAuth = (event) => {
         event.preventDefault();
+
+        if (!login || !password) {
+            return;
+        }
 
         dispatch(requestUser({ login, password }));
     };
@@ -26,13 +28,12 @@ export const AuthForm = (props) => {
     const onAuthEnter = event => event.key === 'Enter' && onAuth(event);
 
     const onChange = (event, name, setState) => {
+        const { value } = event.target;
+        setState(name === 'login' ? value.trim() : value);
+
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }
-
-        const { value } = event.target;
-
-        setState(name === 'login' ? value.trim() : value);
     };
 
     return (
@@ -51,6 +52,7 @@ export const AuthForm = (props) => {
                     />
                     <TextField
                         required
+                        autoFocus={!!errorMessage}
                         value={password}
                         type="password"
                         id="authPassword"
@@ -70,7 +72,7 @@ export const AuthForm = (props) => {
                         <Button
                             color="primary"
                             variant="outlined"
-                            onClick={() => props.onOpenRegForm(false)}
+                            onClick={() => onOpenRegForm(false)}
                         >
                             Sign Up
                         </Button>

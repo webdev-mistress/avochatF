@@ -23,13 +23,14 @@ export const RegForm = (props) => {
 
     const onCreateUser = (event) => {
         event.preventDefault();
+        if (disabledButton) {
+            return;
+        }
 
         setState({ ...state, disabledButton: true });
 
         dispatch(requestCreateUser({ name, login, password1, password2 }));
     };
-
-    const onCreateUserEnter = event => event.key === 'Enter' && onCreateUser(event);
 
     const onChange = (event, name) => {
         if (errorMessage) {
@@ -60,7 +61,7 @@ export const RegForm = (props) => {
                         id="authLogin"
                         label="Name"
                         onChange={(event) => onChange(event, 'name')}
-                        onKeyUp={(event) => onCreateUserEnter(event)}
+                        onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
                     />
                     <TextField
                         required
@@ -68,7 +69,7 @@ export const RegForm = (props) => {
                         id="authLogin"
                         label="Login"
                         onChange={(event) => onChange(event, 'login')}
-                        onKeyUp={(event) => onCreateUserEnter(event)}
+                        onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
                     />
                     <TextField
                         required
@@ -77,7 +78,7 @@ export const RegForm = (props) => {
                         id="authPassword"
                         label="password"
                         onChange={(event) => onChange(event, 'password1')}
-                        onKeyUp={(event) => onCreateUserEnter(event)}
+                        onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
                     />
                     <TextField
                         required
@@ -86,7 +87,7 @@ export const RegForm = (props) => {
                         id="authPassword"
                         label="repeat password"
                         onChange={(event) => onChange(event, 'password2')}
-                        onKeyUp={(event) => onCreateUserEnter(event)}
+                        onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
                     />
                     <Button
                         color="primary"

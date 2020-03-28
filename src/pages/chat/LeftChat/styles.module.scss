@@ -77,3 +77,11 @@
 .inline {
     display: 'inline';
 }
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    opacity: 0.99 !important;
+    cursor: pointer;
+    z-index: 999999;
+}
