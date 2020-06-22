@@ -1,4 +1,4 @@
-import { MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, CLEAR_CHAT, EDIT_MESSAGE } from '../../constants/store';
+import { MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, CLEAR_CHAT, EDIT_MESSAGE } from '../../../constants/store';
 
 const initialState = {
     messages: [],

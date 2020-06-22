@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
-import { requestCreateUser, removeErrorMessage } from '../../../store/user/actions';
-import { selectErrorMessage } from '../../../store/user/selectors';
+import { requestCreateUser, removeErrorMessage } from '../../../redux/store/user/actions';
+import { selectErrorMessage } from '../../../redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 

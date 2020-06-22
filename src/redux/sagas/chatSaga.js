@@ -1,12 +1,12 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
 import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
-    CREATE_CHAT, DELETE_CHAT } from '../constants/store';
+    CREATE_CHAT, DELETE_CHAT } from '../../constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
 import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
 import { selectUserId, selectUserLogin } from '../store/user/selectors';
-import { getErrorMessage } from '../helpers/sagas';
+import { getErrorMessage } from '../../helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
     editMessage, createChat, deleteChat } from '../api';
 import { addNewChat, deleteOldChat } from '../store/user/actions';

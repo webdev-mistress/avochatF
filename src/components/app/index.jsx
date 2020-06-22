@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { AuthPage, ChatPage, PomodoroPage } from '../../pages';
-import { selectIsAuth } from '../../store/user/selectors';
+import { selectIsAuth } from '../../redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 

@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { rootSaga } from '../middlewares/rootSaga';
+import { rootSaga } from '../sagas/rootSaga';
 
 import { contextReducer } from './context/reducer';
 import { userReducer } from './user/reducer';
