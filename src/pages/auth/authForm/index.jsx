@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
-import { requestUser, removeErrorMessage } from '../../../store/user/actions';
-import { selectErrorMessage } from '../../../store/user/selectors';
+import { requestUser, removeErrorMessage } from '../../../redux/store/user/actions';
+import { selectErrorMessage } from '../../../redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 
@@ -13,7 +13,9 @@ export const AuthForm = ({ onOpenRegForm }) => {
     const errorMessage = useSelector(selectErrorMessage);
     const dispatch = useDispatch();
 
-    useEffect(() => errorMessage && setPassword(''), [errorMessage]);
+    useEffect(() => {
+        errorMessage && setPassword('')
+    }, [errorMessage]);
 
     const onAuth = (event) => {
         event.preventDefault();

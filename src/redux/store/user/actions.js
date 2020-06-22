@@ -1,6 +1,6 @@
 import { USER_FETCH_REQUESTED, USER_FETCH_FAILED, USER_FETCH_SUCCEEDED, ADD_NEW_CHAT,
     USER_LOGOUT, REMOVE_AUTH_ERROR_MESSAGE, USER_CREATE_REQUESTED, ADD_USER_TO_CHAT,
-    DELETE_OLD_CHAT } from '../../constants/store';
+    DELETE_OLD_CHAT } from '../../../constants/store';
 
 export const requestUser = user => ({ type: USER_FETCH_REQUESTED, payload: { user } });
 

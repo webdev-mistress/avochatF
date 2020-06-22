@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container } from '@material-ui/core';
 
-import { selectErrorMessage } from '../../store/user/selectors';
-import { removeErrorMessage } from '../../store/user/actions';
+import { selectErrorMessage } from '../../redux/store/user/selectors';
+import { removeErrorMessage } from '../../redux/store/user/actions';
 
 import style from './styles.module.scss';
 import { AuthForm } from './authForm';

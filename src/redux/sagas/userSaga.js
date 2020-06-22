@@ -1,9 +1,9 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { getErrorMessage } from '../helpers/sagas';
+import { getErrorMessage } from '../../helpers/sagas';
 import { USER_FETCH_REQUESTED, USER_FETCH_SUCCEEDED, USER_FETCH_FAILED,
     USER_CREATE_REQUESTED,
-    ADD_USER_TO_CHAT } from '../constants/store';
+    ADD_USER_TO_CHAT } from '../../constants/store';
 import { getUser, createUser, addUserToChat } from '../api';
 
 function* fetchUser(action) {
