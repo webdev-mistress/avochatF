@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
@@ -17,36 +17,32 @@ export const RegForm = (props) => {
         disabledButton: false,
     };
     const [state, setState] = useState(initialState);
-    const { name, login, password1, password2 } = state;
+    const { name, login, password1, password2, disabledButton } = state;
     const errorMessage = useSelector(selectErrorMessage);
     const dispatch = useDispatch();
 
-    const onCreateUser = (event) => {
+    const onCreateUser = useCallback((event) => {
         event.preventDefault();
         if (disabledButton) {
             return;
         }
-
         setState({ ...state, disabledButton: true });
-
         dispatch(requestCreateUser({ name, login, password1, password2 }));
-    };
+    }, [disabledButton, dispatch, login, name, password1, password2, state]);
 
-    const onChange = (event, name) => {
+    const onChange = useCallback((event, name) => {
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }
-
         const { value } = event.target;
-
         setState({
             ...state,
             [name]: name === 'login' || name === 'name' ? value.trim() : value,
             disabledButton: false,
-         });
-    };
+        });
+    }, [dispatch, errorMessage, state]);
 
-    const disabledButton = !name || !login || !password1 || !password2 || state.disabledButton;
+    const disabledRegFormButton = !name || !login || !password1 || !password2 || state.disabledButton;
 
     return (
         <Card className={styles.card}>
@@ -93,7 +89,7 @@ export const RegForm = (props) => {
                         color="primary"
                         variant="contained"
                         onClick={onCreateUser}
-                        disabled={disabledButton}
+                        disabled={disabledRegFormButton}
                     >
                         Sign Up
                     </Button>

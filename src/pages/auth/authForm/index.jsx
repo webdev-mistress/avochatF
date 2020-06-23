@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
 
@@ -14,36 +14,39 @@ export const AuthForm = ({ onOpenRegForm }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        errorMessage && setPassword('')
+        errorMessage && setPassword('');
     }, [errorMessage]);
 
-    const onAuth = (event) => {
+    const onAuth = useCallback((event) => {
         event.preventDefault();
-
         if (!login || !password) {
             return;
         }
-
         dispatch(requestUser({ login, password }));
-    };
+    }, [dispatch, login, password]);
 
-    const onAuthEnter = event => event.key === 'Enter' && onAuth(event);
+    const onAuthEnter = useCallback((event) => {
+        event.key === 'Enter' && onAuth(event);
+    }, [onAuth]);
 
-    const onChange = (event, name, setState) => {
+    const onChange = useCallback((event, name, setState) => {
         const { value } = event.target;
         setState(name === 'login' ? value.trim() : value);
 
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }
-    };
+    }, [dispatch, errorMessage]);
 
     return (
         <Card className={styles.card}>
             <CardContent className={styles.cardContent}>
                 <Typography variant="h4">Authorization</Typography>
                 <div className={styles.errorMessage}>{errorMessage}</div>
-                <form type="post" className={styles.form}>
+                <form
+                    type="post"
+                    className={styles.form}
+                >
                     <TextField
                         required
                         value={login}

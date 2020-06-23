@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import cn from 'classnames';
@@ -44,36 +44,55 @@ export const MainChat = () => {
         }
     });
 
-    const onOpenMenu = (event, message) => {
+    const onOpenMenu = useCallback((event, message) => {
         setState({ ...state, selectedMessage: message });
         setAnchorEl(event.currentTarget);
-      };
+    }, [state]);
 
-      const onCloseMenu = () => {
+    const onCloseMenu = useCallback(() => {
         setAnchorEl(null);
-      };
+    }, []);
 
-    const onSendMessage = () => {
+    const onSendMessage = useCallback(() => {
         if(!state.messageText) {
             return;
         }
         dispatch(sendMessage(state.messageText));
         setState({ ...state, messageText: '' });
-    };
+    }, [dispatch, state]);
 
-    const onPressEnter = event => event.key === 'Enter' && onSendMessage();
+    const onPressEnter = useCallback((event) => {
+        event.key === 'Enter' && onSendMessage();
+    }, [onSendMessage]);
 
-    const onPressEditEnter = (event, content) => event.key === 'Enter' && onSendEditMessage(content);
+    const onEditClose = useCallback(() => {
+        setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
+    }, [state]);
 
-    const onChangeMessage = event => setState({ ...state, messageText: event.target.value });
+    const onSendEditMessage = useCallback((content) => {
+        const { selectedMessage, messageEdit } = state;
+        if(content === messageEdit){
+            return onEditClose();
+        }
+        dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
+        onEditClose();
+    }, [dispatch, onEditClose, state]);
 
-    const onRefreshChat = () => {
+    const onPressEditEnter = useCallback((event, content) => {
+        event.key === 'Enter' && onSendEditMessage(content);
+    }, [onSendEditMessage]);
+
+    const onChangeMessage = useCallback((event) => {
+        setState({ ...state, messageText: event.target.value });
+    }, [state]);
+
+    const onRefreshChat = useCallback(() => {
         setState({ ...state, isRefreshing: true });
         setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
         dispatch(requestMessages(activeChat.chatId));
-    };
+    }, [activeChat.chatId, dispatch, state]);
 
-    const onEditMode = () => {
+    const onEditMode = useCallback(() => {
         onCloseMenu();
 
         setTimeout(() => {
@@ -83,27 +102,14 @@ export const MainChat = () => {
                 messageEdit: state.selectedMessage.content,
             });
         }, 0);
-    };
+    }, [onCloseMenu, state]);
 
-    const onEditClose = () => setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
-
-    const onEditMessageChange = (event) => {
+    const onEditMessageChange = useCallback((event) => {
         setState({
             ...state,
             messageEdit: event.target.value,
         });
-    };
-
-    const onSendEditMessage = (content) => {
-        const { selectedMessage, messageEdit } = state;
-
-        if(content === messageEdit){
-            return onEditClose();
-        }
-
-        dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
-        onEditClose();
-    };
+    }, [state]);
 
     const renderMenu = () => (
         <Menu

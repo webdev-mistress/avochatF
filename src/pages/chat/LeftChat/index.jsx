@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
@@ -23,6 +23,43 @@ import { FormDialog, AlertDialog } from '../../../components/Dialog';
 
 import styles from './styles.module.scss';
 
+const DIALOG_MODE = {
+    ADD_TO_CHAT: {
+        form: true,
+        title: `Write user's login here`,
+        label: 'Login',
+        positiveBtnText: 'Add user to chat',
+        // positiveBtnFunc: onAddUserToChat,
+    },
+    DELETE_FROM_CHAT: {
+        form: true,
+        title: `Write user's login here`,
+        label: 'Login',
+        positiveBtnText: 'Delete user from chat',
+        // positiveBtnFunc: onDeleteUserFromChat,
+    },
+    CREATE_CHAT: {
+        form: true,
+        title: `Write chat name here`,
+        label: 'Chat name',
+        positiveBtnText: 'Create chat',
+        // positiveBtnFunc: onCreateChat,
+    },
+    DELETE_CHAT: {
+        form: false,
+        title: 'Are you sure?',
+        positiveBtnText: 'Delete chat',
+        // positiveBtnFunc: onDeleteChat,
+    },
+    LOGOUT: {
+        form: false,
+        title: 'Are you sure?',
+        positiveBtnText: 'Logout',
+        // positiveBtnFunc: onAuthLogout,
+    },
+    EXIT: {},
+};
+
 export const LeftChat = () => {
     const [anchorMenu, setAnchorMenu] = useState(null);
     const [selectedChatId, setSelectedChatId] = useState(null);
@@ -33,94 +70,71 @@ export const LeftChat = () => {
     const activeChatId = useSelector(selectActiveChatId);
     const dispatch = useDispatch();
 
-    const onOpenMenu = (event, chatId) => {
-      setAnchorMenu(event.currentTarget);
-      setSelectedChatId(chatId);
-    };
+    const onOpenMenu = useCallback((event, chatId) => {
+        setAnchorMenu(event.currentTarget);
+        setSelectedChatId(chatId);
+    }, []);
 
-    const onCloseMenu = () => setAnchorMenu(null);
+    const onCloseMenu = useCallback(() => {
+        setAnchorMenu(null);
+    }, []);
 
-    const onLoadChat = (event, chat) => {
+    const onLoadChat = useCallback((event, chat) => {
         const { nodeName } = event.target;
         if (nodeName !== 'path' && nodeName !== 'svg') {
             dispatch(getActiveChat(chat));
             dispatch(requestMessages(chat.chatId));
         }
-    };
+    }, [dispatch]);
 
-    const onCreateChat = (chatName) => {
+    const onCreateChat = useCallback((chatName) => {
         dispatch(createChat(chatName));
         setDialogMode(DIALOG_MODE.EXIT);
-    };
+    }, [dispatch]);
 
-    const onAuthLogout = () => {
+    const onAuthLogout = useCallback(() => {
         dispatch(logoutUser());
         dispatch(clearChat());
-    };
+    }, [dispatch]);
 
-    const onClearActiveChat = () => dispatch(clearChat());
+    const onClearActiveChat = useCallback(() => {
+        dispatch(clearChat());
+    }, [dispatch]);
 
-    const onAddUserToChat = (login) => {
+    const onAddUserToChat = useCallback((login) => {
         dispatch(addUserToChat({ login, selectedChatId }));
         setDialogMode(DIALOG_MODE.EXIT);
-    };
+    }, [dispatch, selectedChatId]);
 
-    const onDeleteUserFromChat = (login) => {
+    const onDeleteUserFromChat = useCallback((login) => {
         deleteUserFromChat(login, selectedChatId);
         setDialogMode(DIALOG_MODE.EXIT);
-    };
+    }, [selectedChatId]);
 
-    const onDeleteChat = () => {
+    const onDeleteChat = useCallback(() => {
         dispatch(deleteChat(selectedChatId));
         setDialogMode(DIALOG_MODE.EXIT);
-    };
+    }, [dispatch, selectedChatId]);
 
-    const onAddUserToChatDialog = () => setDialogMode(DIALOG_MODE.ADD_TO_CHAT);
+    const onAddUserToChatDialog = useCallback(() => {
+        setDialogMode({ ...DIALOG_MODE.ADD_TO_CHAT, positiveBtnFunc: onAddUserToChat });
+    }, [onAddUserToChat]);
 
-    const onDeleteUserFromChatDialog = () => setDialogMode(DIALOG_MODE.DELETE_FROM_CHAT);
+    const onDeleteUserFromChatDialog = useCallback(() => {
+        setDialogMode({ ...DIALOG_MODE.DELETE_FROM_CHAT, positiveBtnFunc: onDeleteUserFromChat });
+    }, [onDeleteUserFromChat]);
 
-    const onCreateChatDialog = () => setDialogMode(DIALOG_MODE.CREATE_CHAT);
+    const onCreateChatDialog = useCallback(() => {
+        setDialogMode({ ...DIALOG_MODE.CREATE_CHAT, positiveBtnFunc: onCreateChat });
+    }, [onCreateChat]);
 
-    const onDeleteChatDialog = () => setDialogMode(DIALOG_MODE.DELETE_CHAT);
+    const onDeleteChatDialog = useCallback(() => {
+        setDialogMode({ ...DIALOG_MODE.DELETE_CHAT, positiveBtnFunc: onDeleteChat });
+    }, [onDeleteChat]);
 
-    const closeDialog = () => setDialogMode(DIALOG_MODE.EXIT);
-
-    const DIALOG_MODE = {
-        ADD_TO_CHAT: {
-            form: true,
-            title: `Write user's login here`,
-            label: 'Login',
-            positiveBtnText: 'Add user to chat',
-            positiveBtnFunc: onAddUserToChat,
-        },
-        DELETE_FROM_CHAT: {
-            form: true,
-            title: `Write user's login here`,
-            label: 'Login',
-            positiveBtnText: 'Delete user from chat',
-            positiveBtnFunc: onDeleteUserFromChat,
-        },
-        CREATE_CHAT: {
-            form: true,
-            title: `Write chat name here`,
-            label: 'Chat name',
-            positiveBtnText: 'Create chat',
-            positiveBtnFunc: onCreateChat,
-        },
-        DELETE_CHAT: {
-            form: false,
-            title: 'Are you sure?',
-            positiveBtnText: 'Delete chat',
-            positiveBtnFunc: onDeleteChat,
-        },
-        LOGOUT: {
-            form: false,
-            title: 'Are you sure?',
-            positiveBtnText: 'Logout',
-            positiveBtnFunc: onAuthLogout,
-        },
-        EXIT: {},
-    };
+    const closeDialog = useCallback(() => {
+        setDialogMode(DIALOG_MODE.EXIT);
+    }, []);
 
     const renderMenu = () => (
         <Menu
@@ -172,7 +186,9 @@ export const LeftChat = () => {
         <>
             <div className={styles.wrapper}>
                 <div className={styles.topBlockWrapper}>
-                    <div className={styles.logoutWrapper} onClick={() => setDialogMode(DIALOG_MODE.LOGOUT)}>
+                    <div
+                        className={styles.logoutWrapper} onClick={() =>
+                        setDialogMode({ ...DIALOG_MODE.LOGOUT, positiveBtnFunc: onAuthLogout })}>
                         <ExitToAppIcon />
                     </div>
                     <div className={styles.topBlock} onClick={onClearActiveChat}>
