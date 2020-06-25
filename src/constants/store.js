@@ -9,6 +9,7 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 export const REMOVE_AUTH_ERROR_MESSAGE = 'REMOVE_AUTH_ERROR_MESSAGE';
 
 export const ADD_USER_TO_CHAT = 'ADD_USER_TO_CHAT';
+export const DELETE_UNWANTED_USER = 'DELETE_UNWANTED_USER';
 
 /* chat */
 
@@ -30,3 +31,4 @@ export const EDIT_MESSAGE = 'EDIT_MESSAGE';
 export const GET_ACTIVE_CHAT = 'GET_ACTIVE_CHAT';
 
 export const CLEAR_CHAT = 'CLEAR_CHAT';
+export const DELETE_USER_FROM_CHAT = 'DELETE_USER_FROM_CHAT';

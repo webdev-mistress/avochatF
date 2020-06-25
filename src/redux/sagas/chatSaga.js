@@ -1,15 +1,17 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
-import { SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
-    CREATE_CHAT, DELETE_CHAT } from '../../constants/store';
+import {
+    SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
+    CREATE_CHAT, DELETE_CHAT, DELETE_USER_FROM_CHAT
+} from '../../constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
 import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
 import { selectUserId, selectUserLogin } from '../store/user/selectors';
 import { getErrorMessage } from '../../helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
-    editMessage, createChat, deleteChat } from '../api';
-import { addNewChat, deleteOldChat } from '../store/user/actions';
+    editMessage, createChat, deleteChat, deleteUserFromChat } from '../api';
+import { addNewChat, deleteOldChat, deleteUnwanterUser } from '../store/user/actions';
 
 function* fetchRequestMessages(action) {
     try {
@@ -90,6 +92,18 @@ function* fetchDeleteChat(action) {
     }
 }
 
+function* fetchDeleteUserFromChat(action) {
+    try {
+        const { login, chatId } = action.payload;
+        const response = yield call(deleteUserFromChat, login, chatId);
+        if(response.ok) {
+            yield put(deleteUnwanterUser(login, chatId));
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* chatSaga() {
     yield takeEvery(MESSAGES_REQUESTED, fetchRequestMessages);
     yield takeEvery(SEND_MESSAGE, fetchSendMessage);
@@ -97,4 +111,5 @@ export function* chatSaga() {
     yield takeEvery(EDIT_MESSAGE, fetchEditMessage);
     yield takeEvery(CREATE_CHAT, fetchCreateChat);
     yield takeEvery(DELETE_CHAT, fetchDeleteChat);
+    yield takeEvery(DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
 }

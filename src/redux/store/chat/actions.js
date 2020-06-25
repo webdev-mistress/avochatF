@@ -1,6 +1,8 @@
-import { MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, MESSAGES_REQUESTED,
+import {
+     MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, MESSAGES_REQUESTED,
      MESSAGES_FAILED, SEND_MESSAGE, SEND_MESSAGE_FAILED, DELETE_MESSAGE,
-     DELETE_MESSAGE_FAILED, CLEAR_CHAT, EDIT_MESSAGE, CREATE_CHAT, DELETE_CHAT } from '../../../constants/store';
+     DELETE_MESSAGE_FAILED, CLEAR_CHAT, EDIT_MESSAGE, CREATE_CHAT, DELETE_CHAT, DELETE_USER_FROM_CHAT
+} from '../../../constants/store';
 
 export const getMessages = (messages) => ({ type: MESSAGES_SUCCEEDED, payload: messages });
 
@@ -25,3 +27,5 @@ export const editMessage = (messageData) => ({ type: EDIT_MESSAGE, payload: { me
 export const createChat = (chatName) => ({ type: CREATE_CHAT, payload: { chatName } });
 
 export const deleteChat = (chatId) => ({ type: DELETE_CHAT, payload: { chatId } });
+
+export const deleteUserFromChat = (login, chatId) => ({ type: DELETE_USER_FROM_CHAT, payload: { login, chatId } });

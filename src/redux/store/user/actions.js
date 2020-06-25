@@ -1,6 +1,6 @@
 import { USER_FETCH_REQUESTED, USER_FETCH_FAILED, USER_FETCH_SUCCEEDED, ADD_NEW_CHAT,
     USER_LOGOUT, REMOVE_AUTH_ERROR_MESSAGE, USER_CREATE_REQUESTED, ADD_USER_TO_CHAT,
-    DELETE_OLD_CHAT } from '../../../constants/store';
+    DELETE_OLD_CHAT, DELETE_UNWANTED_USER } from '../../../constants/store';
 
 export const requestUser = user => ({ type: USER_FETCH_REQUESTED, payload: { user } });
 
@@ -19,3 +19,5 @@ export const addUserToChat = (chatData) => ({ type: ADD_USER_TO_CHAT, payload: {
 export const addNewChat = (chat) => ({ type: ADD_NEW_CHAT, payload: { chat } });
 
 export const deleteOldChat = (chatId) => ({ type: DELETE_OLD_CHAT, payload: { chatId } });
+
+export const deleteUnwanterUser = (login, chatId) => ({ type: DELETE_UNWANTED_USER, payload: { login, chatId } });

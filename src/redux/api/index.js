@@ -29,11 +29,7 @@ export const createUser = (name, login, password1, password2) =>
 /* messages */
 export const getMessages = (chatId) => getResourse('/messages/get', { chatId });
 
-export const sendMessage = async (userId, chatId, message) => {
-    const messages = await getResourse('/messages/send', ({ userId, chatId, message }));
-
-    return messages;
-};
+export const sendMessage = (userId, chatId, message) => getResourse('/messages/send', ({ userId, chatId, message }));
 
 export const deleteMessage = messageId => getResourse('/messages/delete',{ messageId });
 

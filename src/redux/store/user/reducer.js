@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
-import { USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT,
-    REMOVE_AUTH_ERROR_MESSAGE, ADD_NEW_CHAT, DELETE_OLD_CHAT } from '../../../constants/store';
+import {
+    USER_FETCH_SUCCEEDED, USER_FETCH_FAILED, USER_LOGOUT,
+    REMOVE_AUTH_ERROR_MESSAGE, ADD_NEW_CHAT, DELETE_OLD_CHAT, DELETE_UNWANTED_USER
+} from '../../../constants/store';
 
 const initialState = {
     isAuth: false,
@@ -45,6 +47,10 @@ export function userReducer(state = initialState, action) {
             };
         case USER_LOGOUT:
             return initialState;
+        case DELETE_UNWANTED_USER:
+            return {
+                ...state,
+            };
         default:
             return state;
     }
