@@ -12,6 +12,8 @@ pipelines:
           - node
         script: # Modify the commands below to build your repository.
           - npm install
+          - npm i -g eslint
+          - eslint '**/*.{.js,jsx}'
           - npm test
           - npm run build
     - step:

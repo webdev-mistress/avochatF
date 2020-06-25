@@ -152,8 +152,8 @@ export const MainChat = () => {
     const renderMessages = () => messages.map(message => {
         const userIsAuthor = userId === message.author.userId;
 
-        const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss DD.MM.YYYY');
-        const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss DD.MM.YYYY') : '';
+        const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss dd.MM.yyyy');
+        const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
         const isEditMessage = state.isEditMode && state.selectedMessage.messageId === message.messageId;
 
         return (

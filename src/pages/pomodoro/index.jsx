@@ -7,7 +7,7 @@ export class PomodoroPage extends Component {
     render() {
         return (
             <Container maxWidth="sm" className={style.wrapper}>
-               Pomodoro
+                Pomodoro
             </Container>
         );
     }
