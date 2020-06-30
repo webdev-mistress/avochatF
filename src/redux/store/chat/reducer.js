@@ -8,7 +8,6 @@ import {
 } from '../../../constants/store';
 
 const initialState = {
-    messages: [],
     isCreateChatSpin: false,
     isActiveChatSpin: false,
 };
@@ -18,7 +17,10 @@ export function chatReducer(state = initialState, action) {
         case MESSAGES_SUCCEEDED:
             return {
                 ...state,
-                messages: action.payload,
+                activeChat: {
+                    ...state.activeChat,
+                    messages: action.payload,
+                },
             };
         case GET_ACTIVE_CHAT:
             return {

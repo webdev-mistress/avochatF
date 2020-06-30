@@ -7,7 +7,7 @@ import {
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '../store/chat/actions';
 import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
-import { selectUserId, selectUserLogin } from '../store/user/selectors';
+import { selectUserLogin } from '../store/user/selectors';
 import { getErrorMessage } from '../../helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
     editMessage, createChat, deleteChat, deleteUserFromChat } from '../api';
@@ -15,9 +15,13 @@ import { addNewChat, deleteOldChat, deleteUnwanterUser } from '../store/user/act
 
 function* fetchRequestMessages(action) {
     try {
-        const { messages } = yield call(getMessagesFromApi, action.payload.chatId);
+        const response = yield call(getMessagesFromApi, action.payload.chatId);
 
-        yield put(getMessages(messages));
+        if (!response.data || !response.ok) {
+            throw response.message;
+        }
+
+        yield put(getMessages(response.data));
     } catch (error) {
         yield put(errorMessages(getErrorMessage(error)));
     }
@@ -25,11 +29,14 @@ function* fetchRequestMessages(action) {
 
 function* fetchSendMessage(action) {
     try {
-        const state = yield select(state => state);
-        const userId = selectUserId(state);
-        const chatId = selectActiveChatId(state);
+        const login = yield select(selectUserLogin);
+        const chatId = yield select(selectActiveChatId);
 
-        yield call(sendMessage, userId, chatId, action.payload.messageText);
+        const response = yield call(sendMessage, login, chatId, action.payload.messageText);
+
+        if (!response.data || !response.ok) {
+            throw response.message;
+        }
 
         yield call(fetchRequestMessages, { payload: { chatId } });
     } catch (error) {
@@ -54,11 +61,15 @@ function* fetchEditMessage(action) {
     try {
         const { editMessageId, messageEdit } = action.payload.messageData;
 
-        const { message: editedMessage } = yield call(editMessage, editMessageId, messageEdit);
+        const response = yield call(editMessage, editMessageId, messageEdit);
+
+        if (!response.data || !response.ok) {
+            throw response.message;
+        }
 
         const messages = yield select(selectMessages);
         const newMessages = messages.map((message) =>
-            message.messageId === editedMessage.messageId ? editedMessage : message);
+            message.messageId === editMessageId ? response.data : message);
         yield put(getMessages(newMessages));
     } catch (error) {
         console.error(error);
@@ -70,11 +81,12 @@ function* fetchCreateChat(action) {
         const login = yield select(selectUserLogin);
         const { chatName } = action.payload;
         const response = yield call(createChat, chatName, login);
-        if (response.ok) {
-            yield put(addNewChat(response.chat));
-        } else {
-            console.error(response.errorMessage);
+
+        if (!response.data || !response.ok) {
+            throw response.message;
         }
+
+        yield put(addNewChat(response.data));
     } catch (error) {
         console.error(error);
     }
@@ -84,6 +96,7 @@ function* fetchDeleteChat(action) {
     try {
         const { chatId } = action.payload;
         const response = yield call(deleteChat, chatId);
+
         if (response.ok) {
             yield put(deleteOldChat(chatId));
         }
@@ -96,7 +109,7 @@ function* fetchDeleteUserFromChat(action) {
     try {
         const { login, chatId } = action.payload;
         const response = yield call(deleteUserFromChat, login, chatId);
-        if(response.ok) {
+        if (response.ok) {
             yield put(deleteUnwanterUser(login, chatId));
         }
     } catch (error) {

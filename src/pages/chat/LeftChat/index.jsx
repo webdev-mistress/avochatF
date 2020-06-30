@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { CircularProgress } from '@material-ui/core';
+// import { CircularProgress } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -24,6 +24,7 @@ import {
     deleteChat,
     deleteUserFromChat
 } from '../../../redux/store/chat/actions';
+// eslint-disable-next-line no-unused-vars
 import { selectActiveChatId, selectIsCreateChatSpin } from '../../../redux/store/chat/selectors';
 import { selectUserName, selectUserChats } from '../../../redux/store/user/selectors';
 import { FormDialog, AlertDialog } from '../../../components/Dialog';
@@ -70,7 +71,7 @@ export const LeftChat = () => {
     const userName = useSelector(selectUserName);
     const chats = useSelector(selectUserChats);
     const activeChatId = useSelector(selectActiveChatId);
-    const isCreateChatSpin = useSelector(selectIsCreateChatSpin);
+    // const isCreateChatSpin = useSelector(selectIsCreateChatSpin);
     const dispatch = useDispatch();
 
     const onOpenMenu = useCallback((event, chatId) => {

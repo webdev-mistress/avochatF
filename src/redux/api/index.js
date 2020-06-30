@@ -8,7 +8,7 @@ const createHeader = (body) => ({
 });
 
 const devMode = process.env.devMode === 'production' || false;
-const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4170';
+const baseUrl = devMode ? 'http://localhost:4170' : 'http://80.87.201.216:4000';
 
 const getResourse = async (url, body) => {
     const response = await fetch(`${baseUrl}${url}`, body && createHeader(body));
@@ -21,7 +21,7 @@ const getResourse = async (url, body) => {
 };
 
 /* user */
-export const getUser = user => getResourse('/user', user);
+export const getUser = user => getResourse('/user/get', user);
 
 export const createUser = (name, login, password1, password2) =>
     getResourse('/user/create', { name, login, password1, password2 });
@@ -29,21 +29,21 @@ export const createUser = (name, login, password1, password2) =>
 /* messages */
 export const getMessages = (chatId) => getResourse('/messages/get', { chatId });
 
-export const sendMessage = (userId, chatId, message) => getResourse('/messages/send', ({ userId, chatId, message }));
+export const sendMessage = (login, chatId, message) => getResourse('/messages/send', ({ login, chatId, message }));
 
 export const deleteMessage = messageId => getResourse('/messages/delete',{ messageId });
 
-export const editMessage = (messageId, content) => getResourse('/messages/edit', { messageId, content });
+export const editMessage = (messageId, message) => getResourse('/messages/edit', { messageId, message });
 
 /* chat */
 
-export const createChat = (name, login) => getResourse('/chat/create', { name, login });
+export const createChat = (chatName, login) => getResourse('/chat/createChat', { chatName, login });
 
-export const deleteChat = (chatId) => getResourse('/chat/delete', { chatId });
+export const deleteChat = (chatId) => getResourse('/chat/deleteChat', { chatId });
 
-export const addUserToChat = (login, chatId) => getResourse('/chat/user/add', { login, chatId });
+export const addUserToChat = (login, chatId) => getResourse('/chat/addUser', { login, chatId });
 
-export const deleteUserFromChat = (login, chatId) => getResourse('/chat/user/delete', { login, chatId });
+export const deleteUserFromChat = (login, chatId) => getResourse('/chat/deleteUser', { login, chatId });
 
 window.createChat = createChat;
 window.addUserToChat = addUserToChat;

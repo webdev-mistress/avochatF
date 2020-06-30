@@ -4,20 +4,20 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { AuthPage, ChatPage, PomodoroPage } from '../../pages';
-import { selectIsAuth } from '../../redux/store/user/selectors';
+import { selectUserIsAuth } from '../../redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 
 export const App = () => {
-    const isAuth = useSelector(selectIsAuth);
+    const hasUser = useSelector(selectUserIsAuth);
 
     return (
         <div className={styles.container}>
             <BrowserRouter>
                 <Switch>
-                    <Route exact path={isAuth ? '/chat' : '/auth'} component={isAuth ? ChatPage : AuthPage} />
+                    <Route exact path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
                     <Route exact path={'/pomodoro'} component={PomodoroPage} />
-                    <Redirect from="/" to={isAuth ? '/chat' : '/auth'} />
+                    <Redirect from="/" to={hasUser ? '/chat' : '/auth'} />
                 </Switch>
             </BrowserRouter>
         </div>

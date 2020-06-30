@@ -35,6 +35,7 @@ export function userReducer(state = initialState, action) {
             return {
                 ...cloneState,
                 ...action.payload.userData,
+                isAuth: true,
                 isAuthSpin: false,
             };
         case REMOVE_AUTH_ERROR_MESSAGE:
@@ -44,6 +45,7 @@ export function userReducer(state = initialState, action) {
         case USER_FETCH_FAILED:
             return {
                 isAuth: false,
+                isAuthSpin: false,
                 errorMessage: action.payload.errorMessage,
             };
         case ADD_NEW_CHAT:

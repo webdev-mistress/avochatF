@@ -173,7 +173,7 @@ export const MainChat = () => {
                                 onKeyUp={(event) => onPressEditEnter(event, message.content)}
                                 value={state.messageEdit}
                             />
-                        ) : (<div>{message.content}</div>)}
+                        ) : (<div>{message.message}</div>)}
                     </div>
                     {userIsAuthor ? (
                         <div className={styles.buttonBlock}>
