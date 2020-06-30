@@ -1,7 +1,16 @@
-import { MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, CLEAR_CHAT, EDIT_MESSAGE } from '../../../constants/store';
+import {
+    MESSAGES_SUCCEEDED,
+    GET_ACTIVE_CHAT,
+    CLEAR_CHAT,
+    EDIT_MESSAGE,
+    ADD_NEW_CHAT,
+    CREATE_CHAT
+} from '../../../constants/store';
 
 const initialState = {
     messages: [],
+    isCreateChatSpin: false,
+    isActiveChatSpin: false,
 };
 
 export function chatReducer(state = initialState, action) {
@@ -21,10 +30,20 @@ export function chatReducer(state = initialState, action) {
             case EDIT_MESSAGE:
                 return {
                     ...state,
-                    editMessageId: action.payload.messageData.MessageId,
+                    editMessageId: action.payload.messageData.messageId,
                     messageEdit: action.payload.messageData.content,
                 };
-            default:
-            return state;
+        case CREATE_CHAT:
+            return {
+                ...state,
+                isCreateChatSpin: true,
+            };
+        case ADD_NEW_CHAT:
+            return {
+                ...state,
+                isCreateChatSpin: false,
+            };
+        default:
+        return state;
     }
 }

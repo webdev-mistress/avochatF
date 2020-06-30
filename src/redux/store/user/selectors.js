@@ -11,3 +11,5 @@ export const selectUserChats = (state) => _.get(state, 'user.user.chats', []);
 export const selectErrorMessage = (state) => _.get(state, 'user.errorMessage', '');
 
 export const selectIsAuth = (state) => _.get(state, 'user.user.isAuth', false);
+
+export const selectIsAuthSpin = (state) => _.get(state, 'user.isAuthSpin', false);

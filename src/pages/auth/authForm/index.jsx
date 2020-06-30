@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Typography, Card, CardContent, Button } from '@material-ui/core';
+import { TextField, Typography, Card, CardContent, Button, CircularProgress } from '@material-ui/core';
 
 import { requestUser, removeErrorMessage } from '../../../redux/store/user/actions';
-import { selectErrorMessage } from '../../../redux/store/user/selectors';
+import { selectErrorMessage, selectIsAuthSpin } from '../../../redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 
@@ -11,6 +11,7 @@ export const AuthForm = ({ onOpenRegForm }) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const errorMessage = useSelector(selectErrorMessage);
+    const isAuthSpin = useSelector(selectIsAuthSpin);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -65,23 +66,36 @@ export const AuthForm = ({ onOpenRegForm }) => {
                         onChange={(event) => onChange(event, 'password', setPassword)}
                         onKeyUp={(event) => onAuthEnter(event)}
                     />
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        onClick={onAuth}
-                        disabled={!login || !password}
-                    >
-                        Log in
-                    </Button>
-                    <div className={styles.signUpWrapper}>
-                        <Button
-                            color="primary"
-                            variant="outlined"
-                            onClick={() => onOpenRegForm(false)}
-                        >
-                            Sign Up
-                        </Button>
-                    </div>
+                    {isAuthSpin
+                        ?
+                        (
+                            <div className={styles.authSpin}>
+                                <CircularProgress />
+                            </div>
+                        )
+                        : (
+                            <>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={onAuth}
+                                    disabled={!login || !password}
+                                >
+                                    Log in
+                                </Button>
+                                <div className={styles.signUpWrapper}>
+                                    <Button
+                                        color="primary"
+                                        variant="outlined"
+                                        onClick={() => onOpenRegForm(false)}
+                                    >
+                                        Sign Up
+                                    </Button>
+
+                                </div>
+                            </>
+                        )
+                    }
                 </form>
             </CardContent>
         </Card>

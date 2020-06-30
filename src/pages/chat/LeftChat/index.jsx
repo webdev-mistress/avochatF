@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { CircularProgress } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -14,11 +15,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-// import { deleteUserFromChat } from '../../../redux/api';
 import { logoutUser, addUserToChat } from '../../../redux/store/user/actions';
-import { getActiveChat, requestMessages, clearChat, createChat, deleteChat,
-    deleteUserFromChat } from '../../../redux/store/chat/actions';
-import { selectActiveChatId } from '../../../redux/store/chat/selectors';
+import {
+    getActiveChat,
+    requestMessages,
+    clearChat,
+    createChat,
+    deleteChat,
+    deleteUserFromChat
+} from '../../../redux/store/chat/actions';
+import { selectActiveChatId, selectIsCreateChatSpin } from '../../../redux/store/chat/selectors';
 import { selectUserName, selectUserChats } from '../../../redux/store/user/selectors';
 import { FormDialog, AlertDialog } from '../../../components/Dialog';
 
@@ -30,33 +36,28 @@ const DIALOG_MODE = {
         title: `Write user's login here`,
         label: 'Login',
         positiveBtnText: 'Add user to chat',
-        // positiveBtnFunc: onAddUserToChat,
     },
     DELETE_FROM_CHAT: {
         form: true,
         title: `Write user's login here`,
         label: 'Login',
         positiveBtnText: 'Delete user from chat',
-        // positiveBtnFunc: onDeleteUserFromChat,
     },
     CREATE_CHAT: {
         form: true,
         title: `Write chat name here`,
         label: 'Chat name',
         positiveBtnText: 'Create chat',
-        // positiveBtnFunc: onCreateChat,
     },
     DELETE_CHAT: {
         form: false,
         title: 'Are you sure?',
         positiveBtnText: 'Delete chat',
-        // positiveBtnFunc: onDeleteChat,
     },
     LOGOUT: {
         form: false,
         title: 'Are you sure?',
         positiveBtnText: 'Logout',
-        // positiveBtnFunc: onAuthLogout,
     },
     EXIT: {},
 };
@@ -69,6 +70,7 @@ export const LeftChat = () => {
     const userName = useSelector(selectUserName);
     const chats = useSelector(selectUserChats);
     const activeChatId = useSelector(selectActiveChatId);
+    const isCreateChatSpin = useSelector(selectIsCreateChatSpin);
     const dispatch = useDispatch();
 
     const onOpenMenu = useCallback((event, chatId) => {
