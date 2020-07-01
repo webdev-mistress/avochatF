@@ -2,8 +2,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { USER_FETCH_REQUESTED, USER_FETCH_SUCCEEDED, USER_FETCH_FAILED,
     USER_CREATE_REQUESTED,
-    ADD_USER_TO_CHAT } from '../../constants/store';
-import { getUser, createUser, addUserToChat } from '../api';
+    ADD_USER_TO_CHAT } from '@/constants/store';
+import { getUser, createUser, addUserToChat } from '@/redux/api';
 
 function* fetchUser(action) {
     try {

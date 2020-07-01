@@ -10,7 +10,7 @@ import {
     DELETE_UNWANTED_USER,
     USER_FETCH_REQUESTED,
     USER_CREATE_REQUESTED
-} from '../../../constants/store';
+} from '@/constants/store';
 
 const initialState = {
     isAuth: false,

@@ -15,9 +15,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import { selectActiveChat, selectMessages } from '../../../redux/store/chat/selectors';
-import { selectUserId } from '../../../redux/store/user/selectors';
-import { requestMessages, sendMessage, deleteMessage, editMessage } from '../../../redux/store/chat/actions';
+import { selectActiveChat, selectMessages } from '@/redux/store/chat/selectors';
+import { selectUserId } from '@/redux/store/user/selectors';
+import { requestMessages, sendMessage, deleteMessage, editMessage } from '@/redux/store/chat/actions';
 
 import styles from './styles.module.scss';
 

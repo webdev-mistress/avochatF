@@ -3,15 +3,15 @@ import { call, put, takeEvery, select } from 'redux-saga/effects';
 import {
     SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
     CREATE_CHAT, DELETE_CHAT, DELETE_USER_FROM_CHAT
-} from '../../constants/store';
+} from '@/constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
-     deleteMessageFailed } from '../store/chat/actions';
-import { selectActiveChatId, selectMessages } from '../store/chat/selectors';
-import { selectUserLogin } from '../store/user/selectors';
-import { getErrorMessage } from '../../helpers/sagas';
+     deleteMessageFailed } from '@/redux/store/chat/actions';
+import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
+import { selectUserLogin } from '@/redux/store/user/selectors';
+import { getErrorMessage } from '@/helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
-    editMessage, createChat, deleteChat, deleteUserFromChat } from '../api';
-import { addNewChat, deleteOldChat, deleteUnwanterUser } from '../store/user/actions';
+    editMessage, createChat, deleteChat, deleteUserFromChat } from '@/redux/api';
+import { addNewChat, deleteOldChat, deleteUnwanterUser } from '@/redux/store/user/actions';
 
 function* fetchRequestMessages(action) {
     try {

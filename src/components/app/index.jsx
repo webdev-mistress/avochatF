@@ -3,8 +3,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import { AuthPage, ChatPage, PomodoroPage } from '../../pages';
-import { selectUserIsAuth } from '../../redux/store/user/selectors';
+import { AuthPage, ChatPage, PomodoroPage } from '@/pages';
+import { selectUserIsAuth } from '@/redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 

@@ -5,7 +5,7 @@ import {
     EDIT_MESSAGE,
     ADD_NEW_CHAT,
     CREATE_CHAT
-} from '../../../constants/store';
+} from '@/constants/store';
 
 const initialState = {
     isCreateChatSpin: false,

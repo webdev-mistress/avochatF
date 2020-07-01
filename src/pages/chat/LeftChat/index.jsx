@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { logoutUser, addUserToChat } from '../../../redux/store/user/actions';
+import { logoutUser, addUserToChat } from '@/redux/store/user/actions';
 import {
     getActiveChat,
     requestMessages,
@@ -23,11 +23,11 @@ import {
     createChat,
     deleteChat,
     deleteUserFromChat
-} from '../../../redux/store/chat/actions';
+} from '@/redux/store/chat/actions';
 // eslint-disable-next-line no-unused-vars
-import { selectActiveChatId, selectIsCreateChatSpin } from '../../../redux/store/chat/selectors';
-import { selectUserName, selectUserChats } from '../../../redux/store/user/selectors';
-import { FormDialog, AlertDialog } from '../../../components/Dialog';
+import { selectActiveChatId, selectIsCreateChatSpin } from '@/redux/store/chat/selectors';
+import { selectUserName, selectUserChats } from '@/redux/store/user/selectors';
+import { FormDialog, AlertDialog } from '@/components/Dialog';
 
 import styles from './styles.module.scss';
 

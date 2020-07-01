@@ -2,7 +2,7 @@ import {
      MESSAGES_SUCCEEDED, GET_ACTIVE_CHAT, MESSAGES_REQUESTED,
      MESSAGES_FAILED, SEND_MESSAGE, SEND_MESSAGE_FAILED, DELETE_MESSAGE,
      DELETE_MESSAGE_FAILED, CLEAR_CHAT, EDIT_MESSAGE, CREATE_CHAT, DELETE_CHAT, DELETE_USER_FROM_CHAT
-} from '../../../constants/store';
+} from '@/constants/store';
 
 export const getMessages = (messages) => ({ type: MESSAGES_SUCCEEDED, payload: messages });
 
