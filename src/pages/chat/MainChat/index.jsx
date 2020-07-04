@@ -83,6 +83,9 @@ export const MainChat = () => {
     }, [onSendEditMessage]);
 
     const onChangeMessage = useCallback((event) => {
+        if(event.target.value.length > 60) {
+            return;
+        }
         setState({ ...state, messageText: event.target.value });
     }, [state]);
 

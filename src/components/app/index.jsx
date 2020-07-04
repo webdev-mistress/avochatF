@@ -13,9 +13,9 @@ export const App = () => {
 
     return (
         <div className={styles.container}>
-            <BrowserRouter>
+            <BrowserRouter basename={'/'}>
                 <Switch>
-                    <Route exact path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
+                    <Route path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
                     <Route exact path={'/pomodoro'} component={PomodoroPage} />
                     <Redirect from="/" to={hasUser ? '/chat' : '/auth'} />
                 </Switch>
