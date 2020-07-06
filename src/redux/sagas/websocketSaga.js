@@ -3,27 +3,46 @@ import { call, put, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel } from 'redux-saga';
 
 import { requestMessages } from '@/redux/store/chat/actions';
+import { sendNotification } from '@/helpers';
+import { selectActiveChatId } from '@/redux/store/chat/selectors';
 
 function websocketInitChannel() {
-    const socket = io(process.env.devMode === 'production' ? 'ws://localhost:4001' : 'ws://80.87.201.216:4001');
+    const url = process.env.NODE_ENV === 'development' ? 'ws://localhost:4001' : 'ws://80.87.201.216:4001';
+    const socket = io(url);
     socket.on('connect', () => console.log('connected!'));
 
     return eventChannel(emitter => {
-        // eslint-disable-next-line no-unused-vars
         socket.on('sendMessage', ({ body }) => {
-            const { chatId } = window.store.getState().chat.activeChat;
-            emitter(requestMessages(chatId));
+            const store = window.store.getState();
+            const chatId = selectActiveChatId(store);
+            if(chatId) {
+                emitter(requestMessages(chatId));
+            }
+
+            if(body.author.login !== store.user.login) {
+                sendNotification(`Message from ${body.author.name}`, {
+                    body: `${body.message}`,
+                    icon: 'assets/avo.ico',
+                    dir: 'auto',
+               });
+            }
         });
         // eslint-disable-next-line no-unused-vars
         socket.on('editMessage', ({ body }) => {
-            const { chatId } = window.store.getState().chat.activeChat;
-            emitter(requestMessages(chatId));
+            const store = window.store.getState();
+            const chatId = selectActiveChatId(store);
+            if(chatId) {
+                emitter(requestMessages(chatId));
+            }
         });
         // eslint-disable-next-line no-unused-vars
         socket.on('deleteMessage', ({ body }) => {
-            const { chatId } = window.store.getState().chat.activeChat;
+            const store = window.store.getState();
+            const chatId = selectActiveChatId(store);
 
-            emitter(requestMessages(chatId));
+            if(chatId) {
+                emitter(requestMessages(chatId));
+            }
         });
         socket.onClose = () => emitter(END);
 
