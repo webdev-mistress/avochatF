@@ -2,26 +2,36 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions,
     TextField, Button } from '@material-ui/core';
 
-export const FormDialog = ({ title, positiveBtnText, negativeBtnText, label,
-    isShow, closeDialog, onPositiveClick }) => {
+interface IProps {
+    title: string,
+    positiveBtnText: string,
+    negativeBtnText: string,
+    label: string,
+    isShow: boolean,
+    closeDialog: any,
+    onPositiveClick?: (arg: any) => any,
+}
+
+export const FormDialog = (props: IProps) => {
     const [fieldValue, setFieldValue] = useState('');
 
-    const onNegativeClick = () => closeDialog();
+    const onNegativeClick = () => props.closeDialog();
 
-    const onChangeFieldValue = (event) => setFieldValue(event.target.value);
-
-    const _onPositiveClick = () => onPositiveClick(fieldValue);
+    const onChangeFieldValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFieldValue(event.target.value);
+    };
+    const _onPositiveClick = () => props.onPositiveClick && props.onPositiveClick(fieldValue);
 
     return (
         <div>
-            <Dialog open={isShow} onClose={closeDialog} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+            <Dialog open={props.isShow} onClose={props.closeDialog} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label={label}
+                        label={props.label}
                         fullWidth
                         onKeyUp={event => event.key === 'Enter' && _onPositiveClick()}
                         onChange={onChangeFieldValue}
@@ -29,10 +39,10 @@ export const FormDialog = ({ title, positiveBtnText, negativeBtnText, label,
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={onNegativeClick} color="primary">
-                        {negativeBtnText}
+                        {props.negativeBtnText}
                     </Button>
                     <Button onClick={_onPositiveClick} color="primary">
-                        {positiveBtnText}
+                        {props.positiveBtnText}
                     </Button>
                 </DialogActions>
             </Dialog>

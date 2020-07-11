@@ -8,13 +8,14 @@ import { removeErrorMessage } from '@/redux/store/user/actions';
 import style from './styles.module.scss';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
+import { Dispatch } from 'redux';
 
 export const AuthPage = () => {
     const [isAuthForm, setIsAuthForm] = useState(true);
     const errorMessage = useSelector(selectErrorMessage);
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
 
-    const onToggleForm = (isAuthForm) => {
+    const onToggleForm = (isAuthForm: boolean) => {
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }

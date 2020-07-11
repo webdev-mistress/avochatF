@@ -20,20 +20,34 @@ import { selectUserId } from '@/redux/store/user/selectors';
 import { requestMessages, sendMessage, deleteMessage, editMessage } from '@/redux/store/chat/actions';
 
 import styles from './styles.module.scss';
+import { Dispatch } from 'redux';
+import { IMessage } from '@/types/store';
+
+interface IState {
+    messageText: string,
+    isEditMode: boolean,
+    selectedMessage: IMessage | null,
+    message: IMessage | null,
+    messageEdit: string,
+    isRefreshing: boolean,
+}
 
 export const MainChat = () => {
-    const initialState = {
+    const initialState: IState = {
         messageText: '',
         isEditMode: false,
         selectedMessage: null,
+        messageEdit: '',
+        message: null,
+        isRefreshing: false,
     };
 
     const [state, setState] = useState(initialState);
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
     const userId = useSelector(selectUserId);
     const activeChat = useSelector(selectActiveChat);
     const messages = useSelector(selectMessages);
-    const messageScroll = useRef(null);
+    const messageScroll = useRef<HTMLInputElement>(null);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -71,10 +85,9 @@ export const MainChat = () => {
 
     const onSendEditMessage = useCallback((content) => {
         const { selectedMessage, messageEdit } = state;
-        if(content === messageEdit){
-            return onEditClose();
+        if(selectedMessage && content !== messageEdit) {
+            dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
         }
-        dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
         onEditClose();
     }, [dispatch, onEditClose, state]);
 
@@ -99,7 +112,7 @@ export const MainChat = () => {
             setState({
                 ...state,
                 isEditMode: true,
-                messageEdit: state.selectedMessage.content,
+                messageEdit: _.get(state,'selectedMessage.content', null),
             });
         }, 0);
     }, [onCloseMenu, state]);
@@ -126,7 +139,7 @@ export const MainChat = () => {
                 Edit
             </MenuItem>
             <MenuItem
-                onClick={() => dispatch(deleteMessage(state.selectedMessage.messageId))}
+                onClick={() => dispatch(deleteMessage(_.get(state, 'selectedMessage.messageId', 0)))}
                 className={styles.icons}
             >
                 Delete
@@ -134,7 +147,7 @@ export const MainChat = () => {
         </Menu>
     );
 
-    const renderEditIcon = (message, messageDateChange) => (
+    const renderEditIcon = (message: IMessage, messageDateChange: string) => (
         message.dateChange && (
             <Tooltip
                 title={messageDateChange}
@@ -154,7 +167,8 @@ export const MainChat = () => {
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss dd.MM.yyyy');
         const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
-        const isEditMessage = state.isEditMode && state.selectedMessage.messageId === message.messageId;
+        const isEditMessage = state.isEditMode
+            && _.get(state, 'selectedMessage.messageId', 0) === message.messageId;
 
         return (
             <div
@@ -170,7 +184,7 @@ export const MainChat = () => {
                                 autoFocus
                                 className={styles.form}
                                 onChange={onEditMessageChange}
-                                onKeyUp={(event) => onPressEditEnter(event, message.content)}
+                                onKeyUp={(event) => onPressEditEnter(event, message.message)}
                                 value={state.messageEdit}
                             />
                         ) : (<div>{message.message}</div>)}
@@ -184,9 +198,9 @@ export const MainChat = () => {
                                             onClick={onEditClose}
                                             className={styles.icons}
                                         />
-                                        {message.content !== state.messageEdit &&
+                                        {message.message !== state.messageEdit &&
                                             (<SendIcon
-                                                onClick={() => onSendEditMessage(message.content)}
+                                                onClick={() => onSendEditMessage(message.message)}
                                                 className={styles.icons}
                                             />)
                                         }
@@ -198,7 +212,7 @@ export const MainChat = () => {
                                             aria-label="more"
                                             aria-controls="long-menu"
                                             aria-haspopup="true"
-                                            onClick={(event) => onOpenMenu(event, message)}
+                                            onClick={(event: any) => onOpenMenu(event, message)}
                                             className={styles.icons}
                                         />
                                         <div>

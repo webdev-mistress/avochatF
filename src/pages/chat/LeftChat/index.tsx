@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+
 import cn from 'classnames';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -27,11 +29,13 @@ import {
 // eslint-disable-next-line no-unused-vars
 import { selectActiveChatId, selectIsCreateChatSpin } from '@/redux/store/chat/selectors';
 import { selectUserName, selectUserChats } from '@/redux/store/user/selectors';
-import { FormDialog, AlertDialog } from '@/components/Dialog';
+import { FormDialog, AlertDialog } from '@/components/dialog';
 
 import styles from './styles.module.scss';
+import { IDialogMode, IDialogModeElement } from '@/types/components';
+import { IChat } from '@/types/store';
 
-const DIALOG_MODE = {
+const DIALOG_MODE: IDialogMode = {
     ADD_TO_CHAT: {
         form: true,
         title: `Write user's login here`,
@@ -65,14 +69,14 @@ const DIALOG_MODE = {
 
 export const LeftChat = () => {
     const [anchorMenu, setAnchorMenu] = useState(null);
-    const [selectedChatId, setSelectedChatId] = useState(null);
-    const [dialogMode, setDialogMode] = useState({});
+    const [selectedChatId, setSelectedChatId] = useState(0);
+    const [dialogMode, setDialogMode] = useState<IDialogModeElement>({});
 
     const userName = useSelector(selectUserName);
-    const chats = useSelector(selectUserChats);
+    const chats: IChat[] = useSelector(selectUserChats);
     const activeChatId = useSelector(selectActiveChatId);
     // const isCreateChatSpin = useSelector(selectIsCreateChatSpin);
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
 
     const onOpenMenu = useCallback((event, chatId) => {
         setAnchorMenu(event.currentTarget);
@@ -160,7 +164,7 @@ export const LeftChat = () => {
         </Menu>
     );
 
-    const renderListItem = (chat, chatIsActive) => (
+    const renderListItem = (chat: IChat, chatIsActive: boolean) => (
         <ListItem
             className={cn(styles.chatItem, chatIsActive && styles.chatItemActive)}
             key={chat.chatId}
@@ -179,7 +183,7 @@ export const LeftChat = () => {
                     aria-label="more"
                     aria-controls="long-menu"
                     aria-haspopup="true"
-                    onClick={(event) => onOpenMenu(event, chat.chatId)}
+                    onClick={(event: any) => onOpenMenu(event, chat.chatId)}
                     className={styles.icons}
                 />
             </div>
@@ -217,7 +221,7 @@ export const LeftChat = () => {
                 onPositiveClick={dialogMode.positiveBtnFunc}
             />
             <FormDialog
-                isShow={!_.isEmpty(dialogMode) && dialogMode.form}
+                isShow={!_.isEmpty(dialogMode) && !!dialogMode.form}
                 title={dialogMode.title}
                 label={dialogMode.label}
                 positiveBtnText={dialogMode.positiveBtnText}

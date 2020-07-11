@@ -1,9 +1,6 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
-import {
-    SEND_MESSAGE, MESSAGES_REQUESTED, DELETE_MESSAGE, EDIT_MESSAGE,
-    CREATE_CHAT, DELETE_CHAT, DELETE_USER_FROM_CHAT
-} from '@/constants/store';
+import { Chat } from '@/constants/store';
 import { errorMessages, getMessages, sendMessageFailed,
      deleteMessageFailed } from '@/redux/store/chat/actions';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
@@ -12,10 +9,26 @@ import { getErrorMessage } from '@/helpers/sagas';
 import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
     editMessage, createChat, deleteChat, deleteUserFromChat } from '@/redux/api';
 import { addNewChat, deleteOldChat, deleteUnwanterUser } from '@/redux/store/user/actions';
+import {
+    ICreateChat,
+    IDeleteChat,
+    IDeleteMessage, IDeleteUserFromChat,
+    IEditMessage,
+    IMessage,
+    IRequestMessages,
+    ISendMessage
+} from '@/types/store';
+import {
+    ICreateChatSaga,
+    IDeleteChatSaga,
+    IDeleteUserFromChatSaga,
+    IGetMessagesSaga,
+    ISendMessageSaga
+} from '@/types/sagas';
 
-function* fetchRequestMessages(action) {
+function* requestMessages(chatId: number) {
     try {
-        const response = yield call(getMessagesFromApi, action.payload.chatId);
+        const response: IGetMessagesSaga = yield call(getMessagesFromApi, chatId);
 
         if (!response.data || !response.ok) {
             throw response.message;
@@ -27,48 +40,51 @@ function* fetchRequestMessages(action) {
     }
 }
 
-function* fetchSendMessage(action) {
+function* fetchRequestMessages(action: IRequestMessages) {
+    yield call(requestMessages, action.payload.chatId);
+}
+
+function* fetchSendMessage(action: ISendMessage) {
     try {
         const login = yield select(selectUserLogin);
         const chatId = yield select(selectActiveChatId);
 
-        const response = yield call(sendMessage, login, chatId, action.payload.messageText);
+        const response: ISendMessageSaga = yield call(sendMessage, login, chatId, action.payload.messageText);
 
         if (!response.data || !response.ok) {
             throw response.message;
         }
-
-        yield call(fetchRequestMessages, { payload: { chatId } });
+        yield call(requestMessages, chatId);
     } catch (error) {
         yield put(sendMessageFailed(getErrorMessage(error)));
     }
 }
 
-function* fetchDeleteMessage(action) {
+function* fetchDeleteMessage(action: IDeleteMessage) {
     const state = yield select(state => state);
 
     try {
        yield call(deleteMessage, action.payload.messageId);
        const chatId = selectActiveChatId(state);
 
-       yield call(fetchRequestMessages, { payload: { chatId } });
+        yield call(requestMessages, chatId);
     } catch (error) {
         yield put(deleteMessageFailed(getErrorMessage(error)));
     }
 }
 
-function* fetchEditMessage(action) {
+function* fetchEditMessage(action: IEditMessage) {
     try {
         const { editMessageId, messageEdit } = action.payload.messageData;
 
-        const response = yield call(editMessage, editMessageId, messageEdit);
+        const response: ISendMessageSaga = yield call(editMessage, editMessageId, messageEdit);
 
         if (!response.data || !response.ok) {
             throw response.message;
         }
 
         const messages = yield select(selectMessages);
-        const newMessages = messages.map((message) =>
+        const newMessages = messages.map((message: IMessage) =>
             message.messageId === editMessageId ? response.data : message);
         yield put(getMessages(newMessages));
     } catch (error) {
@@ -76,11 +92,11 @@ function* fetchEditMessage(action) {
     }
 }
 
-function* fetchCreateChat(action) {
+function* fetchCreateChat(action: ICreateChat) {
     try {
         const login = yield select(selectUserLogin);
         const { chatName } = action.payload;
-        const response = yield call(createChat, chatName, login);
+        const response: ICreateChatSaga = yield call(createChat, chatName, login);
 
         if (!response.data || !response.ok) {
             throw response.message;
@@ -92,10 +108,10 @@ function* fetchCreateChat(action) {
     }
 }
 
-function* fetchDeleteChat(action) {
+function* fetchDeleteChat(action: IDeleteChat) {
     try {
         const { chatId } = action.payload;
-        const response = yield call(deleteChat, chatId);
+        const response: IDeleteChatSaga = yield call(deleteChat, chatId);
 
         if (response.ok) {
             yield put(deleteOldChat(chatId));
@@ -105,10 +121,10 @@ function* fetchDeleteChat(action) {
     }
 }
 
-function* fetchDeleteUserFromChat(action) {
+function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
     try {
         const { login, chatId } = action.payload;
-        const response = yield call(deleteUserFromChat, login, chatId);
+        const response: IDeleteUserFromChatSaga = yield call(deleteUserFromChat, login, chatId);
         if (response.ok) {
             yield put(deleteUnwanterUser(login, chatId));
         }
@@ -118,11 +134,11 @@ function* fetchDeleteUserFromChat(action) {
 }
 
 export function* chatSaga() {
-    yield takeEvery(MESSAGES_REQUESTED, fetchRequestMessages);
-    yield takeEvery(SEND_MESSAGE, fetchSendMessage);
-    yield takeEvery(DELETE_MESSAGE, fetchDeleteMessage);
-    yield takeEvery(EDIT_MESSAGE, fetchEditMessage);
-    yield takeEvery(CREATE_CHAT, fetchCreateChat);
-    yield takeEvery(DELETE_CHAT, fetchDeleteChat);
-    yield takeEvery(DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
+    yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
+    yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
+    yield takeEvery(Chat.DELETE_MESSAGE, fetchDeleteMessage);
+    yield takeEvery(Chat.EDIT_MESSAGE, fetchEditMessage);
+    yield takeEvery(Chat.CREATE_CHAT, fetchCreateChat);
+    yield takeEvery(Chat.DELETE_CHAT, fetchDeleteChat);
+    yield takeEvery(Chat.DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
 }

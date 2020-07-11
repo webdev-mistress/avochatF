@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 
-import { LeftChat } from './LeftChat';
-import { MainChat } from './MainChat';
+import { LeftChat } from '@/pages/chat/LeftChat';
+import { MainChat } from '@/pages/chat/MainChat';
 import styles from './styles.module.scss';
 import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 
 export const ChatPage = () => {
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
     useEffect(() => {
         dispatch({ type: 'WEBSOCKET_CONNECT' });
     }, [dispatch]);

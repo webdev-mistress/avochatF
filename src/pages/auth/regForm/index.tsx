@@ -8,7 +8,11 @@ import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selecto
 
 import styles from './styles.module.scss';
 
-export const RegForm = (props) => {
+interface IProps {
+    onOpenAuthForm: (isAuth: boolean) => any;
+}
+
+export const RegForm = (props: IProps) => {
     const initialState = {
         name: '',
         login: '',
@@ -50,7 +54,7 @@ export const RegForm = (props) => {
             <CardContent className={styles.cardContent}>
                 <Typography variant="h4">Registration</Typography>
                 <div className={styles.errorMessage}>{errorMessage}</div>
-                <form type="post" className={styles.form}>
+                <form className={styles.form}>
                     <TextField
                         autoFocus
                         required

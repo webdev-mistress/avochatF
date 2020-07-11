@@ -1,11 +1,11 @@
+// @ts-nocheck
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { rootSaga } from '../sagas/rootSaga';
+import { rootSaga } from '@/redux/sagas/rootSaga';
 
-import { contextReducer } from './context/reducer';
-import { userReducer } from './user/reducer';
-import { chatReducer } from './chat/reducer';
+import { userReducer } from '@/redux/store/user/reducer';
+import { chatReducer } from '@/redux/store/chat/reducer';
 
 const localStorageId = '_avochat_F#A823_reduxState';
 
@@ -21,10 +21,9 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(combineReducers({
     user: userReducer,
-    context: contextReducer,
-    chat: chatReducer,
+    activeChat: chatReducer,
 }), {
-    chat: storageState.chat,
+    activeChat: storageState.activeChat,
     user: storageState.user,
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));
 

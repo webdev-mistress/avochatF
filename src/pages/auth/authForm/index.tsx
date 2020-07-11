@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { TextField, Typography, Card, CardContent, Button, CircularProgress } from '@material-ui/core';
-
 import { requestUser, removeErrorMessage } from '@/redux/store/user/actions';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 
 import styles from './styles.module.scss';
 
-export const AuthForm = ({ onOpenRegForm }) => {
+interface IProps {
+    onOpenRegForm: (isAuth: boolean) => any;
+}
+
+export const AuthForm = (props: IProps) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const errorMessage = useSelector(selectErrorMessage);
     const isAuthSpin = useSelector(selectIsAuthSpin);
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
 
     useEffect(() => {
         errorMessage && setPassword('');
@@ -44,10 +48,7 @@ export const AuthForm = ({ onOpenRegForm }) => {
             <CardContent className={styles.cardContent}>
                 <Typography variant="h4">Authorization</Typography>
                 <div className={styles.errorMessage}>{errorMessage}</div>
-                <form
-                    type="post"
-                    className={styles.form}
-                >
+                <form className={styles.form}>
                     <TextField
                         required
                         value={login}
@@ -87,7 +88,7 @@ export const AuthForm = ({ onOpenRegForm }) => {
                                     <Button
                                         color="primary"
                                         variant="outlined"
-                                        onClick={() => onOpenRegForm(false)}
+                                        onClick={() => props.onOpenRegForm(false)}
                                     >
                                         Sign Up
                                     </Button>

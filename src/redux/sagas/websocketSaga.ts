@@ -1,3 +1,4 @@
+// @ts-nocheck
 import io from 'socket.io-client';
 import { call, put, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel } from 'redux-saga';
