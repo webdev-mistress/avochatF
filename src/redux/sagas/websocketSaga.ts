@@ -6,11 +6,16 @@ import { END, eventChannel } from 'redux-saga';
 import { requestMessages } from '@/redux/store/chat/actions';
 import { sendNotification } from '@/helpers';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
+import { selectUserId } from '@/redux/store/user/selectors';
 
 function websocketInitChannel() {
     const url = process.env.NODE_ENV === 'development' ? 'ws://localhost:4001' : 'ws://80.87.201.216:4001';
     const socket = io(url);
-    socket.on('connect', () => console.log('connected!'));
+    socket.on('connect', () => {
+        socket.emit('online', {
+            userId: selectUserId(window.store.getState()),
+        });
+    });
 
     return eventChannel(emitter => {
         socket.on('sendMessage', ({ body }) => {
