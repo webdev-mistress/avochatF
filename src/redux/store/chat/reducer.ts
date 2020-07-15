@@ -4,6 +4,7 @@ import { ChatAction, IActiveChat } from '@/types/store';
 const initialState: IActiveChat = {
     isCreateChatSpin: false,
     isActiveChatSpin: false,
+    chatMembersList: [],
 };
 
 export function chatReducer(state = initialState, action: ChatAction): IActiveChat {
@@ -38,6 +39,11 @@ export function chatReducer(state = initialState, action: ChatAction): IActiveCh
                 ...state,
                 editMessageId: action.payload.messageData.editMessageId,
                 messageEdit: action.payload.messageData.messageEdit,
+            };
+        case Chat.CHECK_MEMBERS_LOADED:
+            return {
+                ...state,
+                chatMembersList: action.payload.data,
             };
         default:
         return state;

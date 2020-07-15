@@ -1,15 +1,20 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 
 import { Chat } from '@/constants/store';
-import { errorMessages, getMessages, sendMessageFailed,
-     deleteMessageFailed } from '@/redux/store/chat/actions';
+import {
+    errorMessages, getMessages, sendMessageFailed,
+    deleteMessageFailed, checkMembersLoaded
+} from '@/redux/store/chat/actions';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import { getErrorMessage } from '@/helpers/sagas';
-import { getMessages as getMessagesFromApi, sendMessage, deleteMessage,
-    editMessage, createChat, deleteChat, deleteUserFromChat } from '@/redux/api';
+import {
+    getMessages as getMessagesFromApi, sendMessage, deleteMessage,
+    editMessage, createChat, deleteChat, deleteUserFromChat, checkMembers
+} from '@/redux/api';
 import { addNewChat, deleteOldChat, deleteUnwanterUser } from '@/redux/store/user/actions';
 import {
+    ICheckMembers,
     ICreateChat,
     IDeleteChat,
     IDeleteMessage, IDeleteUserFromChat,
@@ -23,7 +28,8 @@ import {
     IDeleteChatSaga,
     IDeleteUserFromChatSaga,
     IGetMessagesSaga,
-    ISendMessageSaga
+    ISendMessageSaga,
+    ICkeckMembersSaga
 } from '@/types/sagas';
 
 function* requestMessages(chatId: number) {
@@ -133,6 +139,18 @@ function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
     }
 }
 
+function* fetchCheckMembers(action: ICheckMembers) {
+    try {
+        const { chatId } = action.payload;
+        const response: ICkeckMembersSaga = yield call(checkMembers, chatId);
+        if (response.ok) {
+            yield put(checkMembersLoaded(response.data));
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export function* chatSaga() {
     yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
     yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
@@ -141,4 +159,5 @@ export function* chatSaga() {
     yield takeEvery(Chat.CREATE_CHAT, fetchCreateChat);
     yield takeEvery(Chat.DELETE_CHAT, fetchDeleteChat);
     yield takeEvery(Chat.DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
+    yield takeEvery(Chat.CHECK_MEMBERS, fetchCheckMembers);
 }

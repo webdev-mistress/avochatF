@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import _ from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import cn from 'classnames';
@@ -17,52 +17,57 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { logoutUser, addUserToChat } from '@/redux/store/user/actions';
+import { addUserToChat, logoutUser } from '@/redux/store/user/actions';
 import {
-    getActiveChat,
-    requestMessages,
+    checkChatMembers,
     clearChat,
     createChat,
     deleteChat,
-    deleteUserFromChat
+    deleteUserFromChat,
+    getActiveChat,
+    requestMessages
 } from '@/redux/store/chat/actions';
-// eslint-disable-next-line no-unused-vars
-import { selectActiveChatId, selectIsCreateChatSpin } from '@/redux/store/chat/selectors';
-import { selectUserName, selectUserChats } from '@/redux/store/user/selectors';
-import { FormDialog, AlertDialog } from '@/components/dialog';
+import { selectActiveChatId } from '@/redux/store/chat/selectors';
+import { selectUserChats, selectUserName } from '@/redux/store/user/selectors';
+import { AlertDialog, FormDialog, InfoDialog } from '@/components/dialog';
 
 import styles from './styles.module.scss';
 import { IDialogMode, IDialogModeElement } from '@/types/components';
 import { IChat } from '@/types/store';
+import { Mode } from '@/constants/store';
 
 const DIALOG_MODE: IDialogMode = {
     ADD_TO_CHAT: {
-        form: true,
+        mode: Mode.FORM,
         title: `Write user's login here`,
         label: 'Login',
         positiveBtnText: 'Add user to chat',
     },
     DELETE_FROM_CHAT: {
-        form: true,
+        mode: Mode.FORM,
         title: `Write user's login here`,
         label: 'Login',
         positiveBtnText: 'Delete user from chat',
     },
     CREATE_CHAT: {
-        form: true,
+        mode: Mode.FORM,
         title: `Write chat name here`,
         label: 'Chat name',
         positiveBtnText: 'Create chat',
     },
     DELETE_CHAT: {
-        form: false,
+        mode: Mode.ALERT,
         title: 'Are you sure?',
         positiveBtnText: 'Delete chat',
     },
     LOGOUT: {
-        form: false,
+        mode: Mode.ALERT,
         title: 'Are you sure?',
         positiveBtnText: 'Logout',
+    },
+    CHECK_MEMBERS: {
+        mode: Mode.INFO,
+        title: `Chat's Members`,
     },
     EXIT: {},
 };
@@ -124,6 +129,11 @@ export const LeftChat = () => {
         setDialogMode(DIALOG_MODE.EXIT);
     }, [dispatch, selectedChatId]);
 
+    const onCheckChatMembers = useCallback(() => {
+        dispatch(checkChatMembers(selectedChatId));
+        setDialogMode(DIALOG_MODE.CHECK_MEMBERS);
+    }, [dispatch, selectedChatId]);
+
     const onAddUserToChatDialog = useCallback(() => {
         setDialogMode({ ...DIALOG_MODE.ADD_TO_CHAT, positiveBtnFunc: onAddUserToChat });
     }, [onAddUserToChat]);
@@ -146,12 +156,12 @@ export const LeftChat = () => {
 
     const renderMenu = () => (
         <Menu
-            id="long-menu"
-            anchorEl={anchorMenu}
-            keepMounted
-            open={!!anchorMenu}
-            onClick={onCloseMenu}
-        >
+                id="long-menu"
+                anchorEl={anchorMenu}
+                keepMounted
+                open={!!anchorMenu}
+                onClick={onCloseMenu}
+            >
             <MenuItem onClick={onAddUserToChatDialog} className={styles.icons}>
                 Add user to chat
             </MenuItem>
@@ -160,6 +170,9 @@ export const LeftChat = () => {
             </MenuItem>
             <MenuItem onClick={onDeleteChatDialog} className={styles.icons}>
                 Delete chat
+            </MenuItem>
+            <MenuItem onClick={onCheckChatMembers} className={styles.icons}>
+                Check members
             </MenuItem>
         </Menu>
     );
@@ -214,19 +227,25 @@ export const LeftChat = () => {
             </div>
             {renderMenu()}
             <AlertDialog
-                isShow={!_.isEmpty(dialogMode) && !dialogMode.form}
+                isShow={!_.isEmpty(dialogMode) && dialogMode.mode === Mode.ALERT}
                 title={dialogMode.title}
                 positiveBtnText={dialogMode.positiveBtnText}
                 onClose={closeDialog}
                 onPositiveClick={dialogMode.positiveBtnFunc}
             />
             <FormDialog
-                isShow={!_.isEmpty(dialogMode) && !!dialogMode.form}
+                isShow={!_.isEmpty(dialogMode) && dialogMode.mode === Mode.FORM}
                 title={dialogMode.title}
                 label={dialogMode.label}
                 positiveBtnText={dialogMode.positiveBtnText}
                 onPositiveClick={dialogMode.positiveBtnFunc}
                 closeDialog={closeDialog}
+            />
+            <InfoDialog
+                isShow={!_.isEmpty(dialogMode) && dialogMode.mode === Mode.INFO}
+                title={dialogMode.title}
+                positiveBtnText={dialogMode.positiveBtnText}
+                onClose={closeDialog}
             />
         </>
     );

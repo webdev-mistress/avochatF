@@ -1,10 +1,10 @@
 import { Chat } from '@/constants/store';
 import {
-    IActiveChatInfo,
+    IActiveChatInfo, ICheckMembers,
     IClearChat, ICreateChat, IDeleteChat,
     IDeleteMessage, IDeleteMessageFailed, IDeleteUserFromChat, IEditMessage,
     IErrorMessages, IGetActiveChat,
-    IGetMessages,
+    IGetMessages, IMembersData,
     IMessage, IMessageData,
     IRequestMessages,
     ISendMessage,
@@ -86,5 +86,20 @@ export function deleteChat(chatId: number): IDeleteChat {
 export function deleteUserFromChat(login: string, chatId: number): IDeleteUserFromChat {
     return {
         type: Chat.DELETE_USER_FROM_CHAT, payload: { login, chatId },
+    };
+}
+
+export function checkChatMembers(chatId: number): ICheckMembers {
+    return {
+        type: Chat.CHECK_MEMBERS, payload: { chatId },
+    };
+}
+
+export function checkMembersLoaded(data: IMembersData[]) {
+    return {
+        type: Chat.CHECK_MEMBERS_LOADED,
+        payload: {
+            data: data,
+        },
     };
 }

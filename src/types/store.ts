@@ -28,6 +28,7 @@ export interface IActiveChat {
     isActiveChatSpin: boolean,
     editMessageId?: number,
     messageEdit?: string,
+    chatMembersList?: IMembersData[],
 }
 
 export interface IChat {
@@ -228,7 +229,29 @@ export interface IDeleteUnwanterUser {
     }
 }
 
-export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessage | ICreateChat | IAddNewChat;
+export interface ICheckMembers {
+    type: Chat.CHECK_MEMBERS,
+    payload: {
+        chatId: number,
+    }
+}
+
+export interface ICheckMembersLoad {
+    type: Chat.CHECK_MEMBERS_LOADED,
+    payload: {
+        data: IMembersData[],
+    }
+}
+
+export interface IMembersData {
+    userId: number,
+    name: string,
+    login: string,
+    isOnline?: boolean,
+}
+
+export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessage | ICreateChat | IAddNewChat |
+    ICheckMembersLoad;
 
 export type UserAction = IRequestUser | IGetUserSucceeded | ILogoutUser | IRemoveErrorMessage |
     IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IDeleteUnwanterUser;

@@ -14,11 +14,11 @@ interface IProps {
 export const AlertDialog = (props: IProps) => (
     <div>
         <Dialog
-                open={props.isShow}
-                onClose={props.onClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
+            open={props.isShow}
+            onClose={props.onClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
             <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">

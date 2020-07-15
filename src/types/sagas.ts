@@ -1,4 +1,4 @@
-import { IChat, IMessage, ISucceededUserData } from '@/types/store';
+import { IChat, IMembersData, IMessage, ISucceededUserData } from '@/types/store';
 
 export interface IGetUserSaga {
     ok: boolean,
@@ -66,4 +66,9 @@ export interface IDeleteUserFromChatSaga {
         deletedChatId: number,
         deletedUserId: number,
     }
+}
+
+export interface ICkeckMembersSaga {
+    ok: boolean,
+    data: IMembersData[]
 }

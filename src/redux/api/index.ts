@@ -1,7 +1,7 @@
 import { getResource } from '@/helpers/api';
 import { IRequestUserData } from '@/types/store';
 import {
-    IAddUserToChatSaga,
+    IAddUserToChatSaga, ICkeckMembersSaga,
     ICreateChatSaga,
     ICreateUserSaga, IDeleteChatSaga,
     IDeleteMessageSaga, IDeleteUserFromChatSaga,
@@ -61,4 +61,8 @@ export const addUserToChat = function (login: string, chatId: number): Promise<I
 
 export const deleteUserFromChat = function (login: string, chatId: number): Promise<IDeleteUserFromChatSaga> {
     return getResource(`${PREFIX_CHAT}/deleteUserFromChat`, { login, chatId });
+};
+
+export const checkMembers = function (chatId: number): Promise<ICkeckMembersSaga> {
+    return getResource(`${PREFIX_CHAT}/getUsers`, { chatId });
 };

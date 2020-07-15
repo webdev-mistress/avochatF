@@ -1,0 +1,35 @@
+.membersListWrapper {
+  display: flex;
+}
+
+.membersList {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoButton {
+  display: flex;
+}
+
+.infoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+}
+
+.listItemTextOnline {
+  p {
+    color: green;
+  }
+}
+
+.listItemTextOffline {
+  p {
+    color: #aaaaaa;
+  }
+}
+
+.avatar {
+  background-color: #6a6868 !important;
+  color: #dddddd !important;
+}

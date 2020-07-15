@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { IActiveChat, IActiveChatInfo, IMessage } from '@/types/store';
+import { IActiveChat, IActiveChatInfo, IMembersData, IMessage } from '@/types/store';
 
 export const selectActiveChat = (state: IActiveChat): IActiveChatInfo => _.get(state, ('activeChat.info'), {});
 
@@ -12,3 +12,6 @@ export const selectIsCreateChatSpin = (state: IActiveChat): boolean =>
 
 export const selectIsActiveChatSpin = (state: IActiveChat): boolean =>
     _.get(state, ('activeChat.isActiveChatSpin'), false);
+
+export const selectChatMembersList = (state: IActiveChat): IMembersData[] =>
+    _.get(state, ('activeChat.chatMembersList'), []);
