@@ -112,7 +112,7 @@ export const MainChat = () => {
             setState({
                 ...state,
                 isEditMode: true,
-                messageEdit: _.get(state,'selectedMessage.content', null),
+                messageEdit: _.get(state,'selectedMessage.message', ''),
             });
         }, 0);
     }, [onCloseMenu, state]);
