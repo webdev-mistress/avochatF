@@ -219,7 +219,10 @@ export const LeftChat = () => {
                 <div className={styles.mainBlock}>
                     <List className={styles.list}>
                         {chats.map((chat) => renderListItem(chat, chat.chatId === activeChatId))}
-                        <Button onClick={onCreateChatDialog} color="primary">
+                        <Button
+                            onClick={onCreateChatDialog}
+                            color="primary"
+                        >
                             {'Create chat'}
                         </Button>
                     </List>

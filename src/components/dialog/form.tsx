@@ -41,7 +41,11 @@ export const FormDialog = (props: IProps) => {
                     <Button onClick={onNegativeClick} color="primary">
                         {props.negativeBtnText}
                     </Button>
-                    <Button onClick={_onPositiveClick} color="primary">
+                    <Button
+                        disabled={!fieldValue}
+                        onClick={_onPositiveClick}
+                        color="primary"
+                    >
                         {props.positiveBtnText}
                     </Button>
                 </DialogActions>
