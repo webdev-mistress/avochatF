@@ -1,91 +1,90 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 320px;
-}
-
-.topBlockWrapper {
-    display: flex;
-    align-items: center;
-    border: 1px solid #222222;
-    cursor: pointer;
-
-    .logoutWrapper {
-        margin-left: 10px;
-        transition: all 0.3s;
-        cursor: pointer;
-        color: #DCB4FF;
-        &:hover {
-            color: #A588BF;
-        }
+    width: 280px;
+    @media (max-width: 500px) {
+        width: 240px;
     }
-    .topBlock {
-        flex-grow: 1;
-        height: 60px;
-        font-size: 25px;
+
+    .topBlockWrapper {
         display: flex;
-        justify-content: center;
         align-items: center;
-        transition: all 0.3s;
-        &:hover {
-            color: #dcb4ff;
+        border: 1px solid #222222;
+        cursor: pointer;
+
+
+        .logoutWrapper {
+            margin-left: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            color: #DCB4FF;
+            &:hover {
+                color: #A588BF;
+            }
+        }
+        .topBlock {
+            flex-grow: 1;
+            height: 60px;
+            font-size: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+            &:hover {
+                color: #dcb4ff;
+            }
         }
     }
-}
+    .mainBlock {
+        border: 1px solid #222222;
+        height: 100%;
+        width: 280px;
 
-.mainBlock {
-    border: 1px solid #222222;
-    height: 100%;
-}
-
-.list {
-    width: 100%;
-    max-width: 360px;
-    button {
-        width: 100%;
-        color: green
-    }
-}
-
-.chatItem {
-    background-color: #444;
-    transition: all 0.3s;
-    border: 1px solid #222222;
-    cursor: pointer;
-    &:hover {
-         background-color: #333;
-    }
-    .avatar {
-        color: #222;
-    }
-    .chatItemText {
-        span {
-            font-size: 18px;
+        @media (max-width: 500px) {
+            width: 240px;
         }
-        p {
-            color: #ddd;
+
+        .list {
+            width: 100%;
+            .chatItem {
+                background-color: #444;
+                transition: all 0.3s;
+                border: 1px solid #222222;
+                cursor: pointer;
+                &:hover {
+                    background-color: #333;
+                }
+                .avatar {
+                    color: #222;
+                }
+                .chatItemText {
+                    span {
+                        font-size: 18px;
+                    }
+                    p {
+                        color: #ddd;
+                    }
+                }
+            }
+
+            .chatItemActive {
+                background-color: #222;
+                transition: all 0.3s;
+                border: 1px solid #222222;
+                cursor: default;
+                &:hover {
+                    background-color: #222;
+                }
+            }
+        }
+        button {
+            width: 100%;
+            color: green
         }
     }
-}
-
-.chatItemActive {
-    background-color: #222;
-    transition: all 0.3s;
-    border: 1px solid #222222;
-    cursor: default;
-    &:hover {
-        background-color: #222;
-    }
-}
-
-.inline {
-    display: inline;
 }
 
 .icons {
-    display: flex;
     flex-direction: column;
-    opacity: 0.99 !important;
-    cursor: pointer;
     z-index: 999999;
 }

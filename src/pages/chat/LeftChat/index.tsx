@@ -154,14 +154,16 @@ export const LeftChat = () => {
         setDialogMode(DIALOG_MODE.EXIT);
     }, []);
 
+    console.log('myLog anchorMenu', { a: anchorMenu });
+
     const renderMenu = () => (
         <Menu
-                id="long-menu"
-                anchorEl={anchorMenu}
-                keepMounted
-                open={!!anchorMenu}
-                onClick={onCloseMenu}
-            >
+            id="long-menu"
+            anchorEl={anchorMenu}
+            keepMounted
+            open={!!anchorMenu}
+            onClick={onCloseMenu}
+        >
             <MenuItem onClick={onAddUserToChatDialog} className={styles.icons}>
                 Add user to chat
             </MenuItem>
@@ -191,15 +193,13 @@ export const LeftChat = () => {
                 primary={chat.name}
                 secondary={'Chat'}
             />
-            <div>
-                <MoreVertIcon
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event: any) => onOpenMenu(event, chat.chatId)}
-                    className={styles.icons}
-                />
-            </div>
+            <MoreVertIcon
+                aria-label="more"
+                aria-controls="long-menu"
+                aria-haspopup="true"
+                onClick={(event) => onOpenMenu(event, chat.chatId)}
+                className={styles.icons}
+            />
         </ListItem>
     );
 
@@ -219,13 +219,13 @@ export const LeftChat = () => {
                 <div className={styles.mainBlock}>
                     <List className={styles.list}>
                         {chats.map((chat) => renderListItem(chat, chat.chatId === activeChatId))}
-                        <Button
-                            onClick={onCreateChatDialog}
-                            color="primary"
-                        >
-                            {'Create chat'}
-                        </Button>
                     </List>
+                    <Button
+                        onClick={onCreateChatDialog}
+                        color="primary"
+                    >
+                        {'Create chat'}
+                    </Button>
                 </div>
             </div>
             {renderMenu()}

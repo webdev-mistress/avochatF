@@ -58,6 +58,7 @@ export const AuthForm = (props: IProps) => {
                         onKeyUp={(event) => onAuthEnter(event)}
                     />
                     <TextField
+                        style={{ width: '100%' }}
                         required
                         autoFocus={!!errorMessage}
                         value={password}
@@ -66,7 +67,8 @@ export const AuthForm = (props: IProps) => {
                         label="password"
                         onChange={(event) => onChange(event, 'password', setPassword)}
                         onKeyUp={(event) => onAuthEnter(event)}
-                    />
+                        />
+
                     {isAuthSpin
                         ?
                         (

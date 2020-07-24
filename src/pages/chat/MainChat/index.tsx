@@ -7,7 +7,7 @@ import format from 'date-fns/format';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-import CachedIcon from '@material-ui/icons/Cached';
+// import CachedIcon from '@material-ui/icons/Cached';
 import CloseIcon from '@material-ui/icons/Close';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -17,7 +17,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { selectActiveChat, selectMessages } from '@/redux/store/chat/selectors';
 import { selectUserId } from '@/redux/store/user/selectors';
-import { requestMessages, sendMessage, deleteMessage, editMessage } from '@/redux/store/chat/actions';
+import { sendMessage, deleteMessage, editMessage } from '@/redux/store/chat/actions';
 
 import styles from './styles.module.scss';
 import { Dispatch } from 'redux';
@@ -99,11 +99,11 @@ export const MainChat = () => {
         setState({ ...state, messageText: event.target.value });
     }, [state]);
 
-    const onRefreshChat = useCallback(() => {
-        setState({ ...state, isRefreshing: true });
-        setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
-        dispatch(requestMessages(activeChat.chatId));
-    }, [activeChat.chatId, dispatch, state]);
+    // const onRefreshChat = useCallback(() => {
+    //     setState({ ...state, isRefreshing: true });
+    //     setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
+    //     dispatch(requestMessages(activeChat.chatId));
+    // }, [activeChat.chatId, dispatch, state]);
 
     const onEditMode = useCallback(() => {
         onCloseMenu();
@@ -229,19 +229,21 @@ export const MainChat = () => {
         );
     });
 
-    const { isRefreshing } = state;
+    // const { isRefreshing } = state;
     const hasActiveChat = !_.isEmpty(activeChat);
     const hasMessages = !_.isEmpty(messages);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.topBlock}>
-                {hasActiveChat && (
-                    <CachedIcon
-                        className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
-                        onClick={onRefreshChat}
-                    />
-                )}
+                {hasActiveChat
+                // && (
+                //     <CachedIcon
+                //         className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
+                //         onClick={onRefreshChat}
+                //     />
+                // )
+                }
                 <div className={styles.title}>
                     {hasActiveChat ? `Active chat: ${activeChat.name}` : 'Choose a chat'}
                 </div>
