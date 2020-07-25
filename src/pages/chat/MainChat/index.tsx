@@ -7,7 +7,6 @@ import format from 'date-fns/format';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-// import CachedIcon from '@material-ui/icons/Cached';
 import CloseIcon from '@material-ui/icons/Close';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -91,19 +90,14 @@ export const MainChat = () => {
         onEditClose();
     }, [dispatch, onEditClose, state]);
 
-    const onPressEditEnter = useCallback((event, content) => {
+    const onPressEditEvent = useCallback((event, content) => {
         event.key === 'Enter' && onSendEditMessage(content);
-    }, [onSendEditMessage]);
+        event.key === 'Escape' && onEditClose();
+    }, [onEditClose, onSendEditMessage]);
 
     const onChangeMessage = useCallback((event) => {
         setState({ ...state, messageText: event.target.value });
     }, [state]);
-
-    // const onRefreshChat = useCallback(() => {
-    //     setState({ ...state, isRefreshing: true });
-    //     setTimeout(() => setState({ ...state, isRefreshing: false }), 2100);
-    //     dispatch(requestMessages(activeChat.chatId));
-    // }, [activeChat.chatId, dispatch, state]);
 
     const onEditMode = useCallback(() => {
         onCloseMenu();
@@ -123,6 +117,21 @@ export const MainChat = () => {
             messageEdit: event.target.value,
         });
     }, [state]);
+
+    const onEditArrowMode = useCallback((event) => {
+        onCloseMenu();
+
+        event.key === 'ArrowUp' && setTimeout(() => {
+            const editedLastInfo = _.findLast(messages, (message) => message.author.userId === userId);
+
+            setState({
+                ...state,
+                isEditMode: true,
+                selectedMessage: editedLastInfo || null,
+                messageEdit: editedLastInfo ? editedLastInfo.message : '',
+            });
+        }, 0);
+    }, [messages, onCloseMenu, state, userId]);
 
     const renderMenu = () => (
         <Menu
@@ -166,9 +175,10 @@ export const MainChat = () => {
         const userIsAuthor = userId === message.author.userId;
 
         const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss dd.MM.yyyy');
-        const messageDateChange = message.dateChange ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
+        const messageDateChange = message.dateChange
+            ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
         const isEditMessage = state.isEditMode
-            && _.get(state, 'selectedMessage.messageId', 0) === message.messageId;
+            && (_.get(state, 'selectedMessage.messageId', 0) === message.messageId);
 
         return (
             <div
@@ -184,7 +194,7 @@ export const MainChat = () => {
                                 autoFocus
                                 className={styles.form}
                                 onChange={onEditMessageChange}
-                                onKeyUp={(event) => onPressEditEnter(event, message.message)}
+                                onKeyUp={(event) => onPressEditEvent(event, message.message)}
                                 value={state.messageEdit}
                             />
                         ) : (<div>{message.message}</div>)}
@@ -229,21 +239,12 @@ export const MainChat = () => {
         );
     });
 
-    // const { isRefreshing } = state;
     const hasActiveChat = !_.isEmpty(activeChat);
     const hasMessages = !_.isEmpty(messages);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.topBlock}>
-                {hasActiveChat
-                // && (
-                //     <CachedIcon
-                //         className={cn(styles.cachedIcon, isRefreshing && styles.activeCachedIcon)}
-                //         onClick={onRefreshChat}
-                //     />
-                // )
-                }
                 <div className={styles.title}>
                     {hasActiveChat ? `Active chat: ${activeChat.name}` : 'Choose a chat'}
                 </div>
@@ -262,6 +263,7 @@ export const MainChat = () => {
                             onChange={onChangeMessage}
                             onKeyUp={onPressEnter}
                             value={state.messageText}
+                            onKeyDown={onEditArrowMode}
                         />
                         <Button
                             variant="contained"

@@ -154,8 +154,6 @@ export const LeftChat = () => {
         setDialogMode(DIALOG_MODE.EXIT);
     }, []);
 
-    console.log('myLog anchorMenu', { a: anchorMenu });
-
     const renderMenu = () => (
         <Menu
             id="long-menu"
