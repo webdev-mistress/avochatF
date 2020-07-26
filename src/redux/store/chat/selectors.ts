@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { IActiveChat, IActiveChatInfo, IMembersData, IMessage } from '@/types/store';
+import { IActiveChat, IChat, IMembersData, IMessage } from '@/types/store';
 
-export const selectActiveChat = (state: IActiveChat): IActiveChatInfo => _.get(state, ('activeChat.info'), {});
+export const selectActiveChat = (state: IActiveChat): IChat => _.get(state, ('activeChat.info'), {});
 
 export const selectActiveChatId = (state: IActiveChat): number => _.get(state, ('activeChat.info.chatId'), 0);
 

@@ -74,9 +74,22 @@ export const MainChat = () => {
         setState({ ...state, messageText: '' });
     }, [dispatch, state]);
 
-    const onPressEnter = useCallback((event) => {
+    const onPressEvent = useCallback((event) => {
+        onCloseMenu();
+
+        event.key === 'ArrowUp' && setTimeout(() => {
+            const editedLastInfo = _.findLast(messages, (message) => message.author.userId === userId);
+
+            setState({
+                ...state,
+                isEditMode: true,
+                selectedMessage: editedLastInfo || null,
+                messageEdit: editedLastInfo ? editedLastInfo.message : '',
+            });
+        }, 0);
         event.key === 'Enter' && onSendMessage();
-    }, [onSendMessage]);
+        event.key === 'Escape' && event.target.blur();
+    }, [messages, onCloseMenu, onSendMessage, state, userId]);
 
     const onEditClose = useCallback(() => {
         setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
@@ -117,21 +130,6 @@ export const MainChat = () => {
             messageEdit: event.target.value,
         });
     }, [state]);
-
-    const onEditArrowMode = useCallback((event) => {
-        onCloseMenu();
-
-        event.key === 'ArrowUp' && setTimeout(() => {
-            const editedLastInfo = _.findLast(messages, (message) => message.author.userId === userId);
-
-            setState({
-                ...state,
-                isEditMode: true,
-                selectedMessage: editedLastInfo || null,
-                messageEdit: editedLastInfo ? editedLastInfo.message : '',
-            });
-        }, 0);
-    }, [messages, onCloseMenu, state, userId]);
 
     const renderMenu = () => (
         <Menu
@@ -261,9 +259,8 @@ export const MainChat = () => {
                             color="primary"
                             label="Enter Your Message"
                             onChange={onChangeMessage}
-                            onKeyUp={onPressEnter}
+                            onKeyUp={onPressEvent}
                             value={state.messageText}
-                            onKeyDown={onEditArrowMode}
                         />
                         <Button
                             variant="contained"

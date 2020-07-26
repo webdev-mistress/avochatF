@@ -17,6 +17,7 @@ export function chatReducer(state = initialState, action: ChatAction): IActiveCh
         case Chat.ADD_NEW_CHAT:
             return {
                 ...state,
+                info: action.payload.chat,
                 isCreateChatSpin: false,
             };
         case Chat.MESSAGES_SUCCEEDED:

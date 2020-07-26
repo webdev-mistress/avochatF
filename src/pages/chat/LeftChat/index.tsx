@@ -127,7 +127,8 @@ export const LeftChat = () => {
     const onDeleteChat = useCallback(() => {
         dispatch(deleteChat(selectedChatId));
         setDialogMode(DIALOG_MODE.EXIT);
-    }, [dispatch, selectedChatId]);
+        onClearActiveChat();
+    }, [dispatch, onClearActiveChat, selectedChatId]);
 
     const onCheckChatMembers = useCallback(() => {
         dispatch(checkChatMembers(selectedChatId));

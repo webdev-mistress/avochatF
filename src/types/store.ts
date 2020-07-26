@@ -14,15 +14,8 @@ export interface IMessage {
     messageId: number,
 }
 
-export interface IActiveChatInfo {
-    chatId: number,
-    name: string,
-    userOwnerId: number,
-    messages: IMessage[],
-}
-
 export interface IActiveChat {
-    info?: IActiveChatInfo,
+    info?: IChat,
     messageData?: IMessageData,
     isCreateChatSpin: boolean,
     isActiveChatSpin: boolean,
@@ -35,6 +28,7 @@ export interface IChat {
     chatId: number,
     name: string,
     userOwnerId: number,
+    messages?: IMessage[],
 }
 
 export interface IUser {
@@ -127,7 +121,7 @@ export interface IDeleteMessageFailed {
 
 export interface IGetActiveChat {
     type: Chat.GET_ACTIVE_CHAT,
-    payload: IActiveChatInfo,
+    payload: IChat,
 }
 
 export interface IClearChat {

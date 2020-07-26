@@ -1,6 +1,6 @@
 import { Chat } from '@/constants/store';
 import {
-    IActiveChatInfo, ICheckMembers,
+    IChat, ICheckMembers,
     IClearChat, ICreateChat, IDeleteChat,
     IDeleteMessage, IDeleteMessageFailed, IDeleteUserFromChat, IEditMessage,
     IErrorMessages, IGetActiveChat,
@@ -53,7 +53,7 @@ export function deleteMessageFailed(errorMessage: any): IDeleteMessageFailed {
     };
 }
 
-export function getActiveChat(activeChat: IActiveChatInfo): IGetActiveChat {
+export function getActiveChat(activeChat: IChat): IGetActiveChat {
     return {
         type: Chat.GET_ACTIVE_CHAT, payload: activeChat,
     };
