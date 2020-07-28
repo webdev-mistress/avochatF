@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import { User, Chat } from '@/constants/store';
 import { IUser, UserAction } from '@/types/store';
 

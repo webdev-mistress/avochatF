@@ -4,7 +4,6 @@ import { Dispatch } from 'redux';
 import { TextField, Typography, Card, CardContent, Button, CircularProgress } from '@material-ui/core';
 import { requestUser, removeErrorMessage } from '@/redux/store/user/actions';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
-
 import styles from './styles.module.scss';
 
 interface IProps {

@@ -2,10 +2,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-
-import { AuthPage, ChatPage, PomodoroPage } from '@/pages';
+import { AuthPage, ChatPage } from '@/pages';
 import { selectUserIsAuth } from '@/redux/store/user/selectors';
-
 import styles from './styles.module.scss';
 
 export const App = () => {
@@ -16,7 +14,6 @@ export const App = () => {
             <BrowserRouter basename={'/'}>
                 <Switch>
                     <Route path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
-                    <Route exact path={'/pomodoro'} component={PomodoroPage} />
                     <Redirect from="/" to={hasUser ? '/chat' : '/auth'} />
                 </Switch>
             </BrowserRouter>

@@ -2,9 +2,8 @@
 import io from 'socket.io-client';
 import { call, put, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel } from 'redux-saga';
-
-import { requestMessages } from '@/redux/store/chat/actions';
 import { sendNotification } from '@/helpers';
+import { requestMessages } from '@/redux/store/chat/actions';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
 import { selectUserId } from '@/redux/store/user/selectors';
 

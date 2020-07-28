@@ -30,9 +30,3 @@ export enum Chat {
     CHECK_MEMBERS = 'CHECK_MEMBERS',
     CHECK_MEMBERS_LOADED = 'CHECK_MEMBERS_LOADED',
 }
-
-export enum Mode {
-    FORM = 'FORM',
-    ALERT = 'ALERT',
-    INFO = 'INFO',
-}

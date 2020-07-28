@@ -1,4 +1,4 @@
-import { Mode } from '@/constants/store';
+import { Mode } from '@/constants';
 
 export interface IDialogModeElement {
     mode?: Mode.FORM | Mode.ALERT | Mode.INFO,

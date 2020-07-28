@@ -1,5 +1,4 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-
 import { User } from '@/constants/store';
 import { getUser, createUser, addUserToChat } from '@/redux/api';
 import { failedUser, getUserSucceeded } from '@/redux/store/user/actions';

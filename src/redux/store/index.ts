@@ -1,9 +1,7 @@
 // @ts-nocheck
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-
 import { rootSaga } from '@/redux/sagas/rootSaga';
-
 import { userReducer } from '@/redux/store/user/reducer';
 import { chatReducer } from '@/redux/store/chat/reducer';
 

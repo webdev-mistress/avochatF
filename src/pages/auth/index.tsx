@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Container } from '@material-ui/core';
-
 import { selectErrorMessage } from '@/redux/store/user/selectors';
 import { removeErrorMessage } from '@/redux/store/user/actions';
-
-import style from './styles.module.scss';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
-import { Dispatch } from 'redux';
+import style from './styles.module.scss';
 
 export const AuthPage = () => {
     const [isAuthForm, setIsAuthForm] = useState(true);
