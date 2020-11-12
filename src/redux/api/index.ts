@@ -59,8 +59,8 @@ export const addUserToChat = function (login: string, chatId: number): Promise<I
     return getResource(`${PREFIX_CHAT}/addUserToChat`, { login, chatId });
 };
 
-export const deleteUserFromChat = function (login: string, chatId: number): Promise<IDeleteUserFromChatSaga> {
-    return getResource(`${PREFIX_CHAT}/deleteUserFromChat`, { login, chatId });
+export const deleteUserFromChat = function (userId: number, chatId: number): Promise<IDeleteUserFromChatSaga> {
+    return getResource(`${PREFIX_CHAT}/deleteUserFromChat`, { userId, chatId });
 };
 
 export const checkMembers = function (chatId: number): Promise<ICkeckMembersSaga> {

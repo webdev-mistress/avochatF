@@ -29,6 +29,7 @@ export interface IChat {
     name: string,
     userOwnerId: number,
     messages?: IMessage[],
+    chatMembersList?: IMembersData[],
 }
 
 export interface IUser {
@@ -40,6 +41,7 @@ export interface IUser {
     chats: IChat[],
     userData?: ISucceededUserData,
     errorMessage?: string,
+    selectedChat?: IChat | null,
 }
 
 export interface IMessageData {
@@ -152,7 +154,7 @@ export interface IDeleteChat {
 export interface IDeleteUserFromChat {
     type: Chat.DELETE_USER_FROM_CHAT,
     payload: {
-        login: string,
+        userId: number,
         chatId: number,
     }
 }
@@ -216,9 +218,9 @@ export interface IDeleteOldChat {
 }
 
 export interface IDeleteUnwanterUser {
-    type: User.DELETE_UNWANTED_USER,
+    type: Chat.DELETE_UNWANTED_USER,
     payload: {
-        login: string,
+        userId: number,
         chatId: number,
     }
 }
@@ -244,9 +246,16 @@ export interface IMembersData {
     isOnline?: boolean,
 }
 
+export interface IGetSelectedChat {
+    type: User.GET_SELECTED_CHAT,
+    payload: {
+        selectedChat: IChat,
+    }
+}
+
 export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessage | ICreateChat | IAddNewChat |
-    ICheckMembersLoad;
+    ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser;
 
 export type UserAction = IRequestUser | IGetUserSucceeded | ILogoutUser | IRemoveErrorMessage |
-    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IDeleteUnwanterUser;
+    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat;
 

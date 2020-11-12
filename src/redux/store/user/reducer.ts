@@ -6,6 +6,7 @@ const initialState: IUser = {
     isAuth: false,
     isAuthSpin: false,
     chats: [],
+    selectedChat: null,
 };
 
 export function userReducer(state = initialState, action: UserAction) {
@@ -51,9 +52,10 @@ export function userReducer(state = initialState, action: UserAction) {
             };
         case User.LOGOUT:
             return initialState;
-        case User.DELETE_UNWANTED_USER:
+        case User.GET_SELECTED_CHAT:
             return {
                 ...state,
+                selectedChat: action.payload.selectedChat,
             };
         default:
             return state;

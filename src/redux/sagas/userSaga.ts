@@ -2,8 +2,9 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { User } from '@/constants/store';
 import { getUser, createUser, addUserToChat } from '@/redux/api';
 import { failedUser, getUserSucceeded } from '@/redux/store/user/actions';
+import { checkChatMembers } from '@/redux/store/chat/actions';
 import { IAddUserToChat, IRequestCreateUser, IRequestUser } from '@/types/store';
-import { ICreateUserSaga, IGetUserSaga } from '@/types/sagas';
+import { IAddUserToChatSaga, ICreateUserSaga, IGetUserSaga } from '@/types/sagas';
 
 function* fetchUser(action: IRequestUser) {
     try {
@@ -35,7 +36,10 @@ function* fetchCreateUser(action: IRequestCreateUser) {
 function* fetchAddUserToChat(action: IAddUserToChat) {
     try {
         const { login, selectedChatId } = action.payload.chatData;
-        yield call(addUserToChat, login, selectedChatId);
+        const response: IAddUserToChatSaga = yield call(addUserToChat, login, selectedChatId);
+        if (response.ok) {
+            yield put(checkChatMembers(response.data.addedChatId));
+        }
     } catch (error) {
         console.error(error);
     }

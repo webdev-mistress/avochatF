@@ -1,10 +1,11 @@
 .membersListWrapper {
   display: flex;
+  flex-direction: column;
 }
 
 .membersList {
   display: flex;
-  flex-direction: column;
+
 }
 
 .infoButton {
@@ -32,4 +33,26 @@
 .avatar {
   background-color: #6a6868 !important;
   color: #dddddd !important;
+}
+
+.chatSettings {
+  display: flex;
+  justify-content: space-between;
+  min-width: 360px;
+}
+
+.closeIcon {
+  padding: 20px 24px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addButton {
+  padding: 0 26px !important;
+  margin-left: 10px !important;
 }

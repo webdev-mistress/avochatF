@@ -13,13 +13,11 @@ import styles from '../styles.module.scss';
 
 interface IProps {
     setDialogMode: (dialog: IDialogModeElement) => void,
-    setAnchorMenu: (target: Element | null) => void,
     onClearActiveChat: () => void,
-    setSelectedChatId: (chatId: number) => void,
 }
 
 export const SettingsBlock = (props: IProps) => {
-    const { setDialogMode, onClearActiveChat, setAnchorMenu, setSelectedChatId } = props ;
+    const { setDialogMode, onClearActiveChat } = props ;
 
     const userName = useSelector(selectUserName);
     const dispatch: Dispatch = useDispatch();
@@ -46,8 +44,6 @@ export const SettingsBlock = (props: IProps) => {
             <div className={styles.mainBlock}>
                 <Chats
                     chats={chats}
-                    setAnchorMenu={setAnchorMenu}
-                    setSelectedChatId={setSelectedChatId}
                     setDialogMode={setDialogMode}
                 />
             </div>

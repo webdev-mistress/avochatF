@@ -3,7 +3,7 @@ import { Chat } from '@/constants/store';
 import { getErrorMessage } from '@/helpers/sagas';
 import {
     errorMessages, getMessages, sendMessageFailed,
-    deleteMessageFailed, checkMembersLoaded
+    deleteMessageFailed, checkMembersLoaded, deleteUnwanterUser
 } from '@/redux/store/chat/actions';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import { selectUserLogin } from '@/redux/store/user/selectors';
@@ -11,7 +11,7 @@ import {
     getMessages as getMessagesFromApi, sendMessage, deleteMessage,
     editMessage, createChat, deleteChat, deleteUserFromChat, checkMembers
 } from '@/redux/api';
-import { addNewChat, deleteOldChat, deleteUnwanterUser } from '@/redux/store/user/actions';
+import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
 import {
     ICheckMembers,
     ICreateChat,
@@ -128,10 +128,10 @@ function* fetchDeleteChat(action: IDeleteChat) {
 
 function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
     try {
-        const { login, chatId } = action.payload;
-        const response: IDeleteUserFromChatSaga = yield call(deleteUserFromChat, login, chatId);
+        const { userId, chatId } = action.payload;
+        const response: IDeleteUserFromChatSaga = yield call(deleteUserFromChat, userId, chatId);
         if (response.ok) {
-            yield put(deleteUnwanterUser(login, chatId));
+            yield put(deleteUnwanterUser(userId, chatId));
         }
     } catch (error) {
         console.error(error);

@@ -2,7 +2,7 @@ import { Chat } from '@/constants/store';
 import {
     IChat, ICheckMembers,
     IClearChat, ICreateChat, IDeleteChat,
-    IDeleteMessage, IDeleteMessageFailed, IDeleteUserFromChat, IEditMessage,
+    IDeleteMessage, IDeleteMessageFailed, IDeleteUnwanterUser, IDeleteUserFromChat, IEditMessage,
     IErrorMessages, IGetActiveChat,
     IGetMessages, IMembersData,
     IMessage, IMessageData,
@@ -83,9 +83,9 @@ export function deleteChat(chatId: number): IDeleteChat {
     };
 }
 
-export function deleteUserFromChat(login: string, chatId: number): IDeleteUserFromChat {
+export function deleteUserFromChat(userId: number, chatId: number): IDeleteUserFromChat {
     return {
-        type: Chat.DELETE_USER_FROM_CHAT, payload: { login, chatId },
+        type: Chat.DELETE_USER_FROM_CHAT, payload: { userId, chatId },
     };
 }
 
@@ -101,5 +101,11 @@ export function checkMembersLoaded(data: IMembersData[]) {
         payload: {
             data: data,
         },
+    };
+}
+
+export function deleteUnwanterUser(userId: number, chatId: number): IDeleteUnwanterUser {
+    return {
+        type: Chat.DELETE_UNWANTED_USER, payload: { userId, chatId },
     };
 }

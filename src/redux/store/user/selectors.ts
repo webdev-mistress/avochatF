@@ -14,3 +14,5 @@ export const selectErrorMessage = (state: IUser): string => _.get(state, 'user.e
 export const selectUserIsAuth = (state: IUser): boolean => _.get(state, 'user.isAuth', false);
 
 export const selectIsAuthSpin = (state: IUser): boolean => _.get(state, 'user.isAuthSpin', false);
+
+export const selectSelectedChat = (state: IUser): IChat => _.get(state, 'user.selectedChat', undefined);

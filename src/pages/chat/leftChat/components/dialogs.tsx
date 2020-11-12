@@ -37,8 +37,12 @@ export const Dialogs = (props: IProps) => {
             <InfoDialog
                     isShow={!_.isEmpty(dialogMode) && dialogMode.mode === Mode.INFO}
                     title={dialogMode.title}
+                    label={dialogMode.label}
                     positiveBtnText={dialogMode.positiveBtnText}
+                    onPositiveClick={dialogMode.positiveBtnFunc}
                     onClose={closeDialog}
+                    setDialogMode={setDialogMode}
+                    closeDialog={closeDialog}
                 />
         </>
     );

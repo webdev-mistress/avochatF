@@ -46,6 +46,12 @@ export function chatReducer(state = initialState, action: ChatAction): IActiveCh
                 ...state,
                 chatMembersList: action.payload.data,
             };
+        case Chat.DELETE_USER_FROM_CHAT:
+            return {
+                ...state,
+                chatMembersList: state.chatMembersList && state.chatMembersList
+                    .filter(member => member.userId !== action.payload.userId),
+            };
         default:
         return state;
     }

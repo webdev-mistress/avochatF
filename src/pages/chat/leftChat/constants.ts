@@ -4,7 +4,7 @@ import { IDialogMode } from '@/types/components';
 export const DIALOG_MODE: IDialogMode = {
     ADD_TO_CHAT: {
         mode: Mode.FORM,
-        title: `Write user's login here`,
+        title: `IChat`,
         label: 'Login',
         positiveBtnText: 'Add user to chat',
     },
@@ -32,7 +32,7 @@ export const DIALOG_MODE: IDialogMode = {
     },
     CHECK_MEMBERS: {
         mode: Mode.INFO,
-        title: `Chat's Members`,
+        title: `Chat Members`,
     },
     EXIT: {},
 };

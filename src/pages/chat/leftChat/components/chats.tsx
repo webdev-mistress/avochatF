@@ -9,8 +9,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import { createChat, getActiveChat, requestMessages } from '@/redux/store/chat/actions';
+import { checkChatMembers, createChat, getActiveChat, requestMessages } from '@/redux/store/chat/actions';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
+import { getSelectedChat } from '@/redux/store/user/actions';
 import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
 import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
@@ -18,15 +19,13 @@ import styles from '../styles.module.scss';
 
 interface IProps {
     chats: IChat[],
-    setAnchorMenu: (target: Element | null) => void,
-    setSelectedChatId: (chatId: number) => void,
     setDialogMode: (dialogMode: IDialogModeElement) => void,
 }
 
 export const Chats = (props: IProps) => {
-    const { chats, setDialogMode, setAnchorMenu, setSelectedChatId } = props;
+    const { chats, setDialogMode } = props;
     const dispatch: Dispatch = useDispatch();
-    const activeChatId = useSelector(selectActiveChatId);
+    const activeChatId: number = useSelector(selectActiveChatId);
 
     const onLoadChat = useCallback((event, chat) => {
         const { nodeName } = event.target;
@@ -44,10 +43,11 @@ export const Chats = (props: IProps) => {
         setDialogMode({ ...DIALOG_MODE.CREATE_CHAT, positiveBtnFunc: onCreateChat });
     }, [dispatch, setDialogMode]);
 
-    const onOpenMenu = useCallback((event, chatId) => {
-        setAnchorMenu(event.currentTarget);
-        setSelectedChatId(chatId);
-    }, [setAnchorMenu, setSelectedChatId]);
+    const onOpenChatSettings = useCallback((chat) => {
+        dispatch(getSelectedChat(chat));
+        dispatch(checkChatMembers(chat.chatId));
+        props.setDialogMode(DIALOG_MODE.CHECK_MEMBERS);
+    }, [dispatch, props]);
 
     return (
         <>
@@ -70,7 +70,7 @@ export const Chats = (props: IProps) => {
                             aria-label="more"
                             aria-controls="long-menu"
                             aria-haspopup="true"
-                            onClick={(event) => onOpenMenu(event, chat.chatId)}
+                            onClick={() => onOpenChatSettings(chat)}
                             className={styles.icons}
                         />
                     </ListItem>
