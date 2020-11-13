@@ -9,13 +9,13 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { checkShowCloseIcon } from '@/components/dialog/helpers';
 import { clearChat, deleteChat, deleteUserFromChat } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
 import { addUserToChat } from '@/redux/store/user/actions';
 import { selectChatMembersList } from '@/redux/store/chat/selectors';
 import { IDialogModeElement } from '@/types/components';
 import { IChat, IMembersData } from '@/types/store';
+import { checkShowCloseIcon } from './helpers';
 import styles from './styles.module.scss';
 
 interface IProps {
