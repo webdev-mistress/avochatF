@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@material-ui/core';
@@ -9,7 +9,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { clearChat, deleteChat, deleteUserFromChat } from '@/redux/store/chat/actions';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import { clearChat, deleteChat, deleteUserFromChat, editOldChatName } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
 import { addUserToChat } from '@/redux/store/user/actions';
 import { selectChatMembersList } from '@/redux/store/chat/selectors';
@@ -31,31 +32,42 @@ interface IProps {
 }
 
 export const InfoDialog = (props: IProps) => {
+    const [isEditMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState('');
     const dispatch: Dispatch = useDispatch();
     const membersList: IMembersData[] = useSelector(selectChatMembersList);
     const selectedUserId: number = useSelector(selectUserId);
     const selectedChat: IChat = useSelector(selectSelectedChat);
+    const [newChatNameValue, setChatName] = useState('');
+
     const onDeleteUserFromChatDialog = useCallback((userId: number) => {
+        if(selectedChat) {
             dispatch(deleteUserFromChat(userId, selectedChat.chatId));
-    }, [dispatch, selectedChat.chatId]);
+        }
+    }, [dispatch, selectedChat]);
 
-    const onNegativeClick = () => props.closeDialog();
+    const onCloseDialogClick = useCallback(() => {
+        setEditMode(false);
+        setFieldValue('');
+        props.closeDialog();
+    }, [props]);
 
-    const onChangeFieldValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeFieldValue = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setFieldValue(event.target.value);
-    };
+    }, []);
 
     const onAddUserToChatDialog = useCallback((fieldValue: string) => {
-        dispatch(addUserToChat({ login: fieldValue, selectedChatId: selectedChat.chatId }));
-        setFieldValue('');
-    }, [dispatch, selectedChat.chatId]);
+        if(selectedChat) {
+            dispatch(addUserToChat({ login: fieldValue, selectedChatId: selectedChat.chatId }));
+            setFieldValue('');
+        }
+    }, [dispatch, selectedChat]);
 
     const onDeleteChatDialog = useCallback(() => {
         dispatch(deleteChat(selectedChat.chatId));
         dispatch(clearChat());
         props.closeDialog();
-    }, [dispatch, props, selectedChat.chatId]);
+    }, [dispatch, props, selectedChat]);
 
     const onLeaveChat = useCallback((selectedUserId: number, selectedChat: IChat) => {
         dispatch(deleteUserFromChat(selectedUserId, selectedChat.chatId));
@@ -63,32 +75,53 @@ export const InfoDialog = (props: IProps) => {
         props.closeDialog();
     }, [dispatch, props]);
 
+    const onEditChatName = useCallback(() => {
+        setEditMode(!isEditMode);
+    }, [isEditMode]);
+
+    const onChangeChatName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setChatName(event.target.value);
+    }, []);
+
+    const onEditOldChatName = useCallback((newChatNameValue: string) => {
+       if(selectedChat) {
+           setChatName(selectedChat.name);
+           dispatch(editOldChatName(newChatNameValue, selectedChat.chatId));
+           setEditMode(!isEditMode);
+       }
+    }, [dispatch, isEditMode, selectedChat]);
+
+    useEffect(() => {
+        if(selectedChat) {
+            setChatName(selectedChat.name);
+        }
+    }, [selectedChat]);
+
     const renderMembersList = () => (
         <List className={styles.membersListWrapper}>
             {membersList.map((member => (
                 <ListItem
-                         className={styles.infoWrapper}
-                         key={member.userId}
-                    >
+                    className={styles.infoWrapper}
+                    key={member.userId}
+                >
                     <ListItemAvatar>
                         <Avatar className={styles.avatar} alt={member.name} src="/static/invalide.path" />
                     </ListItemAvatar>
                     <ListItemText
-                            className={member.isOnline ? styles.listItemTextOnline : styles.listItemTextOffline}
-                            primary={member.name}
-                            secondary={member.isOnline ? 'online' : 'offline'}
-                         />
+                        className={member.isOnline ? styles.listItemTextOnline : styles.listItemTextOffline}
+                        primary={member.name}
+                        secondary={member.isOnline ? 'online' : 'offline'}
+                    />
                     {checkShowCloseIcon(selectedChat, member, selectedUserId)
                              && (
                              <CloseIcon
-                                        onClick={() => onDeleteUserFromChatDialog(member.userId)}
-                                        className={styles.icons}
-                                    />
+                                onClick={() => onDeleteUserFromChatDialog(member.userId)}
+                                className={styles.icons}
+                            />
                             )
                         }
                 </ListItem>
-                 )))}
-
+                )))}
         </List>
     );
 
@@ -96,17 +129,35 @@ export const InfoDialog = (props: IProps) => {
         <div>
             <Dialog
                 open={props.isShow}
-                onClose={props.onClose}
+                onClose={onCloseDialogClick}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <div className={styles.chatSettings}>
-                    <DialogTitle id="alert-dialog-title">
-                        {selectedChat && `${selectedChat.name} chat settings`}
-                    </DialogTitle>
+                    <div className={styles.chatSettingsName}>
+                        <DialogTitle id="alert-dialog-title">
+                            {selectedChat && `Chat ${selectedChat.name}`}
+                        </DialogTitle>
+                        {isEditMode && (
+                            <TextField
+                                value={newChatNameValue}
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label={props.label}
+                                fullWidth
+                                onKeyUp={event => event.key === 'Enter' && onEditOldChatName(newChatNameValue)}
+                                onChange={onChangeChatName}
+                            />
+                        )}
+                        <BorderColorIcon
+                            className={styles.chatSettingsIcon}
+                            onClick={onEditChatName}
+                        />
+                    </div>
                     <CloseIcon
-                        onClick={onNegativeClick}
-                        className={styles.closeIcon}
+                        onClick={onCloseDialogClick}
+                        className={styles.chatSettingsIcon}
                     />
                 </div>
                 <DialogContent>
@@ -138,7 +189,7 @@ export const InfoDialog = (props: IProps) => {
                 </DialogContent>
                 <DialogActions className={styles.infoWrapper}>
                 </DialogActions>
-                {selectedUserId === selectedChat?.userOwnerId
+                {selectedChat && selectedUserId === selectedChat.userOwnerId
                     ? (
                         <Button
                             color="secondary"

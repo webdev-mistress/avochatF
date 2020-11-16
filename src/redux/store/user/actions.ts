@@ -1,8 +1,8 @@
 import { User, Chat } from '@/constants/store';
 import {
-    IAddNewChat,
+    IAddNewChat, IAddNewChatName,
     IAddUserToChat, IChat,
-    IChatData, IDeleteOldChat,
+    IChatData, IDeleteOldChat, IEditChatName,
     IFailedUser, IGetSelectedChat,
     IGetUserSucceeded, ILogoutUser, IRemoveErrorMessage, IRequestCreateUser,
     IRequestUser,
@@ -64,5 +64,21 @@ export function deleteOldChat(chatId: number): IDeleteOldChat {
 export function getSelectedChat(selectedChat: IChat): IGetSelectedChat {
     return {
         type: User.GET_SELECTED_CHAT, payload: { selectedChat },
+    };
+}
+
+export function editOldChatName(newChatName: string, chatId: number): IEditChatName {
+    return {
+        type: Chat.EDIT_CHAT_NAME,
+        payload: {
+            newChatName,
+            chatId,
+        },
+    };
+}
+
+export function addNewChatName(newChatName: string, chatId: number): IAddNewChatName {
+    return {
+        type: Chat.ADD_NEW_CHAT_NAME, payload: { newChatName, chatId },
     };
 }

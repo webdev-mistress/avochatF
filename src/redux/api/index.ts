@@ -4,7 +4,7 @@ import {
     IAddUserToChatSaga, ICkeckMembersSaga,
     ICreateChatSaga,
     ICreateUserSaga, IDeleteChatSaga,
-    IDeleteMessageSaga, IDeleteUserFromChatSaga,
+    IDeleteMessageSaga, IDeleteUserFromChatSaga, IEditChatNameSaga,
     IEditMessageSaga,
     IGetMessagesSaga,
     IGetUserSaga,
@@ -65,4 +65,8 @@ export const deleteUserFromChat = function (userId: number, chatId: number): Pro
 
 export const checkMembers = function (chatId: number): Promise<ICkeckMembersSaga> {
     return getResource(`${PREFIX_CHAT}/getUsers`, { chatId });
+};
+
+export const editChatName = function (newChatName: string, chatId: number): Promise<IEditChatNameSaga> {
+    return getResource(`${PREFIX_CHAT}/editChatName`, { newChatName, chatId });
 };

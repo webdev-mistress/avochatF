@@ -1,8 +1,9 @@
 import { Chat } from '@/constants/store';
 import {
+    IAddNewChatName,
     IChat, ICheckMembers,
     IClearChat, ICreateChat, IDeleteChat,
-    IDeleteMessage, IDeleteMessageFailed, IDeleteUnwanterUser, IDeleteUserFromChat, IEditMessage,
+    IDeleteMessage, IDeleteMessageFailed, IDeleteUnwanterUser, IDeleteUserFromChat, IEditChatName, IEditMessage,
     IErrorMessages, IGetActiveChat,
     IGetMessages, IMembersData,
     IMessage, IMessageData,
@@ -107,5 +108,21 @@ export function checkMembersLoaded(data: IMembersData[]) {
 export function deleteUnwanterUser(userId: number, chatId: number): IDeleteUnwanterUser {
     return {
         type: Chat.DELETE_UNWANTED_USER, payload: { userId, chatId },
+    };
+}
+
+export function editOldChatName(newChatName: string, chatId: number): IEditChatName {
+    return {
+        type: Chat.EDIT_CHAT_NAME,
+        payload: {
+            newChatName,
+            chatId,
+        },
+    };
+}
+
+export function addNewChatName(newChatName: string, chatId: number): IAddNewChatName {
+    return {
+        type: Chat.ADD_NEW_CHAT_NAME, payload: { newChatName, chatId },
     };
 }

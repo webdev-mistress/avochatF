@@ -57,6 +57,27 @@ export function userReducer(state = initialState, action: UserAction) {
                 ...state,
                 selectedChat: action.payload.selectedChat,
             };
+        case Chat.EDIT_CHAT_NAME:
+            console.log(action.payload.newChatName, action.payload.chatId);
+
+            return {
+                ...state,
+                selectedChat: {
+                    ...state.selectedChat,
+                    name: action.payload.newChatName,
+                },
+            };
+        case Chat.ADD_NEW_CHAT_NAME: {
+            const newChats = state.chats
+                .map(chat => chat.chatId === action.payload.chatId
+                    ? { ...chat, name: action.payload.newChatName }
+                    : chat);
+
+            return {
+                ...state,
+                chats: newChats,
+            };
+        }
         default:
             return state;
     }

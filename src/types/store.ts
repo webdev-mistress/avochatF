@@ -253,9 +253,25 @@ export interface IGetSelectedChat {
     }
 }
 
+export interface IEditChatName {
+    type: Chat.EDIT_CHAT_NAME,
+    payload: {
+        newChatName: string,
+        chatId: number,
+    }
+}
+
+export interface IAddNewChatName {
+    type: Chat.ADD_NEW_CHAT_NAME,
+    payload: {
+        newChatName: string,
+        chatId: number,
+    }
+}
+
 export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessage | ICreateChat | IAddNewChat |
-    ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser;
+    ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser | IEditChatName | IAddNewChatName;
 
 export type UserAction = IRequestUser | IGetUserSucceeded | ILogoutUser | IRemoveErrorMessage |
-    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat;
+    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName | IAddNewChatName;
 
