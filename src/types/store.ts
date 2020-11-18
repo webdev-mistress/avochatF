@@ -27,6 +27,7 @@ export interface IActiveChat {
 export interface IChat {
     chatId: number,
     name: string,
+    lastMessage: string,
     userOwnerId: number,
     messages?: IMessage[],
     chatMembersList?: IMembersData[],

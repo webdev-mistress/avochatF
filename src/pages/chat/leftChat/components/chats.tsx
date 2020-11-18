@@ -64,7 +64,7 @@ export const Chats = (props: IProps) => {
                         <ListItemText
                             className={styles.chatItemText}
                             primary={chat.name}
-                            secondary={'Chat'}
+                            secondary={chat.lastMessage || 'Chat'}
                         />
                         <MoreVertIcon
                             aria-label="more"
