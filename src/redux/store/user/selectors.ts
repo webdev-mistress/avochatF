@@ -7,6 +7,8 @@ export const selectUserLogin = (state: IUser): string => _.get(state, 'user.logi
 
 export const selectUserName = (state: IUser): string => _.get(state, 'user.name', '');
 
+export const selectUser = (state: IUser): IUser => _.get(state, 'user', undefined);
+
 export const selectUserChats = (state: IUser): IChat[] => _.get(state, 'user.chats', []);
 
 export const selectErrorMessage = (state: IUser): string => _.get(state, 'user.errorMessage', '');

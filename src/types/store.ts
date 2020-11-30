@@ -36,9 +36,9 @@ export interface IChat {
 export interface IUser {
     isAuth: boolean,
     isAuthSpin: boolean,
-    userId?: number,
-    name?: string,
-    login?: string,
+    userId: number,
+    name: string,
+    login: string,
     chats: IChat[],
     userData?: ISucceededUserData,
     errorMessage?: string,
@@ -72,6 +72,15 @@ export interface IUserData {
 export interface IChatData {
     login: string,
     selectedChatId: number,
+}
+
+export interface IChangedFields {
+    userId: number,
+        newName?: string,
+        newLogin?: string,
+        oldPassword?: string,
+        newPassword1?: string,
+        newPassword2?: string,
 }
 
 // chatAction
@@ -270,9 +279,26 @@ export interface IAddNewChatName {
     }
 }
 
+export interface IEditOldUser {
+    type: User.EDIT_OLD_USER,
+    payload: IChangedFields,
+}
+
+export interface IAddNewUserValue {
+    type: User.ADD_NEW_USER_VALUE,
+    payload: {
+        changedFields: IChangedFields,
+    }
+}
+
+export interface IEditUser {
+    type: User.EDIT_OLD_USER,
+    payload: IChangedFields,
+}
+
 export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessage | ICreateChat | IAddNewChat |
     ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser | IEditChatName | IAddNewChatName;
 
 export type UserAction = IRequestUser | IGetUserSucceeded | ILogoutUser | IRemoveErrorMessage |
-    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName | IAddNewChatName;
-
+    IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName |
+    IAddNewChatName | IEditUser | IAddNewUserValue;

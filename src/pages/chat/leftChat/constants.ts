@@ -34,6 +34,10 @@ export const DIALOG_MODE: IDialogMode = {
         mode: Mode.INFO,
         title: `Chat Members`,
     },
+    USER_SETTINGS: {
+        mode: Mode.USER_INFO,
+        title: 'User settings',
+    },
     EXIT: {},
 };
 

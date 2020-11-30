@@ -80,3 +80,24 @@ export interface IEditChatNameSaga {
         chatId: number,
     }
 }
+
+export interface IEditUserSaga {
+    ok: boolean,
+    data: {
+        changedFields: {
+            userId: number,
+            name?: string,
+            login?: string,
+            password?: string,
+        }
+    }
+}
+
+export interface IEditUserLoginSaga {
+    ok: boolean,
+    data: {
+        changedFields: {
+            login: string,
+        }
+    }
+}

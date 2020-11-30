@@ -5,7 +5,7 @@ import {
     ICreateChatSaga,
     ICreateUserSaga, IDeleteChatSaga,
     IDeleteMessageSaga, IDeleteUserFromChatSaga, IEditChatNameSaga,
-    IEditMessageSaga,
+    IEditMessageSaga, IEditUserSaga,
     IGetMessagesSaga,
     IGetUserSaga,
     ISendMessageSaga
@@ -14,6 +14,15 @@ import {
 const PREFIX_USER = '/user';
 const PREFIX_MESSAGES = '/messages';
 const PREFIX_CHAT = '/chat';
+
+interface IChangedFields {
+    userId: number,
+    newName?: string,
+    newLogin?: string,
+    oldPassword?: string,
+    newPassword1?: string,
+    newPassword2?: string,
+}
 
 /* user */
 export const getUser = function (user: IRequestUserData): Promise<IGetUserSaga> {
@@ -69,4 +78,8 @@ export const checkMembers = function (chatId: number): Promise<ICkeckMembersSaga
 
 export const editChatName = function (newChatName: string, chatId: number): Promise<IEditChatNameSaga> {
     return getResource(`${PREFIX_CHAT}/editChatName`, { newChatName, chatId });
+};
+
+export const editUser = function (changedFields: IChangedFields): Promise<IEditUserSaga> {
+    return getResource(`${PREFIX_USER}/editUser`, changedFields);
 };

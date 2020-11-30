@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { User } from '@/constants/store';
-import { getUser, createUser, addUserToChat } from '@/redux/api';
-import { failedUser, getUserSucceeded } from '@/redux/store/user/actions';
+import { getUser, createUser, addUserToChat, editUser } from '@/redux/api';
+import { addNewUserValue, failedUser, getUserSucceeded } from '@/redux/store/user/actions';
 import { checkChatMembers } from '@/redux/store/chat/actions';
-import { IAddUserToChat, IRequestCreateUser, IRequestUser } from '@/types/store';
-import { IAddUserToChatSaga, ICreateUserSaga, IGetUserSaga } from '@/types/sagas';
+import { IAddUserToChat, IEditUser, IRequestCreateUser, IRequestUser } from '@/types/store';
+import { IAddUserToChatSaga, ICreateUserSaga, IEditUserSaga, IGetUserSaga } from '@/types/sagas';
 
 function* fetchUser(action: IRequestUser) {
     try {
@@ -45,8 +45,20 @@ function* fetchAddUserToChat(action: IAddUserToChat) {
     }
 }
 
+function* fetchEditOldUser(action: IEditUser) {
+    try {
+        const response: IEditUserSaga = yield call(editUser, action.payload);
+        if(response.ok) {
+            yield put(addNewUserValue(response.data.changedFields));
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export function* userSaga() {
     yield takeEvery(User.FETCH_REQUESTED, fetchUser);
     yield takeEvery(User.CREATE_REQUESTED, fetchCreateUser);
     yield takeEvery(User.ADD_USER_TO_CHAT, fetchAddUserToChat);
+    yield takeEvery(User.EDIT_OLD_USER, fetchEditOldUser);
 }

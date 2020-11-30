@@ -1,7 +1,7 @@
 import { Mode } from '@/constants';
 
 export interface IDialogModeElement {
-    mode?: Mode.FORM | Mode.ALERT | Mode.INFO,
+    mode?: Mode.FORM | Mode.ALERT | Mode.INFO | Mode.USER_INFO,
     title?: string,
     label?: string,
     positiveBtnText?: string,
@@ -14,6 +14,7 @@ export interface IDialogMode {
     CREATE_CHAT: IDialogModeElement,
     DELETE_CHAT: IDialogModeElement,
     CHECK_MEMBERS: IDialogModeElement,
+    USER_SETTINGS: IDialogModeElement,
     LOGOUT: IDialogModeElement,
     EXIT: {},
 }

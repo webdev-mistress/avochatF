@@ -3,6 +3,9 @@ import { User, Chat } from '@/constants/store';
 import { IUser, UserAction } from '@/types/store';
 
 const initialState: IUser = {
+    userId: 0,
+    name: '',
+    login: '',
     isAuth: false,
     isAuthSpin: false,
     chats: [],
@@ -78,6 +81,11 @@ export function userReducer(state = initialState, action: UserAction) {
                 chats: newChats,
             };
         }
+        case User.ADD_NEW_USER_VALUE:
+            return {
+                ...state,
+                ...action.payload.changedFields,
+            };
         default:
             return state;
     }

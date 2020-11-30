@@ -1,5 +1,6 @@
 import { FormDialog } from '@/components/dialog/form';
 import { AlertDialog } from '@/components/dialog/alert';
-import { InfoDialog } from '@/components/dialog/info';
+import { ChatSettingsDialog } from '@/components/dialog/chatDialogSettings';
+import { UserSettingsDialog } from '@/components/dialog/userDialogSetting';
 
-export { FormDialog, AlertDialog, InfoDialog };
+export { FormDialog, AlertDialog, ChatSettingsDialog, UserSettingsDialog };

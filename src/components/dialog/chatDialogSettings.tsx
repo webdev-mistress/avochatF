@@ -10,6 +10,8 @@ import Avatar from '@material-ui/core/Avatar';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import IconButton from '@material-ui/core/IconButton';
+import EditAttributesIcon from '@material-ui/icons/EditAttributes';
 import { clearChat, deleteChat, deleteUserFromChat, editOldChatName } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
 import { addUserToChat } from '@/redux/store/user/actions';
@@ -31,7 +33,7 @@ interface IProps {
     closeDialog: () => void,
 }
 
-export const InfoDialog = (props: IProps) => {
+export const ChatSettingsDialog = (props: IProps) => {
     const [isEditMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState('');
     const dispatch: Dispatch = useDispatch();
@@ -116,7 +118,7 @@ export const InfoDialog = (props: IProps) => {
                              && (
                              <CloseIcon
                                 onClick={() => onDeleteUserFromChatDialog(member.userId)}
-                                className={styles.icons}
+                                className={styles.chatSettingsIcon}
                             />
                             )
                         }
@@ -138,27 +140,43 @@ export const InfoDialog = (props: IProps) => {
                         <DialogTitle id="alert-dialog-title">
                             {selectedChat && `Chat ${selectedChat.name}`}
                         </DialogTitle>
-                        {isEditMode && (
-                            <TextField
-                                value={newChatNameValue}
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label={props.label}
-                                fullWidth
-                                onKeyUp={event => event.key === 'Enter' && onEditOldChatName(newChatNameValue)}
-                                onChange={onChangeChatName}
+                        {isEditMode ? (
+                            <div className={styles.iconsWrapper}>
+                                <TextField
+                                    value={newChatNameValue}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label={props.label}
+                                    fullWidth
+                                    onKeyUp={event => event.key === 'Enter' && onEditOldChatName(newChatNameValue)}
+                                    onChange={onChangeChatName}
+                                />
+                                <IconButton
+                                    className={styles.addButton}
+                                    disabled={!newChatNameValue}
+                                    onClick={() => onEditOldChatName(newChatNameValue)}
+                                    color="primary"
+                                >
+                                    <EditAttributesIcon
+                                        fontSize={'large'}
+                                    >
+                                    </EditAttributesIcon>
+                                </IconButton>
+                            </div>
+                        ) : (
+                            <BorderColorIcon
+                                className={styles.chatSettingsIcon}
+                                onClick={onEditChatName}
                             />
                         )}
-                        <BorderColorIcon
-                            className={styles.chatSettingsIcon}
-                            onClick={onEditChatName}
-                        />
                     </div>
-                    <CloseIcon
-                        onClick={onCloseDialogClick}
+                    <div
                         className={styles.chatSettingsIcon}
-                    />
+                        onClick={onCloseDialogClick}
+                    >
+                        <CloseIcon />
+                    </div>
                 </div>
                 <DialogContent>
                     <DialogContent>
@@ -214,7 +232,7 @@ export const InfoDialog = (props: IProps) => {
     );
 };
 
-InfoDialog.defaultProps = {
+ChatSettingsDialog.defaultProps = {
     contentList: [],
     title: 'Chat Settings',
     positiveBtnText: 'Ok',

@@ -1,14 +1,7 @@
 import { User, Chat } from '@/constants/store';
-import {
-    IAddNewChat, IAddNewChatName,
-    IAddUserToChat, IChat,
-    IChatData, IDeleteOldChat, IEditChatName,
-    IFailedUser, IGetSelectedChat,
-    IGetUserSucceeded, ILogoutUser, IRemoveErrorMessage, IRequestCreateUser,
-    IRequestUser,
-    IRequestUserData,
-    ISucceededUserData,
-    IUserData
+import { IAddNewChat, IAddNewChatName, IAddNewUserValue, IAddUserToChat, IChangedFields, IChat, IChatData,
+    IDeleteOldChat, IEditChatName, IEditOldUser, IFailedUser, IGetSelectedChat, IGetUserSucceeded, ILogoutUser,
+    IRemoveErrorMessage, IRequestCreateUser, IRequestUser, IRequestUserData, ISucceededUserData, IUserData
 } from '@/types/store';
 
 export function requestUser(user: IRequestUserData): IRequestUser {
@@ -80,5 +73,17 @@ export function editOldChatName(newChatName: string, chatId: number): IEditChatN
 export function addNewChatName(newChatName: string, chatId: number): IAddNewChatName {
     return {
         type: Chat.ADD_NEW_CHAT_NAME, payload: { newChatName, chatId },
+    };
+}
+
+export function editOldUser(changedFields: IChangedFields): IEditOldUser {
+    return {
+        type: User.EDIT_OLD_USER, payload: changedFields,
+    };
+}
+
+export function addNewUserValue(changedFields: IChangedFields): IAddNewUserValue {
+    return {
+        type: User.ADD_NEW_USER_VALUE, payload: { changedFields },
     };
 }
