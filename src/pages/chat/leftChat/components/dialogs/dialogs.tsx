@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import { AlertDialog, FormDialog, ChatSettingsDialog, UserSettingsDialog } from '@/components/dialog';
 import { Mode } from '@/constants';
-import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
+import { useDialog } from '@/pages/chat/leftChat/components/dialogs/hook';
 import { IDialogModeElement } from '@/types/components';
 
 interface IProps {
@@ -12,10 +12,7 @@ interface IProps {
 
 export const Dialogs = (props: IProps) => {
     const { dialogMode, setDialogMode } = props;
-
-    const closeDialog = useCallback(() => {
-        setDialogMode(DIALOG_MODE.EXIT);
-    }, [setDialogMode]);
+    const { closeDialog } = useDialog({ setDialogMode });
 
     return (
         <>

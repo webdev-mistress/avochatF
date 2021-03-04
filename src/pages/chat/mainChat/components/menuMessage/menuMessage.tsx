@@ -1,12 +1,9 @@
-import React, { useCallback } from 'react';
-import _ from 'lodash';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
+import React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { deleteMessage } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
-import styles from '../styles.module.scss';
+import { useMenuMessage } from '@/pages/chat/mainChat/components/menuMessage/hook';
+import styles from '../../styles.module.scss';
 
 interface IProps {
     anchorEl: Element | null,
@@ -17,27 +14,11 @@ interface IProps {
 
 export const MenuMessage = (props: IProps) => {
     const { anchorEl, setAnchorEl, state, setState } = props;
-    const dispatch: Dispatch = useDispatch();
-
-    const onCloseMenu = useCallback(() => {
-        setAnchorEl(null);
-    }, [setAnchorEl]);
-
-    const onEditMode = useCallback(() => {
-        onCloseMenu();
-
-        setTimeout(() => {
-            setState({
-                ...state,
-                isEditMode: true,
-                messageEdit: _.get(state,'selectedMessage.message', ''),
-            });
-        }, 0);
-    }, [onCloseMenu, setState, state]);
-
-    const onDeleteMessage = () => {
-        dispatch(deleteMessage(_.get(state, 'selectedMessage.messageId', 0)));
-    };
+    const {
+        onCloseMenu,
+        onEditMode,
+        onDeleteMessage,
+    } = useMenuMessage({ setAnchorEl, state, setState });
 
     return (
         <Menu

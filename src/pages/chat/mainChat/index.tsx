@@ -9,7 +9,7 @@ import { selectUserId } from '@/redux/store/user/selectors';
 import { selectActiveChat, selectMessages } from '@/redux/store/chat/selectors';
 import { sendMessage } from '@/redux/store/chat/actions';
 import { EmptyChat } from '@/pages/chat/mainChat/components/emptyChat';
-import { ChatMessages } from '@/pages/chat/mainChat/components/chatMessages';
+import { ChatMessages } from '@/pages/chat/mainChat/components/chatMessages/chatMessages';
 import { IMessage } from '@/types/store';
 import styles from './styles.module.scss';
 

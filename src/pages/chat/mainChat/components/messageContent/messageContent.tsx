@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
 import { IState } from '@/pages/chat/mainChat';
+import { useMessageContent } from '@/pages/chat/mainChat/components/messageContent/hook';
 import { IMessage } from '@/types/store';
 
 interface IProps {
@@ -15,17 +16,10 @@ interface IProps {
 
 export const MessageContent = (props: IProps) => {
     const { message, isEditMessage, state, setState, onEditClose, onSendEditMessage } = props;
-    const onPressEditEvent = useCallback((event, content) => {
-        event.key === 'Enter' && onSendEditMessage(content);
-        event.key === 'Escape' && onEditClose();
-    }, [onEditClose, onSendEditMessage]);
-
-    const onEditMessageChange = useCallback((event) => {
-        setState({
-            ...state,
-            messageEdit: event.target.value,
-        });
-    }, [setState, state]);
+    const {
+        onPressEditEvent,
+        onEditMessageChange,
+    } = useMessageContent({ state, setState, onEditClose, onSendEditMessage });
 
     return isEditMessage ? (
         <TextField

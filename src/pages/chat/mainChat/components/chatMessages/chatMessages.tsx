@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import _ from 'lodash';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import format from 'date-fns/format';
 import cn from 'classnames';
-import { editMessage } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
-import { ChatSettings } from '@/pages/chat/mainChat/components/chatSettings';
-import { MessageContent } from '@/pages/chat/mainChat/components/messageContent';
+import { ChatSettings } from '@/pages/chat/mainChat/components/chatSettings/chatSettings';
+import { MessageContent } from '@/pages/chat/mainChat/components/messageContent/messageContent';
+import { useChatMessages } from '@/pages/chat/mainChat/components/chatMessages/hook';
 import { IMessage } from '@/types/store';
-import styles from '../styles.module.scss';
+import styles from '../../styles.module.scss';
 
 interface IProps {
     state: IState,
@@ -21,21 +19,11 @@ interface IProps {
 }
 
 export const ChatMessages = (props: IProps) => {
-    const dispatch: Dispatch = useDispatch();
-
     const { messages, state, userId, setState, setAnchorEl, anchorEl } = props;
-
-    const onEditClose = useCallback(() => {
-        setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
-    }, [setState, state]);
-
-    const onSendEditMessage = useCallback((content) => {
-        const { selectedMessage, messageEdit } = state;
-        if(selectedMessage && content !== messageEdit) {
-            dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
-        }
-        onEditClose();
-    }, [dispatch, onEditClose, state]);
+    const {
+        onEditClose,
+        onSendEditMessage,
+    } = useChatMessages({ state, setState });
 
     return (
         <>
