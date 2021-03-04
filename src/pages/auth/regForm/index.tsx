@@ -1,8 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { TextField, Typography, Card, CardContent, Button, CircularProgress } from '@material-ui/core';
-import { requestCreateUser, removeErrorMessage } from '@/redux/store/user/actions';
-import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
+import { useRegForm } from '@/pages/auth/regForm/useRegForm';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -10,53 +8,19 @@ interface IProps {
 }
 
 export const RegForm = (props: IProps) => {
-    const initialState = {
-        email: '',
-        name: '',
-        login: '',
-        password1: '',
-        password2: '',
-        disabledButton: false,
-        errorText: '',
-        isRegFinished: false,
-    };
-    const [state, setState] = useState(initialState);
-    const { email, name, login, password1, password2, disabledButton } = state;
-    const isAuthSpin = useSelector(selectIsAuthSpin);
-    const errorMessage = useSelector(selectErrorMessage);
-    const dispatch = useDispatch();
-
-    const onCreateUser = useCallback((event) => {
-        event.preventDefault();
-        if (disabledButton) {
-            return;
-        }
-        if(password1 !== password2) {
-           setState((prev) => ({
-               ...prev,
-               errorText: 'Passwords are not equal!',
-           }));
-
-           return;
-        }
-        setState({ ...state, disabledButton: true, isRegFinished: true });
-        dispatch(requestCreateUser({ email, name, login, password: password1 }));
-    }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
-
-    const onChange = useCallback((event, name) => {
-        if (errorMessage) {
-            dispatch(removeErrorMessage());
-        }
-        const { value } = event.target;
-        setState({
-            ...state,
-            [name]: name === 'login' || name === 'name' || name === 'email' ? value.trim() : value,
-            disabledButton: false,
-            errorText: '',
-        });
-    }, [dispatch, errorMessage, state]);
-
-    const disabledRegFormButton = !name || !login || !password1 || !password2 || state.disabledButton;
+    const {
+        isAuthSpin,
+        errorMessage,
+        onCreateUser,
+        onChange,
+        disabledRegFormButton,
+        login,
+        password1,
+        password2,
+        name,
+        email,
+        state,
+    } = useRegForm();
 
     return (
         <Card className={styles.card}>

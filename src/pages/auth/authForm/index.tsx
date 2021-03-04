@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
+import React from 'react';
 import { TextField, Typography, Card, CardContent, Button, CircularProgress } from '@material-ui/core';
-import { requestUser, removeErrorMessage } from '@/redux/store/user/actions';
-import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
+import { useAuthForm } from '@/pages/auth/authForm/hook';
 import styles from './styles.module.scss';
 
 interface IProps {
@@ -11,36 +8,17 @@ interface IProps {
 }
 
 export const AuthForm = (props: IProps) => {
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const errorMessage = useSelector(selectErrorMessage);
-    const isAuthSpin = useSelector(selectIsAuthSpin);
-    const dispatch: Dispatch = useDispatch();
-
-    useEffect(() => {
-        errorMessage && setPassword('');
-    }, [errorMessage]);
-
-    const onAuth = useCallback((event) => {
-        event.preventDefault();
-        if (!login || !password) {
-            return;
-        }
-        dispatch(requestUser({ login, password }));
-    }, [dispatch, login, password]);
-
-    const onAuthEnter = useCallback((event) => {
-        event.key === 'Enter' && onAuth(event);
-    }, [onAuth]);
-
-    const onChange = useCallback((event, name, setState) => {
-        const { value } = event.target;
-        setState(name === 'login' ? value.trim() : value);
-
-        if (errorMessage) {
-            dispatch(removeErrorMessage());
-        }
-    }, [dispatch, errorMessage]);
+    const {
+        login,
+        setLogin,
+        password,
+        setPassword,
+        errorMessage,
+        isAuthSpin,
+        onAuthEnter,
+        onChange,
+        onAuth,
+    } = useAuthForm();
 
     return (
         <Card className={styles.card}>
