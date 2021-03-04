@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { AuthPage, ChatPage } from '@/pages';
+import { AuthPage, ChatPage, ConfirmPage } from '@/pages';
 import { selectUserIsAuth } from '@/redux/store/user/selectors';
 import styles from './styles.module.scss';
 
@@ -13,7 +13,8 @@ export const App = () => {
         <div className={styles.container}>
             <BrowserRouter basename={'/'}>
                 <Switch>
-                    <Route path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
+                    <Route exact path={hasUser ? '/chat' : '/auth'} component={hasUser ? ChatPage : AuthPage} />
+                    <Route path={'/confirm'} component={ConfirmPage} />
                     <Redirect from="/" to={hasUser ? '/chat' : '/auth'} />
                 </Switch>
             </BrowserRouter>

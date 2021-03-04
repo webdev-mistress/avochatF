@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -41,6 +41,12 @@ export const MainChat = () => {
 
     const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
+    useEffect(() => {
+        if(messageScroll.current){
+            messageScroll.current.scrollTop = 999999;
+        }
+    }, [messages, messageScroll]);
+
     const onSendMessage = useCallback(() => {
         if(!state.messageText) {
             return;
@@ -62,9 +68,6 @@ export const MainChat = () => {
         }, 0);
         event.key === 'Enter' && onSendMessage();
         event.key === 'Escape' && event.target.blur();
-        if(messageScroll.current){
-            messageScroll.current.scrollTop = 999999;
-        }
     }, [messages, onSendMessage, state, userId]);
 
     const onChangeMessage = useCallback((event) => {

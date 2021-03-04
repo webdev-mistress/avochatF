@@ -62,7 +62,7 @@ export const SettingsMessage = (props: IProps) => {
                     state={state}
                     setState={setState}
                 />
-                <EditIcon messageDateChange={messageDateChange} />
+                {message.dateChange && <EditIcon messageDateChange={messageDateChange} />}
             </div>
         </>
     );

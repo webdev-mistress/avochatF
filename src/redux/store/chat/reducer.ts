@@ -41,7 +41,7 @@ export function chatReducer(state = initialState, action: ChatAction): IActiveCh
                 editMessageId: action.payload.messageData.editMessageId,
                 messageEdit: action.payload.messageData.messageEdit,
             };
-        case Chat.CHECK_MEMBERS_LOADED:
+        case Chat.GET_CHAT_PARTICIPANTS_LOADED:
             return {
                 ...state,
                 chatMembersList: action.payload.data,
@@ -50,7 +50,7 @@ export function chatReducer(state = initialState, action: ChatAction): IActiveCh
             return {
                 ...state,
                 chatMembersList: state.chatMembersList && state.chatMembersList
-                    .filter(member => member.userId !== action.payload.userId),
+                    .filter(member => member.id !== action.payload.userId),
             };
         default:
         return state;

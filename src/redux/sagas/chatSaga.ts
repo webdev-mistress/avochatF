@@ -8,8 +8,9 @@ import {
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import {
-    getMessages as getMessagesFromApi, sendMessage, deleteMessage,
-    editMessage, createChat, deleteChat, deleteUserFromChat, checkMembers, editChatName
+    getMessages as getMessagesFromApi,
+    sendMessage, deleteMessage,
+    editMessage, createChat, deleteChat, deleteUserFromChat, editChatName, getParticipants
 } from '@/redux/api';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
 import {
@@ -138,10 +139,10 @@ function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
     }
 }
 
-function* fetchCheckMembers(action: ICheckMembers) {
+function* fetchGetParticipants(action: ICheckMembers) {
     try {
         const { chatId } = action.payload;
-        const response: ICkeckMembersSaga = yield call(checkMembers, chatId);
+        const response: ICkeckMembersSaga = yield call(getParticipants, chatId);
         if (response.ok) {
             yield put(checkMembersLoaded(response.data));
         }
@@ -170,6 +171,6 @@ export function* chatSaga() {
     yield takeEvery(Chat.CREATE_CHAT, fetchCreateChat);
     yield takeEvery(Chat.DELETE_CHAT, fetchDeleteChat);
     yield takeEvery(Chat.DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
-    yield takeEvery(Chat.CHECK_MEMBERS, fetchCheckMembers);
+    yield takeEvery(Chat.GET_CHAT_PARTICIPANTS, fetchGetParticipants);
     yield takeEvery(Chat.EDIT_CHAT_NAME, fetchEditChatName);
 }

@@ -3,6 +3,7 @@ import { IChat, IMembersData, IMessage, ISucceededUserData } from '@/types/store
 export interface IGetUserSaga {
     ok: boolean,
     data: {
+        accessToken: string,
         userId: number,
         name: string,
         login: string,

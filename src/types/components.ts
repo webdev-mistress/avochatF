@@ -13,7 +13,7 @@ export interface IDialogMode {
     DELETE_FROM_CHAT: IDialogModeElement,
     CREATE_CHAT: IDialogModeElement,
     DELETE_CHAT: IDialogModeElement,
-    CHECK_MEMBERS: IDialogModeElement,
+    GET_CHAT_PARTICIPANTS: IDialogModeElement,
     USER_SETTINGS: IDialogModeElement,
     LOGOUT: IDialogModeElement,
     EXIT: {},

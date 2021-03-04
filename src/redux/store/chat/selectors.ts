@@ -3,7 +3,7 @@ import { IActiveChat, IChat, IMembersData, IMessage } from '@/types/store';
 
 export const selectActiveChat = (state: IActiveChat): IChat => _.get(state, ('activeChat.info'), {});
 
-export const selectActiveChatId = (state: IActiveChat): number => _.get(state, ('activeChat.info.chatId'), 0);
+export const selectActiveChatId = (state: IActiveChat): number => _.get(state, ('activeChat.info.id'), 0);
 
 export const selectMessages = (state: IActiveChat): IMessage[] => _.get(state, ('activeChat.info.messages'), []);
 

@@ -4,11 +4,10 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import format from 'date-fns/format';
 import cn from 'classnames';
-import TextField from '@material-ui/core/TextField';
 import { editMessage } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
-import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
-import { SettingsMessage } from '@/pages/chat/mainChat/components/settingsMessage';
+import { ChatSettings } from '@/pages/chat/mainChat/components/chatSettings';
+import { MessageContent } from '@/pages/chat/mainChat/components/messageContent';
 import { IMessage } from '@/types/store';
 import styles from '../styles.module.scss';
 
@@ -26,13 +25,6 @@ export const ChatMessages = (props: IProps) => {
 
     const { messages, state, userId, setState, setAnchorEl, anchorEl } = props;
 
-    const onEditMessageChange = useCallback((event) => {
-        setState({
-            ...state,
-            messageEdit: event.target.value,
-        });
-    }, [setState, state]);
-
     const onEditClose = useCallback(() => {
         setState({ ...state, isEditMode: false, message: null, messageEdit: '' });
     }, [setState, state]);
@@ -44,42 +36,6 @@ export const ChatMessages = (props: IProps) => {
         }
         onEditClose();
     }, [dispatch, onEditClose, state]);
-
-    const onPressEditEvent = useCallback((event, content) => {
-        event.key === 'Enter' && onSendEditMessage(content);
-        event.key === 'Escape' && onEditClose();
-    }, [onEditClose, onSendEditMessage]);
-
-    const renderMessageContent = (message: IMessage, isEditMessage: boolean) => isEditMessage ? (
-        <TextField
-            autoFocus
-            className={styles.form}
-            onChange={onEditMessageChange}
-            onKeyUp={(event) => onPressEditEvent(event, message.message)}
-            value={state.messageEdit}
-        />
-    ) : (<div>{message.message}</div>);
-
-    const renderSettings = (message: IMessage, userIsAuthor: boolean, isEditMessage: boolean) => {
-        const messageDateChange = message.dateChange
-            ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
-
-        return userIsAuthor ? (
-            <div className={styles.buttonBlock}>
-                <SettingsMessage
-                    isEditMessage={isEditMessage}
-                    anchorEl={anchorEl}
-                    setAnchorEl={setAnchorEl}
-                    state={state}
-                    setState={setState}
-                    message={message}
-                    messageDateChange={messageDateChange}
-                    onEditClose={onEditClose}
-                    onSendEditMessage={onSendEditMessage}
-                />
-            </div>
-        ) : message.dateChange && <EditIcon messageDateChange={messageDateChange} />;
-    };
 
     return (
         <>
@@ -98,9 +54,26 @@ export const ChatMessages = (props: IProps) => {
                         <div className={cn(styles.message, userIsAuthor && styles.myMessage)}>
                             <div className={styles.messageBlock}>
                                 <div>{message.author.name}</div>
-                                {renderMessageContent(message, isEditMessage)}
+                                <MessageContent
+                                    message={message}
+                                    isEditMessage={isEditMessage}
+                                    state={state}
+                                    setState={setState}
+                                    onSendEditMessage={onSendEditMessage}
+                                    onEditClose={onEditClose}
+                                />
                             </div>
-                            {renderSettings(message, userIsAuthor, isEditMessage)}
+                            <ChatSettings
+                                message={message}
+                                anchorEl={anchorEl}
+                                setAnchorEl={setAnchorEl}
+                                userIsAuthor={userIsAuthor}
+                                isEditMessage={isEditMessage}
+                                state={state}
+                                setState={setState}
+                                onEditClose={onEditClose}
+                                onSendEditMessage={onSendEditMessage}
+                            />
                         </div>
                     </div>
                 );

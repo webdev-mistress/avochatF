@@ -87,3 +87,9 @@ export function addNewUserValue(changedFields: IChangedFields): IAddNewUserValue
         type: User.ADD_NEW_USER_VALUE, payload: { changedFields },
     };
 }
+
+export function requestConfirmUser(token: string) {
+    return {
+        type: User.CONFIRM_REQUESTED, payload: { token },
+    };
+}

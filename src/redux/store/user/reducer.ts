@@ -3,7 +3,7 @@ import { User, Chat } from '@/constants/store';
 import { IUser, UserAction } from '@/types/store';
 
 const initialState: IUser = {
-    userId: 0,
+    id: 0,
     name: '',
     login: '',
     isAuth: false,
@@ -51,7 +51,7 @@ export function userReducer(state = initialState, action: UserAction) {
 
             return {
                 ...state,
-                chats: state.chats.filter(chat => chat.chatId !== chatId),
+                chats: state.chats.filter(chat => chat.id !== chatId),
             };
         case User.LOGOUT:
             return initialState;
@@ -72,7 +72,7 @@ export function userReducer(state = initialState, action: UserAction) {
             };
         case Chat.ADD_NEW_CHAT_NAME: {
             const newChats = state.chats
-                .map(chat => chat.chatId === action.payload.chatId
+                .map(chat => chat.id === action.payload.chatId
                     ? { ...chat, name: action.payload.newChatName }
                     : chat);
 

@@ -25,3 +25,18 @@ export const sendNotification = (title: string, options: any) => {
         getPermission(title, options);
     }
 };
+
+export const getLocationParam = (param: string) => {
+    const locationParams: any = window
+        .location
+        .search
+        .replace('?', '')
+        .split('&')
+        .reduce((acc, item) => {
+            const [key, value] = item.split('=');
+
+            return { ...acc, [key]: value };
+        }, {});
+
+    return locationParams[param];
+};

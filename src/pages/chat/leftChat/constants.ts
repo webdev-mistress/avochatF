@@ -30,7 +30,7 @@ export const DIALOG_MODE: IDialogMode = {
         title: 'Are you sure?',
         positiveBtnText: 'Logout',
     },
-    CHECK_MEMBERS: {
+    GET_CHAT_PARTICIPANTS: {
         mode: Mode.INFO,
         title: `Chat Members`,
     },

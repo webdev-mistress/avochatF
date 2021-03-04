@@ -25,7 +25,7 @@ export interface IActiveChat {
 }
 
 export interface IChat {
-    chatId: number,
+    id: number,
     name: string,
     lastMessage: string,
     userOwnerId: number,
@@ -36,7 +36,7 @@ export interface IChat {
 export interface IUser {
     isAuth: boolean,
     isAuthSpin: boolean,
-    userId: number,
+    id: number,
     name: string,
     login: string,
     chats: IChat[],
@@ -63,10 +63,10 @@ export interface ISucceededUserData {
 }
 
 export interface IUserData {
+    email: string,
     name: string,
     login: string,
-    password1: string,
-    password2: string,
+    password: string,
 }
 
 export interface IChatData {
@@ -177,6 +177,13 @@ export interface IRequestUser {
     }
 }
 
+export interface IRequestConfirm {
+    type: User.CONFIRM_REQUESTED,
+    payload: {
+        token: string,
+    }
+}
+
 export interface IGetUserSucceeded {
     type: User.FETCH_SUCCEEDED,
     payload: {
@@ -236,21 +243,21 @@ export interface IDeleteUnwanterUser {
 }
 
 export interface ICheckMembers {
-    type: Chat.CHECK_MEMBERS,
+    type: Chat.GET_CHAT_PARTICIPANTS,
     payload: {
         chatId: number,
     }
 }
 
 export interface ICheckMembersLoad {
-    type: Chat.CHECK_MEMBERS_LOADED,
+    type: Chat.GET_CHAT_PARTICIPANTS_LOADED,
     payload: {
         data: IMembersData[],
     }
 }
 
 export interface IMembersData {
-    userId: number,
+    id: number,
     name: string,
     login: string,
     isOnline?: boolean,
@@ -301,4 +308,4 @@ export type ChatAction = IGetMessages | IGetActiveChat | IClearChat | IEditMessa
 
 export type UserAction = IRequestUser | IGetUserSucceeded | ILogoutUser | IRemoveErrorMessage |
     IRequestCreateUser | IFailedUser | IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName |
-    IAddNewChatName | IEditUser | IAddNewUserValue;
+    IAddNewChatName | IEditUser | IAddNewUserValue | IRequestConfirm;

@@ -2,24 +2,18 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import IconButton from '@material-ui/core/IconButton';
 import EditAttributesIcon from '@material-ui/icons/EditAttributes';
+import { MembersList } from '@/components/dialog/components/memberList';
 import { clearChat, deleteChat, deleteUserFromChat, editOldChatName } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
 import { addUserToChat } from '@/redux/store/user/actions';
-import { selectChatMembersList } from '@/redux/store/chat/selectors';
 import { IDialogModeElement } from '@/types/components';
-import { IChat, IMembersData } from '@/types/store';
-import { checkShowCloseIcon } from './helpers';
-import styles from './styles.module.scss';
+import { IChat } from '@/types/store';
+import styles from '../styles.module.scss';
 
 interface IProps {
     isShow: boolean,
@@ -37,16 +31,9 @@ export const ChatSettingsDialog = (props: IProps) => {
     const [isEditMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState('');
     const dispatch: Dispatch = useDispatch();
-    const membersList: IMembersData[] = useSelector(selectChatMembersList);
     const selectedUserId: number = useSelector(selectUserId);
     const selectedChat: IChat = useSelector(selectSelectedChat);
     const [newChatNameValue, setChatName] = useState('');
-
-    const onDeleteUserFromChatDialog = useCallback((userId: number) => {
-        if(selectedChat) {
-            dispatch(deleteUserFromChat(userId, selectedChat.chatId));
-        }
-    }, [dispatch, selectedChat]);
 
     const onCloseDialogClick = useCallback(() => {
         setEditMode(false);
@@ -60,20 +47,20 @@ export const ChatSettingsDialog = (props: IProps) => {
 
     const onAddUserToChatDialog = useCallback((fieldValue: string) => {
         if(selectedChat) {
-            dispatch(addUserToChat({ login: fieldValue, selectedChatId: selectedChat.chatId }));
+            dispatch(addUserToChat({ login: fieldValue, selectedChatId: selectedChat.id }));
             setFieldValue('');
         }
     }, [dispatch, selectedChat]);
 
     const onDeleteChatDialog = useCallback(() => {
-        dispatch(deleteChat(selectedChat.chatId));
+        dispatch(deleteChat(selectedChat.id));
         dispatch(clearChat());
         props.closeDialog();
     }, [dispatch, props, selectedChat]);
 
     const onLeaveChat = useCallback((selectedUserId: number, selectedChat: IChat) => {
-        dispatch(deleteUserFromChat(selectedUserId, selectedChat.chatId));
-        dispatch(deleteChat(selectedChat.chatId));
+        dispatch(deleteUserFromChat(selectedUserId, selectedChat.id));
+        dispatch(deleteChat(selectedChat.id));
         props.closeDialog();
     }, [dispatch, props]);
 
@@ -88,7 +75,7 @@ export const ChatSettingsDialog = (props: IProps) => {
     const onEditOldChatName = useCallback((newChatNameValue: string) => {
        if(selectedChat) {
            setChatName(selectedChat.name);
-           dispatch(editOldChatName(newChatNameValue, selectedChat.chatId));
+           dispatch(editOldChatName(newChatNameValue, selectedChat.id));
            setEditMode(!isEditMode);
        }
     }, [dispatch, isEditMode, selectedChat]);
@@ -98,34 +85,6 @@ export const ChatSettingsDialog = (props: IProps) => {
             setChatName(selectedChat.name);
         }
     }, [selectedChat]);
-
-    const renderMembersList = () => (
-        <List className={styles.membersListWrapper}>
-            {membersList.map((member => (
-                <ListItem
-                    className={styles.infoWrapper}
-                    key={member.userId}
-                >
-                    <ListItemAvatar>
-                        <Avatar className={styles.avatar} alt={member.name} src="/static/invalide.path" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        className={member.isOnline ? styles.listItemTextOnline : styles.listItemTextOffline}
-                        primary={member.name}
-                        secondary={member.isOnline ? 'online' : 'offline'}
-                    />
-                    {checkShowCloseIcon(selectedChat, member, selectedUserId)
-                             && (
-                             <CloseIcon
-                                onClick={() => onDeleteUserFromChatDialog(member.userId)}
-                                className={styles.chatSettingsIcon}
-                            />
-                            )
-                        }
-                </ListItem>
-                )))}
-        </List>
-    );
 
     return (
         <div>
@@ -203,7 +162,7 @@ export const ChatSettingsDialog = (props: IProps) => {
                             </Button>
                         </div>
                     </DialogContent>
-                    {renderMembersList()}
+                    <MembersList />
                 </DialogContent>
                 <DialogActions className={styles.infoWrapper}>
                 </DialogActions>

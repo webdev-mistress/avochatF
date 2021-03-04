@@ -9,7 +9,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import { checkChatMembers, createChat, getActiveChat, requestMessages } from '@/redux/store/chat/actions';
+import { getChatParticipants, createChat, getActiveChat, requestMessages } from '@/redux/store/chat/actions';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
 import { getSelectedChat } from '@/redux/store/user/actions';
 import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
@@ -31,7 +31,7 @@ export const Chats = (props: IProps) => {
         const { nodeName } = event.target;
         if (nodeName !== 'path' && nodeName !== 'svg') {
             dispatch(getActiveChat(chat));
-            dispatch(requestMessages(chat.chatId));
+            dispatch(requestMessages(chat.id));
         }
     }, [dispatch]);
 
@@ -45,8 +45,8 @@ export const Chats = (props: IProps) => {
 
     const onOpenChatSettings = useCallback((chat) => {
         dispatch(getSelectedChat(chat));
-        dispatch(checkChatMembers(chat.chatId));
-        props.setDialogMode(DIALOG_MODE.CHECK_MEMBERS);
+        dispatch(getChatParticipants(chat.id));
+        props.setDialogMode(DIALOG_MODE.GET_CHAT_PARTICIPANTS);
     }, [dispatch, props]);
 
     return (
@@ -54,8 +54,8 @@ export const Chats = (props: IProps) => {
             <List className={styles.list}>
                 {chats.map((chat => (
                     <ListItem
-                        className={cn(styles.chatItem, chat.chatId === activeChatId && styles.chatItemActive)}
-                        key={chat.chatId}
+                        className={cn(styles.chatItem, chat.id === activeChatId && styles.chatItemActive)}
+                        key={chat.id}
                         onClick={(event) => onLoadChat(event, chat)}
                     >
                         <ListItemAvatar>

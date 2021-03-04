@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -13,7 +12,7 @@ import { selectUser } from '@/redux/store/user/selectors';
 import { editOldUser } from '@/redux/store/user/actions';
 import { IDialogModeElement } from '@/types/components';
 import { IChangedFields, IUser } from '@/types/store';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 
 interface IProps {
     isShow: boolean,
@@ -74,7 +73,7 @@ export const UserSettingsDialog = (props: IProps) => {
         event: React.KeyboardEvent) => {
         if(event.key === 'Enter' && editValue === 'password') {
             const changedFields: IChangedFields = {
-                userId: selectedUser.userId,
+                userId: selectedUser.id,
                 oldPassword: userValue.oldPassword,
                 newPassword1: userValue.newPassword1,
                 newPassword2: userValue.newPassword2,
@@ -83,19 +82,19 @@ export const UserSettingsDialog = (props: IProps) => {
             setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
         } else if(event.key === 'Enter') {
             const changedFields: IChangedFields = {
-                userId: selectedUser.userId,
+                userId: selectedUser.id,
                 // @ts-ignore
                 [editValue]: userValue[userField],
             };
             dispatch(editOldUser(changedFields));
             setUserEditMode((prev) => ({ ...prev, isEditLogin: false, isEditName: false }));
         }
-    }, [dispatch, selectedUser.userId, userValue]);
+    }, [dispatch, selectedUser.id, userValue]);
 
     const onEditOldUser = useCallback((editValue: userTypeFields, userField: userFields) => () => {
         if(editValue === 'password') {
             const changedFields: IChangedFields = {
-                userId: selectedUser.userId,
+                userId: selectedUser.id,
                 oldPassword: userValue.oldPassword,
                 newPassword1: userValue.newPassword1,
                 newPassword2: userValue.newPassword2,
@@ -104,14 +103,14 @@ export const UserSettingsDialog = (props: IProps) => {
             setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
         } else {
             const changedFields: IChangedFields = {
-                userId: selectedUser.userId,
+                userId: selectedUser.id,
                 // @ts-ignore
                 [editValue]: userValue[userField],
             };
             dispatch(editOldUser(changedFields));
             setUserEditMode((prev) => ({ ...prev, isEditLogin: false, isEditName: false }));
         }
-    }, [dispatch, selectedUser.userId, userValue]);
+    }, [dispatch, selectedUser.id, userValue]);
 
     return (
         <div>

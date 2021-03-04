@@ -90,15 +90,15 @@ export function deleteUserFromChat(userId: number, chatId: number): IDeleteUserF
     };
 }
 
-export function checkChatMembers(chatId: number): ICheckMembers {
+export function getChatParticipants(chatId: number): ICheckMembers {
     return {
-        type: Chat.CHECK_MEMBERS, payload: { chatId },
+        type: Chat.GET_CHAT_PARTICIPANTS, payload: { chatId },
     };
 }
 
 export function checkMembersLoaded(data: IMembersData[]) {
     return {
-        type: Chat.CHECK_MEMBERS_LOADED,
+        type: Chat.GET_CHAT_PARTICIPANTS_LOADED,
         payload: {
             data: data,
         },

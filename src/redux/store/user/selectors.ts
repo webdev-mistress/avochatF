@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { IChat, IUser } from '@/types/store';
 
-export const selectUserId = (state: IUser): number => _.get(state, 'user.userId', 0);
+export const selectUserId = (state: IUser): number => _.get(state, 'user.id', 0);
 
 export const selectUserLogin = (state: IUser): string => _.get(state, 'user.login', '');
 
