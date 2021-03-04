@@ -89,8 +89,6 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "publish": "scp -r build/* victor@leyrusdev.ru:/var/www/chat.leyrusdev.ru/",
-    "bp": "node scripts/build.js && scp -r build/* victor@leyrusdev.ru:/var/www/chat.leyrusdev.ru/",
     "test": "node scripts/test.js",
     "lint": "eslint '**/*.{ts,tsx}'"
   },
