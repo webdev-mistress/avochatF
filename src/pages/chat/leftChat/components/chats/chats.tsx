@@ -2,7 +2,7 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 import { useChat } from '@/pages/chat/leftChat/components/chats/hook';
-import { ChatList } from '@/pages/chat/leftChat/components/chats/renderChats';
+import { ChatList } from '@/pages/chat/leftChat/components/chats/chatItem';
 import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
 import styles from '../../styles.module.scss';

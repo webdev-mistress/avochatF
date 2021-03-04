@@ -15,7 +15,7 @@ interface IProps {
     onOpenChatSettings: (chat: IChat) => void,
 }
 
-export const ChatList = (props: IProps) => {
+export const ChatItem = (props: IProps) => {
     const { chat, activeChatId, onLoadChat, onOpenChatSettings } = props;
 
     return (
