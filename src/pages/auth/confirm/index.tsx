@@ -1,11 +1,10 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getLocationParam } from '@/helpers';
 import { requestConfirmUser } from '@/redux/store/user/actions';
 import { selectUserIsAuth } from '@/redux/store/user/selectors';
+import styles from './styles.module.scss';
 
 export const ConfirmPage = () => {
     const dispatch = useDispatch();
@@ -23,6 +22,6 @@ export const ConfirmPage = () => {
     }, [history, userIsAuth]);
 
     return (
-        <div>Confirm Page</div>
+        <div className={styles.confirmWrapper}>Confirm Page</div>
     );
 };

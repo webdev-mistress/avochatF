@@ -81,3 +81,4 @@ export const AuthForm = (props: IProps) => {
         </Card>
     );
 };
+

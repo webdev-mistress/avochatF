@@ -7,7 +7,7 @@ import { accessToken } from '@/helpers/localStorage';
 import { selectUserChats, selectUserName } from '@/redux/store/user/selectors';
 import { logoutUser } from '@/redux/store/user/actions';
 import { clearChat } from '@/redux/store/chat/actions';
-import { Chats } from '@/pages/chat/leftChat/components/chats';
+import { Chats } from '@/pages/chat/leftChat/components/chats/chats';
 import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
 import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
