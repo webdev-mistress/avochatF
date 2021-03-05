@@ -60,3 +60,5 @@ FormDialog.defaultProps = {
     positiveBtnText: 'Ok',
     label: '',
 };
+
+// export const some = () => true;
