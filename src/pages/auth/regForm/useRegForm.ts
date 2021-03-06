@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 import { removeErrorMessage, requestCreateUser } from '@/redux/store/user/actions';
+import { ButtonEvent } from '@/types/components';
 
 export const useRegForm = () => {
     const initialState = {
@@ -20,8 +21,9 @@ export const useRegForm = () => {
     const errorMessage = useSelector(selectErrorMessage);
     const dispatch = useDispatch();
 
-    const onCreateUser = useCallback((event) => {
+    const onCreateUser = useCallback((event: React.KeyboardEvent<HTMLDivElement> | ButtonEvent) => {
         event.preventDefault();
+
         if (disabledButton) {
             return;
         }
@@ -37,7 +39,13 @@ export const useRegForm = () => {
         dispatch(requestCreateUser({ email, name, login, password: password1 }));
     }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
 
-    const onChange = useCallback((event, name) => {
+    const onKeyUpEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+        if(event.key === 'Enter') {
+              onCreateUser(event);
+          }
+    }, [onCreateUser]);
+
+    const onChange = useCallback((name) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }
@@ -55,6 +63,7 @@ export const useRegForm = () => {
         return {
             isAuthSpin,
             errorMessage,
+            onKeyUpEnter,
             onCreateUser,
             onChange,
             disabledRegFormButton,

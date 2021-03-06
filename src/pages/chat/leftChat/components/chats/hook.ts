@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
@@ -8,22 +8,19 @@ import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
 import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
 
-interface IProps {
+interface IArgs {
     chats: IChat[],
     setDialogMode: (dialogMode: IDialogModeElement) => void,
 }
 
-export const useChat = (props: IProps) => {
+export const useChat = (props: IArgs) => {
     const { chats, setDialogMode } = props;
     const dispatch: Dispatch = useDispatch();
     const activeChatId: number = useSelector(selectActiveChatId);
 
-    const onLoadChat = useCallback((event, chat) => {
-        const { nodeName } = event.target;
-        if (nodeName !== 'path' && nodeName !== 'svg') {
-            dispatch(getActiveChat(chat));
-            dispatch(requestMessages(chat.id));
-        }
+    const onLoadChat = useCallback((chat) => () => {
+        dispatch(getActiveChat(chat));
+        dispatch(requestMessages(chat.id));
     }, [dispatch]);
 
     const onCreateChatDialog = useCallback(() => {
@@ -34,7 +31,8 @@ export const useChat = (props: IProps) => {
         setDialogMode({ ...DIALOG_MODE.CREATE_CHAT, positiveBtnFunc: onCreateChat });
     }, [dispatch, setDialogMode]);
 
-    const onOpenChatSettings = useCallback((chat) => {
+    const onOpenChatSettings = useCallback((chat) => (event: React.MouseEvent<SVGSVGElement>) => {
+        event.stopPropagation();
         dispatch(getSelectedChat(chat));
         dispatch(getChatParticipants(chat.id));
         props.setDialogMode(DIALOG_MODE.GET_CHAT_PARTICIPANTS);

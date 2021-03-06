@@ -29,7 +29,7 @@ export const MenuMessage = (props: IProps) => {
             onClick={onCloseMenu}
         >
             <MenuItem
-                onClick={() => onEditMode()}
+                onClick={onEditMode}
                 className={styles.icons}
             >
                 Edit

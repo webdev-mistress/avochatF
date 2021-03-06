@@ -4,12 +4,12 @@ import { Dispatch } from 'redux';
 import { editMessage } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
 
-interface IProps {
+interface IArgs {
     state: IState,
     setState: (state: IState) => void,
 }
 
-export const useChatMessages = (props: IProps) => {
+export const useChatMessages = (props: IArgs) => {
     const dispatch: Dispatch = useDispatch();
 
     const { state, setState } = props;

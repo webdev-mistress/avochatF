@@ -30,6 +30,7 @@ export const ChatMessages = (props: IProps) => {
             {messages.map(message => {
                 const userIsAuthor = userId === message.author.userId;
                 const messageDate = format(new Date(message.dateCreate), 'HH:mm:ss dd.MM.yyyy');
+                // TODO разобраться с логикой в этом месте
                 const isEditMessage = state.isEditMode
                     && (_.get(state, 'selectedMessage.messageId', 0) === message.messageId);
 

@@ -8,6 +8,7 @@ interface IProps {
 }
 
 export const AuthForm = (props: IProps) => {
+    const { onOpenRegForm } = props;
     const {
         login,
         setLogin,
@@ -31,8 +32,8 @@ export const AuthForm = (props: IProps) => {
                         value={login}
                         id="authLogin"
                         label="Login"
-                        onChange={(event) => onChange(event, 'login', setLogin)}
-                        onKeyUp={(event) => onAuthEnter(event)}
+                        onChange={onChange('login', setLogin)}
+                        onKeyUp={onAuthEnter}
                     />
                     <TextField
                         style={{ width: '100%' }}
@@ -42,8 +43,8 @@ export const AuthForm = (props: IProps) => {
                         type="password"
                         id="authPassword"
                         label="password"
-                        onChange={(event) => onChange(event, 'password', setPassword)}
-                        onKeyUp={(event) => onAuthEnter(event)}
+                        onChange={onChange('password', setPassword)}
+                        onKeyUp={onAuthEnter}
                         />
 
                     {isAuthSpin
@@ -67,7 +68,7 @@ export const AuthForm = (props: IProps) => {
                                     <Button
                                         color="primary"
                                         variant="outlined"
-                                        onClick={() => props.onOpenRegForm(false)}
+                                        onClick={onOpenRegForm(false)}
                                     >
                                         Sign Up
                                     </Button>

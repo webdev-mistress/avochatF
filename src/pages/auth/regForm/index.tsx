@@ -8,11 +8,13 @@ interface IProps {
 }
 
 export const RegForm = (props: IProps) => {
+    const { onOpenAuthForm } = props;
     const {
         isAuthSpin,
         errorMessage,
         onCreateUser,
         onChange,
+        onKeyUpEnter,
         disabledRegFormButton,
         login,
         password1,
@@ -27,7 +29,7 @@ export const RegForm = (props: IProps) => {
             {state.isRegFinished
                 ? (<div>Check your email and confirm registration</div>)
                 : (
-                    <CardContent className={styles.cardContent}>
+                    <CardContent className={styles.cardContent} onKeyUp={onKeyUpEnter}>
                         <Typography variant="h4">Registration</Typography>
                         <div className={styles.errorMessage}>{errorMessage}</div>
                         <form className={styles.form}>
@@ -36,16 +38,16 @@ export const RegForm = (props: IProps) => {
                             value={email}
                             id="authEmail"
                             label="email"
-                            onChange={(event) => onChange(event, 'email')}
-                            onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
+                            onChange={onChange('email')}
+                            // onKeyUp={onKeyUpEnter}
                         />
                             <TextField
                             required
                             value={login}
                             id="authLogin"
                             label="Login"
-                            onChange={(event) => onChange(event, 'login')}
-                            onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
+                            onChange={onChange('login')}
+                            // onKeyUp={onKeyUpEnter}
                         />
                             <TextField
                             autoFocus
@@ -53,8 +55,8 @@ export const RegForm = (props: IProps) => {
                             value={name}
                             id="authLogin"
                             label="Name"
-                            onChange={(event) => onChange(event, 'name')}
-                            onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
+                            onChange={onChange('name')}
+                            // onKeyUp={onKeyUpEnter}
                         />
                             <TextField
                             required
@@ -62,8 +64,8 @@ export const RegForm = (props: IProps) => {
                             type="password"
                             id="authPassword"
                             label="password"
-                            onChange={(event) => onChange(event, 'password1')}
-                            onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
+                            onChange={onChange('password1')}
+                            // onKeyUp={onKeyUpEnter}
                         />
                             <TextField
                             required
@@ -71,8 +73,8 @@ export const RegForm = (props: IProps) => {
                             type="password"
                             id="authPassword"
                             label="repeat password"
-                            onChange={(event) => onChange(event, 'password2')}
-                            onKeyUp={(event) => event.key === 'Enter' && onCreateUser(event)}
+                            onChange={onChange('password2')}
+                            // onKeyUp={onKeyUpEnter}
                         />
                             {!!state.errorText && (
                             <div className={styles.errorText}>{state.errorText}</div>
@@ -98,7 +100,7 @@ export const RegForm = (props: IProps) => {
                                         <Button
                                             color="primary"
                                             variant="outlined"
-                                            onClick={() => props.onOpenAuthForm(true)}
+                                            onClick={onOpenAuthForm(true)}
                                         >
                                             Sign In
                                         </Button>
@@ -108,7 +110,7 @@ export const RegForm = (props: IProps) => {
                         }
                         </form>
                     </CardContent>)
-            }
+                }
         </Card>
     );
 };

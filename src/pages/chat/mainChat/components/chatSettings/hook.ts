@@ -1,10 +1,10 @@
 import format from 'date-fns/format';
 import { IMessage } from '@/types/store';
 
-interface IProps {
+interface IArgs {
     message: IMessage,
 }
-export const useChatSettings = (props: IProps) => {
+export const useChatSettings = (props: IArgs) => {
     const { message } = props;
 
     return message.dateChange

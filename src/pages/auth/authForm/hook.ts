@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
@@ -12,7 +12,9 @@ export const useAuthForm = () => {
     const dispatch: Dispatch = useDispatch();
 
     useEffect(() => {
-        errorMessage && setPassword('');
+        if(errorMessage) {
+            setPassword('');
+        }
     }, [errorMessage]);
 
     const onAuth = useCallback((event) => {
@@ -24,10 +26,12 @@ export const useAuthForm = () => {
     }, [dispatch, login, password]);
 
     const onAuthEnter = useCallback((event) => {
-        event.key === 'Enter' && onAuth(event);
+        if(event.key === 'Enter') {
+            onAuth(event);
+        }
     }, [onAuth]);
 
-    const onChange = useCallback((event, name, setState) => {
+    const onChange = useCallback((name, setState) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const { value } = event.target;
         setState(name === 'login' ? value.trim() : value);
 

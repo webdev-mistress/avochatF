@@ -1,16 +1,16 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { IState } from '@/pages/chat/mainChat';
 
-interface IProps {
+interface IArgs {
     state: IState,
     setState: (state: IState) => void,
     onEditClose: () => void;
     onSendEditMessage: (content: string) => void,
 }
 
-export const useMessageContent = (props: IProps) => {
+export const useMessageContent = (props: IArgs) => {
     const { state, setState, onEditClose, onSendEditMessage } = props;
-    const onPressEditEvent = useCallback((event, content) => {
+    const onPressEditEvent = useCallback((content) => (event: React.KeyboardEvent<HTMLDivElement>) => {
         if(event.key === 'Enter') {
             onSendEditMessage(content);
         }

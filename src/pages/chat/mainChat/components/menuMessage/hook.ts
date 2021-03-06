@@ -5,13 +5,13 @@ import { Dispatch } from 'redux';
 import { deleteMessage } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
 
-interface IProps {
+interface IArgs {
     setAnchorEl: (anchorEl: Element | null) => void,
     state: IState,
     setState: (state: IState) => void,
 }
 
-export const useMenuMessage = (props: IProps) => {
+export const useMenuMessage = (props: IArgs) => {
     const {
         setAnchorEl,
         state,
@@ -19,25 +19,30 @@ export const useMenuMessage = (props: IProps) => {
     } = props;
     const dispatch: Dispatch = useDispatch();
 
-   const onCloseMenu = useCallback(() => {
-       setAnchorEl(null);
-   }, [setAnchorEl]);
+    const onCloseMenu = useCallback(() => {
+        setAnchorEl(null);
+    }, [setAnchorEl]);
 
-   const onEditMode = useCallback(() => {
-       onCloseMenu();
+    const onEditMode = useCallback(() => {
+        onCloseMenu();
 
-       setTimeout(() => {
-           setState({
-               ...state,
-               isEditMode: true,
-               messageEdit: _.get(state,'selectedMessage.message', ''),
-           });
-       }, 0);
-   }, [onCloseMenu, setState, state]);
+        setTimeout(() => {
+            setState({
+                ...state,
+                isEditMode: true,
+                messageEdit: _.get(state, 'selectedMessage.message', ''),
+            });
+        }, 0);
+    }, [onCloseMenu, setState, state]);
 
-   const onDeleteMessage = () => {
-       dispatch(deleteMessage(_.get(state, 'selectedMessage.messageId', 0)));
-   };
+    const onDeleteMessage = useCallback(() => {
+        const deletedMessageId = state.selectedMessage?.messageId;
+        if (deletedMessageId) {
+            dispatch(deleteMessage(deletedMessageId));
+        } else {
+            throw new Error('deletedMessageId does not exist');
+        }
+    }, [dispatch, state.selectedMessage]);
 
     return {
         onCloseMenu,

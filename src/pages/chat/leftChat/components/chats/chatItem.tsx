@@ -11,8 +11,8 @@ import { IChat } from '@/types/store';
 interface IProps {
     chat: IChat,
     activeChatId: number,
-    onLoadChat: (event: any, chat: IChat) => void,
-    onOpenChatSettings: (chat: IChat) => void,
+    onLoadChat: (chat: IChat) => any,
+    onOpenChatSettings: (chat: IChat) => any,
 }
 
 export const ChatItem = (props: IProps) => {
@@ -22,7 +22,7 @@ export const ChatItem = (props: IProps) => {
         <ListItem
             className={cn(styles.chatItem, chat.id === activeChatId && styles.chatItemActive)}
             key={chat.id}
-            onClick={(event) => onLoadChat(event, chat)}
+            onClick={onLoadChat(chat)}
         >
             <ListItemAvatar>
                 <Avatar className={styles.avatar} alt={chat.name} src="/static/invalide.path" />
@@ -36,7 +36,7 @@ export const ChatItem = (props: IProps) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={() => onOpenChatSettings(chat)}
+                onClick={onOpenChatSettings(chat)}
                 className={styles.icons}
             />
         </ListItem>

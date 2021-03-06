@@ -43,7 +43,7 @@ export const SettingsMessage = (props: IProps) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={(event) => onOpenMenu(event, message)}
+                onClick={onOpenMenu(message)}
                 className={styles.icons}
             />
             <div>

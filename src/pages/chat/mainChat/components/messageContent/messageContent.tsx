@@ -26,7 +26,7 @@ export const MessageContent = (props: IProps) => {
             autoFocus
             className={styles.form}
             onChange={onEditMessageChange}
-            onKeyUp={(event) => onPressEditEvent(event, message.message)}
+            onKeyUp={onPressEditEvent(message.message)}
             value={state.messageEdit}
         />
     ) : (<div>{message.message}</div>);

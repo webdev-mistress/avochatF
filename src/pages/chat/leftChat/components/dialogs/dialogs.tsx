@@ -10,6 +10,7 @@ interface IProps {
     setDialogMode: (dialogMode: IDialogModeElement) => void,
 }
 
+// TODO change dialogs logic AV-134
 export const Dialogs = (props: IProps) => {
     const { dialogMode, setDialogMode } = props;
     const { closeDialog } = useDialog({ setDialogMode });
@@ -33,12 +34,10 @@ export const Dialogs = (props: IProps) => {
             />
             <ChatSettingsDialog
                 isShow={!_.isEmpty(dialogMode) && dialogMode.mode === Mode.INFO}
-                title={dialogMode.title}
+                // title={dialogMode.title}
                 label={dialogMode.label}
-                positiveBtnText={dialogMode.positiveBtnText}
-                onPositiveClick={dialogMode.positiveBtnFunc}
                 onClose={closeDialog}
-                setDialogMode={setDialogMode}
+                // setDialogMode={setDialogMode}
                 closeDialog={closeDialog}
             />
             <UserSettingsDialog

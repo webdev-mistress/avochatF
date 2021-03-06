@@ -9,11 +9,11 @@ import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
 import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
 
-interface IProps {
+interface IArgs {
     setDialogMode: (dialog: IDialogModeElement) => void,
 }
 
-export const useSettingsBlock = (props: IProps) => {
+export const useSettingsBlock = (props: IArgs) => {
    const { setDialogMode } = props;
    const userName = useSelector(selectUserName);
    const chats: IChat[] = useSelector(selectUserChats);

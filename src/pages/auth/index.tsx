@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Container } from '@material-ui/core';
@@ -13,13 +13,13 @@ export const AuthPage = () => {
     const errorMessage = useSelector(selectErrorMessage);
     const dispatch: Dispatch = useDispatch();
 
-    const onToggleForm = (isAuthForm: boolean) => {
+    const onToggleForm = useCallback((isAuthForm: boolean) => () => {
         if (errorMessage) {
             dispatch(removeErrorMessage());
         }
 
         setIsAuthForm(isAuthForm);
-    };
+    }, [dispatch, errorMessage]);
 
     return (
         <Container maxWidth="sm" className={style.wrapper}>
