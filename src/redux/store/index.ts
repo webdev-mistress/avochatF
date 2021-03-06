@@ -1,4 +1,5 @@
 // @ts-nocheck
+import _ from 'lodash';
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from '@/redux/sagas/rootSaga';
@@ -22,7 +23,7 @@ const store = createStore(combineReducers({
     activeChat: chatReducer,
 }), {
     activeChat: storageState.activeChat,
-    user: storageState.user,
+    user: _.omit(storageState.user, ['isAuthSpin']),
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
 store.subscribe(() => localStorage.setItem(localStorageId, JSON.stringify(store.getState())));

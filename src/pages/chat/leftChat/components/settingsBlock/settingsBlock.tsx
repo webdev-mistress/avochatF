@@ -1,17 +1,11 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
+import React from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { accessToken } from '@/helpers/localStorage';
-import { selectUserChats, selectUserName } from '@/redux/store/user/selectors';
-import { logoutUser } from '@/redux/store/user/actions';
-import { clearChat } from '@/redux/store/chat/actions';
-import { Chats } from '@/pages/chat/leftChat/components/chats';
+import { Chats } from '@/pages/chat/leftChat/components/chats/chats';
 import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
-import { IChat } from '@/types/store';
+import { useSettingsBlock } from '@/pages/chat/leftChat/components/settingsBlock/hook';
 import { IDialogModeElement } from '@/types/components';
-import styles from '../styles.module.scss';
+import styles from '../../styles.module.scss';
 
 interface IProps {
     setDialogMode: (dialog: IDialogModeElement) => void,
@@ -21,20 +15,12 @@ interface IProps {
 export const SettingsBlock = (props: IProps) => {
     const { setDialogMode, onClearActiveChat } = props ;
 
-    const userName = useSelector(selectUserName);
-    const dispatch: Dispatch = useDispatch();
-
-    const chats: IChat[] = useSelector(selectUserChats);
-
-    const onAuthLogout = useCallback(() => {
-        dispatch(logoutUser());
-        dispatch(clearChat());
-        accessToken.remove();
-    }, [dispatch]);
-
-    const onCheckUserSettings = useCallback(() => {
-        props.setDialogMode(DIALOG_MODE.USER_SETTINGS);
-    }, [props]);
+    const {
+        userName,
+        chats,
+        onAuthLogout,
+        onCheckUserSettings,
+    } = useSettingsBlock({ setDialogMode });
 
     return (
         <div className={styles.wrapper}>

@@ -1,9 +1,9 @@
 import React from 'react';
-import format from 'date-fns/format';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
-import { SettingsMessage } from '@/pages/chat/mainChat/components/settingsMessage';
+import { SettingsMessage } from '@/pages/chat/mainChat/components/settingsMessage/settingsMessage';
 import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
 import { IState } from '@/pages/chat/mainChat';
+import { useChatSettings } from '@/pages/chat/mainChat/components/chatSettings/hook';
 import { IMessage } from '@/types/store';
 
 interface IProps {
@@ -21,8 +21,8 @@ interface IProps {
 export const ChatSettings = (props: IProps) => {
     const { message, isEditMessage, anchorEl, setAnchorEl , userIsAuthor, state, setState, onEditClose,
         onSendEditMessage } = props;
-    const messageDateChange = message.dateChange
-        ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
+
+    const messageDateChange = useChatSettings({ message });
 
     return userIsAuthor ? (
         <div className={styles.buttonBlock}>

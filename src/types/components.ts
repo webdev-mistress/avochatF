@@ -1,3 +1,4 @@
+import React from 'react';
 import { Mode } from '@/constants';
 
 export interface IDialogModeElement {
@@ -18,3 +19,9 @@ export interface IDialogMode {
     LOGOUT: IDialogModeElement,
     EXIT: {},
 }
+
+export type ListItemEvent = React.MouseEvent<HTMLLIElement>
+    | React.MouseEvent<HTMLAnchorElement>
+    | React.MouseEvent<HTMLDivElement>
+
+export type ButtonEvent = React.MouseEvent<HTMLElement> | React.MouseEvent<HTMLButtonElement>
