@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { deleteMessage } from '@/redux/store/chat/actions';
@@ -26,11 +25,12 @@ export const useMenuMessage = (props: IArgs) => {
     const onEditMode = useCallback(() => {
         onCloseMenu();
 
+        // TODO разобраться с setTimeout
         setTimeout(() => {
             setState({
                 ...state,
                 isEditMode: true,
-                messageEdit: _.get(state, 'selectedMessage.message', ''),
+                messageEdit: state.selectedMessage?.message || '',
             });
         }, 0);
     }, [onCloseMenu, setState, state]);
