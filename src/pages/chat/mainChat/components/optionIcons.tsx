@@ -6,27 +6,27 @@ import { IState } from '@/pages/chat/mainChat';
 import { IMessage } from '@/types/store';
 
 interface IProps {
-    state: IState,
-    message: IMessage,
-    onEditClose: () => void,
-    onSendEditMessage: (content: string) => void,
+  state: IState,
+  message: IMessage,
+  onEditClose: () => void,
+  onSendEditMessage: (content: string) => any,
 }
 
-export const OptionIcons = (props: IProps) => {
-    const { state, message, onEditClose, onSendEditMessage } = props;
+export const OptionIcons: React.FunctionComponent<IProps> = (props) => {
+  const { state, message, onEditClose, onSendEditMessage } = props;
 
-    return (
-        <>
-            <CloseIcon
-                onClick={onEditClose}
-                className={styles.icons}
-            />
-            {message.message !== state.messageEdit && (
-                <SendIcon
-                    onClick={() => onSendEditMessage(message.message)}
-                    className={styles.icons}
-                />
-            )}
-        </>
-    );
+  return (
+    <>
+      <CloseIcon
+        onClick={onEditClose}
+        className={styles.icons}
+      />
+      {message.message !== state.messageEdit && (
+        <SendIcon
+          onClick={onSendEditMessage(message.message)}
+          className={styles.icons}
+        />
+      )}
+    </>
+  );
 };
