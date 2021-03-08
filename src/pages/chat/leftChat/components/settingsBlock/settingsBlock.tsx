@@ -8,45 +8,45 @@ import { IDialogModeElement } from '@/types/components';
 import styles from '../../styles.module.scss';
 
 interface IProps {
-    setDialogMode: (dialog: IDialogModeElement) => void,
-    onClearActiveChat: () => void,
+  setDialogMode: (dialog: IDialogModeElement) => void,
+  onClearActiveChat: () => void,
 }
 
-export const SettingsBlock = (props: IProps) => {
-    const { setDialogMode, onClearActiveChat } = props ;
+export const SettingsBlock: React.FunctionComponent<IProps> = (props) => {
+  const { setDialogMode, onClearActiveChat } = props;
 
-    const {
-        userName,
-        chats,
-        onAuthLogout,
-        onCheckUserSettings,
-    } = useSettingsBlock({ setDialogMode });
+  const {
+    userName,
+    chats,
+    onAuthLogout,
+    onCheckUserSettings,
+  } = useSettingsBlock({ setDialogMode });
 
-    return (
-        <div className={styles.wrapper}>
-            <div className={styles.topBlockWrapper}>
-                <div
-                    className={styles.logoutWrapper}
-                    onClick={() =>
-                    setDialogMode({ ...DIALOG_MODE.LOGOUT, positiveBtnFunc: onAuthLogout })}>
-                    <ExitToAppIcon />
-                </div>
-                <div className={styles.topBlock} onClick={onClearActiveChat}>
-                    {userName}
-                </div>
-                <div
-                    className={styles.logoutWrapper}
-                    onClick={onCheckUserSettings}
-                >
-                    <SettingsIcon />
-                </div>
-            </div>
-            <div className={styles.mainBlock}>
-                <Chats
-                    chats={chats}
-                    setDialogMode={setDialogMode}
-                />
-            </div>
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.topBlockWrapper}>
+        <div
+          className={styles.logoutWrapper}
+          onClick={() =>
+            setDialogMode({ ...DIALOG_MODE.LOGOUT, positiveBtnFunc: onAuthLogout })}>
+          <ExitToAppIcon />
         </div>
-    );
+        <div className={styles.topBlock} onClick={onClearActiveChat}>
+          {userName}
+        </div>
+        <div
+          className={styles.logoutWrapper}
+          onClick={onCheckUserSettings}
+        >
+          <SettingsIcon />
+        </div>
+      </div>
+      <div className={styles.mainBlock}>
+        <Chats
+          chats={chats}
+          setDialogMode={setDialogMode}
+        />
+      </div>
+    </div>
+  );
 };

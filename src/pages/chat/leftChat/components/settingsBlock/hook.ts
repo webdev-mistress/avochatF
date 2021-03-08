@@ -10,29 +10,29 @@ import { IChat } from '@/types/store';
 import { IDialogModeElement } from '@/types/components';
 
 interface IArgs {
-    setDialogMode: (dialog: IDialogModeElement) => void,
+  setDialogMode: (dialog: IDialogModeElement) => void,
 }
 
 export const useSettingsBlock = (props: IArgs) => {
-   const { setDialogMode } = props;
-   const userName = useSelector(selectUserName);
-   const chats: IChat[] = useSelector(selectUserChats);
-   const dispatch: Dispatch = useDispatch();
+  const { setDialogMode } = props;
+  const userName = useSelector(selectUserName);
+  const chats: IChat[] = useSelector(selectUserChats);
+  const dispatch: Dispatch = useDispatch();
 
-   const onAuthLogout = useCallback(() => {
-       dispatch(logoutUser());
-       dispatch(clearChat());
-       accessToken.remove();
-   }, [dispatch]);
+  const onAuthLogout = useCallback(() => {
+    dispatch(logoutUser());
+    dispatch(clearChat());
+    accessToken.remove();
+  }, [dispatch]);
 
-   const onCheckUserSettings = useCallback(() => {
-       setDialogMode(DIALOG_MODE.USER_SETTINGS);
-   }, [setDialogMode]);
+  const onCheckUserSettings = useCallback(() => {
+    setDialogMode(DIALOG_MODE.USER_SETTINGS);
+  }, [setDialogMode]);
 
-    return {
-        userName,
-        chats,
-        onAuthLogout,
-        onCheckUserSettings,
-    };
+  return {
+    userName,
+    chats,
+    onAuthLogout,
+    onCheckUserSettings,
+  };
 };

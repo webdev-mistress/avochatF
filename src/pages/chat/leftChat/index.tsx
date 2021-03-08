@@ -3,28 +3,30 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { clearChat } from '@/redux/store/chat/actions';
 import { Dialogs } from '@/pages/chat/leftChat/components/dialogs/dialogs';
-import { SettingsBlock } from '@/pages/chat/leftChat/components/settingsBlock/settingsBlock';
+import {
+  SettingsBlock,
+} from '@/pages/chat/leftChat/components/settingsBlock/settingsBlock';
 import { IDialogModeElement } from '@/types/components';
 
 export const LeftChat = () => {
-    const [dialogMode, setDialogMode] = useState<IDialogModeElement>({});
+  const [dialogMode, setDialogMode] = useState<IDialogModeElement>({});
 
-    const dispatch: Dispatch = useDispatch();
+  const dispatch: Dispatch = useDispatch();
 
-    const onClearActiveChat = useCallback(() => {
-        dispatch(clearChat());
-    }, [dispatch]);
+  const onClearActiveChat = useCallback(() => {
+    dispatch(clearChat());
+  }, [dispatch]);
 
-    return (
-        <>
-            <SettingsBlock
-                setDialogMode={setDialogMode}
-                onClearActiveChat={onClearActiveChat}
-            />
-            <Dialogs
-                dialogMode={dialogMode}
-                setDialogMode={setDialogMode}
-            />
-        </>
-    );
+  return (
+    <>
+      <SettingsBlock
+        setDialogMode={setDialogMode}
+        onClearActiveChat={onClearActiveChat}
+      />
+      <Dialogs
+        dialogMode={dialogMode}
+        setDialogMode={setDialogMode}
+      />
+    </>
+  );
 };

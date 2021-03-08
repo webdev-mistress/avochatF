@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import _ from 'lodash';
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
@@ -14,19 +15,21 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
 const storageState = localStorage.getItem(localStorageId)
-    ? JSON.parse(localStorage.getItem(localStorageId)) : {};
+  ? JSON.parse(localStorage.getItem(localStorageId)) : {};
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(combineReducers({
-    user: userReducer,
-    activeChat: chatReducer,
+  user: userReducer,
+  activeChat: chatReducer,
 }), {
-    activeChat: storageState.activeChat,
-    user: _.omit(storageState.user, ['isAuthSpin']),
+  activeChat: storageState.activeChat,
+  user: _.omit(storageState.user, ['isAuthSpin']),
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));
 
-store.subscribe(() => localStorage.setItem(localStorageId, JSON.stringify(store.getState())));
+store.subscribe(
+  () => localStorage.setItem(localStorageId, JSON.stringify(store.getState())),
+);
 
 sagaMiddleware.run(rootSaga);
 

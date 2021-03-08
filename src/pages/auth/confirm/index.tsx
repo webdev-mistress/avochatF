@@ -6,22 +6,22 @@ import { requestConfirmUser } from '@/redux/store/user/actions';
 import { selectUserIsAuth } from '@/redux/store/user/selectors';
 import styles from './styles.module.scss';
 
-export const ConfirmPage = () => {
-    const dispatch = useDispatch();
-    const userIsAuth = useSelector(selectUserIsAuth);
-    const history = useHistory();
-    useEffect(() => {
-        const token = getLocationParam('token');
-        dispatch(requestConfirmUser(token));
-    }, [dispatch]);
+export const ConfirmPage: React.FunctionComponent = () => {
+  const dispatch = useDispatch();
+  const userIsAuth = useSelector(selectUserIsAuth);
+  const history = useHistory();
+  useEffect(() => {
+    const token = getLocationParam('token');
+    dispatch(requestConfirmUser(token));
+  }, [dispatch]);
 
-    useEffect(() => {
-        if (userIsAuth) {
-            history.push('/chat');
-        }
-    }, [history, userIsAuth]);
+  useEffect(() => {
+    if (userIsAuth) {
+      history.push('/chat');
+    }
+  }, [history, userIsAuth]);
 
-    return (
-        <div className={styles.confirmWrapper}>Confirm Page</div>
-    );
+  return (
+    <div className={styles.confirmWrapper}>Confirm Page</div>
+  );
 };

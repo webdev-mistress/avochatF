@@ -15,42 +15,50 @@ import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
 import { IChat, IMembersData } from '@/types/store';
 
 export const MembersList = () => {
-    const dispatch: Dispatch = useDispatch();
-    const membersList: IMembersData[] = useSelector(selectChatMembersList);
-    const selectedChat: IChat = useSelector(selectSelectedChat);
-    const selectedUserId: number = useSelector(selectUserId);
+  const dispatch: Dispatch = useDispatch();
+  const membersList: IMembersData[] = useSelector(selectChatMembersList);
+  const selectedChat: IChat = useSelector(selectSelectedChat);
+  const selectedUserId: number = useSelector(selectUserId);
 
-    const onDeleteUserFromChatDialog = useCallback((userId: number) => {
-        if(selectedChat) {
-            dispatch(deleteUserFromChat(userId, selectedChat.id));
-        }
-    }, [dispatch, selectedChat]);
+  const onDeleteUserFromChatDialog = useCallback((userId: number) => {
+    if(selectedChat) {
+      dispatch(deleteUserFromChat(userId, selectedChat.id));
+    }
+  }, [dispatch, selectedChat]);
 
-    return (
-        <List className={styles.membersListWrapper}>
-            {membersList.map((member => (
-                <ListItem
-                    className={styles.infoWrapper}
-                    key={member.id}
-                >
-                    <ListItemAvatar>
-                        <Avatar className={styles.avatar} alt={member.name} src="/static/invalide.path" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        className={member.isOnline ? styles.listItemTextOnline : styles.listItemTextOffline}
-                        primary={member.name}
-                        secondary={member.isOnline ? 'online' : 'offline'}
-                    />
-                    {checkShowCloseIcon(selectedChat, member, selectedUserId)
-                             && (
-                             <CloseIcon
-                                onClick={() => onDeleteUserFromChatDialog(member.id)}
-                                className={styles.chatSettingsIcon}
-                            />
-                            )
-                        }
-                </ListItem>
-                )))}
-        </List>
-    );
+  return (
+
+    <List className={styles.membersListWrapper}>
+      {membersList.map((member => (
+        <ListItem
+          className={styles.infoWrapper}
+          key={member.id}
+        >
+          <ListItemAvatar>
+            <Avatar
+              className={styles.avatar}
+              alt={member.name}
+              src="/static/invalide.path"
+            />
+          </ListItemAvatar>
+          <ListItemText
+            className={member.isOnline
+              ? styles.listItemTextOnline
+              : styles.listItemTextOffline
+            }
+            primary={member.name}
+            secondary={member.isOnline ? 'online' : 'offline'}
+          />
+          {checkShowCloseIcon(selectedChat, member, selectedUserId)
+           && (
+             <CloseIcon
+               onClick={() => onDeleteUserFromChatDialog(member.id)}
+               className={styles.chatSettingsIcon}
+             />
+           )
+          }
+        </ListItem>
+      )))}
+    </List>
+  );
 };
