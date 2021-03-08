@@ -1,4 +1,5 @@
-import { IChat, IMembersData, IMessage, ISucceededUserData } from '@/types/store';
+import { IChat, IMembersData, IMessage } from '@/types/store/chatActions';
+import { ISucceededUserData } from '@/types/store/userActions';
 
 export interface IGetUserSaga {
   ok: boolean,

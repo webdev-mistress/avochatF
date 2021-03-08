@@ -6,6 +6,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from '@/redux/sagas/rootSaga';
 import { userReducer } from '@/redux/store/user/reducer';
 import { chatReducer } from '@/redux/store/chat/reducer';
+import { uiReducer } from '@/redux/store/ui/reducer';
 
 const localStorageId = '_avochat_F#A823_reduxState';
 
@@ -22,6 +23,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
   user: userReducer,
   activeChat: chatReducer,
+  ui: uiReducer,
 }), {
   activeChat: storageState.activeChat,
   user: _.omit(storageState.user, ['isAuthSpin']),

@@ -12,9 +12,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { selectChatMembersList } from '@/redux/store/chat/selectors';
 import { deleteUserFromChat } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
-import { IChat, IMembersData } from '@/types/store';
+import { IChat, IMembersData } from '@/types/store/chatActions';
 
-export const MembersList = () => {
+export const MembersList: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
   const membersList: IMembersData[] = useSelector(selectChatMembersList);
   const selectedChat: IChat = useSelector(selectSelectedChat);

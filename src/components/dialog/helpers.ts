@@ -1,4 +1,4 @@
-import { IChat, IMembersData } from '@/types/store';
+import { IChat, IMembersData } from '@/types/store/chatActions';
 
 export function checkShowCloseIcon(
   selectedChat: IChat,

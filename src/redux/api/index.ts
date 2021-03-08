@@ -1,5 +1,4 @@
 import { getResource } from '@/helpers/api';
-import { IRequestUserData } from '@/types/store';
 import {
   IAddUserToChatSaga, ICkeckMembersSaga,
   ICreateChatSaga,
@@ -10,6 +9,7 @@ import {
   IGetUserSaga,
   ISendMessageSaga,
 } from '@/types/sagas';
+import { IRequestUserData } from '@/types/store/userActions';
 
 const PREFIX_USER = '/api/v0/user';
 const PREFIX_MESSAGES = '/api/v0/message';

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -18,21 +16,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { selectUser } from '@/redux/store/user/selectors';
 import { editOldUser } from '@/redux/store/user/actions';
-import { IDialogModeElement } from '@/types/components';
-import { IChangedFields, IUser } from '@/types/store';
-import styles from '../styles.module.scss';
-
-interface IProps {
-    isShow: boolean,
-    onClose: () => any,
-    positiveBtnText: string,
-    negativeBtnText: string,
-    label: string,
-    title: string,
-    onPositiveClick?: (arg?: any) => any,
-    setDialogMode: (dialog: IDialogModeElement) => any,
-    closeDialog: () => void,
-}
+import { setIsShowUserSettings } from '@/redux/store/ui/actions';
+import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
+import { IChangedFields } from '@/types/store/chatActions';
+import { IUser } from '@/types/store/userActions';
+import styles from '../../styles.module.scss';
 
 interface IEditMode {
     isEditName: boolean,
@@ -54,9 +42,10 @@ type userTypeFields = 'newName' | 'newLogin' | 'password'
 
 type userFields = 'userName' | 'userLogin' | 'password';
 
-export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
+export const UserSettingsDialog: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
   const selectedUser: IUser = useSelector(selectUser);
+  const isShowUserSettings = useSelector(selectIsShowUserSettings);
   const [isUserEditMode, setUserEditMode] = useState<IEditMode>(
     { isEditName: false, isEditLogin: false, isEditPassword: false });
   const [userValue, setUserValue] = useState<IUserValue>({
@@ -74,8 +63,8 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
       userName: selectedUser.name,
       userLogin: selectedUser.login,
     });
-    props.closeDialog();
-  }, [props, selectedUser.login, selectedUser.name, userValue]);
+    dispatch(setIsShowUserSettings(false));
+  }, [dispatch, selectedUser.login, selectedUser.name, userValue]);
 
   const onEditUser = useCallback((editType: string) => () => {
     setUserEditMode((prev) => ({ ...prev, [editType]: true }));
@@ -106,7 +95,9 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
           [editValue]: userValue[userField],
         };
         dispatch(editOldUser(changedFields));
-        setUserEditMode((prev) => ({ ...prev, isEditLogin: false, isEditName: false }));
+        setUserEditMode((prev) => (
+          { ...prev, isEditLogin: false, isEditName: false }
+        ));
       }
     }, [dispatch, selectedUser.id, userValue]);
 
@@ -128,14 +119,16 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
         [editValue]: userValue[userField],
       };
       dispatch(editOldUser(changedFields));
-      setUserEditMode((prev) => ({ ...prev, isEditLogin: false, isEditName: false }));
+      setUserEditMode((prev) => (
+        { ...prev, isEditLogin: false, isEditName: false }
+      ));
     }
   }, [dispatch, selectedUser.id, userValue]);
 
   return (
     <div>
       <Dialog
-        open={props.isShow}
+        open={isShowUserSettings}
         onClose={onCloseDialogClick}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -164,7 +157,6 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={props.label}
                     fullWidth
                     onKeyUp={onEditUserEnter(
                       'newName', 'userName')}
@@ -200,7 +192,6 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                     autoFocus
                     margin="dense"
                     id="login"
-                    label={props.label}
                     fullWidth
                     onKeyUp={onEditUserEnter('newLogin', 'userLogin')}
                     onChange={onChangeUser('userLogin')}
@@ -236,7 +227,6 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                       autoFocus
                       margin="dense"
                       id="name"
-                      label={props.label}
                       fullWidth
                       onChange={onChangeUser('oldPassword')}
                     />
@@ -247,7 +237,6 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                       value={userValue.newPassword1}
                       margin="dense"
                       id="name"
-                      label={props.label}
                       fullWidth
                       onChange={onChangeUser('newPassword1')}
                     />
@@ -258,7 +247,6 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                       value={userValue.newPassword2}
                       margin="dense"
                       id="name"
-                      label={props.label}
                       fullWidth
                       onChange={onChangeUser('newPassword2')}
                     />
@@ -268,8 +256,8 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
                     className={styles.addButton}
                     disabled={
                       !userValue.oldPassword
-                                                || !userValue.newPassword1
-                                                || !userValue.newPassword2
+                      || !userValue.newPassword1
+                      || !userValue.newPassword2
                     }
                     onClick={onEditOldUser('password', 'password')}
                     color="primary"
@@ -297,12 +285,4 @@ export const UserSettingsDialog: React.FunctionComponent<IProps> = (props) => {
       </Dialog>
     </div>
   );
-};
-
-UserSettingsDialog.defaultProps = {
-  contentList: [],
-  title: 'Chat Settings',
-  positiveBtnText: 'Ok',
-  label: '',
-  negativeBtnText: 'cancel',
 };

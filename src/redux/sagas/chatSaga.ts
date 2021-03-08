@@ -22,7 +22,7 @@ import {
   IMessage,
   IRequestMessages,
   ISendMessage,
-} from '@/types/store';
+} from '@/types/store/chatActions';
 import {
   ICreateChatSaga,
   IDeleteChatSaga,
@@ -169,7 +169,7 @@ function* fetchEditChatName(action: IEditChatName) {
   }
 }
 
-export function* chatSaga(): Generator {
+export function* chatSaga(): any {
   yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
   yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
   yield takeEvery(Chat.DELETE_MESSAGE, fetchDeleteMessage);

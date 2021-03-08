@@ -3,28 +3,22 @@ import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 import { useChat } from '@/pages/chat/leftChat/components/chats/hook';
 import { ChatItem } from '@/pages/chat/leftChat/components/chats/chatItem';
-import { IChat } from '@/types/store';
-import { IDialogModeElement } from '@/types/components';
+import { IChat } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
-interface IProps {
-  chats: IChat[],
-  setDialogMode: (dialogMode: IDialogModeElement) => void,
-}
-
-export const Chats = (props: IProps) => {
-  const { chats, setDialogMode } = props;
+export const Chats: React.FunctionComponent = () => {
   const {
     activeChatId,
     onLoadChat,
     onCreateChatDialog,
     onOpenChatSettings,
-  } = useChat({ chats, setDialogMode });
+    chats,
+  } = useChat();
 
   return (
     <>
       <List className={styles.list}>
-        {chats.map(chat => (
+        {chats.map((chat: IChat) => (
           <ChatItem
             key={chat.id}
             chat={chat}

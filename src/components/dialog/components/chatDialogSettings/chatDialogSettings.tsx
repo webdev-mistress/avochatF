@@ -12,21 +12,15 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import IconButton from '@material-ui/core/IconButton';
 import EditAttributesIcon from '@material-ui/icons/EditAttributes';
-import { MembersList } from '@/components/dialog/components/memberList';
+import {
+  MembersList,
+} from '@/components/dialog/components/chatDialogSettings/memberList';
 import {
   useChatDialogSettings,
 } from '@/components/dialog/components/chatDialogSettings/hook';
 import styles from '../../styles.module.scss';
 
-interface IProps {
-    isShow: boolean,
-    onClose: () => React.MouseEventHandler<HTMLButtonElement>,
-    label: string,
-    closeDialog: () => void,
-}
-
-export const ChatSettingsDialog: React.FunctionComponent<IProps> = (props: IProps) => {
-  const { closeDialog, isShow, label } = props;
+export const ChatSettingsDialog: React.FunctionComponent = () => {
   const {
     isEditMode,
     fieldValue,
@@ -41,12 +35,13 @@ export const ChatSettingsDialog: React.FunctionComponent<IProps> = (props: IProp
     onEditChatName,
     onChangeChatName,
     onEditOldChatName,
-  } = useChatDialogSettings({ closeDialog });
+    isShowChatSettings,
+  } = useChatDialogSettings();
 
   return (
     <div>
       <Dialog
-        open={isShow}
+        open={isShowChatSettings}
         onClose={onCloseDialogClick}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -104,7 +99,7 @@ export const ChatSettingsDialog: React.FunctionComponent<IProps> = (props: IProp
                 autoFocus
                 margin="dense"
                 id="name"
-                label={label}
+                // label={label}
                 fullWidth
                 onKeyUp={event => event.key === 'Enter'
                   && onAddUserToChatDialog(fieldValue)
@@ -150,8 +145,4 @@ export const ChatSettingsDialog: React.FunctionComponent<IProps> = (props: IProp
       </Dialog>
     </div>
   );
-};
-
-ChatSettingsDialog.defaultProps = {
-  label: '',
 };

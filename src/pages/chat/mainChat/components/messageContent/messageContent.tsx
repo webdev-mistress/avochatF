@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
 import { IState } from '@/pages/chat/mainChat';
 import { useMessageContent } from '@/pages/chat/mainChat/components/messageContent/hook';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 
 interface IProps {
   message: IMessage,

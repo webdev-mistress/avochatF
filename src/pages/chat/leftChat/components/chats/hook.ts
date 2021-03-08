@@ -9,18 +9,13 @@ import {
   requestMessages,
 } from '@/redux/store/chat/actions';
 import { getSelectedChat } from '@/redux/store/user/actions';
-import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
-import { IChat } from '@/types/store';
-import { IDialogModeElement } from '@/types/components';
+import { selectUserChats } from '@/redux/store/user/selectors';
+import { IChat } from '@/types/store/chatActions';
 
-interface IArgs {
-  chats: IChat[],
-  setDialogMode: (dialogMode: IDialogModeElement) => void,
-}
-
-export const useChat = (props: IArgs) => {
-  const { chats, setDialogMode } = props;
+export const useChat = (): any => {
   const dispatch: Dispatch = useDispatch();
+  const chats: IChat[] = useSelector(selectUserChats);
+
   const activeChatId: number = useSelector(selectActiveChatId);
 
   const onLoadChat = useCallback((chat) => () => {
@@ -31,10 +26,8 @@ export const useChat = (props: IArgs) => {
   const onCreateChatDialog = useCallback(() => {
     const onCreateChat = ((chatName: string) => {
       dispatch(createChat(chatName));
-      setDialogMode(DIALOG_MODE.EXIT);
     });
-    setDialogMode({ ...DIALOG_MODE.CREATE_CHAT, positiveBtnFunc: onCreateChat });
-  }, [dispatch, setDialogMode]);
+  }, [dispatch]);
 
   const onOpenChatSettings = useCallback((chat) => (
     event: React.MouseEvent<SVGSVGElement>,
@@ -42,12 +35,10 @@ export const useChat = (props: IArgs) => {
     event.stopPropagation();
     dispatch(getSelectedChat(chat));
     dispatch(getChatParticipants(chat.id));
-    props.setDialogMode(DIALOG_MODE.GET_CHAT_PARTICIPANTS);
-  }, [dispatch, props]);
+  }, [dispatch]);
 
   return {
     chats,
-    setDialogMode,
     activeChatId,
     onLoadChat,
     onCreateChatDialog,

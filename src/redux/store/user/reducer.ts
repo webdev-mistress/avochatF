@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { User, Chat } from '@/constants/store';
-import { IUser, UserAction } from '@/types/store';
+import { IUser, UserActions } from '@/types/store/userActions';
 
 const initialState: IUser = {
   id: 0,
@@ -10,16 +10,10 @@ const initialState: IUser = {
   isAuthSpin: false,
   chats: [],
   selectedChat: null,
-  userData: {
-    userId: 0,
-    name: '',
-    login: '',
-    chats: [],
-  },
   errorMessage: '',
 };
 
-export function userReducer(state = initialState, action: UserAction): IUser {
+export function userReducer(state = initialState, action: UserActions): IUser {
   const cloneState = _.cloneDeep(state);
 
   switch (action.type) {

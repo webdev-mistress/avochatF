@@ -7,7 +7,7 @@ import { OptionIcons } from '@/pages/chat/mainChat/components/optionIcons';
 import {
   useSettingsMessage,
 } from '@/pages/chat/mainChat/components/settingsMessage/hook';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
 interface IProps {
@@ -22,12 +22,17 @@ interface IProps {
   onSendEditMessage: (content: string) => void,
 }
 
-export const SettingsMessage: React.FunctionComponent<IProps> = (props) => {
-  const {
-    isEditMessage, anchorEl, setAnchorEl, state, setState, message,
-    messageDateChange, onEditClose, onSendEditMessage,
-  } = props;
-
+export const SettingsMessage: React.FunctionComponent<IProps> = ({
+  isEditMessage,
+  anchorEl,
+  setAnchorEl,
+  state,
+  setState,
+  message,
+  messageDateChange,
+  onEditClose,
+  onSendEditMessage,
+}) => {
   const { onOpenMenu } = useSettingsMessage({ state, setState, setAnchorEl });
 
   if (isEditMessage) {

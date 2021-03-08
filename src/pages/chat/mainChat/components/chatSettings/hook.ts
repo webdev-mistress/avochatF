@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 
 interface IArgs {
   message: IMessage,
