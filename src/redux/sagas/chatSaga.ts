@@ -13,6 +13,7 @@ import {
   editMessage, createChat, deleteChat, deleteUserFromChat, editChatName, getParticipants,
 } from '@/redux/api';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
+import { setIsShowCreateChat } from '@/redux/store/ui/actions';
 import {
   ICheckMembers,
   ICreateChat,
@@ -113,6 +114,7 @@ function* fetchCreateChat(action: ICreateChat) {
     }
 
     yield put(addNewChat(response.data));
+    yield put(setIsShowCreateChat(false));
   } catch (error) {
     console.error(error);
   }

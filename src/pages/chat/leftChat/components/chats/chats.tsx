@@ -10,8 +10,8 @@ export const Chats: React.FunctionComponent = () => {
   const {
     activeChatId,
     onLoadChat,
-    onCreateChatDialog,
     onOpenChatSettings,
+    onOpenCreateChatDialog,
     chats,
   } = useChat();
 
@@ -30,10 +30,10 @@ export const Chats: React.FunctionComponent = () => {
 
       </List>
       <Button
-        onClick={onCreateChatDialog}
+        onClick={onOpenCreateChatDialog}
         color="primary"
       >
-        {'Create chat'}
+        Create Chat
       </Button>
     </>
   );

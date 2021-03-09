@@ -1,20 +1,22 @@
 import { UI } from '@/constants/store';
 import {
-  IIsShowChatSettings,
+  IIsShowChatSettings, IIsShowCreateChat,
   IIsShowLogout,
   IIsShowUserSettings,
 } from '@/types/store/uiActions';
 
 export function setIsShowUserSettings(isShow: boolean): IIsShowUserSettings {
   return {
-    type: UI.IS_SHOW_USER_SETTINFGS,
+    type: UI.IS_SHOW_USER_SETTINGS,
     payload: { isShow },
   };
 }
 
-export function setIsShowChatSettings(isShow: boolean): IIsShowChatSettings {
+export function setIsShowChatSettings(
+  isShowDialog: boolean, chatId: number,
+): IIsShowChatSettings {
   return {
-    type: UI.IS_SHOW_CHAT_SETTINGS, payload: { isShow },
+    type: UI.IS_SHOW_CHAT_SETTINGS, payload: { isShowDialog, chatId },
   };
 }
 
@@ -23,3 +25,10 @@ export function setIsShowLogout(isShow: boolean): IIsShowLogout {
     type: UI.IS_SHOW_LOGOUT, payload: { isShow },
   };
 }
+
+export function setIsShowCreateChat(isShow: boolean): IIsShowCreateChat {
+  return {
+    type: UI.IS_SHOW_CREATE_CHAT, payload: { isShow },
+  };
+}
+

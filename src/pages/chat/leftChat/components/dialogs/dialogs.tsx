@@ -1,6 +1,8 @@
 import React from 'react';
 import {
-  LogoutDialog, ChatSettingsDialog, UserSettingsDialog,
+  ChatSettingsDialog, CreateChatDialog,
+  LogoutDialog,
+  UserSettingsDialog,
 } from '@/components/dialog';
 
 export const Dialogs: React.FunctionComponent = () => {
@@ -9,6 +11,7 @@ export const Dialogs: React.FunctionComponent = () => {
       <LogoutDialog />
       <ChatSettingsDialog />
       <UserSettingsDialog />
+      <CreateChatDialog />
     </>
   );
 };

@@ -23,7 +23,7 @@ export const useChatDialogSettings = (): any => {
   const [newChatNameValue, setChatName] = useState('');
 
   const onCloseDialog = useCallback(() => {
-    dispatch(setIsShowChatSettings(false));
+    dispatch(setIsShowChatSettings(false, 0));
   }, [dispatch]);
 
   const onCloseDialogClick = useCallback(() => {
@@ -51,7 +51,7 @@ export const useChatDialogSettings = (): any => {
     dispatch(deleteChat(selectedChat.id));
     dispatch(clearChat());
     onCloseDialog();
-  }, [dispatch, onCloseDialog, selectedChat.id]);
+  }, [dispatch, onCloseDialog, selectedChat]);
 
   const onLeaveChat = useCallback((
     selectedUserId: number, selectedChat: IChat,

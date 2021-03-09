@@ -10,6 +10,7 @@ import {
 } from '@/redux/store/chat/actions';
 import { getSelectedChat } from '@/redux/store/user/actions';
 import { selectUserChats } from '@/redux/store/user/selectors';
+import { setIsShowChatSettings, setIsShowCreateChat } from '@/redux/store/ui/actions';
 import { IChat } from '@/types/store/chatActions';
 
 export const useChat = (): any => {
@@ -23,11 +24,15 @@ export const useChat = (): any => {
     dispatch(requestMessages(chat.id));
   }, [dispatch]);
 
-  const onCreateChatDialog = useCallback(() => {
-    const onCreateChat = ((chatName: string) => {
-      dispatch(createChat(chatName));
-    });
+  const onOpenCreateChatDialog = useCallback(() => {
+    dispatch(setIsShowCreateChat(true));
   }, [dispatch]);
+
+  // const onCreateChatDialog = useCallback(() => {
+  //   const onCreateChat = ((chatName: string) => {
+  //     dispatch(createChat(chatName));
+  //   });
+  // }, [dispatch]);
 
   const onOpenChatSettings = useCallback((chat) => (
     event: React.MouseEvent<SVGSVGElement>,
@@ -35,13 +40,15 @@ export const useChat = (): any => {
     event.stopPropagation();
     dispatch(getSelectedChat(chat));
     dispatch(getChatParticipants(chat.id));
+    dispatch(setIsShowChatSettings(true, chat.id));
   }, [dispatch]);
 
   return {
     chats,
     activeChatId,
     onLoadChat,
-    onCreateChatDialog,
+    // onCreateChatDialog,
     onOpenChatSettings,
+    onOpenCreateChatDialog,
   };
 };

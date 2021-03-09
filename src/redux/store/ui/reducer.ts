@@ -4,14 +4,18 @@ import { IUI, UIActions } from '@/types/store/uiActions';
 const initialState: IUI = {
   dialog: {
     isShowLogout: false,
-    isShowChatSettings: false,
     isShowUserSettings: false,
+    isShowCreateChat: false,
+    chatSettings: {
+      isShowDialog: false,
+      chatId: 0,
+    },
   },
 };
 
 export function uiReducer(state = initialState, action: UIActions): IUI {
   switch(action.type) {
-  case UI.IS_SHOW_USER_SETTINFGS:
+  case UI.IS_SHOW_USER_SETTINGS:
     return {
       ...state,
       dialog: {
@@ -24,7 +28,10 @@ export function uiReducer(state = initialState, action: UIActions): IUI {
       ...state,
       dialog: {
         ...state.dialog,
-        isShowChatSettings: action.payload.isShow,
+        chatSettings: {
+          isShowDialog: action.payload.isShowDialog,
+          chatId: action.payload.chatId,
+        },
       },
     };
   case UI.IS_SHOW_LOGOUT:
@@ -33,6 +40,14 @@ export function uiReducer(state = initialState, action: UIActions): IUI {
       dialog: {
         ...state.dialog,
         isShowLogout: action.payload.isShow,
+      },
+    };
+  case UI.IS_SHOW_CREATE_CHAT:
+    return {
+      ...state,
+      dialog: {
+        ...state.dialog,
+        isShowCreateChat: action.payload.isShow,
       },
     };
   default:

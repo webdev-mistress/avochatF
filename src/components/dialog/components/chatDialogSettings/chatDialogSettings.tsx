@@ -58,7 +58,6 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
                   autoFocus
                   margin="dense"
                   id="name"
-                  // label={label}
                   fullWidth
                   onKeyUp={event => event.key === 'Enter'
                     && onEditOldChatName(newChatNameValue)
@@ -99,7 +98,6 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
                 autoFocus
                 margin="dense"
                 id="name"
-                // label={label}
                 fullWidth
                 onKeyUp={event => event.key === 'Enter'
                   && onAddUserToChatDialog(fieldValue)

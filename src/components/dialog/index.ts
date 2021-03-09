@@ -5,5 +5,8 @@ import {
 import {
   UserSettingsDialog,
 } from '@/components/dialog/components/userDialogSettings/userDialogSetting';
+import {
+  CreateChatDialog,
+} from '@/components/dialog/components/createChatDialog/createChatDialog';
 
-export { LogoutDialog, ChatSettingsDialog, UserSettingsDialog };
+export { LogoutDialog, ChatSettingsDialog, UserSettingsDialog, CreateChatDialog };
