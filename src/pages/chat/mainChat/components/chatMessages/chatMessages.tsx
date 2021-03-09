@@ -8,7 +8,7 @@ import {
   MessageContent,
 } from '@/pages/chat/mainChat/components/messageContent/messageContent';
 import { useChatMessages } from '@/pages/chat/mainChat/components/chatMessages/hook';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
 interface IProps {

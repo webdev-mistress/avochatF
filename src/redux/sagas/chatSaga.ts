@@ -13,6 +13,7 @@ import {
   editMessage, createChat, deleteChat, deleteUserFromChat, editChatName, getParticipants,
 } from '@/redux/api';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
+import { setIsShowCreateChat } from '@/redux/store/ui/actions';
 import {
   ICheckMembers,
   ICreateChat,
@@ -22,7 +23,7 @@ import {
   IMessage,
   IRequestMessages,
   ISendMessage,
-} from '@/types/store';
+} from '@/types/store/chatActions';
 import {
   ICreateChatSaga,
   IDeleteChatSaga,
@@ -113,6 +114,7 @@ function* fetchCreateChat(action: ICreateChat) {
     }
 
     yield put(addNewChat(response.data));
+    yield put(setIsShowCreateChat(false));
   } catch (error) {
     console.error(error);
   }
@@ -169,7 +171,7 @@ function* fetchEditChatName(action: IEditChatName) {
   }
 }
 
-export function* chatSaga(): Generator {
+export function* chatSaga(): any {
   yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
   yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
   yield takeEvery(Chat.DELETE_MESSAGE, fetchDeleteMessage);

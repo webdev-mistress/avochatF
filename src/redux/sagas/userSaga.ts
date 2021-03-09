@@ -13,11 +13,15 @@ import {
 import { getChatParticipants } from '@/redux/store/chat/actions';
 import {
   IAddUserToChat,
-  IEditUser, IRequestConfirm,
+
+} from '@/types/store/chatActions';
+import { IAddUserToChatSaga, IEditUserSaga, IGetUserSaga } from '@/types/sagas';
+import {
+  IEditUser,
+  IRequestConfirm,
   IRequestCreateUser,
   IRequestUser,
-} from '@/types/store';
-import { IAddUserToChatSaga, IEditUserSaga, IGetUserSaga } from '@/types/sagas';
+} from '@/types/store/userActions';
 
 function* fetchUser(action: IRequestUser) {
   try {
@@ -83,7 +87,7 @@ function* fetchEditOldUser(action: IEditUser) {
   }
 }
 
-export function* userSaga(): Generator {
+export function* userSaga(): any {
   yield takeEvery(User.FETCH_REQUESTED, fetchUser);
   yield takeEvery(User.CREATE_REQUESTED, fetchCreateUser);
   yield takeEvery(User.ADD_USER_TO_CHAT, fetchAddUserToChat);

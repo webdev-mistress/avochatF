@@ -7,9 +7,9 @@ interface IProps {
   messageDateChange: string,
 }
 
-export const EditIcon: React.FunctionComponent<IProps> = (props: IProps) => {
-  const { messageDateChange } = props;
-
+export const EditIcon: React.FunctionComponent<IProps> = ({
+  messageDateChange,
+}) => {
   return (
     <Tooltip
       title={messageDateChange}

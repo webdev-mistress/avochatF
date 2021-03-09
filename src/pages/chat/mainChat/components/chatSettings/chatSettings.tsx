@@ -6,7 +6,7 @@ import {
 import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
 import { IState } from '@/pages/chat/mainChat';
 import { useChatSettings } from '@/pages/chat/mainChat/components/chatSettings/hook';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 
 interface IProps {
   message: IMessage,
@@ -20,19 +20,17 @@ interface IProps {
   onSendEditMessage: (content: string) => void,
 }
 
-export const ChatSettings = (props: IProps) => {
-  const {
-    message,
-    isEditMessage,
-    anchorEl,
-    setAnchorEl,
-    userIsAuthor,
-    state,
-    setState,
-    onEditClose,
-    onSendEditMessage,
-  } = props;
-
+export const ChatSettings: React.FunctionComponent<IProps> = ({
+  message,
+  isEditMessage,
+  anchorEl,
+  setAnchorEl,
+  userIsAuthor,
+  state,
+  setState,
+  onEditClose,
+  onSendEditMessage,
+}) => {
   const messageDateChange = useChatSettings({ message });
 
   return userIsAuthor ? (

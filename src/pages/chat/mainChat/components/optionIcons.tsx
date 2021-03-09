@@ -3,7 +3,7 @@ import SendIcon from '@material-ui/icons/Send';
 import CloseIcon from '@material-ui/icons/Close';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
 import { IState } from '@/pages/chat/mainChat';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 
 interface IProps {
   state: IState,
@@ -12,9 +12,12 @@ interface IProps {
   onSendEditMessage: (content: string) => any,
 }
 
-export const OptionIcons: React.FunctionComponent<IProps> = (props) => {
-  const { state, message, onEditClose, onSendEditMessage } = props;
-
+export const OptionIcons: React.FunctionComponent<IProps> = ({
+  state,
+  message,
+  onEditClose,
+  onSendEditMessage,
+}) => {
   return (
     <>
       <CloseIcon

@@ -21,7 +21,7 @@ import {
   IRequestMessages,
   ISendMessage,
   ISendMessageFailed,
-} from '@/types/store';
+} from '@/types/store/chatActions';
 
 export function getMessages(messages: IMessage[]): IGetMessages {
   return {

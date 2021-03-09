@@ -1,32 +1,14 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
-import { clearChat } from '@/redux/store/chat/actions';
+import React from 'react';
 import { Dialogs } from '@/pages/chat/leftChat/components/dialogs/dialogs';
 import {
-  SettingsBlock,
-} from '@/pages/chat/leftChat/components/settingsBlock/settingsBlock';
-import { IDialogModeElement } from '@/types/components';
+  UserSettingsBlock,
+} from '@/pages/chat/leftChat/components/userSettingsBlock/userSettingsBlock';
 
-export const LeftChat = () => {
-  const [dialogMode, setDialogMode] = useState<IDialogModeElement>({});
-
-  const dispatch: Dispatch = useDispatch();
-
-  const onClearActiveChat = useCallback(() => {
-    dispatch(clearChat());
-  }, [dispatch]);
-
+export const LeftChat: React.FunctionComponent = () => {
   return (
     <>
-      <SettingsBlock
-        setDialogMode={setDialogMode}
-        onClearActiveChat={onClearActiveChat}
-      />
-      <Dialogs
-        dialogMode={dialogMode}
-        setDialogMode={setDialogMode}
-      />
+      <UserSettingsBlock />
+      <Dialogs />
     </>
   );
 };

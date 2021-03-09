@@ -3,10 +3,6 @@ import {
   IAddNewChat,
   IAddNewChatName,
   IAddNewUserValue,
-  IAddUserToChat,
-  IChangedFields,
-  IChat,
-  IChatData,
   IDeleteOldChat,
   IEditChatName,
   IEditOldUser,
@@ -20,7 +16,13 @@ import {
   IRequestUserData,
   ISucceededUserData,
   IUserData,
-} from '@/types/store';
+} from '@/types/store/userActions';
+import {
+  IAddUserToChat,
+  IChangedFields,
+  IChat,
+  IChatData,
+} from '@/types/store/chatActions';
 
 export function requestUser(user: IRequestUserData): IRequestUser {
   return {

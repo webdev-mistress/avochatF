@@ -10,7 +10,7 @@ import { selectActiveChat, selectMessages } from '@/redux/store/chat/selectors';
 import { sendMessage } from '@/redux/store/chat/actions';
 import { EmptyChat } from '@/pages/chat/mainChat/components/emptyChat';
 import { ChatMessages } from '@/pages/chat/mainChat/components/chatMessages/chatMessages';
-import { IMessage } from '@/types/store';
+import { IMessage } from '@/types/store/chatActions';
 import styles from './styles.module.scss';
 
 export interface IState {
@@ -22,7 +22,7 @@ export interface IState {
   isRefreshing: boolean,
 }
 
-export const MainChat = () => {
+export const MainChat: React.FunctionComponent = () => {
   const initialState: IState = {
     messageText: '',
     isEditMode: false,
