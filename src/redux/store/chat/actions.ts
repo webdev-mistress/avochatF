@@ -21,7 +21,7 @@ import {
   IRequestMessages,
   ISendMessage,
   ISendMessageFailed,
-} from '@/types/store';
+} from '@/types/store/chatActions';
 
 export function getMessages(messages: IMessage[]): IGetMessages {
   return {
@@ -122,18 +122,18 @@ export function deleteUnwanterUser(userId: number, chatId: number): IDeleteUnwan
   };
 }
 
-export function editOldChatName(newChatName: string, chatId: number): IEditChatName {
+export function editOldChatName(name: string, id: number): IEditChatName {
   return {
     type: Chat.EDIT_CHAT_NAME,
     payload: {
-      newChatName,
-      chatId,
+      name,
+      id,
     },
   };
 }
 
-export function addNewChatName(newChatName: string, chatId: number): IAddNewChatName {
+export function addNewChatName(name: string, id: number): IAddNewChatName {
   return {
-    type: Chat.ADD_NEW_CHAT_NAME, payload: { newChatName, chatId },
+    type: Chat.ADD_NEW_CHAT_NAME, payload: { name, id },
   };
 }

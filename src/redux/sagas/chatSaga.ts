@@ -13,6 +13,7 @@ import {
   editMessage, createChat, deleteChat, deleteUserFromChat, editChatName, getParticipants,
 } from '@/redux/api';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
+import { setIsShowCreateChat } from '@/redux/store/ui/actions';
 import {
   ICheckMembers,
   ICreateChat,
@@ -22,7 +23,7 @@ import {
   IMessage,
   IRequestMessages,
   ISendMessage,
-} from '@/types/store';
+} from '@/types/store/chatActions';
 import {
   ICreateChatSaga,
   IDeleteChatSaga,
@@ -113,6 +114,7 @@ function* fetchCreateChat(action: ICreateChat) {
     }
 
     yield put(addNewChat(response.data));
+    yield put(setIsShowCreateChat(false));
   } catch (error) {
     console.error(error);
   }
@@ -159,17 +161,19 @@ function* fetchGetParticipants(action: ICheckMembers) {
 
 function* fetchEditChatName(action: IEditChatName) {
   try {
-    const { newChatName, chatId } = action.payload;
-    const response: IEditChatNameSaga = yield call(editChatName, newChatName, chatId);
+    const { name, id } = action.payload;
+    const response: IEditChatNameSaga = yield call(editChatName, name, id);
+    console.log(response.data);
     if (response.ok) {
-      yield put(addNewChatName(response.data.newChatName, response.data.chatId));
+      console.log(response.data.name, response.data.id);
+      yield put(addNewChatName(response.data.name, response.data.id));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-export function* chatSaga(): Generator {
+export function* chatSaga(): any {
   yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
   yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
   yield takeEvery(Chat.DELETE_MESSAGE, fetchDeleteMessage);
