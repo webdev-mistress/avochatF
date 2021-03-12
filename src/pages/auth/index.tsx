@@ -8,7 +8,7 @@ import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 import style from './styles.module.scss';
 
-export const AuthPage = () => {
+export const AuthPage: React.FunctionComponent = () => {
   const [isAuthForm, setIsAuthForm] = useState(true);
   const errorMessage = useSelector(selectErrorMessage);
   const dispatch: Dispatch = useDispatch();

@@ -12,8 +12,12 @@ interface IProps {
   setState: (state: IState) => void,
 }
 
-export const MenuMessage: React.FunctionComponent<IProps> = (props) => {
-  const { anchorEl, setAnchorEl, state, setState } = props;
+export const MenuMessage: React.FunctionComponent<IProps> = ({
+  anchorEl,
+  setAnchorEl,
+  state,
+  setState,
+}) => {
   const {
     onCloseMenu,
     onEditMode,

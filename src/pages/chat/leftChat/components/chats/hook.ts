@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
 import {
-  createChat,
   getActiveChat,
   getChatParticipants,
   requestMessages,
@@ -28,12 +27,6 @@ export const useChat = (): any => {
     dispatch(setIsShowCreateChat(true));
   }, [dispatch]);
 
-  // const onCreateChatDialog = useCallback(() => {
-  //   const onCreateChat = ((chatName: string) => {
-  //     dispatch(createChat(chatName));
-  //   });
-  // }, [dispatch]);
-
   const onOpenChatSettings = useCallback((chat) => (
     event: React.MouseEvent<SVGSVGElement>,
   ) => {
@@ -47,7 +40,6 @@ export const useChat = (): any => {
     chats,
     activeChatId,
     onLoadChat,
-    // onCreateChatDialog,
     onOpenChatSettings,
     onOpenCreateChatDialog,
   };

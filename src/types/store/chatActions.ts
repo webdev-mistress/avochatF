@@ -132,7 +132,7 @@ export interface IDeleteChat {
 export interface IDeleteUserFromChat {
   type: Chat.DELETE_USER_FROM_CHAT,
   payload: {
-    userId: number,
+    login: string,
     chatId: number,
   }
 }
@@ -161,7 +161,7 @@ export interface IAddNewChat {
 export interface IDeleteUnwanterUser {
   type: Chat.DELETE_UNWANTED_USER,
   payload: {
-    userId: number,
+    login: string,
     chatId: number,
   }
 }
@@ -186,27 +186,20 @@ export interface IMembersData {
   login: string,
   isOnline?: boolean,
 }
-//
-// export interface IGetSelectedChat {
-//   type: User.GET_SELECTED_CHAT,
-//   payload: {
-//     selectedChat: IChat,
-//   }
-// }
 
 export interface IEditChatName {
   type: Chat.EDIT_CHAT_NAME,
   payload: {
-    newChatName: string,
-    chatId: number,
+    name: string,
+    id: number,
   }
 }
 
 export interface IAddNewChatName {
   type: Chat.ADD_NEW_CHAT_NAME,
   payload: {
-    newChatName: string,
-    chatId: number,
+    name: string,
+    id: number,
   }
 }
 

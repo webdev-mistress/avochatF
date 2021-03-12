@@ -78,8 +78,8 @@ export interface ICkeckMembersSaga {
 export interface IEditChatNameSaga {
   ok: boolean,
   data: {
-    newChatName: string,
-    chatId: number,
+    name: string,
+    id: number,
   }
 }
 

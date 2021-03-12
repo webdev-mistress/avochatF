@@ -20,8 +20,14 @@ interface IProps {
   setAnchorEl: (anchorEl: Element | null) => void,
 }
 
-export const ChatMessages: React.FunctionComponent<IProps> = (props) => {
-  const { messages, state, userId, setState, setAnchorEl, anchorEl } = props;
+export const ChatMessages: React.FunctionComponent<IProps> = ({
+  messages,
+  state,
+  userId,
+  setState,
+  setAnchorEl,
+  anchorEl,
+}) => {
   const {
     onEditClose,
     onSendEditMessage,

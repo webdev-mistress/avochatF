@@ -20,9 +20,9 @@ export const MembersList: React.FunctionComponent = () => {
   const selectedChat: IChat = useSelector(selectSelectedChat);
   const selectedUserId: number = useSelector(selectUserId);
 
-  const onDeleteUserFromChatDialog = useCallback((userId: number) => {
+  const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
     if(selectedChat) {
-      dispatch(deleteUserFromChat(userId, selectedChat.id));
+      dispatch(deleteUserFromChat(login, selectedChat.id));
     }
   }, [dispatch, selectedChat]);
 
@@ -52,7 +52,7 @@ export const MembersList: React.FunctionComponent = () => {
           {checkShowCloseIcon(selectedChat, member, selectedUserId)
            && (
              <CloseIcon
-               onClick={() => onDeleteUserFromChatDialog(member.id)}
+               onClick={onDeleteUserFromChatDialog(member.login)}
                className={styles.chatSettingsIcon}
              />
            )

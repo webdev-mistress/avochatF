@@ -7,8 +7,8 @@ interface IArgs {
   setState: (state: IState) => void,
 }
 
-export const useSettingsMessage = (props: IArgs) => {
-  const { state, setState, setAnchorEl } = props;
+export const useSettingsMessage = (args: IArgs): any => {
+  const { state, setState, setAnchorEl } = args;
 
   const onOpenMenu = useCallback((message) => (
     event: React.MouseEvent<SVGSVGElement>,

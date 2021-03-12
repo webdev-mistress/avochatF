@@ -37,6 +37,7 @@ export enum Chat {
   ADD_NEW_CHAT_NAME = 'ADD_NEW_CHAT_NAME',
 }
 
+/* ui */
 export enum UI {
   IS_SHOW_USER_SETTINGS = 'IS_SHOW_USER_SETTINGS',
   IS_SHOW_CHAT_SETTINGS = 'IS_SHOW_CHAT_SETTINGS',

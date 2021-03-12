@@ -52,7 +52,7 @@ export function chatReducer(
     return {
       ...state,
       chatMembersList: state.chatMembersList && state.chatMembersList
-        .filter(member => member.id !== action.payload.userId),
+        .filter(member => member.login !== action.payload.login),
     };
   default:
     return state;

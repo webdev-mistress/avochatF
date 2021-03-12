@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,36 +10,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import ChatIcon from '@material-ui/icons/Chat';
-import { selectIsShowCreateChat } from '@/redux/store/ui/selectors';
-import { setIsShowCreateChat } from '@/redux/store/ui/actions';
-import { createChat } from '@/redux/store/chat/actions';
+import {
+  useCreateChatDialog,
+} from '@/components/dialog/components/createChatDialog/hook';
 import styles from '../../styles.module.scss';
 
 export const CreateChatDialog: React.FunctionComponent = () => {
-  const [chatName, setChatName] = useState('');
-  const isShowDialog = useSelector(selectIsShowCreateChat);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(!isShowDialog) {
-      setChatName('');
-    }
-  }, [isShowDialog]);
-
-  const onChangeFieldValue = useCallback(() => (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const { value } = event.target;
-    setChatName(value);
-  }, []);
-
-  const onCloseDialog = useCallback(() => {
-    dispatch(setIsShowCreateChat(false));
-  }, [dispatch]);
-
-  const onCreateChat = useCallback((chatName: string) => () => {
-    dispatch(createChat(chatName));
-  }, [dispatch]);
+  const {
+    chatName,
+    onChangeFieldValue,
+    onCloseDialog,
+    onCreateChat,
+    isShowDialog,
+    onKeyUpEnter,
+  } = useCreateChatDialog();
 
   return (
     <div>
@@ -58,8 +41,7 @@ export const CreateChatDialog: React.FunctionComponent = () => {
             <div className={styles.iconsWrapper}>
               <IconButton
                 className={styles.addButton}
-                // disabled={!newChatNameValue}
-                // onClick={onEditOldChatName(newChatNameValue)}
+                disabled={isShowDialog}
                 color="primary"
               >
               </IconButton>
@@ -81,14 +63,12 @@ export const CreateChatDialog: React.FunctionComponent = () => {
                 margin="dense"
                 id="createChat"
                 fullWidth
-                // onKeyUp={event => event.key === 'Enter'
-                //   && onAddUserToChatDialog(fieldValue)
-                // }
+                onKeyUp={onKeyUpEnter}
                 onChange={onChangeFieldValue()}
               />
               <Button
                 className={styles.addButton}
-                // disabled={!fieldValue}
+                disabled={!chatName}
                 onClick={onCreateChat(chatName)}
                 variant="contained"
                 color="primary"

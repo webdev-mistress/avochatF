@@ -14,15 +14,14 @@ interface IProps {
   onSendEditMessage: (content: string) => void,
 }
 
-export const MessageContent: React.FunctionComponent<IProps> = (props) => {
-  const {
-    message,
-    isEditMessage,
-    state,
-    setState,
-    onEditClose,
-    onSendEditMessage,
-  } = props;
+export const MessageContent: React.FunctionComponent<IProps> = ({
+  message,
+  isEditMessage,
+  state,
+  setState,
+  onEditClose,
+  onSendEditMessage,
+}) => {
   const {
     onPressEditEvent,
     onEditMessageChange,

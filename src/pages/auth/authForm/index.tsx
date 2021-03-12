@@ -14,8 +14,7 @@ interface IProps {
   onOpenRegForm: (isAuth: boolean) => any;
 }
 
-export const AuthForm: React.FunctionComponent<IProps> = (props) => {
-  const { onOpenRegForm } = props;
+export const AuthForm: React.FunctionComponent<IProps> = ({ onOpenRegForm }) => {
   const {
     login,
     setLogin,

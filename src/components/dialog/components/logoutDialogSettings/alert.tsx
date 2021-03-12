@@ -16,7 +16,6 @@ import { setIsShowLogout } from '@/redux/store/ui/actions';
 
 export const LogoutDialog: React.FunctionComponent = () => {
   const isShowLogoutDialog = useSelector(selectIsShowLogout);
-  console.log(isShowLogoutDialog);
 
   const dispatch = useDispatch();
 

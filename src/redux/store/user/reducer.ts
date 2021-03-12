@@ -67,15 +67,14 @@ export function userReducer(state = initialState, action: UserActions): IUser {
       ...state,
       selectedChat: state.selectedChat ? {
         ...state.selectedChat,
-        name: action.payload.newChatName,
+        name: action.payload.name,
       } : null,
     };
   case Chat.ADD_NEW_CHAT_NAME: {
     const newChats = state.chats
-      .map(chat => chat.id === action.payload.chatId
-        ? { ...chat, name: action.payload.newChatName }
+      .map(chat => chat.id === action.payload.id
+        ? { ...chat, name: action.payload.name }
         : chat);
-
     return {
       ...state,
       chats: newChats,

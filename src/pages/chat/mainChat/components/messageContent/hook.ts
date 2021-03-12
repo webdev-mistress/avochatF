@@ -8,8 +8,8 @@ interface IArgs {
   onSendEditMessage: (content: string) => void,
 }
 
-export const useMessageContent = (props: IArgs) => {
-  const { state, setState, onEditClose, onSendEditMessage } = props;
+export const useMessageContent = (args: IArgs): any => {
+  const { state, setState, onEditClose, onSendEditMessage } = args;
   const onPressEditEvent = useCallback((content) => (
     event: React.KeyboardEvent<HTMLDivElement>,
   ) => {

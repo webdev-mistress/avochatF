@@ -2,7 +2,7 @@ import { Chat } from '@/constants/store';
 import {
   IAddNewChatName,
   IChat,
-  ICheckMembers,
+  ICheckMembers, ICheckMembersLoad,
   IClearChat,
   ICreateChat,
   IDeleteChat,
@@ -95,9 +95,9 @@ export function deleteChat(chatId: number): IDeleteChat {
   };
 }
 
-export function deleteUserFromChat(userId: number, chatId: number): IDeleteUserFromChat {
+export function deleteUserFromChat(login: string, chatId: number): IDeleteUserFromChat {
   return {
-    type: Chat.DELETE_USER_FROM_CHAT, payload: { userId, chatId },
+    type: Chat.DELETE_USER_FROM_CHAT, payload: { login, chatId },
   };
 }
 
@@ -107,7 +107,7 @@ export function getChatParticipants(chatId: number): ICheckMembers {
   };
 }
 
-export function checkMembersLoaded(data: IMembersData[]) {
+export function checkMembersLoaded(data: IMembersData[]): ICheckMembersLoad {
   return {
     type: Chat.GET_CHAT_PARTICIPANTS_LOADED,
     payload: {
@@ -116,24 +116,24 @@ export function checkMembersLoaded(data: IMembersData[]) {
   };
 }
 
-export function deleteUnwanterUser(userId: number, chatId: number): IDeleteUnwanterUser {
+export function deleteUnwanterUser(login: string, chatId: number): IDeleteUnwanterUser {
   return {
-    type: Chat.DELETE_UNWANTED_USER, payload: { userId, chatId },
+    type: Chat.DELETE_UNWANTED_USER, payload: { login, chatId },
   };
 }
 
-export function editOldChatName(newChatName: string, chatId: number): IEditChatName {
+export function editOldChatName(name: string, id: number): IEditChatName {
   return {
     type: Chat.EDIT_CHAT_NAME,
     payload: {
-      newChatName,
-      chatId,
+      name,
+      id,
     },
   };
 }
 
-export function addNewChatName(newChatName: string, chatId: number): IAddNewChatName {
+export function addNewChatName(name: string, id: number): IAddNewChatName {
   return {
-    type: Chat.ADD_NEW_CHAT_NAME, payload: { newChatName, chatId },
+    type: Chat.ADD_NEW_CHAT_NAME, payload: { name, id },
   };
 }

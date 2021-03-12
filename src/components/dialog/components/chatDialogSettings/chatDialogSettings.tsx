@@ -36,6 +36,8 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
     onChangeChatName,
     onEditOldChatName,
     isShowChatSettings,
+    onKeyUpEditChatEnter,
+    onKeyUpAddUser,
   } = useChatDialogSettings();
 
   return (
@@ -59,9 +61,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
                   margin="dense"
                   id="name"
                   fullWidth
-                  onKeyUp={event => event.key === 'Enter'
-                    && onEditOldChatName(newChatNameValue)
-                  }
+                  onKeyUp={onKeyUpEditChatEnter}
                   onChange={onChangeChatName}
                 />
                 <IconButton
@@ -99,9 +99,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
                 margin="dense"
                 id="name"
                 fullWidth
-                onKeyUp={event => event.key === 'Enter'
-                  && onAddUserToChatDialog(fieldValue)
-                }
+                onKeyUp={onKeyUpAddUser}
                 onChange={onChangeFieldValue}
               />
               <Button
@@ -134,7 +132,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
             <Button
               color="secondary"
               variant="contained"
-              onClick={onLeaveChat(selectedUserId, selectedChat)}
+              onClick={onLeaveChat}
             >
               Leave the chat
             </Button>
