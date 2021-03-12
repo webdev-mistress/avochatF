@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 import { removeErrorMessage, requestUser } from '@/redux/store/user/actions';
 
-export const useAuthForm = () => {
+export const useAuthForm = (): any => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const errorMessage = useSelector(selectErrorMessage);

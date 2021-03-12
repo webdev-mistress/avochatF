@@ -4,7 +4,7 @@ import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selecto
 import { removeErrorMessage, requestCreateUser } from '@/redux/store/user/actions';
 import { ButtonEvent } from '@/types/components';
 
-export const useRegForm = () => {
+export const useRegForm = (): any => {
   const initialState = {
     email: '',
     name: '',

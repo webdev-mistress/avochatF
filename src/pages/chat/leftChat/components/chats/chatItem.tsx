@@ -15,9 +15,12 @@ interface IProps {
   onOpenChatSettings: (chat: IChat) => any,
 }
 
-export const ChatItem = (props: IProps) => {
-  const { chat, activeChatId, onLoadChat, onOpenChatSettings } = props;
-
+export const ChatItem: React.FunctionComponent<IProps> = ({
+  chat,
+  activeChatId,
+  onLoadChat,
+  onOpenChatSettings,
+}) => {
   return (
     <ListItem
       className={cn(styles.chatItem, chat.id === activeChatId && styles.chatItemActive)}
