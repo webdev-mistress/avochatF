@@ -1,75 +1,66 @@
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  height: 100%;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .messageWrapper {
-  word-break: break-all;
-  padding: 20px;
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: scroll;
-  scrollbar-color: #440044 !important;
-  align-items: flex-start;
-  flex-grow: 1;
-
-  .message {
-    margin: 7px 0;
+    word-break: break-all;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
     display: flex;
-    padding: 10px;
-    background: #444;
-    border-radius: 10px;
-
-    .messageBlock {
-      div:first-child {
-        font-weight: 600;
-        font-size: 20px;
-      }
-
-      div:last-child {
-        margin: 3px 10px 0px 2px;
-      }
-    }
-
-    .buttonBlock {
-      display: flex;
-      margin-left: 20px;
-      justify-content: space-between;
-      flex-direction: column;
-
-      svg {
-        font-size: 18px;
-        transition: all 0.3s;
-
-        &:first-child {
-          color: grey;
-          opacity: 0.4;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
+    scrollbar-color: #440044 !important;
+    align-items: flex-start;
+    flex-grow: 1;
+    .message {
+        margin: 7px 0;
+        display: flex;
+        padding: 10px;
+        background: #444;
+        border-radius: 10px;
+        .messageBlock {
+            div:first-child {
+                font-weight: 600;
+                font-size: 20px;
+            }
+            div:last-child {
+                margin: 3px 10px 0px 2px;
+            }
         }
-
-        &:last-child {
-          cursor: pointer;
-          color: grey;
-
-          &:hover {
-            opacity: 0.8;
-          }
+        .buttonBlock {
+            display: flex;
+            margin-left: 20px;
+            justify-content: space-between;
+            flex-direction: column;
+            svg {
+                font-size: 18px;
+                transition: all 0.3s;
+                &:first-child {
+                    color: grey;
+                    opacity: 0.4;
+                }
+                &:last-child {
+                    cursor: pointer;
+                    color: grey;
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+            }
         }
-      }
     }
-  }
-
-  .myMessage {
-    align-self: flex-end;
-    background: #404;
-  }
+    .myMessage {
+        align-self: flex-end;
+        background: #404;
+    }
 }
 
 .dateWrapper {
@@ -77,112 +68,104 @@
 }
 
 .myMessageWrapper {
-  align-self: flex-end;
+    align-self: flex-end;
 }
 
 .messageContainer {
-  margin: 7px 0;
+    margin: 7px 0;
 }
 
 .topBlock {
-  box-sizing: border-box;
-  width: 100%;
-  height: 63px;
-  padding: 16px 20px 16px 120px;
-  border: 1px solid #222;
-  display: flex;
-  align-items: center;
-
-  .title {
-    font-size: 24px;
-  }
-
-  @media (max-width: 586px) {
-    padding-left: 10px;;
-  }
-
-  .activeCachedIcon {
-    animation: rotateIcon 0.7s 3;
-  }
-
-  .cachedIcon {
-    transition: all 0.3s;
-    margin-right: 20px;
-    color: gray;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
+    box-sizing: border-box;
+    width: 100%;
+    height: 63px;
+    padding: 16px 20px 16px 120px;
+    border: 1px solid #222;
+    display: flex;
+    align-items: center;
+    .title {
+        font-size: 24px;
     }
-  }
 
-  .noActiveChat {
-    transition: all 0.3s;
-    margin-right: 20px;
-    color: #333;
-    cursor: default;
-
-    &:hover {
-      opacity: 0.8;
+    @media (max-width: 586px) {
+            padding-left: 10px;;
     }
-  }
+
+    .activeCachedIcon {
+        animation: rotateIcon 0.7s 3;
+    }
+    .cachedIcon {
+        transition: all 0.3s;
+        margin-right: 20px;
+        color:gray;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    .noActiveChat {
+        transition: all 0.3s;
+        margin-right: 20px;
+        color: #333;
+        cursor: default;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
 
 }
 
 .noMessage {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  font-size: 25px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-size: 25px;
 }
 
 .form {
-  width: 100%;
-  max-width: 1100px;
-  color: #fff;
-  display: flex;
-  padding: 10px 20px;
-  box-sizing: border-box;
-
-  div {
-    flex-grow: 1;
-
-    label, input {
-      margin-left: 5px;
-      color: #ffffff;
+    width: 100%;
+    max-width: 1100px;
+    color: #fff;
+    display: flex;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    div {
+        flex-grow: 1;
+        label, input {
+            margin-left: 5px;
+            color: #ffffff;
+        }
     }
-  }
-
-  button {
-    border-radius: 20%;
-    margin-left: 10px;
-  }
+    button {
+        border-radius: 20%;
+        margin-left: 10px;
+    }
 }
 
 @keyframes rotateIcon {
-  0% {
-    transform: rotate(360deg);
-    animation-timing-function: linear;
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+    0% {
+        transform: rotate(360deg);
+        animation-timing-function: linear;
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 .icons {
-  display: flex;
-  flex-direction: column;
-  opacity: 0.99 !important;
-  cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.99 !important;
+    cursor: pointer;
 }
 
 .editIcon {
-  color: white !important;
-  opacity: 0.9 !important;
-  margin-top: 5px;
-  width: 18px !important;
-  height: 18px !important;
-  cursor: default !important;
+    color: white !important;
+    opacity: 0.9 !important;
+    margin-top: 5px;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: default !important;
 }

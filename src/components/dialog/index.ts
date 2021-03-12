@@ -1,12 +1,6 @@
-import { LogoutDialog } from '@/components/dialog/components/logoutDialogSettings/alert';
-import {
-  ChatSettingsDialog,
-} from '@/components/dialog/components/chatDialogSettings/chatDialogSettings';
-import {
-  UserSettingsDialog,
-} from '@/components/dialog/components/userDialogSettings/userDialogSetting';
-import {
-  CreateChatDialog,
-} from '@/components/dialog/components/createChatDialog/createChatDialog';
+import { FormDialog } from '@/components/dialog/components/form/form';
+import { AlertDialog } from '@/components/dialog/components/alert';
+import { ChatSettingsDialog } from '@/components/dialog/components/chatDialogSettings/chatDialogSettings';
+import { UserSettingsDialog } from '@/components/dialog/components/userDialogSetting';
 
-export { LogoutDialog, ChatSettingsDialog, UserSettingsDialog, CreateChatDialog };
+export { FormDialog, AlertDialog, ChatSettingsDialog, UserSettingsDialog };

@@ -8,24 +8,24 @@ import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 import style from './styles.module.scss';
 
-export const AuthPage: React.FunctionComponent = () => {
-  const [isAuthForm, setIsAuthForm] = useState(true);
-  const errorMessage = useSelector(selectErrorMessage);
-  const dispatch: Dispatch = useDispatch();
+export const AuthPage = () => {
+    const [isAuthForm, setIsAuthForm] = useState(true);
+    const errorMessage = useSelector(selectErrorMessage);
+    const dispatch: Dispatch = useDispatch();
 
-  const onToggleForm = useCallback((isAuthForm: boolean) => () => {
-    if (errorMessage) {
-      dispatch(removeErrorMessage());
-    }
+    const onToggleForm = useCallback((isAuthForm: boolean) => () => {
+        if (errorMessage) {
+            dispatch(removeErrorMessage());
+        }
 
-    setIsAuthForm(isAuthForm);
-  }, [dispatch, errorMessage]);
+        setIsAuthForm(isAuthForm);
+    }, [dispatch, errorMessage]);
 
-  return (
-    <Container maxWidth="sm" className={style.wrapper}>
-      {isAuthForm
-        ? <AuthForm onOpenRegForm={onToggleForm} />
-        : <RegForm onOpenAuthForm={onToggleForm} />}
-    </Container>
-  );
+    return (
+        <Container maxWidth="sm" className={style.wrapper}>
+            {isAuthForm
+                ? <AuthForm onOpenRegForm={onToggleForm} />
+                : <RegForm onOpenAuthForm={onToggleForm} /> }
+        </Container>
+    );
 };
