@@ -1,50 +1,44 @@
 .card {
-  width: 100%;
+    width: 100%;
 }
 
 .cardContent {
-  display: flex;
-  flex-direction: column;
-
-  h4 {
-    text-align: center;
-  }
-
-  div {
-    margin-top: 10px;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
-  .signUpWrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-
-    button {
-      margin-top: 0px;
+    h4 {
+        text-align: center;
     }
-  }
+    div {
+        margin-top: 10px;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    .signUpWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+        button {
+            margin-top: 0px;
+        }
+    }
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-
-  button {
-    margin-top: 20px;
-  }
+    display: flex;
+    flex-direction: column;
+    button {
+        margin-top: 20px;
+    }
 }
 
 .errorMessage {
-  color: red;
+    color: red;
 }
 
 .authSpin {
-  margin-top: 15px !important;
-  text-align: center;
-  width: 100%;
+    margin-top: 15px !important;
+    text-align: center;
+    width: 100%;
 }

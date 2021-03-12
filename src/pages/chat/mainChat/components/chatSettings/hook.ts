@@ -1,13 +1,12 @@
 import format from 'date-fns/format';
-import { IMessage } from '@/types/store/chatActions';
+import { IMessage } from '@/types/store';
 
 interface IArgs {
-  message: IMessage,
+    message: IMessage,
 }
+export const useChatSettings = (props: IArgs) => {
+    const { message } = props;
 
-export const useChatSettings = (args: IArgs): any => {
-  const { message } = args;
-
-  return message.dateChange
-    ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
+    return message.dateChange
+        ? format(new Date(message.dateChange), 'HH:mm:ss dd.MM.yyyy') : '';
 };

@@ -2,45 +2,48 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
-import {
-  getActiveChat,
-  getChatParticipants,
-  requestMessages,
-} from '@/redux/store/chat/actions';
+import { createChat, getActiveChat, getChatParticipants, requestMessages } from '@/redux/store/chat/actions';
 import { getSelectedChat } from '@/redux/store/user/actions';
-import { selectUserChats } from '@/redux/store/user/selectors';
-import { setIsShowChatSettings, setIsShowCreateChat } from '@/redux/store/ui/actions';
-import { IChat } from '@/types/store/chatActions';
+import { DIALOG_MODE } from '@/pages/chat/leftChat/constants';
+import { IChat } from '@/types/store';
+import { IDialogModeElement } from '@/types/components';
 
-export const useChat = (): any => {
-  const dispatch: Dispatch = useDispatch();
-  const chats: IChat[] = useSelector(selectUserChats);
+interface IArgs {
+    chats: IChat[],
+    setDialogMode: (dialogMode: IDialogModeElement) => void,
+}
 
-  const activeChatId: number = useSelector(selectActiveChatId);
+export const useChat = (props: IArgs) => {
+    const { chats, setDialogMode } = props;
+    const dispatch: Dispatch = useDispatch();
+    const activeChatId: number = useSelector(selectActiveChatId);
 
-  const onLoadChat = useCallback((chat) => () => {
-    dispatch(getActiveChat(chat));
-    dispatch(requestMessages(chat.id));
-  }, [dispatch]);
+    const onLoadChat = useCallback((chat) => () => {
+        dispatch(getActiveChat(chat));
+        dispatch(requestMessages(chat.id));
+    }, [dispatch]);
 
-  const onOpenCreateChatDialog = useCallback(() => {
-    dispatch(setIsShowCreateChat(true));
-  }, [dispatch]);
+    const onCreateChatDialog = useCallback(() => {
+        const onCreateChat = ((chatName: string) => {
+            dispatch(createChat(chatName));
+            setDialogMode(DIALOG_MODE.EXIT);
+        });
+        setDialogMode({ ...DIALOG_MODE.CREATE_CHAT, positiveBtnFunc: onCreateChat });
+    }, [dispatch, setDialogMode]);
 
-  const onOpenChatSettings = useCallback((chat) => (
-    event: React.MouseEvent<SVGSVGElement>,
-  ) => {
-    event.stopPropagation();
-    dispatch(getSelectedChat(chat));
-    dispatch(getChatParticipants(chat.id));
-    dispatch(setIsShowChatSettings(true, chat.id));
-  }, [dispatch]);
+    const onOpenChatSettings = useCallback((chat) => (event: React.MouseEvent<SVGSVGElement>) => {
+        event.stopPropagation();
+        dispatch(getSelectedChat(chat));
+        dispatch(getChatParticipants(chat.id));
+        props.setDialogMode(DIALOG_MODE.GET_CHAT_PARTICIPANTS);
+    }, [dispatch, props]);
 
-  return {
-    chats,
-    activeChatId,
-    onLoadChat,
-    onOpenChatSettings,
-    onOpenCreateChatDialog,
-  };
+    return {
+        chats,
+        setDialogMode,
+        activeChatId,
+        onLoadChat,
+        onCreateChatDialog,
+        onOpenChatSettings,
+    };
 };
