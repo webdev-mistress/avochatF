@@ -11,7 +11,6 @@ interface IArgs {
 
 export const useChatMessages = (args: IArgs): any => {
   const dispatch: Dispatch = useDispatch();
-
   const { state, setState } = args;
 
   const onEditClose = useCallback(() => {
