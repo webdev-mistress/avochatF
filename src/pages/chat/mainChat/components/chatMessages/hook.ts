@@ -9,10 +9,10 @@ interface IArgs {
   setState: (state: IState) => void,
 }
 
-export const useChatMessages = (props: IArgs) => {
+export const useChatMessages = (args: IArgs): any => {
   const dispatch: Dispatch = useDispatch();
 
-  const { state, setState } = props;
+  const { state, setState } = args;
 
   const onEditClose = useCallback(() => {
     setState({ ...state, isEditMode: false, message: null, messageEdit: '' });

@@ -132,7 +132,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
             <Button
               color="secondary"
               variant="contained"
-              onClick={onLeaveChat(selectedUserId, selectedChat)}
+              onClick={onLeaveChat}
             >
               Leave the chat
             </Button>

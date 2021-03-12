@@ -10,12 +10,12 @@ interface IArgs {
   setState: (state: IState) => void,
 }
 
-export const useMenuMessage = (props: IArgs) => {
+export const useMenuMessage = (args: IArgs): any => {
   const {
     setAnchorEl,
     state,
     setState,
-  } = props;
+  } = args;
   const dispatch: Dispatch = useDispatch();
 
   const onCloseMenu = useCallback(() => {

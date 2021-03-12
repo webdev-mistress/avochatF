@@ -135,12 +135,12 @@ function* fetchDeleteChat(action: IDeleteChat) {
 
 function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
   try {
-    const { userId, chatId } = action.payload;
+    const { login, chatId } = action.payload;
     const response: IDeleteUserFromChatSaga = yield call(
-      deleteUserFromChat, userId, chatId,
+      deleteUserFromChat, login, chatId,
     );
     if (response.ok) {
-      yield put(deleteUnwanterUser(userId, chatId));
+      yield put(deleteUnwanterUser(login, chatId));
     }
   } catch (error) {
     console.error(error);
@@ -163,9 +163,7 @@ function* fetchEditChatName(action: IEditChatName) {
   try {
     const { name, id } = action.payload;
     const response: IEditChatNameSaga = yield call(editChatName, name, id);
-    console.log(response.data);
     if (response.ok) {
-      console.log(response.data.name, response.data.id);
       yield put(addNewChatName(response.data.name, response.data.id));
     }
   } catch (error) {

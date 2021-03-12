@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
+import {
+  selectSelectedChat,
+  selectUserId,
+  selectUserLogin,
+} from '@/redux/store/user/selectors';
 import { addUserToChat } from '@/redux/store/user/actions';
 import {
   clearChat,
@@ -18,6 +22,7 @@ export const useChatDialogSettings = (): any => {
   const [fieldValue, setFieldValue] = useState('');
   const dispatch: Dispatch = useDispatch();
   const selectedUserId: number = useSelector(selectUserId);
+  const selectedUserLogin: string = useSelector(selectUserLogin);
   const selectedChat: IChat = useSelector(selectSelectedChat);
   const isShowChatSettings = useSelector(selectIsShowChatSettings);
   const [newChatNameValue, setChatName] = useState('');
@@ -53,13 +58,11 @@ export const useChatDialogSettings = (): any => {
     onCloseDialog();
   }, [dispatch, onCloseDialog, selectedChat]);
 
-  const onLeaveChat = useCallback((
-    selectedUserId: number, selectedChat: IChat,
-  ) => () => {
-    dispatch(deleteUserFromChat(selectedUserId, selectedChat.id));
+  const onLeaveChat = useCallback(() => {
+    dispatch(deleteUserFromChat(selectedUserLogin, selectedChat.id));
     dispatch(deleteChat(selectedChat.id));
     onCloseDialog();
-  }, [dispatch, onCloseDialog]);
+  }, [dispatch, onCloseDialog, selectedChat.id, selectedUserLogin]);
 
   const onEditChatName = useCallback(() => {
     setEditMode(!isEditMode);

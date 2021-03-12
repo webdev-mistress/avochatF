@@ -46,7 +46,6 @@ export const RegForm: React.FunctionComponent<IProps> = (props) => {
                 id="authEmail"
                 label="email"
                 onChange={onChange('email')}
-                // onKeyUp={onKeyUpEnter}
               />
               <TextField
                 required
@@ -54,7 +53,6 @@ export const RegForm: React.FunctionComponent<IProps> = (props) => {
                 id="authLogin"
                 label="Login"
                 onChange={onChange('login')}
-                // onKeyUp={onKeyUpEnter}
               />
               <TextField
                 autoFocus
@@ -63,7 +61,6 @@ export const RegForm: React.FunctionComponent<IProps> = (props) => {
                 id="authLogin"
                 label="Name"
                 onChange={onChange('name')}
-                // onKeyUp={onKeyUpEnter}
               />
               <TextField
                 required
@@ -72,7 +69,6 @@ export const RegForm: React.FunctionComponent<IProps> = (props) => {
                 id="authPassword"
                 label="password"
                 onChange={onChange('password1')}
-                // onKeyUp={onKeyUpEnter}
               />
               <TextField
                 required
@@ -81,7 +77,6 @@ export const RegForm: React.FunctionComponent<IProps> = (props) => {
                 id="authPassword"
                 label="repeat password"
                 onChange={onChange('password2')}
-                // onKeyUp={onKeyUpEnter}
               />
               {!!state.errorText && (
                 <div className={styles.errorText}>{state.errorText}</div>

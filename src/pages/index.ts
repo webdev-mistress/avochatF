@@ -1,5 +1,5 @@
 import { AuthPage } from './auth';
 import { ChatPage } from './chat';
-import { ConfirmPage } from './auth/confirm';
+import { ConfirmPage } from './confirm';
 
 export { AuthPage, ChatPage, ConfirmPage };

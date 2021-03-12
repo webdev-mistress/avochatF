@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { IChat, IUser } from '@/types/store';
+import { IChat } from '@/types/store/chatActions';
+import { IUser } from '@/types/store/userActions';
 
 export const selectUserId = (state: IUser): number =>
   _.get(state, 'user.id', 0);

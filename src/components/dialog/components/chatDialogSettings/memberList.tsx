@@ -12,17 +12,17 @@ import CloseIcon from '@material-ui/icons/Close';
 import { selectChatMembersList } from '@/redux/store/chat/selectors';
 import { deleteUserFromChat } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
-import { IChat, IMembersData } from '@/types/store';
+import { IChat, IMembersData } from '@/types/store/chatActions';
 
-export const MembersList = () => {
+export const MembersList: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
   const membersList: IMembersData[] = useSelector(selectChatMembersList);
   const selectedChat: IChat = useSelector(selectSelectedChat);
   const selectedUserId: number = useSelector(selectUserId);
 
-  const onDeleteUserFromChatDialog = useCallback((userId: number) => {
+  const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
     if(selectedChat) {
-      dispatch(deleteUserFromChat(userId, selectedChat.id));
+      dispatch(deleteUserFromChat(login, selectedChat.id));
     }
   }, [dispatch, selectedChat]);
 
@@ -52,7 +52,7 @@ export const MembersList = () => {
           {checkShowCloseIcon(selectedChat, member, selectedUserId)
            && (
              <CloseIcon
-               onClick={() => onDeleteUserFromChatDialog(member.id)}
+               onClick={onDeleteUserFromChatDialog(member.login)}
                className={styles.chatSettingsIcon}
              />
            )

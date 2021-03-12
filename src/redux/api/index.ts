@@ -86,9 +86,9 @@ export const addUserToChat = function(
 };
 
 export const deleteUserFromChat = function(
-  userId: number, chatId: number,
+  login: string, chatId: number,
 ): Promise<IDeleteUserFromChatSaga> {
-  return getResource(`${PREFIX_CHAT}/deleteUserFromChat`, { userId, chatId });
+  return getResource(`${PREFIX_CHAT}/deleteUserFromChat`, { login, chatId });
 };
 
 export const getParticipants = function(chatId: number): Promise<ICkeckMembersSaga> {

@@ -42,10 +42,10 @@ export const useRegForm = () => {
   }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
 
   const onKeyUpEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !disabledButton) {
       onCreateUser(event);
     }
-  }, [onCreateUser]);
+  }, [disabledButton, onCreateUser]);
 
   const onChange = useCallback((name) => (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,

@@ -1,5 +1,5 @@
 import { Chat } from '@/constants/store';
-import { ChatAction, IActiveChat } from '@/types/store';
+import { ChatActions, IActiveChat } from '@/types/store/chatActions';
 
 const initialState: IActiveChat = {
   isCreateChatSpin: false,
@@ -8,7 +8,7 @@ const initialState: IActiveChat = {
 };
 
 export function chatReducer(
-  state = initialState, action: ChatAction,
+  state = initialState, action: ChatActions ,
 ): IActiveChat {
   switch (action.type) {
   case Chat.CREATE_CHAT:
@@ -52,7 +52,7 @@ export function chatReducer(
     return {
       ...state,
       chatMembersList: state.chatMembersList && state.chatMembersList
-        .filter(member => member.id !== action.payload.userId),
+        .filter(member => member.login !== action.payload.login),
     };
   default:
     return state;

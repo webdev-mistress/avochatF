@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import styles from '@/pages/chat/leftChat/styles.module.scss';
-import { IChat } from '@/types/store';
+import { IChat } from '@/types/store/chatActions';
 
 interface IProps {
   chat: IChat,
