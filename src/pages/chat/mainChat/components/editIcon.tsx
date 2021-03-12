@@ -4,18 +4,18 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import styles from '../styles.module.scss';
 
 interface IProps {
-    messageDateChange: string,
+  messageDateChange: string,
 }
 
-export const EditIcon = (props: IProps) => {
-    const { messageDateChange } = props;
-
-    return (
-        <Tooltip
-            title={messageDateChange}
-            placement="right-start"
-        >
-            <BorderColorIcon className={styles.editIcon} />
-        </Tooltip>
-    );
+export const EditIcon: React.FunctionComponent<IProps> = ({
+  messageDateChange,
+}) => {
+  return (
+    <Tooltip
+      title={messageDateChange}
+      placement="right-start"
+    >
+      <BorderColorIcon className={styles.editIcon} />
+    </Tooltip>
+  );
 };

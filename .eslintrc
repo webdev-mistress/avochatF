@@ -1,253 +1,322 @@
 {
-    "parser": "babel-eslint",
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "import"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      // Regex for Component Factory to use,
+      // default to "createReactClass"
+      "pragma": "React",
+      // Pragma to use, default to "React"
+      "version": "detect",
+      // React version. "detect" automatically picks the version you have installed.
+      // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+      // default to latest and warns if missing
+      // It will default to "detect" in the future
+      "flowVersion": "0.53"
+      // Flow version
+    },
+    "propWrapperFunctions": [
+      // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
+      "forbidExtraProps",
+      {
+        "property": "freeze",
+        "object": "Object"
+      },
+      {
+        "property": "myFavoriteWrapper"
+      }
     ],
-    "plugins": [
-        "react",
-        "react-hooks",
-        "import"
-
+    "linkComponents": [
+      // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
+      "Hyperlink",
+      {
+        "name": "Link",
+        "linkAttribute": "to"
+      }
+    ]
+  },
+  "rules": {
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
     ],
-    "parserOptions": {
-        "ecmaVersion": 2019,
-        "sourceType": "module"
-    },
-    "env": {
-        "es6": true,
-        "browser": true,
-        "node": true,
-        "jest": true
-    },
-    "settings": {
-        "react": {
-            "createClass": "createReactClass", // Regex for Component Factory to use,
-            // default to "createReactClass"
-            "pragma": "React",  // Pragma to use, default to "React"
-            "version": "detect", // React version. "detect" automatically picks the version you have installed.
-            // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
-            // default to latest and warns if missing
-            // It will default to "detect" in the future
-            "flowVersion": "0.53" // Flow version
-        },
-        "propWrapperFunctions": [
-            // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
-            "forbidExtraProps",
-            {"property": "freeze", "object": "Object"},
-            {"property": "myFavoriteWrapper"}
+    "array-body-style": [
+      "off"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "semi": [
+      "error",
+      "always"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "no-undef": "error",
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "template-tag-spacing": [
+      "error",
+      "always"
+    ],
+    "no-multi-spaces": "error",
+    "key-spacing": [
+      "error",
+      {
+        "mode": "strict",
+        "beforeColon": false
+      }
+    ],
+    "space-in-parens": [
+      "error",
+      "never"
+    ],
+    "array-element-newline": [
+      "error",
+      "consistent"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 90,
+        "ignoreComments": true
+      }
+    ],
+    "no-regex-spaces": "error",
+    "padding-line-between-statements": [
+      "error"
+      // { "blankLine": "always", "prev:": ["const", "let", "var"], "next": "*"},
+      // { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+    ],
+    "complexity": [
+      "error",
+      90
+    ],
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    "default-case": "error",
+    "no-empty-function": "warn",
+    "no-case-declarations": "off",
+    "init-declarations": [
+      "error",
+      "always"
+    ],
+    "spaced-comment": [
+      "error",
+      "always"
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always"
+    ],
+    "lines-around-comment": [
+      "error",
+      {
+        "beforeBlockComment": true,
+        "allowBlockStart": true
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "no-trailing-spaces": "error",
+    // "operator-linebreak": ["error", "none"],
+    "block-spacing": [
+      "error",
+      "always"
+    ],
+    "camelcase": "error",
+    "no-lonely-if": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "no-multi-assign": "error",
+    "padded-blocks": [
+      "error",
+      "never"
+    ],
+    "no-empty": "error",
+    "arrow-body-style": [
+      "off",
+      "as-needed"
+    ],
+    "curly": "error",
+    "brace-style": "error",
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "prefer-const": "error",
+    "no-whitespace-before-property": "error",
+    "space-infix-ops": [
+      "error"
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
         ],
-        "linkComponents": [
-            // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
-            "Hyperlink",
-            {"name": "Link", "linkAttribute": "to"}
-        ]
-    },
-    "rules": {
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "semi": [
-            "error",
-            "always"
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "lodash",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
+            "pattern": "react-redux",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
+            "pattern": "redux",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
+            "pattern": "@material-ui",
+            "group": "builtin",
+            "position": "after"
+          },
+          {
+            "pattern": "@/redux/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/pages/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/types/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "./styles*",
+            "group": "sibling",
+            "position": "after"
+          }
         ],
-        "quotes": [
-            "error",
-            "single",
-            {
-                "allowTemplateLiterals": true
-            }
+        "pathGroupsExcludedImportTypes": [
+          "builtin"
         ],
-        "no-undef": "error",
-        "eol-last": [
-            "error",
-            "always"
-        ],
-        "template-tag-spacing": [
-            "error",
-            "always"
-        ],
-        "no-multi-spaces": "error",
-        "key-spacing": [
-            "error",
-            {
-                "mode": "strict",
-                "beforeColon": false
-            }
-        ],
-        "space-in-parens": [
-            "error",
-            "never"
-        ],
-        "array-element-newline": [
-            "error",
-            "consistent"
-        ],
-        "max-len": [
-            "error",
-            {
-                "code": 120,
-                "ignoreComments": true
-            }
-        ],
-        "no-regex-spaces": "error",
-        "padding-line-between-statements": [
-            "error"
-            // { "blankLine": "always", "prev:": ["const", "let", "var"], "next": "*"},
-            // { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
-        ],
-        "newline-before-return": "error",
-        "complexity": [
-            "error",
-            100
-        ],
-        "eqeqeq": [
-            "error",
-            "always"
-        ],
-        "default-case": "error",
-        "no-empty-function": "error",
-        "no-case-declarations": "off",
-        "init-declarations": [
-            "error",
-            "always"
-        ],
-        "spaced-comment": [
-            "error",
-            "always"
-        ],
-        "function-call-argument-newline": [
-            "error",
-            "never"
-        ],
-        "jsx-quotes": [
-            "error",
-            "prefer-double"
-        ],
-        "lines-between-class-members": [
-            "error",
-            "always"
-        ],
-        "lines-around-comment": [
-            "error",
-            {
-                "beforeBlockComment": true,
-                "allowBlockStart": true
-            }
-        ],
-        "no-multiple-empty-lines": [
-            "error",
-            {
-                "max": 1
-            }
-        ],
-        "no-trailing-spaces": "error",
-        // "operator-linebreak": ["error", "none"],
-        "block-spacing": [
-            "error",
-            "always"
-        ],
-        "camelcase": "error",
-        "no-lonely-if": "error",
-        "no-mixed-spaces-and-tabs": "error",
-        "no-multi-assign": "error",
-        "padded-blocks": [
-            "error",
-            "never"
-        ],
-        "no-empty": "error",
-        "arrow-body-style": [
-            "error",
-            "as-needed"
-        ],
-        "curly": "error",
-        "brace-style": "error",
-        "comma-dangle": [
-            "error",
-            {
-                "objects": "always-multiline"
-            }
-        ],
-        "prefer-const": "error",
-        "no-whitespace-before-property": "error",
-        "space-infix-ops": [
-            "error"
-        ],
-        "import/order": ["error",
-            {
-                "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
-                "pathGroups": [
-                    {
-                        "pattern": "react",
-                        "group": "builtin",
-                        "position": "before"
-
-                    },
-                    {
-                        "pattern": "lodash",
-                        "group": "builtin",
-                        "position": "after"
-
-                    },
-                    {
-                        "pattern": "react-redux",
-                        "group": "builtin",
-                        "position": "after"
-
-                    },
-                    {
-                        "pattern": "redux",
-                        "group": "builtin",
-                        "position": "after"
-
-                    },
-                    {
-                        "pattern": "@/redux/**",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "@/pages/**",
-                        "group": "internal",
-                        "position": "before"
-
-                    },
-                    {
-                        "pattern": "@/types/**",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "./styles*",
-                        "group": "sibling",
-                        "position": "after"
-                    }
-                ],
-                "pathGroupsExcludedImportTypes": ["builtin"],
-                "newlines-between": "never"
-
-            }
-        ],
-        "no-duplicate-imports": "error",
-        "no-dupe-keys": "error",
-        "no-dupe-args": "error",
-        "object-curly-spacing": [
-            "error",
-            "always"
-        ],
-        "react/prop-types": [0],
-        "react/jsx-closing-tag-location": [1],
-        "react/jsx-tag-spacing": [1, {
-            "closingSlash": "never",
-            "beforeSelfClosing": "always",
-            "afterOpening": "never",
-            "beforeClosing": "never"
-        }],
-        "react/sort-comp": [1],
-        "react/jsx-first-prop-new-line": [1, "multiline"],
-        "react/jsx-indent": [1, 4],
-        "react/jsx-max-depth": [1, {"max": 5}],
-        "react/jsx-max-props-per-line": [1, {"maximum": 4}],
-        "react/jsx-wrap-multilines": [1, {"declaration": "parens-new-line"}],
-        "react/jsx-one-expression-per-line": [1, {"allow": "single-child"}]
-    }
+        "newlines-between": "never"
+      }
+    ],
+    "no-duplicate-imports": "error",
+    "no-dupe-keys": "error",
+    "no-dupe-args": "error",
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "react/prop-types": [
+      0
+    ],
+    "react/jsx-closing-tag-location": [
+      1
+    ],
+    "react/jsx-tag-spacing": [
+      1,
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "always",
+        "afterOpening": "never",
+        "beforeClosing": "never"
+      }
+    ],
+    "react/sort-comp": [
+      1
+    ],
+    "react/jsx-first-prop-new-line": [
+      1,
+      "multiline"
+    ],
+    "react/jsx-indent": [
+      1,
+      2
+    ],
+    "react/jsx-max-depth": [
+      1,
+      {
+        "max": 5
+      }
+    ],
+    "react/jsx-max-props-per-line": [
+      1,
+      {
+        "maximum": 4
+      }
+    ],
+    "react/jsx-wrap-multilines": [
+      1,
+      {
+        "declaration": "parens-new-line"
+      }
+    ],
+    "react/jsx-one-expression-per-line": [
+      1,
+      {
+        "allow": "single-child"
+      }
+    ]
+  }
 }
