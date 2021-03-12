@@ -108,7 +108,7 @@ export function addNewUserValue(changedFields: IChangedFields): IAddNewUserValue
   };
 }
 
-export function requestConfirmUser(token: string) {
+export function requestConfirmUser(token: string): any {
   return {
     type: User.CONFIRM_REQUESTED, payload: { token },
   };

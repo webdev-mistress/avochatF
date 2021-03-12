@@ -3,7 +3,7 @@ import { websocketSaga } from '@/redux/sagas/websocketSaga';
 import { userSaga } from './userSaga';
 import { chatSaga } from './chatSaga';
 
-export function* rootSaga(): Generator {
+export function* rootSaga(): any {
   const sagas = [userSaga, chatSaga, websocketSaga];
 
   yield all(sagas.map(saga =>

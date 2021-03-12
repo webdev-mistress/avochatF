@@ -2,7 +2,7 @@ import { Chat } from '@/constants/store';
 import {
   IAddNewChatName,
   IChat,
-  ICheckMembers,
+  ICheckMembers, ICheckMembersLoad,
   IClearChat,
   ICreateChat,
   IDeleteChat,
@@ -107,7 +107,7 @@ export function getChatParticipants(chatId: number): ICheckMembers {
   };
 }
 
-export function checkMembersLoaded(data: IMembersData[]) {
+export function checkMembersLoaded(data: IMembersData[]): ICheckMembersLoad {
   return {
     type: Chat.GET_CHAT_PARTICIPANTS_LOADED,
     payload: {
