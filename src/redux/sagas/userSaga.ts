@@ -2,19 +2,14 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { User } from '@/constants/store';
 import { accessToken } from '@/helpers/localStorage';
 import {
-  createUser,
-  addUserToChat,
-  editUser,
-  confirmUser,
-  logoutUser,
-  signInUser,
-} from '@/redux/api';
-import {
   addNewUserValue,
   failedUser,
   getUserSucceeded,
 } from '@/redux/store/user/actions';
 import { getChatParticipants } from '@/redux/store/chat/actions';
+import { confirmUser, logoutUser, signInUser, signUpUser } from '@/redux/api/authApi';
+import { addUserToChat } from '@/redux/api/chatApi';
+import { editUser } from '@/redux/api/userApi';
 import {
   IAddUserToChat,
 
@@ -49,7 +44,7 @@ function* fetchUser(action: IRequestUser) {
 function* fetchCreateUser(action: IRequestCreateUser) {
   try {
     const { email, name, login, password } = action.payload.userData;
-    const newUserResponse = yield call(createUser, email, name, login, password);
+    const newUserResponse = yield call(signUpUser, email, name, login, password);
 
     if (!newUserResponse.data || !newUserResponse.ok) {
       throw newUserResponse;
