@@ -1,4 +1,4 @@
-import { Chat } from '@/constants/store';
+import { Chat, User } from '@/constants/store';
 import { ChatActions, IActiveChat } from '@/types/store/chatActions';
 
 const initialState: IActiveChat = {
@@ -54,6 +54,8 @@ export function chatReducer(
       chatMembersList: state.chatMembersList && state.chatMembersList
         .filter(member => member.login !== action.payload.login),
     };
+  case User.LOGOUT:
+    return initialState;
   default:
     return state;
   }

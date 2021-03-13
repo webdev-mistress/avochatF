@@ -2,18 +2,19 @@ import { User, Chat } from '@/constants/store';
 import {
   IAddNewChat,
   IAddNewChatName,
-  IAddNewUserValue,
   IDeleteOldChat,
   IEditChatName,
-  IEditOldUser,
-  IFailedUser,
+  IEditCurrentUserRequest,
+  IEditCurrentUserSucceed,
   IGetSelectedChat,
-  IGetUserSucceeded,
   ILogoutUser,
   IRemoveErrorMessage,
-  IRequestCreateUser,
-  IRequestUser,
-  IRequestUserData,
+  ISignInFailedUser,
+  ISignInUserData,
+  ISignInUserRequest,
+  ISignInUserSucceed,
+  ISignUpFailedUser,
+  ISignUpRequestUser,
   ISucceededUserData,
   IUserData,
 } from '@/types/store/userActions';
@@ -24,21 +25,27 @@ import {
   IChatData,
 } from '@/types/store/chatActions';
 
-export function requestUser(user: IRequestUserData): IRequestUser {
+export function signInUserRequest(user: ISignInUserData): ISignInUserRequest {
   return {
-    type: User.FETCH_REQUESTED, payload: { user },
+    type: User.SIGN_IN_REQUEST, payload: { user },
   };
 }
 
-export function getUserSucceeded(userData: ISucceededUserData): IGetUserSucceeded {
+export function signInUserSucceed(userData: ISucceededUserData): ISignInUserSucceed {
   return {
-    type: User.FETCH_SUCCEEDED, payload: { userData },
+    type: User.SIGN_IN_SUCCEED, payload: { userData },
   };
 }
 
-export function failedUser(errorMessage: string): IFailedUser {
+export function signInUserFailed(errorMessage: string): ISignInFailedUser {
   return {
-    type: User.FETCH_FAILED, payload: { errorMessage },
+    type: User.SIGN_IN_FAILED, payload: { errorMessage },
+  };
+}
+
+export function signUpUserFailed(errorMessage: string): ISignUpFailedUser {
+  return {
+    type: User.SIGN_UP_FAILED, payload: { errorMessage },
   };
 }
 
@@ -50,9 +57,9 @@ export function removeErrorMessage(): IRemoveErrorMessage {
   return { type: User.REMOVE_AUTH_ERROR_MESSAGE };
 }
 
-export function requestCreateUser(userData: IUserData): IRequestCreateUser {
+export function signUpUserRequest(userData: IUserData): ISignUpRequestUser {
   return {
-    type: User.CREATE_REQUESTED, payload: { userData },
+    type: User.SIGN_UP_REQUEST, payload: { userData },
   };
 }
 
@@ -96,20 +103,24 @@ export function addNewChatName(name: string, id: number): IAddNewChatName {
   };
 }
 
-export function editOldUser(changedFields: IChangedFields): IEditOldUser {
+export function editCurrentUserRequest(
+  changedFields: IChangedFields,
+): IEditCurrentUserRequest {
   return {
-    type: User.EDIT_OLD_USER, payload: changedFields,
+    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedFields,
   };
 }
 
-export function addNewUserValue(changedFields: IChangedFields): IAddNewUserValue {
+export function editCurrentUserSucceed(
+  changedFields: IChangedFields,
+): IEditCurrentUserSucceed {
   return {
-    type: User.ADD_NEW_USER_VALUE, payload: { changedFields },
+    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedFields },
   };
 }
 
 export function requestConfirmUser(token: string): any {
   return {
-    type: User.CONFIRM_REQUESTED, payload: { token },
+    type: User.CONFIRM_USER_REQUEST, payload: { token },
   };
 }

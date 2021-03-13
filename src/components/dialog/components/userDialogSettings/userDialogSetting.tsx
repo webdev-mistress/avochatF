@@ -26,7 +26,7 @@ export const UserSettingsDialog: React.FunctionComponent = () => {
     onEditUser,
     onChangeUser,
     onEditUserEnter,
-    onEditOldUser,
+    onEditCurrentUser,
     selectedUser,
   } = useUserDialogSettings();
 
@@ -70,7 +70,7 @@ export const UserSettingsDialog: React.FunctionComponent = () => {
                   <IconButton
                     className={styles.addButton}
                     disabled={!userValue.userName}
-                    onClick={onEditOldUser('newName', 'userName')}
+                    onClick={onEditCurrentUser('newName', 'userName')}
                     color="primary"
                   >
                     <EditAttributesIcon
@@ -104,7 +104,7 @@ export const UserSettingsDialog: React.FunctionComponent = () => {
                   <IconButton
                     className={styles.addButton}
                     disabled={!userValue.userLogin}
-                    onClick={onEditOldUser('newLogin', 'userLogin')}
+                    onClick={onEditCurrentUser('newLogin', 'userLogin')}
                     color="primary"
                   >
                     <EditAttributesIcon
@@ -164,7 +164,7 @@ export const UserSettingsDialog: React.FunctionComponent = () => {
                       || !userValue.newPassword1
                       || !userValue.newPassword2
                     }
-                    onClick={onEditOldUser('password', 'password')}
+                    onClick={onEditCurrentUser('password', 'password')}
                     color="primary"
                     endIcon={<EditAttributesIcon fontSize={'large'} />}
                   >

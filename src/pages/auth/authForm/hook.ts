@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
-import { removeErrorMessage, requestUser } from '@/redux/store/user/actions';
+import { removeErrorMessage, signInUserRequest } from '@/redux/store/user/actions';
 
 export const useAuthForm = (): any => {
   const [login, setLogin] = useState('');
@@ -22,7 +22,7 @@ export const useAuthForm = (): any => {
     if (!login || !password) {
       return;
     }
-    dispatch(requestUser({ login, password }));
+    dispatch(signInUserRequest({ login, password }));
   }, [dispatch, login, password]);
 
   const onAuthEnter = useCallback((event) => {
