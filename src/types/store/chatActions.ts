@@ -1,4 +1,5 @@
 import { Chat, User } from '@/constants/store';
+import { ILogoutUser } from '@/types/store/userActions';
 
 export interface IAuthor {
   login: string,
@@ -150,13 +151,6 @@ export interface IAddNewChat {
     chat: IChat,
   }
 }
-//
-// export interface IDeleteOldChat {
-//   type: Chat.DELETE_OLD_CHAT,
-//   payload: {
-//     chatId: number,
-//   }
-// }
 
 export interface IDeleteUnwanterUser {
   type: Chat.DELETE_UNWANTED_USER,
@@ -205,5 +199,5 @@ export interface IAddNewChatName {
 
 export type ChatActions = IGetMessages | IGetActiveChat | IClearChat | IEditMessage
   | ICreateChat | IAddNewChat | ICheckMembersLoad | IDeleteUserFromChat
-  | IDeleteUnwanterUser | IEditChatName | IAddNewChatName;
+  | IDeleteUnwanterUser | IEditChatName | IAddNewChatName | ILogoutUser;
 

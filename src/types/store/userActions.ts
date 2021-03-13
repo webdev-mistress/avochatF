@@ -30,34 +30,41 @@ export interface IUserData {
   password: string,
 }
 
-export interface IRequestUserData {
+export interface ISignInUserData {
   login: string,
   password: string,
 }
 
-export interface IRequestUser {
-  type: User.FETCH_REQUESTED,
+export interface ISignInUserRequest {
+  type: User.SIGN_IN_REQUEST,
   payload: {
-    user: IRequestUserData,
+    user: ISignInUserData,
   }
 }
 
 export interface IRequestConfirm {
-  type: User.CONFIRM_REQUESTED,
+  type: User.CONFIRM_USER_REQUEST,
   payload: {
     token: string,
   }
 }
 
-export interface IGetUserSucceeded {
-  type: User.FETCH_SUCCEEDED,
+export interface ISignInUserSucceed {
+  type: User.SIGN_IN_SUCCEED,
   payload: {
     userData: ISucceededUserData,
   }
 }
 
-export interface IFailedUser {
-  type: User.FETCH_FAILED,
+export interface ISignInFailedUser {
+  type: User.SIGN_IN_FAILED,
+  payload: {
+    errorMessage: string,
+  }
+}
+
+export interface ISignUpFailedUser {
+  type: User.SIGN_UP_FAILED,
   payload: {
     errorMessage: string,
   }
@@ -71,20 +78,20 @@ export interface IRemoveErrorMessage {
   type: User.REMOVE_AUTH_ERROR_MESSAGE,
 }
 
-export interface IRequestCreateUser {
-  type: User.CREATE_REQUESTED,
+export interface ISignUpRequestUser {
+  type: User.SIGN_UP_REQUEST,
   payload: {
     userData: IUserData,
   }
 }
 
-export interface IEditOldUser {
-  type: User.EDIT_OLD_USER,
+export interface IEditCurrentUserRequest {
+  type: User.EDIT_CURRENT_USER_REQUEST,
   payload: IChangedFields,
 }
 
-export interface IAddNewUserValue {
-  type: User.ADD_NEW_USER_VALUE,
+export interface IEditCurrentUserSucceed {
+  type: User.EDIT_CURRENT_USER_SUCCEED,
   payload: {
     changedFields: IChangedFields,
   }
@@ -127,12 +134,13 @@ export interface IAddNewChat {
   }
 }
 
-export interface IEditUser {
-  type: User.EDIT_OLD_USER,
+export interface IEditUserData {
+  type: User.EDIT_CURRENT_USER_REQUEST,
   payload: IChangedFields,
 }
 
-export type UserActions = IRequestUser | IGetUserSucceeded | ILogoutUser
-  | IRemoveErrorMessage | IRequestCreateUser | IFailedUser | IAddNewChat
+export type UserActions = ISignInUserRequest | ISignInUserSucceed | ILogoutUser
+  | IRemoveErrorMessage | ISignUpRequestUser | ISignInFailedUser | IAddNewChat
   | IDeleteOldChat | IGetSelectedChat | IEditChatName |
-  IAddNewChatName | IEditUser | IAddNewUserValue | IRequestConfirm;
+  IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IRequestConfirm
+  | IEditCurrentUserSucceed | ISignUpFailedUser;

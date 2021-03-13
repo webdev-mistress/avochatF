@@ -1,10 +1,10 @@
 import { getResource, Method } from '@/helpers/api';
-import { IRequestUserData } from '@/types/store/userActions';
-import { ICreateUserSaga, IGetUserSaga, ILogoutUserSaga } from '@/types/sagas';
+import { ILogoutUserSaga, ISignInUserSaga, ISignUpUserSaga } from '@/types/sagas';
+import { ISignInUserData } from '@/types/store/userActions';
 
 const PREFIX_AUTH = '/api/v0/auth';
 
-export const signInUser = function(user: IRequestUserData): Promise<IGetUserSaga> {
+export const signInUser = function(user: ISignInUserData): Promise<ISignInUserSaga> {
   return getResource({
     url: `${PREFIX_AUTH}/signIn?withChats=true`,
     method: Method.POST,
@@ -17,7 +17,7 @@ export const signUpUser = function (
   name: string,
   login: string,
   password: string,
-): Promise<ICreateUserSaga> {
+): Promise<ISignUpUserSaga> {
   return getResource({
     url: `${PREFIX_AUTH}/signUp`,
     method: Method.POST,

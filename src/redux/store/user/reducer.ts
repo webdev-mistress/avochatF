@@ -17,13 +17,13 @@ export function userReducer(state = initialState, action: UserActions): IUser {
   const cloneState = _.cloneDeep(state);
 
   switch (action.type) {
-  case User.FETCH_REQUESTED:
-  case User.CREATE_REQUESTED:
+  case User.SIGN_IN_REQUEST:
+  case User.SIGN_UP_REQUEST:
     return {
       ...state,
       isAuthSpin: true,
     };
-  case User.FETCH_SUCCEEDED:
+  case User.SIGN_IN_SUCCEED:
     return {
       ...cloneState,
       ...action.payload.userData,
@@ -34,7 +34,8 @@ export function userReducer(state = initialState, action: UserActions): IUser {
     delete cloneState.errorMessage;
 
     return cloneState;
-  case User.FETCH_FAILED:
+  case User.SIGN_IN_FAILED:
+  case User.SIGN_UP_FAILED:
     return {
       ...state,
       isAuth: false,
@@ -80,7 +81,7 @@ export function userReducer(state = initialState, action: UserActions): IUser {
       chats: newChats,
     };
   }
-  case User.ADD_NEW_USER_VALUE:
+  case User.EDIT_CURRENT_USER_SUCCEED:
     return {
       ...state,
       ...action.payload.changedFields,

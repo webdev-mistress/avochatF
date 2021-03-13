@@ -1,7 +1,7 @@
 import { IChat, IMembersData, IMessage } from '@/types/store/chatActions';
 import { ISucceededUserData } from '@/types/store/userActions';
 
-export interface IGetUserSaga {
+export interface ISignInUserSaga {
   ok: boolean,
   data: {
     accessToken: string,
@@ -12,7 +12,7 @@ export interface IGetUserSaga {
   }
 }
 
-export interface ICreateUserSaga {
+export interface ISignUpUserSaga {
   ok: boolean,
   data: ISucceededUserData,
 }

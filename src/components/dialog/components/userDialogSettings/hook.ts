@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { selectUser } from '@/redux/store/user/selectors';
 import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
 import { setIsShowUserSettings } from '@/redux/store/ui/actions';
-import { editOldUser } from '@/redux/store/user/actions';
+import { editCurrentUserRequest } from '@/redux/store/user/actions';
 import { IChangedFields } from '@/types/store/chatActions';
 import { IUser } from '@/types/store/userActions';
 
@@ -72,7 +72,7 @@ export const useUserDialogSettings = (): any => {
           newPassword1: userValue.newPassword1,
           newPassword2: userValue.newPassword2,
         };
-        dispatch(editOldUser(changedFields));
+        dispatch(editCurrentUserRequest(changedFields));
         setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
       } else if(event.key === 'Enter') {
         const changedFields: IChangedFields = {
@@ -80,14 +80,14 @@ export const useUserDialogSettings = (): any => {
 
           [editValue]: userValue[userField],
         };
-        dispatch(editOldUser(changedFields));
+        dispatch(editCurrentUserRequest(changedFields));
         setUserEditMode((prev) => (
           { ...prev, isEditLogin: false, isEditName: false }
         ));
       }
     }, [dispatch, selectedUser.id, userValue]);
 
-  const onEditOldUser = useCallback((
+  const onEditCurrentUser = useCallback((
     editValue: userTypeFields, userField: userFields,
   ) => () => {
     if(editValue === 'password') {
@@ -97,14 +97,14 @@ export const useUserDialogSettings = (): any => {
         newPassword1: userValue.newPassword1,
         newPassword2: userValue.newPassword2,
       };
-      dispatch(editOldUser(changedFields));
+      dispatch(editCurrentUserRequest(changedFields));
       setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
     } else {
       const changedFields: IChangedFields = {
         userId: selectedUser.id,
         [editValue]: userValue[userField],
       };
-      dispatch(editOldUser(changedFields));
+      dispatch(editCurrentUserRequest(changedFields));
       setUserEditMode((prev) => (
         { ...prev, isEditLogin: false, isEditName: false }
       ));
@@ -118,7 +118,7 @@ export const useUserDialogSettings = (): any => {
     onEditUser,
     onChangeUser,
     onEditUserEnter,
-    onEditOldUser,
+    onEditCurrentUser,
     selectedUser,
   };
 };
