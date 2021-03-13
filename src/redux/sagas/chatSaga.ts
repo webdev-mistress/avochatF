@@ -7,13 +7,20 @@ import {
 } from '@/redux/store/chat/actions';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import { selectUserLogin } from '@/redux/store/user/selectors';
-import {
-  getMessages as getMessagesFromApi,
-  sendMessage, deleteMessage,
-  editMessage, createChat, deleteChat, deleteUserFromChat, editChatName, getParticipants,
-} from '@/redux/api';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
 import { setIsShowCreateChat } from '@/redux/store/ui/actions';
+import {
+  getMessages as getMessagesFromApi,
+  deleteMessage,
+  editMessage,
+  sendMessage,
+} from '@/redux/api/messageApi';
+import {
+  createChat,
+  deleteChat,
+  deleteUserFromChat, editChatName,
+  getParticipants,
+} from '@/redux/api/chatApi';
 import {
   ICheckMembers,
   ICreateChat,

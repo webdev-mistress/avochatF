@@ -42,7 +42,7 @@ export function failedUser(errorMessage: string): IFailedUser {
   };
 }
 
-export function logoutUser(): ILogoutUser {
+export function requestLogoutUser(): ILogoutUser {
   return { type: User.LOGOUT };
 }
 

@@ -62,7 +62,7 @@ export const useChatDialogSettings = (): any => {
     dispatch(deleteUserFromChat(selectedUserLogin, selectedChat.id));
     dispatch(deleteChat(selectedChat.id));
     onCloseDialog();
-  }, [dispatch, onCloseDialog, selectedChat.id, selectedUserLogin]);
+  }, [dispatch, onCloseDialog, selectedChat, selectedUserLogin]);
 
   const onEditChatName = useCallback(() => {
     setEditMode(!isEditMode);
