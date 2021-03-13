@@ -95,6 +95,10 @@ export interface IEditUserSaga {
   }
 }
 
+export interface ILogoutUserSaga {
+  ok: boolean,
+}
+
 export interface IEditUserLoginSaga {
   ok: boolean,
   data: {
