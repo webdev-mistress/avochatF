@@ -35,16 +35,14 @@ function websocketInitChannel() {
         });
       }
     });
-    // eslint-disable-next-line no-unused-vars
-    socket.on('editMessage', ({ body }) => {
+    socket.on('editMessage', () => {
       const store = window.store.getState();
       const chatId = selectActiveChatId(store);
       if (chatId) {
         emitter(requestMessages(chatId));
       }
     });
-    // eslint-disable-next-line no-unused-vars
-    socket.on('deleteMessage', ({ body }) => {
+    socket.on('deleteMessage', () => {
       const store = window.store.getState();
       const chatId = selectActiveChatId(store);
 
@@ -60,11 +58,11 @@ function websocketInitChannel() {
   });
 }
 
-export function* websocketSaga(): Generator {
+export function* websocketSaga(): any {
   yield takeEvery('WEBSOCKET_CONNECT', watchWebsocket);
 }
 
-export function* watchWebsocket(): Generator {
+export function* watchWebsocket(): any {
   const channel = yield call(websocketInitChannel);
   while (true) {
     const action = yield take(channel);

@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable */
 const getPermission = (title: string, options: any) => {
   Notification.requestPermission(permission => {
     if (permission === 'granted') { // Если права успешно получены, отправляем уведомление

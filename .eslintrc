@@ -6,9 +6,6 @@
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "plugins": [
     "react",
     "react-hooks",
