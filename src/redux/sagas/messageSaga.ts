@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { getErrorMessage } from '@/helpers/sagas';
-import { Chat } from '@/constants/store';
+import { Message } from '@/constants/store';
 import {
   deleteMessage, editMessage,
   getMessages as getMessagesFromApi,
@@ -92,8 +92,8 @@ function* fetchEditMessage(action: IEditMessage) {
 }
 
 export function* messageSaga(): any {
-  yield takeEvery(Chat.MESSAGES_REQUESTED, fetchRequestMessages);
-  yield takeEvery(Chat.SEND_MESSAGE, fetchSendMessage);
-  yield takeEvery(Chat.DELETE_MESSAGE, fetchDeleteMessage);
-  yield takeEvery(Chat.EDIT_MESSAGE, fetchEditMessage);
+  yield takeEvery(Message.MESSAGES_REQUESTED, fetchRequestMessages);
+  yield takeEvery(Message.SEND_MESSAGE, fetchSendMessage);
+  yield takeEvery(Message.DELETE_MESSAGE, fetchDeleteMessage);
+  yield takeEvery(Message.EDIT_MESSAGE, fetchEditMessage);
 }

@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { accessToken } from '@/helpers/localStorage';
-import { User } from '@/constants/store';
-import { confirmUser, signInUser, signUpUser } from '@/redux/api/authApi';
+import { Auth } from '@/constants/store';
+import { confirmUser, logoutUser, signInUser, signUpUser } from '@/redux/api/authApi';
 import {
   signInUserFailed,
   signInUserSucceed,
@@ -55,8 +55,18 @@ function* fetchConfirmUser(action: IRequestConfirm) {
   }
 }
 
+function* fetchLogout() {
+  const token = accessToken.get();
+  try {
+    yield call(logoutUser, token);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* authSaga(): any {
-  yield takeEvery(User.SIGN_IN_REQUEST, fetchSignIn);
-  yield takeEvery(User.SIGN_UP_REQUEST, fetchSignUp);
-  yield takeEvery(User.CONFIRM_USER_REQUEST, fetchConfirmUser);
+  yield takeEvery(Auth.SIGN_IN_REQUEST, fetchSignIn);
+  yield takeEvery(Auth.SIGN_UP_REQUEST, fetchSignUp);
+  yield takeEvery(Auth.CONFIRM_USER_REQUEST, fetchConfirmUser);
+  yield takeEvery(Auth.LOGOUT, fetchLogout);
 }

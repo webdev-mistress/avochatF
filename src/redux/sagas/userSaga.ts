@@ -36,17 +36,7 @@ function* fetchEditCurrentUser(action: IEditUserData) {
   }
 }
 
-function* fetchLogout() {
-  const token = accessToken.get();
-  try {
-    yield call(logoutUser, token);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export function* userSaga(): any {
   yield takeEvery(User.ADD_USER_TO_CHAT, fetchAddUserToChat);
   yield takeEvery(User.EDIT_CURRENT_USER_REQUEST, fetchEditCurrentUser);
-  yield takeEvery(User.LOGOUT, fetchLogout);
 }

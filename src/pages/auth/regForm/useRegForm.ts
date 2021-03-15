@@ -16,7 +16,15 @@ export const useRegForm = (): any => {
     isRegFinished: false,
   };
   const [state, setState] = useState(initialState);
-  const { email, name, login, password1, password2, disabledButton } = state;
+  const {
+    email,
+    name,
+    login,
+    password1,
+    password2,
+    disabledButton,
+    isRegFinished,
+  } = state;
   const isAuthSpin = useSelector(selectIsAuthSpin);
   const errorMessage = useSelector(selectErrorMessage);
   const dispatch = useDispatch();
@@ -42,10 +50,10 @@ export const useRegForm = (): any => {
   }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
 
   const onKeyUpEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' && !disabledButton) {
+    if (event.key === 'Enter' && isRegFinished) {
       onCreateUser(event);
     }
-  }, [disabledButton, onCreateUser]);
+  }, [onCreateUser, isRegFinished]);
 
   const onChange = useCallback((name) => (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
