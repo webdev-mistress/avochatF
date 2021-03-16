@@ -1,4 +1,4 @@
-import { Chat } from '@/constants/store';
+import { Chat, Message } from '@/constants/store';
 import {
   IAddNewChatName,
   IChat,
@@ -6,62 +6,60 @@ import {
   IClearChat,
   ICreateChat,
   IDeleteChat,
-  IDeleteMessage,
-  IDeleteMessageFailed,
   IDeleteUnwanterUser,
   IDeleteUserFromChat,
   IEditChatName,
-  IEditMessage,
-  IErrorMessages,
   IGetActiveChat,
-  IGetMessages,
   IMembersData,
   IMessage,
   IMessageData,
-  IRequestMessages,
-  ISendMessage,
-  ISendMessageFailed,
 } from '@/types/store/chatActions';
+import {
+  IDeleteMessage, IDeleteMessageFailed, IEditMessage,
+  IErrorMessages,
+  IGetMessages,
+  IRequestMessages, ISendMessage, ISendMessageFailed,
+} from '@/types/store/messageActions';
 
 export function getMessages(messages: IMessage[]): IGetMessages {
   return {
-    type: Chat.MESSAGES_SUCCEEDED, payload: messages,
+    type: Message.MESSAGES_SUCCEEDED, payload: messages,
   };
 }
 
 export function requestMessages(chatId: number): IRequestMessages {
   return {
-    type: Chat.MESSAGES_REQUESTED, payload: { chatId },
+    type: Message.MESSAGES_REQUESTED, payload: { chatId },
   };
 }
 
 export function errorMessages(errorMessage: any): IErrorMessages {
   return {
-    type: Chat.MESSAGES_FAILED, payload: { errorMessage },
+    type: Message.MESSAGES_FAILED, payload: { errorMessage },
   };
 }
 
 export function sendMessage(messageText: string): ISendMessage {
   return {
-    type: Chat.SEND_MESSAGE, payload: { messageText },
+    type: Message.SEND_MESSAGE, payload: { messageText },
   };
 }
 
 export function sendMessageFailed(errorMessage: any): ISendMessageFailed {
   return {
-    type: Chat.SEND_MESSAGE_FAILED, payload: { errorMessage },
+    type: Message.SEND_MESSAGE_FAILED, payload: { errorMessage },
   };
 }
 
 export function deleteMessage(messageId: number): IDeleteMessage {
   return {
-    type: Chat.DELETE_MESSAGE, payload: { messageId },
+    type: Message.DELETE_MESSAGE, payload: { messageId },
   };
 }
 
 export function deleteMessageFailed(errorMessage: any): IDeleteMessageFailed {
   return {
-    type: Chat.DELETE_MESSAGE_FAILED, payload: { errorMessage },
+    type: Message.DELETE_MESSAGE_FAILED, payload: { errorMessage },
   };
 }
 
@@ -79,7 +77,7 @@ export function clearChat(): IClearChat {
 
 export function editMessage(messageData: IMessageData): IEditMessage {
   return {
-    type: Chat.EDIT_MESSAGE, payload: { messageData },
+    type: Message.EDIT_MESSAGE, payload: { messageData },
   };
 }
 

@@ -1,5 +1,6 @@
 import { Chat, User } from '@/constants/store';
-import { ILogoutUser } from '@/types/store/userActions';
+import { IEditMessage, IGetMessages } from '@/types/store/messageActions';
+import { ILogoutUser } from '@/types/store/authActions';
 
 export interface IAuthor {
   login: string,
@@ -53,53 +54,6 @@ export interface IChangedFields {
   newPassword2?: string,
 }
 
-export interface IGetMessages {
-  type: Chat.MESSAGES_SUCCEEDED,
-  payload: IMessage[],
-}
-
-export interface IRequestMessages {
-  type: Chat.MESSAGES_REQUESTED,
-  payload: {
-    chatId: number,
-  }
-}
-
-export interface IErrorMessages {
-  type: Chat.MESSAGES_FAILED,
-  payload: {
-    errorMessage: any,
-  },
-}
-
-export interface ISendMessage {
-  type: Chat.SEND_MESSAGE,
-  payload: {
-    messageText: string,
-  },
-}
-
-export interface ISendMessageFailed {
-  type: Chat.SEND_MESSAGE_FAILED,
-  payload: {
-    errorMessage: any,
-  },
-}
-
-export interface IDeleteMessage {
-  type: Chat.DELETE_MESSAGE,
-  payload: {
-    messageId: number,
-  },
-}
-
-export interface IDeleteMessageFailed {
-  type: Chat.DELETE_MESSAGE_FAILED,
-  payload: {
-    errorMessage: any,
-  }
-}
-
 export interface IGetActiveChat {
   type: Chat.GET_ACTIVE_CHAT,
   payload: IChat,
@@ -107,13 +61,6 @@ export interface IGetActiveChat {
 
 export interface IClearChat {
   type: Chat.CLEAR_CHAT,
-}
-
-export interface IEditMessage {
-  type: Chat.EDIT_MESSAGE,
-  payload: {
-    messageData: IMessageData,
-  }
 }
 
 export interface ICreateChat {
@@ -197,7 +144,6 @@ export interface IAddNewChatName {
   }
 }
 
-export type ChatActions = IGetMessages | IGetActiveChat | IClearChat | IEditMessage
-  | ICreateChat | IAddNewChat | ICheckMembersLoad | IDeleteUserFromChat
-  | IDeleteUnwanterUser | IEditChatName | IAddNewChatName | ILogoutUser;
-
+export type ChatActions = IGetActiveChat | IClearChat | ICreateChat | IAddNewChat
+  | ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser | IEditChatName
+  | IAddNewChatName | IGetMessages | IEditMessage | ILogoutUser;

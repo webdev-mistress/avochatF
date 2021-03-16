@@ -1,5 +1,5 @@
 import { UI } from '@/constants/store';
-import { ILogoutUser } from '@/types/store/userActions';
+import { ILogoutUser } from '@/types/store/authActions';
 
 export interface IUI {
   dialog: {

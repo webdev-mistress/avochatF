@@ -3,6 +3,13 @@ import {
   IChangedFields,
   IChat,
 } from '@/types/store/chatActions';
+import {
+  ILogoutUser,
+  IRemoveErrorMessage, ISignInFailedUser,
+  ISignInUserRequest,
+  ISignInUserSucceed, ISignUpFailedUser,
+  ISignUpRequestUser,
+} from '@/types/store/authActions';
 
 export interface IUser {
   isAuth: boolean,
@@ -33,56 +40,6 @@ export interface IUserData {
 export interface ISignInUserData {
   login: string,
   password: string,
-}
-
-export interface ISignInUserRequest {
-  type: User.SIGN_IN_REQUEST,
-  payload: {
-    user: ISignInUserData,
-  }
-}
-
-export interface IRequestConfirm {
-  type: User.CONFIRM_USER_REQUEST,
-  payload: {
-    token: string,
-  }
-}
-
-export interface ISignInUserSucceed {
-  type: User.SIGN_IN_SUCCEED,
-  payload: {
-    userData: ISucceededUserData,
-  }
-}
-
-export interface ISignInFailedUser {
-  type: User.SIGN_IN_FAILED,
-  payload: {
-    errorMessage: string,
-  }
-}
-
-export interface ISignUpFailedUser {
-  type: User.SIGN_UP_FAILED,
-  payload: {
-    errorMessage: string,
-  }
-}
-
-export interface ILogoutUser {
-  type: User.LOGOUT,
-}
-
-export interface IRemoveErrorMessage {
-  type: User.REMOVE_AUTH_ERROR_MESSAGE,
-}
-
-export interface ISignUpRequestUser {
-  type: User.SIGN_UP_REQUEST,
-  payload: {
-    userData: IUserData,
-  }
 }
 
 export interface IEditCurrentUserRequest {
@@ -139,8 +96,7 @@ export interface IEditUserData {
   payload: IChangedFields,
 }
 
-export type UserActions = ISignInUserRequest | ISignInUserSucceed | ILogoutUser
-  | IRemoveErrorMessage | ISignUpRequestUser | ISignInFailedUser | IAddNewChat
-  | IDeleteOldChat | IGetSelectedChat | IEditChatName |
-  IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IRequestConfirm
-  | IEditCurrentUserSucceed | ISignUpFailedUser;
+export type UserActions = IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName
+  | IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IEditCurrentUserSucceed
+  | ISignUpRequestUser | ISignInUserRequest | ISignInUserSucceed | IRemoveErrorMessage
+  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser;

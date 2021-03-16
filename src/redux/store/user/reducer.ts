@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { User, Chat } from '@/constants/store';
+import { User, Chat, Auth } from '@/constants/store';
 import { IUser, UserActions } from '@/types/store/userActions';
 
 const initialState: IUser = {
@@ -17,25 +17,25 @@ export function userReducer(state = initialState, action: UserActions): IUser {
   const cloneState = _.cloneDeep(state);
 
   switch (action.type) {
-  case User.SIGN_IN_REQUEST:
-  case User.SIGN_UP_REQUEST:
+  case Auth.SIGN_IN_REQUEST:
+  case Auth.SIGN_UP_REQUEST:
     return {
       ...state,
       isAuthSpin: true,
     };
-  case User.SIGN_IN_SUCCEED:
+  case Auth.SIGN_IN_SUCCEED:
     return {
       ...cloneState,
       ...action.payload.userData,
       isAuth: true,
       isAuthSpin: false,
     };
-  case User.REMOVE_AUTH_ERROR_MESSAGE:
+  case Auth.REMOVE_AUTH_ERROR_MESSAGE:
     delete cloneState.errorMessage;
 
     return cloneState;
-  case User.SIGN_IN_FAILED:
-  case User.SIGN_UP_FAILED:
+  case Auth.SIGN_IN_FAILED:
+  case Auth.SIGN_UP_FAILED:
     return {
       ...state,
       isAuth: false,
@@ -56,7 +56,7 @@ export function userReducer(state = initialState, action: UserActions): IUser {
       ...state,
       chats: state.chats.filter(chat => chat.id !== chatId),
     };
-  case User.LOGOUT:
+  case Auth.LOGOUT:
     return initialState;
   case User.GET_SELECTED_CHAT:
     return {
