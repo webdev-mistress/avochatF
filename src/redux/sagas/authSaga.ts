@@ -12,7 +12,7 @@ import {
   IRequestConfirm,
   ISignInUserRequest,
   ISignUpRequestUser,
-} from '@/types/store/userActions';
+} from '@/types/store/authActions';
 
 function* fetchSignIn(action: ISignInUserRequest) {
   try {

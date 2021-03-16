@@ -1,4 +1,5 @@
 import { UI } from '@/constants/store';
+import { ILogoutUser } from '@/types/store/authActions';
 
 export interface IUI {
   dialog: {
@@ -42,5 +43,5 @@ export interface IIsShowCreateChat {
 }
 
 export type UIActions = IIsShowUserSettings | IIsShowChatSettings | IIsShowLogout
-  | IIsShowCreateChat;
+  | IIsShowCreateChat | ILogoutUser;
 

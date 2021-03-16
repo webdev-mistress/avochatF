@@ -3,6 +3,13 @@ import {
   IChangedFields,
   IChat,
 } from '@/types/store/chatActions';
+import {
+  ILogoutUser,
+  IRemoveErrorMessage, ISignInFailedUser,
+  ISignInUserRequest,
+  ISignInUserSucceed, ISignUpFailedUser,
+  ISignUpRequestUser,
+} from '@/types/store/authActions';
 
 export interface IUser {
   isAuth: boolean,
@@ -90,4 +97,6 @@ export interface IEditUserData {
 }
 
 export type UserActions = IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName
-  | IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IEditCurrentUserSucceed;
+  | IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IEditCurrentUserSucceed
+  | ISignUpRequestUser | ISignInUserRequest | ISignInUserSucceed | IRemoveErrorMessage
+  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser;

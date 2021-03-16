@@ -1,8 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { User } from '@/constants/store';
-import { accessToken } from '@/helpers/localStorage';
 import { getChatParticipants } from '@/redux/store/chat/actions';
-import { logoutUser } from '@/redux/api/authApi';
 import { addUserToChat } from '@/redux/api/chatApi';
 import { editUser } from '@/redux/api/userApi';
 import { editCurrentUserSucceed } from '@/redux/store/user/actions';

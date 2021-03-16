@@ -1,4 +1,4 @@
-import { Chat, User } from '@/constants/store';
+import { Chat, Message, Auth } from '@/constants/store';
 import { ChatActions, IActiveChat } from '@/types/store/chatActions';
 
 const initialState: IActiveChat = {
@@ -22,7 +22,7 @@ export function chatReducer(
       info: action.payload.chat,
       isCreateChatSpin: false,
     };
-  case Chat.MESSAGES_SUCCEEDED:
+  case Message.MESSAGES_SUCCEEDED:
     return {
       ...state,
       info: state.info ? {
@@ -37,7 +37,7 @@ export function chatReducer(
     };
   case Chat.CLEAR_CHAT:
     return initialState;
-  case Chat.EDIT_MESSAGE:
+  case Message.EDIT_MESSAGE:
     return {
       ...state,
       editMessageId: action.payload.messageData.editMessageId,
@@ -54,7 +54,7 @@ export function chatReducer(
       chatMembersList: state.chatMembersList && state.chatMembersList
         .filter(member => member.login !== action.payload.login),
     };
-  case User.LOGOUT:
+  case Auth.LOGOUT:
     return initialState;
   default:
     return state;

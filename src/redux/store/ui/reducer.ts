@@ -1,4 +1,4 @@
-import { UI, User } from '@/constants/store';
+import { UI, Auth } from '@/constants/store';
 import { IUI, UIActions } from '@/types/store/uiActions';
 
 const initialState: IUI = {
@@ -50,7 +50,7 @@ export function uiReducer(state = initialState, action: UIActions): IUI {
         isShowCreateChat: action.payload.isShow,
       },
     };
-  case User.LOGOUT:
+  case Auth.LOGOUT:
     return initialState;
   default:
     return state;

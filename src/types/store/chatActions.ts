@@ -1,4 +1,6 @@
 import { Chat, User } from '@/constants/store';
+import { IEditMessage, IGetMessages } from '@/types/store/messageActions';
+import { ILogoutUser } from '@/types/store/authActions';
 
 export interface IAuthor {
   login: string,
@@ -144,5 +146,4 @@ export interface IAddNewChatName {
 
 export type ChatActions = IGetActiveChat | IClearChat | ICreateChat | IAddNewChat
   | ICheckMembersLoad | IDeleteUserFromChat | IDeleteUnwanterUser | IEditChatName
-  | IAddNewChatName;
-
+  | IAddNewChatName | IGetMessages | IEditMessage | ILogoutUser;

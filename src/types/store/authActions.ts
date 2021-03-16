@@ -1,11 +1,5 @@
 import { Auth } from '@/constants/store';
 import {
-  IAddNewChat,
-  IAddNewChatName,
-  IDeleteOldChat,
-  IEditChatName, IEditCurrentUserRequest, IEditCurrentUserSucceed,
-  IEditUserData,
-  IGetSelectedChat,
   ISignInUserData,
   ISucceededUserData,
   IUserData,

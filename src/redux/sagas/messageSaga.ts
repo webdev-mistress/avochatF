@@ -14,12 +14,13 @@ import {
 } from '@/redux/store/chat/actions';
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
-import {
-  IDeleteMessage, IEditMessage, IMessage,
-  IRequestMessages,
-  ISendMessage,
-} from '@/types/store/chatActions';
+import { IMessage } from '@/types/store/chatActions';
 import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
+import {
+  IDeleteMessage,
+  IEditMessage,
+  IRequestMessages, ISendMessage,
+} from '@/types/store/messageActions';
 
 function* requestMessages(chatId: number) {
   try {

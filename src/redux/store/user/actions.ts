@@ -1,4 +1,4 @@
-import { User, Chat } from '@/constants/store';
+import { User, Chat, Auth } from '@/constants/store';
 import {
   IAddNewChat,
   IAddNewChatName,
@@ -7,14 +7,7 @@ import {
   IEditCurrentUserRequest,
   IEditCurrentUserSucceed,
   IGetSelectedChat,
-  ILogoutUser,
-  IRemoveErrorMessage,
-  ISignInFailedUser,
   ISignInUserData,
-  ISignInUserRequest,
-  ISignInUserSucceed,
-  ISignUpFailedUser,
-  ISignUpRequestUser,
   ISucceededUserData,
   IUserData,
 } from '@/types/store/userActions';
@@ -24,42 +17,48 @@ import {
   IChat,
   IChatData,
 } from '@/types/store/chatActions';
+import {
+  ILogoutUser, IRemoveErrorMessage,
+  ISignInFailedUser,
+  ISignInUserRequest,
+  ISignInUserSucceed, ISignUpFailedUser, ISignUpRequestUser,
+} from '@/types/store/authActions';
 
 export function signInUserRequest(user: ISignInUserData): ISignInUserRequest {
   return {
-    type: User.SIGN_IN_REQUEST, payload: { user },
+    type: Auth.SIGN_IN_REQUEST, payload: { user },
   };
 }
 
 export function signInUserSucceed(userData: ISucceededUserData): ISignInUserSucceed {
   return {
-    type: User.SIGN_IN_SUCCEED, payload: { userData },
+    type: Auth.SIGN_IN_SUCCEED, payload: { userData },
   };
 }
 
 export function signInUserFailed(errorMessage: string): ISignInFailedUser {
   return {
-    type: User.SIGN_IN_FAILED, payload: { errorMessage },
+    type: Auth.SIGN_IN_FAILED, payload: { errorMessage },
   };
 }
 
 export function signUpUserFailed(errorMessage: string): ISignUpFailedUser {
   return {
-    type: User.SIGN_UP_FAILED, payload: { errorMessage },
+    type: Auth.SIGN_UP_FAILED, payload: { errorMessage },
   };
 }
 
 export function requestLogoutUser(): ILogoutUser {
-  return { type: User.LOGOUT };
+  return { type: Auth.LOGOUT };
 }
 
 export function removeErrorMessage(): IRemoveErrorMessage {
-  return { type: User.REMOVE_AUTH_ERROR_MESSAGE };
+  return { type: Auth.REMOVE_AUTH_ERROR_MESSAGE };
 }
 
 export function signUpUserRequest(userData: IUserData): ISignUpRequestUser {
   return {
-    type: User.SIGN_UP_REQUEST, payload: { userData },
+    type: Auth.SIGN_UP_REQUEST, payload: { userData },
   };
 }
 
@@ -121,6 +120,6 @@ export function editCurrentUserSucceed(
 
 export function requestConfirmUser(token: string): any {
   return {
-    type: User.CONFIRM_USER_REQUEST, payload: { token },
+    type: Auth.CONFIRM_USER_REQUEST, payload: { token },
   };
 }
