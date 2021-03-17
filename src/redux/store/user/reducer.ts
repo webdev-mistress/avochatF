@@ -6,6 +6,7 @@ const initialState: IUser = {
   id: 0,
   name: '',
   login: '',
+  email: '',
   isAuth: false,
   isAuthSpin: false,
   chats: [],
@@ -84,7 +85,7 @@ export function userReducer(state = initialState, action: UserActions): IUser {
   case User.EDIT_CURRENT_USER_SUCCEED:
     return {
       ...state,
-      ...action.payload.changedFields,
+      ...action.payload.changedField,
     };
   default:
     return state;

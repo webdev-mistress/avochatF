@@ -5,52 +5,68 @@ import { selectUser } from '@/redux/store/user/selectors';
 import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
 import { setIsShowUserSettings } from '@/redux/store/ui/actions';
 import { editCurrentUserRequest } from '@/redux/store/user/actions';
-import { IChangedFields } from '@/types/store/chatActions';
 import { IUser } from '@/types/store/userActions';
 
 interface IEditMode {
-    isEditName: boolean,
-    isEditLogin: boolean,
-    isEditPassword: boolean,
+  isEditName: boolean,
+  isEditLogin: boolean,
+  isEditEmail: boolean,
+  isEditPassword: boolean,
 }
 
-interface IUserValue {
-    userName: string,
-    userLogin: string,
-    oldPassword: string,
-    newPassword1: string,
-    newPassword2: string,
-    password?: string,
+interface IEditUserFields {
+  email: string,
+  name: string,
+  login: string,
+  lang?: string,
 }
 
-type userTypeFields = 'newName' | 'newLogin' | 'password'
-  | 'password1' | 'password2';
+interface IEditPasswordFields {
+  oldPassword: string,
+  newPassword1: string,
+  newPassword2: string,
+  password?: string,
+}
 
-type userFields = 'userName' | 'userLogin' | 'password';
+type EditUserField = keyof IEditUserFields;
+
+type PasswordField = keyof IEditPasswordFields;
+
+// type userTypeFields = 'newName' | 'newLogin' | 'password'
+//   | 'password1' | 'password2';
+//
+// type userFields = 'userName' | 'userLogin' | 'password';
 
 export const useUserDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
   const selectedUser: IUser = useSelector(selectUser);
   const isShowUserSettings = useSelector(selectIsShowUserSettings);
-  const [isUserEditMode, setUserEditMode] = useState<IEditMode>(
-    { isEditName: false, isEditLogin: false, isEditPassword: false });
-  const [userValue, setUserValue] = useState<IUserValue>({
-    userName: selectedUser.name,
-    userLogin: selectedUser.login,
-    oldPassword: '',
-    newPassword1: '',
-    newPassword2: '',
+  const [isUserEditMode, setUserEditMode] = useState<IEditMode>({
+    isEditName: false,
+    isEditLogin: false,
+    isEditEmail: false,
+    isEditPassword: false,
+  });
+  const [userValue, setUserValue] = useState<IEditUserFields>({
+    email: selectedUser.email,
+    name: selectedUser.name,
+    login: selectedUser.login,
   });
 
   const onCloseDialogClick = useCallback(() => {
-    setUserEditMode({ isEditLogin: false, isEditName: false, isEditPassword: false });
+    setUserEditMode({
+      isEditLogin: false,
+      isEditName: false,
+      isEditEmail: false,
+      isEditPassword: false });
     setUserValue({
       ...userValue,
-      userName: selectedUser.name,
-      userLogin: selectedUser.login,
+      name: selectedUser.name,
+      login: selectedUser.login,
+      email: selectedUser.email,
     });
     dispatch(setIsShowUserSettings(false));
-  }, [dispatch, selectedUser.login, selectedUser.name, userValue]);
+  }, [dispatch, selectedUser.email, selectedUser.login, selectedUser.name, userValue]);
 
   const onEditUser = useCallback((editType: string) => () => {
     setUserEditMode((prev) => ({ ...prev, [editType]: true }));
@@ -63,53 +79,22 @@ export const useUserDialogSettings = (): any => {
   }, []);
 
   const onEditUserEnter = useCallback(
-    (editValue: userTypeFields, userField: userFields) => (
-      event: React.KeyboardEvent) => {
-      if(event.key === 'Enter' && editValue === 'password') {
-        const changedFields: IChangedFields = {
-          userId: selectedUser.id,
-          oldPassword: userValue.oldPassword,
-          newPassword1: userValue.newPassword1,
-          newPassword2: userValue.newPassword2,
-        };
-        dispatch(editCurrentUserRequest(changedFields));
-        setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
-      } else if(event.key === 'Enter') {
-        const changedFields: IChangedFields = {
-          userId: selectedUser.id,
-
-          [editValue]: userValue[userField],
-        };
-        dispatch(editCurrentUserRequest(changedFields));
+    (editField: EditUserField) => (event: React.KeyboardEvent) => {
+      if(event.key === 'Enter') {
+        dispatch(editCurrentUserRequest({ [editField]: userValue[editField] }));
         setUserEditMode((prev) => (
-          { ...prev, isEditLogin: false, isEditName: false }
+          { ...prev, isEditLogin: false, isEditName: false, isEditEmail: false }
         ));
       }
-    }, [dispatch, selectedUser.id, userValue]);
+    }, [dispatch, userValue]);
 
-  const onEditCurrentUser = useCallback((
-    editValue: userTypeFields, userField: userFields,
-  ) => () => {
-    if(editValue === 'password') {
-      const changedFields: IChangedFields = {
-        userId: selectedUser.id,
-        oldPassword: userValue.oldPassword,
-        newPassword1: userValue.newPassword1,
-        newPassword2: userValue.newPassword2,
-      };
-      dispatch(editCurrentUserRequest(changedFields));
-      setUserEditMode((prev) => ({ ...prev, isEditPassword: false }));
-    } else {
-      const changedFields: IChangedFields = {
-        userId: selectedUser.id,
-        [editValue]: userValue[userField],
-      };
-      dispatch(editCurrentUserRequest(changedFields));
-      setUserEditMode((prev) => (
-        { ...prev, isEditLogin: false, isEditName: false }
-      ));
-    }
-  }, [dispatch, selectedUser.id, userValue]);
+  const onEditCurrentUser = useCallback((editField: EditUserField) => () => {
+    dispatch(editCurrentUserRequest({ [editField]: userValue[editField] }));
+    setUserEditMode((prev) => (
+      { ...prev, isEditLogin: false, isEditName: false, isEditEmail: false }
+    ));
+  }, [dispatch, userValue]);
+
   return {
     isShowUserSettings,
     isUserEditMode,

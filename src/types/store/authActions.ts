@@ -5,6 +5,11 @@ import {
   IUserData,
 } from '@/types/store/userActions';
 
+export interface IChangePasswordData {
+  oldPassword: string,
+  newPassword: string,
+}
+
 export interface ISignInUserRequest {
   type: Auth.SIGN_IN_REQUEST,
   payload: {

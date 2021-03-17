@@ -1,7 +1,7 @@
 import { User, Chat, Auth } from '@/constants/store';
 import {
   IAddNewChat,
-  IAddNewChatName,
+  IAddNewChatName, IChangeUserData,
   IDeleteOldChat,
   IEditChatName,
   IEditCurrentUserRequest,
@@ -13,7 +13,6 @@ import {
 } from '@/types/store/userActions';
 import {
   IAddUserToChat,
-  IChangedFields,
   IChat,
   IChatData,
 } from '@/types/store/chatActions';
@@ -103,18 +102,18 @@ export function addNewChatName(name: string, id: number): IAddNewChatName {
 }
 
 export function editCurrentUserRequest(
-  changedFields: IChangedFields,
+  changedField: IChangeUserData,
 ): IEditCurrentUserRequest {
   return {
-    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedFields,
+    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedField,
   };
 }
 
 export function editCurrentUserSucceed(
-  changedFields: IChangedFields,
+  changedField: IChangeUserData,
 ): IEditCurrentUserSucceed {
   return {
-    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedFields },
+    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedField },
   };
 }
 
