@@ -107,3 +107,7 @@ export interface IEditUserLoginSaga {
     }
   }
 }
+
+export interface IChangePasswordSaga {
+  ok: boolean,
+}

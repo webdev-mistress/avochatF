@@ -1,6 +1,12 @@
 import { getResource, Method } from '@/helpers/api';
-import { ILogoutUserSaga, ISignInUserSaga, ISignUpUserSaga } from '@/types/sagas';
+import {
+  IChangePasswordSaga,
+  ILogoutUserSaga,
+  ISignInUserSaga,
+  ISignUpUserSaga,
+} from '@/types/sagas';
 import { ISignInUserData } from '@/types/store/userActions';
+import { IChangePasswordData } from '@/types/store/authActions';
 
 const PREFIX_AUTH = '/api/v0/auth';
 
@@ -36,5 +42,14 @@ export const logoutUser = function(token: string): Promise<ILogoutUserSaga> {
   return getResource({
     url: `${PREFIX_AUTH}/logout?token=${token}`,
     method: Method.POST,
+  });
+};
+
+export const changePassword = function(
+  passwordData: IChangePasswordData): Promise<IChangePasswordSaga> {
+  return getResource({
+    url: `${PREFIX_AUTH}/changePassword`,
+    method: Method.POST,
+    body: passwordData,
   });
 };

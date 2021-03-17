@@ -17,6 +17,7 @@ import {
   IChatData,
 } from '@/types/store/chatActions';
 import {
+  IChangePasswordData, IChangePasswordRequest, IChangePasswordSucceed,
   ILogoutUser, IRemoveErrorMessage,
   ISignInFailedUser,
   ISignInUserRequest,
@@ -32,6 +33,19 @@ export function signInUserRequest(user: ISignInUserData): ISignInUserRequest {
 export function signInUserSucceed(userData: ISucceededUserData): ISignInUserSucceed {
   return {
     type: Auth.SIGN_IN_SUCCEED, payload: { userData },
+  };
+}
+
+export function changePasswordRequest(
+  passwordData: IChangePasswordData): IChangePasswordRequest {
+  return {
+    type: Auth.CHANGE_PASSWORD_REQUEST, payload: { passwordData },
+  };
+}
+
+export function changePasswordSucceed(): IChangePasswordSucceed {
+  return {
+    type: Auth.CHANGE_PASSWORD_SUCCEED,
   };
 }
 

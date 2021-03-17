@@ -17,6 +17,17 @@ export interface ISignInUserRequest {
   }
 }
 
+export interface IChangePasswordRequest {
+  type: Auth.CHANGE_PASSWORD_REQUEST,
+  payload: {
+    passwordData: IChangePasswordData,
+  }
+}
+
+export interface IChangePasswordSucceed {
+  type: Auth.CHANGE_PASSWORD_SUCCEED,
+}
+
 export interface IRequestConfirm {
   type: Auth.CONFIRM_USER_REQUEST,
   payload: {
@@ -62,4 +73,4 @@ export interface ISignUpRequestUser {
 
 export type AuthActions = ISignInUserRequest | IRequestConfirm | ISignInUserSucceed
 | ISignInFailedUser | ISignUpFailedUser | ILogoutUser | IRemoveErrorMessage
-| ISignUpRequestUser;
+| ISignUpRequestUser | IChangePasswordRequest | IChangePasswordSucceed;

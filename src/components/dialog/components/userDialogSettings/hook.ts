@@ -4,8 +4,12 @@ import { Dispatch } from 'redux';
 import { selectUser } from '@/redux/store/user/selectors';
 import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
 import { setIsShowUserSettings } from '@/redux/store/ui/actions';
-import { editCurrentUserRequest } from '@/redux/store/user/actions';
+import {
+  changePasswordRequest,
+  editCurrentUserRequest,
+} from '@/redux/store/user/actions';
 import { IUser } from '@/types/store/userActions';
+import { IChangePasswordData } from '@/types/store/authActions';
 
 interface IEditMode {
   isEditName: boolean,
@@ -23,19 +27,13 @@ interface IEditUserFields {
 
 interface IEditPasswordFields {
   oldPassword: string,
-  newPassword1: string,
-  newPassword2: string,
-  password?: string,
+  password1: string,
+  password2: string,
 }
 
 type EditUserField = keyof IEditUserFields;
 
 type PasswordField = keyof IEditPasswordFields;
-
-// type userTypeFields = 'newName' | 'newLogin' | 'password'
-//   | 'password1' | 'password2';
-//
-// type userFields = 'userName' | 'userLogin' | 'password';
 
 export const useUserDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
@@ -51,6 +49,11 @@ export const useUserDialogSettings = (): any => {
     email: selectedUser.email,
     name: selectedUser.name,
     login: selectedUser.login,
+  });
+  const [passwordValue, setPasswordValue] = useState<IEditPasswordFields>({
+    oldPassword: '',
+    password1: '',
+    password2: '',
   });
 
   const onCloseDialogClick = useCallback(() => {
@@ -95,6 +98,24 @@ export const useUserDialogSettings = (): any => {
     ));
   }, [dispatch, userValue]);
 
+  const onChangePassword = useCallback((changeType: string) => (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { value } = event.target;
+    setPasswordValue((prev) => ({ ...prev, [changeType]: value }));
+  }, []);
+
+  const onEditPassword = useCallback(() => {
+    const passwordData: IChangePasswordData = {
+      oldPassword: passwordValue.oldPassword,
+      newPassword: passwordValue.password1,
+    };
+    dispatch(changePasswordRequest(passwordData));
+    setUserEditMode((prev) => (
+      { ...prev, isEditPassword: false }
+    ));
+  }, [dispatch, passwordValue.oldPassword, passwordValue.password1]);
+
   return {
     isShowUserSettings,
     isUserEditMode,
@@ -105,5 +126,8 @@ export const useUserDialogSettings = (): any => {
     onEditUserEnter,
     onEditCurrentUser,
     selectedUser,
+    onChangePassword,
+    passwordValue,
+    onEditPassword,
   };
 };
