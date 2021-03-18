@@ -98,7 +98,7 @@ export const useUserDialogSettings = (): any => {
     ));
   }, [dispatch, userValue]);
 
-  const onChangePassword = useCallback((changeType: string) => (
+  const onChangePassword = useCallback((changeType: PasswordField) => (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value } = event.target;
@@ -106,6 +106,9 @@ export const useUserDialogSettings = (): any => {
   }, []);
 
   const onEditPassword = useCallback(() => {
+    if(passwordValue.password1 !== passwordValue.password2) {
+      return;
+    }
     const passwordData: IChangePasswordData = {
       oldPassword: passwordValue.oldPassword,
       newPassword: passwordValue.password1,
@@ -114,7 +117,9 @@ export const useUserDialogSettings = (): any => {
     setUserEditMode((prev) => (
       { ...prev, isEditPassword: false }
     ));
-  }, [dispatch, passwordValue.oldPassword, passwordValue.password1]);
+  }, [
+    dispatch, passwordValue.oldPassword, passwordValue.password1, passwordValue.password2,
+  ]);
 
   return {
     isShowUserSettings,

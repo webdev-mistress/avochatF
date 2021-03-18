@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { User, Chat, Auth } from '@/constants/store';
 import { IUser, UserActions } from '@/types/store/userActions';
-import { AuthActions } from '@/types/store/authActions';
 
 const initialState: IUser = {
   id: 0,
@@ -91,6 +90,10 @@ export function userReducer(state = initialState, action: UserActions): IUser {
   case Auth.CHANGE_PASSWORD_REQUEST:
     console.log('hello');
     return state;
+  case Auth.CHANGE_PASSWORD_SUCCEED: {
+    console.log('hi');
+    return state;
+  }
   default:
     return state;
   }

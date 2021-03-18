@@ -1,7 +1,7 @@
 import { Chat, User } from '@/constants/store';
 import { IChat } from '@/types/store/chatActions';
 import {
-  IChangePasswordRequest,
+  IChangePasswordRequest, IChangePasswordSucceed,
   ILogoutUser,
   IRemoveErrorMessage, ISignInFailedUser,
   ISignInUserRequest,
@@ -105,4 +105,5 @@ export interface IEditUserData {
 export type UserActions = IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName
   | IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IEditCurrentUserSucceed
   | ISignUpRequestUser | ISignInUserRequest | ISignInUserSucceed | IRemoveErrorMessage
-  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser | IChangePasswordRequest;
+  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser | IChangePasswordRequest
+  | IChangePasswordSucceed;
