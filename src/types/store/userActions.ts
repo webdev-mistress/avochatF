@@ -1,9 +1,7 @@
 import { Chat, User } from '@/constants/store';
+import { IChat } from '@/types/store/chatActions';
 import {
-  IChangedFields,
-  IChat,
-} from '@/types/store/chatActions';
-import {
+  IChangePasswordRequest, IChangePasswordSucceed,
   ILogoutUser,
   IRemoveErrorMessage, ISignInFailedUser,
   ISignInUserRequest,
@@ -17,6 +15,7 @@ export interface IUser {
   id: number,
   name: string,
   login: string,
+  email: string,
   chats: IChat[],
   userData?: ISucceededUserData,
   errorMessage?: string,
@@ -42,15 +41,22 @@ export interface ISignInUserData {
   password: string,
 }
 
+export interface IChangeUserData {
+  email?: string,
+  login?: string,
+  name?: string,
+  lang?: string,
+}
+
 export interface IEditCurrentUserRequest {
   type: User.EDIT_CURRENT_USER_REQUEST,
-  payload: IChangedFields,
+  payload: IChangeUserData,
 }
 
 export interface IEditCurrentUserSucceed {
   type: User.EDIT_CURRENT_USER_SUCCEED,
   payload: {
-    changedFields: IChangedFields,
+    changedField: IChangeUserData,
   }
 }
 
@@ -93,10 +99,11 @@ export interface IAddNewChat {
 
 export interface IEditUserData {
   type: User.EDIT_CURRENT_USER_REQUEST,
-  payload: IChangedFields,
+  payload: IChangeUserData,
 }
 
 export type UserActions = IAddNewChat | IDeleteOldChat | IGetSelectedChat | IEditChatName
   | IAddNewChatName | IEditUserData | IEditCurrentUserRequest | IEditCurrentUserSucceed
   | ISignUpRequestUser | ISignInUserRequest | ISignInUserSucceed | IRemoveErrorMessage
-  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser;
+  | ISignUpFailedUser | ISignInFailedUser | ILogoutUser | IChangePasswordRequest
+  | IChangePasswordSucceed;

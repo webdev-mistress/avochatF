@@ -1,7 +1,7 @@
 import { User, Chat, Auth } from '@/constants/store';
 import {
   IAddNewChat,
-  IAddNewChatName,
+  IAddNewChatName, IChangeUserData,
   IDeleteOldChat,
   IEditChatName,
   IEditCurrentUserRequest,
@@ -13,11 +13,11 @@ import {
 } from '@/types/store/userActions';
 import {
   IAddUserToChat,
-  IChangedFields,
   IChat,
   IChatData,
 } from '@/types/store/chatActions';
 import {
+  IChangePasswordData, IChangePasswordRequest, IChangePasswordSucceed,
   ILogoutUser, IRemoveErrorMessage,
   ISignInFailedUser,
   ISignInUserRequest,
@@ -33,6 +33,19 @@ export function signInUserRequest(user: ISignInUserData): ISignInUserRequest {
 export function signInUserSucceed(userData: ISucceededUserData): ISignInUserSucceed {
   return {
     type: Auth.SIGN_IN_SUCCEED, payload: { userData },
+  };
+}
+
+export function changePasswordRequest(
+  passwordData: IChangePasswordData): IChangePasswordRequest {
+  return {
+    type: Auth.CHANGE_PASSWORD_REQUEST, payload: { passwordData },
+  };
+}
+
+export function changePasswordSucceed(): IChangePasswordSucceed {
+  return {
+    type: Auth.CHANGE_PASSWORD_SUCCEED,
   };
 }
 
@@ -103,18 +116,18 @@ export function addNewChatName(name: string, id: number): IAddNewChatName {
 }
 
 export function editCurrentUserRequest(
-  changedFields: IChangedFields,
+  changedField: IChangeUserData,
 ): IEditCurrentUserRequest {
   return {
-    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedFields,
+    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedField,
   };
 }
 
 export function editCurrentUserSucceed(
-  changedFields: IChangedFields,
+  changedField: IChangeUserData,
 ): IEditCurrentUserSucceed {
   return {
-    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedFields },
+    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedField },
   };
 }
 

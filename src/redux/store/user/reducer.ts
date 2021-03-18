@@ -6,6 +6,7 @@ const initialState: IUser = {
   id: 0,
   name: '',
   login: '',
+  email: '',
   isAuth: false,
   isAuthSpin: false,
   chats: [],
@@ -84,8 +85,15 @@ export function userReducer(state = initialState, action: UserActions): IUser {
   case User.EDIT_CURRENT_USER_SUCCEED:
     return {
       ...state,
-      ...action.payload.changedFields,
+      ...action.payload.changedField,
     };
+  case Auth.CHANGE_PASSWORD_REQUEST:
+    console.log('hello');
+    return state;
+  case Auth.CHANGE_PASSWORD_SUCCEED: {
+    console.log('hi');
+    return state;
+  }
   default:
     return state;
   }

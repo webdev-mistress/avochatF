@@ -45,15 +45,6 @@ export interface IChatData {
   selectedChatId: number,
 }
 
-export interface IChangedFields {
-  userId: number,
-  newName?: string,
-  newLogin?: string,
-  oldPassword?: string,
-  newPassword1?: string,
-  newPassword2?: string,
-}
-
 export interface IGetActiveChat {
   type: Chat.GET_ACTIVE_CHAT,
   payload: IChat,

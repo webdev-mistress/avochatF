@@ -5,11 +5,27 @@ import {
   IUserData,
 } from '@/types/store/userActions';
 
+export interface IChangePasswordData {
+  oldPassword: string,
+  newPassword: string,
+}
+
 export interface ISignInUserRequest {
   type: Auth.SIGN_IN_REQUEST,
   payload: {
     user: ISignInUserData,
   }
+}
+
+export interface IChangePasswordRequest {
+  type: Auth.CHANGE_PASSWORD_REQUEST,
+  payload: {
+    passwordData: IChangePasswordData,
+  }
+}
+
+export interface IChangePasswordSucceed {
+  type: Auth.CHANGE_PASSWORD_SUCCEED,
 }
 
 export interface IRequestConfirm {
@@ -57,4 +73,4 @@ export interface ISignUpRequestUser {
 
 export type AuthActions = ISignInUserRequest | IRequestConfirm | ISignInUserSucceed
 | ISignInFailedUser | ISignUpFailedUser | ILogoutUser | IRemoveErrorMessage
-| ISignUpRequestUser;
+| ISignUpRequestUser | IChangePasswordRequest | IChangePasswordSucceed;

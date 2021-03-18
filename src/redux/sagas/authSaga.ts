@@ -1,14 +1,22 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { accessToken } from '@/helpers/localStorage';
 import { Auth } from '@/constants/store';
-import { confirmUser, logoutUser, signInUser, signUpUser } from '@/redux/api/authApi';
 import {
+  changePassword,
+  confirmUser,
+  logoutUser,
+  signInUser,
+  signUpUser,
+} from '@/redux/api/authApi';
+import {
+  changePasswordSucceed,
   signInUserFailed,
   signInUserSucceed,
   signUpUserFailed,
 } from '@/redux/store/user/actions';
 import { ISignInUserSaga } from '@/types/sagas';
 import {
+  IChangePasswordRequest,
   IRequestConfirm,
   ISignInUserRequest,
   ISignUpRequestUser,
@@ -64,9 +72,21 @@ function* fetchLogout() {
   }
 }
 
+function* fetchChangePassword(action: IChangePasswordRequest) {
+  try {
+    const userResponse = yield call(changePassword, action.payload.passwordData);
+    if(userResponse.ok) {
+      yield put(changePasswordSucceed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* authSaga(): any {
   yield takeEvery(Auth.SIGN_IN_REQUEST, fetchSignIn);
   yield takeEvery(Auth.SIGN_UP_REQUEST, fetchSignUp);
   yield takeEvery(Auth.CONFIRM_USER_REQUEST, fetchConfirmUser);
   yield takeEvery(Auth.LOGOUT, fetchLogout);
+  yield takeEvery(Auth.CHANGE_PASSWORD_REQUEST,fetchChangePassword);
 }

@@ -27,7 +27,7 @@ function* fetchEditCurrentUser(action: IEditUserData) {
   try {
     const response: IEditUserSaga = yield call(editUser, action.payload);
     if (response.ok) {
-      yield put(editCurrentUserSucceed(response.data.changedFields));
+      yield put(editCurrentUserSucceed(action.payload));
     }
   } catch (error) {
     console.log(error);
