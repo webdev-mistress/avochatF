@@ -7,7 +7,7 @@ import {
 } from '@/pages/chat/leftChat/components/userSettingsBlock/hook';
 import styles from '../../styles.module.scss';
 
-export const UserSettingsBlock: React.FunctionComponent = () => {
+export const TopSettingsBlock: React.FunctionComponent = () => {
   const {
     userName,
     onOpenUserSettings,
