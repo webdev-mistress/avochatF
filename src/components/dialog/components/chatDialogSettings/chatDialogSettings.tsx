@@ -1,42 +1,34 @@
 import React from 'react';
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
   Button,
   TextField,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import BorderColorIcon from '@material-ui/icons/BorderColor';
-import IconButton from '@material-ui/core/IconButton';
-import EditAttributesIcon from '@material-ui/icons/EditAttributes';
 import {
   MembersList,
 } from '@/components/dialog/components/chatDialogSettings/memberList';
 import {
   useChatDialogSettings,
 } from '@/components/dialog/components/chatDialogSettings/hook';
+import {
+  ChatSettingsBlock,
+} from '@/components/dialog/components/chatDialogSettings/chatSettingsBlock';
 import styles from '../../styles.module.scss';
 
 export const ChatSettingsDialog: React.FunctionComponent = () => {
   const {
-    isEditMode,
     fieldValue,
     selectedUserId,
     selectedChat,
-    newChatNameValue,
     onCloseDialogClick,
     onChangeFieldValue,
     onAddUserToChatDialog,
     onDeleteChatDialog,
     onLeaveChat,
-    onEditChatName,
-    onChangeChatName,
-    onEditOldChatName,
     isShowChatSettings,
-    onKeyUpEditChatEnter,
     onKeyUpAddUser,
   } = useChatDialogSettings();
 
@@ -48,48 +40,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <div className={styles.chatSettings}>
-          <div className={styles.chatSettingsName}>
-            <DialogTitle id="alert-dialog-title">
-              {selectedChat && `Chat ${selectedChat.name}`}
-            </DialogTitle>
-            {isEditMode ? (
-              <div className={styles.iconsWrapper}>
-                <TextField
-                  value={newChatNameValue}
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  fullWidth
-                  onKeyUp={onKeyUpEditChatEnter}
-                  onChange={onChangeChatName}
-                />
-                <IconButton
-                  className={styles.addButton}
-                  disabled={!newChatNameValue}
-                  onClick={onEditOldChatName(newChatNameValue)}
-                  color="primary"
-                >
-                  <EditAttributesIcon
-                    fontSize={'large'}
-                  >
-                  </EditAttributesIcon>
-                </IconButton>
-              </div>
-            ) : (
-              <BorderColorIcon
-                className={styles.chatSettingsIcon}
-                onClick={onEditChatName}
-              />
-            )}
-          </div>
-          <div
-            className={styles.chatSettingsIcon}
-            onClick={onCloseDialogClick}
-          >
-            <CloseIcon />
-          </div>
-        </div>
+        <ChatSettingsBlock />
         <DialogContent>
           <DialogContent>
             <div className={styles.inputWrapper}>
