@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectUser } from '@/redux/store/user/selectors';
 import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
-import { setIsShowUserSettings } from '@/redux/store/ui/actions';
 import {
   changePasswordRequest,
   editCurrentUserRequest,
 } from '@/redux/store/user/actions';
+import { setShowUserSettings } from '@/redux/store/ui/actions';
 import { IUser } from '@/types/store/userActions';
 import { IChangePasswordData } from '@/types/store/authActions';
 
@@ -68,7 +68,7 @@ export const useUserDialogSettings = (): any => {
       login: selectedUser.login,
       email: selectedUser.email,
     });
-    dispatch(setIsShowUserSettings(false));
+    dispatch(setShowUserSettings({ isActive: false }));
   }, [dispatch, selectedUser.email, selectedUser.login, selectedUser.name, userValue]);
 
   const onEditUser = useCallback((editType: string) => () => {

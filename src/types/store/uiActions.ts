@@ -1,4 +1,5 @@
 import { UI } from '@/constants/store';
+import { ChatSettingsShow } from '@/redux/store/ui/types';
 import { ILogoutUser } from '@/types/store/authActions';
 
 export interface IUI {
@@ -6,10 +7,7 @@ export interface IUI {
     isShowLogout: boolean,
     isShowCreateChat: boolean,
     isShowUserSettings: boolean,
-    chatSettings: {
-      isShowDialog: boolean,
-      chatId: number,
-    },
+    chatSettings: ChatSettingsShow
   }
 }
 

@@ -4,7 +4,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { Chats } from '@/pages/chat/leftChat/components/chats/chats';
 import {
   useUserSettingsBlock,
-} from '@/pages/chat/leftChat/components/userSettingsBlock/hook';
+} from '@/pages/chat/leftChat/components/topSettingsBlock/hook';
 import styles from '../../styles.module.scss';
 
 export const TopSettingsBlock: React.FunctionComponent = () => {

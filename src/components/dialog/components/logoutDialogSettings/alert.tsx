@@ -11,8 +11,8 @@ import {
 import { accessToken } from '@/helpers/localStorage';
 import { clearChat } from '@/redux/store/chat/actions';
 import { selectIsShowLogout } from '@/redux/store/ui/selectors';
-import { setIsShowLogout } from '@/redux/store/ui/actions';
 import { requestLogoutUser } from '@/redux/store/user/actions';
+import { setShowLogout } from '@/redux/store/ui/actions';
 
 export const LogoutDialog: React.FunctionComponent = () => {
   const isShowLogoutDialog = useSelector(selectIsShowLogout);
@@ -26,7 +26,7 @@ export const LogoutDialog: React.FunctionComponent = () => {
   }, [dispatch]);
 
   const onCloseDialog = useCallback(() => {
-    dispatch(setIsShowLogout(false));
+    dispatch(setShowLogout({ isActive: false }));
   }, [dispatch]);
 
   return (

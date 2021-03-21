@@ -1,34 +1,22 @@
-import { UI } from '@/constants/store';
-import {
-  IIsShowChatSettings, IIsShowCreateChat,
-  IIsShowLogout,
-  IIsShowUserSettings,
-} from '@/types/store/uiActions';
+import actionCreatorFactory from 'typescript-fsa';
+import { ChatSettingsShow, DialogSettingsShow } from '@/redux/store/ui/types';
+const actionCreator = actionCreatorFactory();
 
-export function setIsShowUserSettings(isShow: boolean): IIsShowUserSettings {
-  return {
-    type: UI.IS_SHOW_USER_SETTINGS,
-    payload: { isShow },
-  };
+export enum UI {
+  IS_SHOW_USER_SETTINGS = 'IS_SHOW_USER_SETTINGS',
+  IS_SHOW_CHAT_SETTINGS = 'IS_SHOW_CHAT_SETTINGS',
+  IS_SHOW_LOGOUT = 'IS_SHOW_LOGOUT',
+  IS_SHOW_CREATE_CHAT = 'IS_SHOW_CREATE_CHAT',
 }
 
-export function setIsShowChatSettings(
-  isShowDialog: boolean, chatId: number,
-): IIsShowChatSettings {
-  return {
-    type: UI.IS_SHOW_CHAT_SETTINGS, payload: { isShowDialog, chatId },
-  };
-}
+const setShowUserSettings = actionCreator<DialogSettingsShow>(UI.IS_SHOW_USER_SETTINGS);
+const setShowChatSettings = actionCreator<ChatSettingsShow>(UI.IS_SHOW_CHAT_SETTINGS);
+const setShowLogout = actionCreator<DialogSettingsShow>(UI.IS_SHOW_LOGOUT);
+const setShowCreateChat = actionCreator<DialogSettingsShow>(UI.IS_SHOW_CREATE_CHAT);
 
-export function setIsShowLogout(isShow: boolean): IIsShowLogout {
-  return {
-    type: UI.IS_SHOW_LOGOUT, payload: { isShow },
-  };
-}
-
-export function setIsShowCreateChat(isShow: boolean): IIsShowCreateChat {
-  return {
-    type: UI.IS_SHOW_CREATE_CHAT, payload: { isShow },
-  };
-}
-
+export {
+  setShowChatSettings,
+  setShowUserSettings,
+  setShowCreateChat,
+  setShowLogout,
+};

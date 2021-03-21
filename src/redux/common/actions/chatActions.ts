@@ -1,4 +1,6 @@
 import { getApiActions } from '@/utils/redux';
+import actionCreatorFactory from 'typescript-fsa';
+const actionCreator = actionCreatorFactory();
 
 export enum Chat {
   CREATE_CHAT = 'CREATE_CHAT',
@@ -7,11 +9,11 @@ export enum Chat {
   CLEAR_CHAT = 'CLEAR_CHAT',
   DELETE_USER_FROM_CHAT = 'DELETE_USER_FROM_CHAT',
   GET_CHAT_PARTICIPANTS = 'GET_CHAT_PARTICIPANTS',
-  GET_CHAT_PARTICIPANTS_LOADED = 'GET_CHAT_PARTICIPANTS_LOADED',
-  DELETE_UNWANTED_USER = 'DELETE_UNWANTED_USER',
   EDIT_CHAT_NAME = 'EDIT_CHAT_NAME',
-  ADD_NEW_CHAT_NAME = 'ADD_NEW_CHAT_NAME',
 }
+
+const getActiveChat = actionCreator(Chat.GET_ACTIVE_CHAT);
+const clearChat = actionCreator(Chat.CLEAR_CHAT);
 
 const [
   createChatRequest,
@@ -25,15 +27,40 @@ const [
   deleteChatFailed,
 ] = getApiActions(Chat.DELETE_CHAT);
 
-// const [
-//
-// ]
+const [
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed,
+  deleteUserFromChatFailed,
+] = getApiActions(Chat.DELETE_USER_FROM_CHAT);
+
+const [
+  getParticipantsRequest,
+  getParticipantsSucceed,
+  getParticipantsFailed,
+] = getApiActions(Chat.GET_CHAT_PARTICIPANTS);
+
+const [
+  editChatNameRequest,
+  editChatNameSucceed,
+  editChatNameFailed,
+] = getApiActions(Chat.EDIT_CHAT_NAME);
 
 export {
+  editChatNameRequest,
+  editChatNameSucceed,
+  editChatNameFailed,
+  getParticipantsRequest,
+  getParticipantsSucceed,
+  getParticipantsFailed,
   createChatRequest,
   createChatSucceed,
   createChatFailed,
   deleteChatRequest,
   deleteChatSucceed,
   deleteChatFailed,
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed,
+  deleteUserFromChatFailed,
+  getActiveChat,
+  clearChat,
 };

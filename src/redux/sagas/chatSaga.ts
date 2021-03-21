@@ -5,13 +5,13 @@ import {
 } from '@/redux/store/chat/actions';
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
-import { setIsShowCreateChat } from '@/redux/store/ui/actions';
 import {
   createChat,
   deleteChat,
   deleteUserFromChat, editChatName,
   getParticipants,
 } from '@/redux/api/chatApi';
+import { setShowCreateChat } from '@/redux/store/ui/actions';
 import {
   ICheckMembers,
   ICreateChat,
@@ -36,7 +36,7 @@ function* fetchCreateChat(action: ICreateChat) {
     }
 
     yield put(addNewChat(response.data));
-    yield put(setIsShowCreateChat(false));
+    yield put(setShowCreateChat({ isActive: false }));
   } catch (error) {
     console.error(error);
   }

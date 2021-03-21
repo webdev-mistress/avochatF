@@ -9,7 +9,7 @@ import {
 } from '@/redux/store/chat/actions';
 import { getSelectedChat } from '@/redux/store/user/actions';
 import { selectUserChats } from '@/redux/store/user/selectors';
-import { setIsShowChatSettings, setIsShowCreateChat } from '@/redux/store/ui/actions';
+import { setShowChatSettings, setShowCreateChat } from '@/redux/store/ui/actions';
 import { IChat } from '@/types/store/chatActions';
 
 export const useChat = (): any => {
@@ -24,7 +24,7 @@ export const useChat = (): any => {
   }, [dispatch]);
 
   const onOpenCreateChatDialog = useCallback(() => {
-    dispatch(setIsShowCreateChat(true));
+    dispatch(setShowCreateChat({ isActive: true }));
   }, [dispatch]);
 
   const onOpenChatSettings = useCallback((chat) => (
@@ -33,7 +33,7 @@ export const useChat = (): any => {
     event.stopPropagation();
     dispatch(getSelectedChat(chat));
     dispatch(getChatParticipants(chat.id));
-    dispatch(setIsShowChatSettings(true, chat.id));
+    dispatch(setShowChatSettings({ isActive: true, chatId: chat.id }));
   }, [dispatch]);
 
   return {

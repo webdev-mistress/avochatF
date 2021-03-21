@@ -88,10 +88,8 @@ export function userReducer(state = initialState, action: UserActions): IUser {
       ...action.payload.changedField,
     };
   case Auth.CHANGE_PASSWORD_REQUEST:
-    console.log('hello');
     return state;
   case Auth.CHANGE_PASSWORD_SUCCEED: {
-    console.log('hi');
     return state;
   }
   default:
