@@ -1,26 +1,23 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { getErrorMessage } from '@/helpers/sagas';
-import { Message } from '@/constants/store';
+import { SagaIterator } from '@redux-saga/types';
+import { IAction } from '@/utils/types';
 import {
   deleteMessage, editMessage,
   getMessages as getMessagesFromApi,
   sendMessage,
 } from '@/redux/api/messageApi';
-import {
-  deleteMessageFailed,
-  errorMessages,
-  getMessages,
-  sendMessageFailed,
-} from '@/redux/store/chat/actions';
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
-import { IMessage } from '@/types/store/chatActions';
-import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
 import {
-  IDeleteMessage,
-  IEditMessage,
-  IRequestMessages, ISendMessage,
-} from '@/types/store/messageActions';
+  deleteMessageFailed,
+  deleteMessageRequest,
+  editMessageRequest, getErrorMessageRequest,
+  getMessagesRequest,
+  getMessagesSucceed, sendMessageFailed, sendMessageRequest,
+} from '@/redux/store/chat/actions';
+import { IMessage } from '@/redux/store/chat/types';
+import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
 
 function* requestMessages(chatId: number) {
   try {
@@ -30,23 +27,24 @@ function* requestMessages(chatId: number) {
       throw response.message;
     }
 
-    yield put(getMessages(response.data));
+    yield put(getMessagesSucceed(response.data));
   } catch (error) {
-    yield put(errorMessages(getErrorMessage(error)));
+    yield put(getErrorMessageRequest(getErrorMessage(error)));
   }
 }
 
-function* fetchRequestMessages(action: IRequestMessages) {
-  yield call(requestMessages, action.payload.chatId);
+function* fetchRequestMessages(action: IAction<number>) {
+  yield call(requestMessages, action.payload);
 }
 
-function* fetchSendMessage(action: ISendMessage) {
+function* fetchSendMessage(action: IAction<string>) {
+  console.log(action);
   try {
     const login = yield select(selectUserLogin);
     const chatId = yield select(selectActiveChatId);
 
     const response: ISendMessageSaga = yield call(
-      sendMessage, login, chatId, action.payload.messageText,
+      sendMessage, login, chatId, action.payload,
     );
 
     if (!response.data || !response.ok) {
@@ -58,11 +56,11 @@ function* fetchSendMessage(action: ISendMessage) {
   }
 }
 
-function* fetchDeleteMessage(action: IDeleteMessage) {
+function* fetchDeleteMessage(action: any) {
   const state = yield select(state => state);
 
   try {
-    yield call(deleteMessage, action.payload.messageId);
+    yield call(deleteMessage, action.payload);
     const chatId = selectActiveChatId(state);
 
     yield call(requestMessages, chatId);
@@ -71,9 +69,10 @@ function* fetchDeleteMessage(action: IDeleteMessage) {
   }
 }
 
-function* fetchEditMessage(action: IEditMessage) {
+function* fetchEditMessage(action: any) {
+  console.log(action);
   try {
-    const { editMessageId, messageEdit } = action.payload.messageData;
+    const { editMessageId, messageEdit } = action.payload;
 
     const response: ISendMessageSaga = yield call(
       editMessage, editMessageId, messageEdit,
@@ -86,15 +85,15 @@ function* fetchEditMessage(action: IEditMessage) {
     const messages = yield select(selectMessages);
     const newMessages = messages.map((message: IMessage) =>
       message.messageId === editMessageId ? response.data : message);
-    yield put(getMessages(newMessages));
+    yield put(getMessagesSucceed(newMessages));
   } catch (error) {
     console.error(error);
   }
 }
 
-export function* messageSaga(): any {
-  yield takeEvery(Message.MESSAGES_REQUESTED, fetchRequestMessages);
-  yield takeEvery(Message.SEND_MESSAGE, fetchSendMessage);
-  yield takeEvery(Message.DELETE_MESSAGE, fetchDeleteMessage);
-  yield takeEvery(Message.EDIT_MESSAGE, fetchEditMessage);
+export function* messageSaga(): SagaIterator {
+  yield takeEvery(getMessagesRequest, fetchRequestMessages);
+  yield takeEvery(sendMessageRequest, fetchSendMessage);
+  yield takeEvery(deleteMessageRequest, fetchDeleteMessage);
+  yield takeEvery(editMessageRequest, fetchEditMessage);
 }

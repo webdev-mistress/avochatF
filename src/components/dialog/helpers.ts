@@ -1,4 +1,4 @@
-import { IChat, IMembersData } from '@/types/store/chatActions';
+import { IChat, IMembersData } from '@/redux/store/chat/types';
 
 export function checkShowCloseIcon(
   selectedChat: IChat,

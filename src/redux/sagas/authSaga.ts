@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { accessToken } from '@/helpers/localStorage';
-import { Auth } from '@/constants/store';
+import { SagaIterator } from '@redux-saga/types';
 import {
   changePassword,
   confirmUser,
@@ -9,54 +9,52 @@ import {
   signUpUser,
 } from '@/redux/api/authApi';
 import {
-  changePasswordSucceed,
-  signInUserFailed,
-  signInUserSucceed,
-  signUpUserFailed,
+  changePasswordRequest,
+  changePasswordSucceed, confirmUserRequest,
+  logout,
+  signInFailed,
+  signInRequest,
+  signInSucceed, signUpFailed,
+  signUpRequest,
 } from '@/redux/store/user/actions';
 import { ISignInUserSaga } from '@/types/sagas';
-import {
-  IChangePasswordRequest,
-  IRequestConfirm,
-  ISignInUserRequest,
-  ISignUpRequestUser,
-} from '@/types/store/authActions';
 
-function* fetchSignIn(action: ISignInUserRequest) {
+function* fetchSignIn(action: any) {
   try {
-    const userResponse: ISignInUserSaga = yield call(signInUser, action.payload.user);
+    const userResponse: ISignInUserSaga = yield call(signInUser, action.payload);
 
     if (!userResponse.data || !userResponse.ok) {
       throw userResponse;
     }
     accessToken.set(userResponse.data.accessToken);
     delete userResponse.data.accessToken;
-    yield put(signInUserSucceed(userResponse.data));
+    yield put(signInSucceed(userResponse.data));
   } catch (error) {
-    yield put(signInUserFailed(error.message));
+    yield put(signInFailed(error.message));
   }
 }
 
-function* fetchSignUp(action: ISignUpRequestUser) {
+function* fetchSignUp(action: any) {
   try {
-    const { email, name, login, password } = action.payload.userData;
+    const { email, name, login, password } = action.payload;
+    // тут хотелось бы передавать объект
     const newUserResponse = yield call(signUpUser, email, name, login, password);
 
     if (!newUserResponse.data || !newUserResponse.ok) {
       throw newUserResponse;
     }
   } catch (error) {
-    yield put(signUpUserFailed(error.message));
+    yield put(signUpFailed(error.message));
   }
 }
 
-function* fetchConfirmUser(action: IRequestConfirm) {
+function* fetchConfirmUser(action: any) {
   try {
-    const userResponse = yield call(confirmUser, action.payload.token);
+    const userResponse = yield call(confirmUser, action.payload);
     accessToken.set(userResponse.data.accessToken);
     delete userResponse.data.accessToken;
     if (userResponse.ok) {
-      yield put(signInUserSucceed(userResponse.data));
+      yield put(signInSucceed(userResponse.data));
     }
   } catch (error) {
     console.log(error);
@@ -72,9 +70,9 @@ function* fetchLogout() {
   }
 }
 
-function* fetchChangePassword(action: IChangePasswordRequest) {
+function* fetchChangePassword(action: any) {
   try {
-    const userResponse = yield call(changePassword, action.payload.passwordData);
+    const userResponse = yield call(changePassword, action.payload);
     if(userResponse.ok) {
       yield put(changePasswordSucceed());
     }
@@ -83,10 +81,10 @@ function* fetchChangePassword(action: IChangePasswordRequest) {
   }
 }
 
-export function* authSaga(): any {
-  yield takeEvery(Auth.SIGN_IN_REQUEST, fetchSignIn);
-  yield takeEvery(Auth.SIGN_UP_REQUEST, fetchSignUp);
-  yield takeEvery(Auth.CONFIRM_USER_REQUEST, fetchConfirmUser);
-  yield takeEvery(Auth.LOGOUT, fetchLogout);
-  yield takeEvery(Auth.CHANGE_PASSWORD_REQUEST,fetchChangePassword);
+export function* authSaga(): SagaIterator {
+  yield takeEvery(signInRequest, fetchSignIn);
+  yield takeEvery(signUpRequest, fetchSignUp);
+  yield takeEvery(confirmUserRequest, fetchConfirmUser);
+  yield takeEvery(logout, fetchLogout);
+  yield takeEvery(changePasswordRequest,fetchChangePassword);
 }

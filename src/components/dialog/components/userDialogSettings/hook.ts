@@ -8,8 +8,7 @@ import {
   editCurrentUserRequest,
 } from '@/redux/store/user/actions';
 import { setShowUserSettings } from '@/redux/store/ui/actions';
-import { IUser } from '@/types/store/userActions';
-import { IChangePasswordData } from '@/types/store/authActions';
+import { IChangePasswordData, IUser } from '@/redux/store/user/types';
 
 interface IEditMode {
   isEditName: boolean,
@@ -136,3 +135,4 @@ export const useUserDialogSettings = (): any => {
     onEditPassword,
   };
 };
+

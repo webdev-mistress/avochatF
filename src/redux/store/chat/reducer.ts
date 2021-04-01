@@ -1,62 +1,77 @@
-import { Chat, Message, Auth } from '@/constants/store';
-import { ChatActions, IActiveChat } from '@/types/store/chatActions';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
+import { IActiveChat } from '@/redux/store/chat/types';
+import {
+  clearChat,
+  createChatRequest,
+  createChatSucceed,
+  deleteChatRequest,
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed,
+  editMessageRequest,
+  editMessageSucceed,
+  getActiveChat,
+  getMessagesRequest,
+  getMessagesSucceed,
+  getParticipantsRequest,
+  getParticipantsSucceed,
+} from '@/redux/store/chat/actions';
+import {
+  clearChatHandler,
+  createChatRequestHandler,
+  createChatSucceedHandler,
+  deleteChatRequestHandler,
+  deleteUserFromChatRequestHandler,
+  deleteUserFromChatSucceedHandler, editMessageRequestHandler, editMessageSucceedHandler,
+  getActiveChatHandler, getMessagesRequestHandler, getMessagesSucceedHandler,
+  getParticipantsRequestHandler,
+  getParticipantsSucceedHandler, logoutHandler,
+} from '@/redux/store/chat/handlers';
+import { logout } from '@/redux/store/user/actions';
 
-const initialState: IActiveChat = {
+export const INITIAL_STATE: IActiveChat = {
   isCreateChatSpin: false,
   isActiveChatSpin: false,
+  isDeleteChatSpin: false,
+  isGetMessagesSpin: false,
+  isSendMessageSpin: false,
+  isDeleteMessageSpin: false,
+  isEditMessageSpin: false,
+  isGetParticipantsSpin: false,
+  isDeleteUserFromChatSpin: false,
   chatMembersList: [],
 };
 
-export function chatReducer(
-  state = initialState, action: ChatActions ,
-): IActiveChat {
-  switch (action.type) {
-  case Chat.CREATE_CHAT:
-    return {
-      ...state,
-      isCreateChatSpin: true,
-    };
-  case Chat.ADD_NEW_CHAT:
-    return {
-      ...state,
-      info: action.payload.chat,
-      isCreateChatSpin: false,
-    };
-  case Message.MESSAGES_SUCCEEDED:
-    return {
-      ...state,
-      info: state.info ? {
-        ...state.info,
-        messages: action.payload,
-      } : undefined,
-    };
-  case Chat.GET_ACTIVE_CHAT:
-    return {
-      ...state,
-      info: action.payload,
-    };
-  case Chat.CLEAR_CHAT:
-    return initialState;
-  case Message.EDIT_MESSAGE:
-    return {
-      ...state,
-      editMessageId: action.payload.messageData.editMessageId,
-      messageEdit: action.payload.messageData.messageEdit,
-    };
-  case Chat.GET_CHAT_PARTICIPANTS_LOADED:
-    return {
-      ...state,
-      chatMembersList: action.payload.data,
-    };
-  case Chat.DELETE_USER_FROM_CHAT:
-    return {
-      ...state,
-      chatMembersList: state.chatMembersList && state.chatMembersList
-        .filter(member => member.login !== action.payload.login),
-    };
-  case Auth.LOGOUT:
-    return initialState;
-  default:
-    return state;
-  }
-}
+export const chatReducer = reducerWithInitialState(INITIAL_STATE)
+  .case(createChatRequest, createChatRequestHandler)
+  .case(createChatSucceed, createChatSucceedHandler)
+  .case(deleteChatRequest, deleteChatRequestHandler)
+  .case(clearChat, clearChatHandler)
+  .case(getActiveChat, getActiveChatHandler)
+  .case(getParticipantsRequest, getParticipantsRequestHandler)
+  .case(getParticipantsSucceed, getParticipantsSucceedHandler)
+  .case(deleteUserFromChatRequest, deleteUserFromChatRequestHandler)
+  .case(deleteUserFromChatSucceed, deleteUserFromChatSucceedHandler)
+  .case(getMessagesRequest, getMessagesRequestHandler)
+  .case(getMessagesSucceed, getMessagesSucceedHandler)
+  .case(editMessageRequest, editMessageRequestHandler)
+  .case(editMessageSucceed, editMessageSucceedHandler)
+  .case(logout, logoutHandler)
+  .build();
+
+// editMessageSucceed is not used yet
+
+// sendMessageRequest,
+// sendMessageSucceed,
+// sendMessageFailed,
+
+// deleteMessageRequest,
+// deleteMessageSucceed,
+// deleteMessageFailed,
+
+// getParticipantsFailed,
+// createChatFailed,
+// deleteChatFailed,
+// deleteUserFromChatFailed,
+// getMessagesFailed,
+// editMessageFailed,
+// editChatNameFailed,

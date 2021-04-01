@@ -1,5 +1,5 @@
-import { IChat, IMembersData, IMessage } from '@/types/store/chatActions';
-import { ISucceededUserData } from '@/types/store/userActions';
+import { IChat, IMembersData, IMessage } from '@/redux/store/chat/types';
+import { ISucceededUserData } from '@/redux/store/user/types';
 
 export interface ISignInUserSaga {
   ok: boolean,

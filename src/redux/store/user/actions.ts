@@ -1,138 +1,85 @@
-import { User, Chat, Auth } from '@/constants/store';
-import {
-  IAddNewChat,
-  IAddNewChatName, IChangeUserData,
-  IDeleteOldChat,
-  IEditChatName,
-  IEditCurrentUserRequest,
-  IEditCurrentUserSucceed,
-  IGetSelectedChat,
-  ISignInUserData,
-  ISucceededUserData,
-  IUserData,
-} from '@/types/store/userActions';
-import {
-  IAddUserToChat,
-  IChat,
-  IChatData,
-} from '@/types/store/chatActions';
-import {
-  IChangePasswordData, IChangePasswordRequest, IChangePasswordSucceed,
-  ILogoutUser, IRemoveErrorMessage,
-  ISignInFailedUser,
-  ISignInUserRequest,
-  ISignInUserSucceed, ISignUpFailedUser, ISignUpRequestUser,
-} from '@/types/store/authActions';
+import { getApiActions } from '@/utils/redux';
+import actionCreatorFactory from 'typescript-fsa';
+import { IChat } from '@/redux/store/chat/types';
+const actionCreator = actionCreatorFactory();
 
-export function signInUserRequest(user: ISignInUserData): ISignInUserRequest {
-  return {
-    type: Auth.SIGN_IN_REQUEST, payload: { user },
-  };
+export enum User {
+  ADD_USER_TO_CHAT = 'ADD_USER_TO_CHAT',
+  GET_SELECTED_CHAT = 'GET_SELECTED_CHAT',
+  EDIT_CURRENT_USER = 'EDIT_CURRENT_USER',
 }
 
-export function signInUserSucceed(userData: ISucceededUserData): ISignInUserSucceed {
-  return {
-    type: Auth.SIGN_IN_SUCCEED, payload: { userData },
-  };
+export enum Auth {
+  SIGN_IN = 'SIGN_IN',
+  SIGN_UP = 'SIGN_UP',
+  LOGOUT = 'LOGOUT',
+  REMOVE_AUTH_ERROR_MESSAGE = 'REMOVE_AUTH_ERROR_MESSAGE',
+  CONFIRM_USER = 'CONFIRM_USER',
+  CHANGE_PASSWORD = 'CHANGE_PASSWORD',
 }
 
-export function changePasswordRequest(
-  passwordData: IChangePasswordData): IChangePasswordRequest {
-  return {
-    type: Auth.CHANGE_PASSWORD_REQUEST, payload: { passwordData },
-  };
-}
+const getSelectedChat = actionCreator<IChat>(User.GET_SELECTED_CHAT);
+const confirmUserRequest = actionCreator(Auth.CONFIRM_USER);
+const logout = actionCreator(Auth.LOGOUT);
+const removeAuthErrorMessage = actionCreator(Auth.REMOVE_AUTH_ERROR_MESSAGE);
 
-export function changePasswordSucceed(): IChangePasswordSucceed {
-  return {
-    type: Auth.CHANGE_PASSWORD_SUCCEED,
-  };
-}
+const [
+  addUserToChatRequest,
+  addUserToChatSucceed,
+  addUserToChatFailed,
+] = getApiActions(User.ADD_USER_TO_CHAT);
 
-export function signInUserFailed(errorMessage: string): ISignInFailedUser {
-  return {
-    type: Auth.SIGN_IN_FAILED, payload: { errorMessage },
-  };
-}
+const [
+  editCurrentUserRequest,
+  editCurrentUserSucceed,
+  editCurrentUserFailed,
+] = getApiActions(User.EDIT_CURRENT_USER);
 
-export function signUpUserFailed(errorMessage: string): ISignUpFailedUser {
-  return {
-    type: Auth.SIGN_UP_FAILED, payload: { errorMessage },
-  };
-}
+// const [
+//   getSelectedChatRequest,
+//   getSelectedChatSucceed,
+//   getSelectedChatFailed,
+// ] = getApiActions(User.GET_SELECTED_CHAT);
 
-export function requestLogoutUser(): ILogoutUser {
-  return { type: Auth.LOGOUT };
-}
+const [
+  signInRequest,
+  signInSucceed,
+  signInFailed,
+] = getApiActions(Auth.SIGN_IN);
 
-export function removeErrorMessage(): IRemoveErrorMessage {
-  return { type: Auth.REMOVE_AUTH_ERROR_MESSAGE };
-}
+const [
+  signUpRequest,
+  signUpSucceed,
+  signUpFailed,
+] = getApiActions(Auth.SIGN_UP);
 
-export function signUpUserRequest(userData: IUserData): ISignUpRequestUser {
-  return {
-    type: Auth.SIGN_UP_REQUEST, payload: { userData },
-  };
-}
+const [
+  changePasswordRequest,
+  changePasswordSucceed,
+  changePasswordFailed,
+] = getApiActions(Auth.CHANGE_PASSWORD);
 
-export function addUserToChat(chatData: IChatData): IAddUserToChat {
-  return {
-    type: User.ADD_USER_TO_CHAT, payload: { chatData },
-  };
-}
-
-export function addNewChat(chat: IChat): IAddNewChat {
-  return {
-    type: Chat.ADD_NEW_CHAT, payload: { chat },
-  };
-}
-
-export function deleteOldChat(chatId: number): IDeleteOldChat {
-  return {
-    type: Chat.DELETE_OLD_CHAT, payload: { chatId },
-  };
-}
-
-export function getSelectedChat(selectedChat: IChat): IGetSelectedChat {
-  return {
-    type: User.GET_SELECTED_CHAT, payload: { selectedChat },
-  };
-}
-
-export function editOldChatName(name: string, id: number): IEditChatName {
-  return {
-    type: Chat.EDIT_CHAT_NAME,
-    payload: {
-      name,
-      id,
-    },
-  };
-}
-
-export function addNewChatName(name: string, id: number): IAddNewChatName {
-  return {
-    type: Chat.ADD_NEW_CHAT_NAME, payload: { name, id },
-  };
-}
-
-export function editCurrentUserRequest(
-  changedField: IChangeUserData,
-): IEditCurrentUserRequest {
-  return {
-    type: User.EDIT_CURRENT_USER_REQUEST, payload: changedField,
-  };
-}
-
-export function editCurrentUserSucceed(
-  changedField: IChangeUserData,
-): IEditCurrentUserSucceed {
-  return {
-    type: User.EDIT_CURRENT_USER_SUCCEED, payload: { changedField },
-  };
-}
-
-export function requestConfirmUser(token: string): any {
-  return {
-    type: Auth.CONFIRM_USER_REQUEST, payload: { token },
-  };
-}
+export {
+  addUserToChatRequest,
+  addUserToChatSucceed,
+  addUserToChatFailed,
+  // getSelectedChatRequest,
+  // getSelectedChatSucceed,
+  // getSelectedChatFailed,
+  editCurrentUserRequest,
+  editCurrentUserSucceed,
+  editCurrentUserFailed,
+  getSelectedChat,
+  confirmUserRequest,
+  logout,
+  signInRequest,
+  signInSucceed,
+  signInFailed,
+  signUpRequest,
+  signUpSucceed,
+  signUpFailed,
+  removeAuthErrorMessage,
+  changePasswordRequest,
+  changePasswordSucceed,
+  changePasswordFailed,
+};

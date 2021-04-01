@@ -2,13 +2,14 @@ import React from 'react';
 import _ from 'lodash';
 import format from 'date-fns/format';
 import cn from 'classnames';
+import { IMessage } from '@/redux/store/chat/types';
 import { IState } from '@/pages/chat/mainChat';
 import { ChatSettings } from '@/pages/chat/mainChat/components/chatSettings/chatSettings';
 import {
   MessageContent,
 } from '@/pages/chat/mainChat/components/messageContent/messageContent';
 import { useChatMessages } from '@/pages/chat/mainChat/components/chatMessages/hook';
-import { IMessage } from '@/types/store/chatActions';
+// import { IMessage } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
 interface IProps {

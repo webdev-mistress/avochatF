@@ -32,7 +32,7 @@ export enum Message {
   EDIT_MESSAGE = 'EDIT_MESSAGE',
 }
 
-/* chat */
+/* oldChat */
 export enum Chat {
   CREATE_CHAT = 'CREATE_CHAT',
   ADD_NEW_CHAT = 'ADD_NEW_CHAT',

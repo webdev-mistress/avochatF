@@ -1,5 +1,6 @@
 import React from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { IMessage } from '@/redux/store/chat/types';
 import { MenuMessage } from '@/pages/chat/mainChat/components/menuMessage/menuMessage';
 import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
 import { IState } from '@/pages/chat/mainChat';
@@ -7,7 +8,6 @@ import { OptionIcons } from '@/pages/chat/mainChat/components/optionIcons';
 import {
   useSettingsMessage,
 } from '@/pages/chat/mainChat/components/settingsMessage/hook';
-import { IMessage } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
 interface IProps {

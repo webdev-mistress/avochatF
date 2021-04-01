@@ -9,12 +9,12 @@ import {
 const PREFIX_CHAT = '/api/v0/chat';
 
 export const createChat = function(
-  chatName: string, login: string,
+  chatName: string,
 ): Promise<ICreateChatSaga> {
   return getResource({
     url: `${PREFIX_CHAT}/create`,
     method: Method.POST,
-    body: { chatName, login },
+    body: { chatName },
   });
 };
 

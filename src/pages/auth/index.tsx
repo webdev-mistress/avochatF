@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Container } from '@material-ui/core';
 import { selectErrorMessage } from '@/redux/store/user/selectors';
-import { removeErrorMessage } from '@/redux/store/user/actions';
+import { removeAuthErrorMessage } from '@/redux/store/user/actions';
 import { AuthForm } from './authForm';
 import { RegForm } from './regForm';
 import style from './styles.module.scss';
@@ -15,7 +15,7 @@ export const AuthPage: React.FunctionComponent = () => {
 
   const onToggleForm = useCallback((isAuthForm: boolean) => () => {
     if (errorMessage) {
-      dispatch(removeErrorMessage());
+      dispatch(removeAuthErrorMessage());
     }
 
     setIsAuthForm(isAuthForm);

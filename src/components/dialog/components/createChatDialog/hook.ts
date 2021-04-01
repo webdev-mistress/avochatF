@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsShowCreateChat } from '@/redux/store/ui/selectors';
-import { createChat } from '@/redux/store/chat/actions';
+// import { createChat } from '@/redux/store/oldChat/actions';
 import { setShowCreateChat } from '@/redux/store/ui/actions';
+import { createChatRequest } from '@/redux/store/chat/actions';
 
 export const useCreateChatDialog = (): any => {
   const [chatName, setChatName] = useState('');
@@ -27,7 +28,7 @@ export const useCreateChatDialog = (): any => {
   }, [dispatch]);
 
   const onCreateChat = useCallback((chatName: string) => () => {
-    dispatch(createChat(chatName));
+    dispatch(createChatRequest(chatName));
   }, [dispatch]);
 
   const onKeyUpEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { IChat } from '@/types/store/chatActions';
-import { IUser } from '@/types/store/userActions';
+import { IUser } from '@/redux/store/user/types';
+import { IChat } from '@/redux/store/chat/types';
 
 export const selectUserId = (state: IUser): number =>
   _.get(state, 'user.id', 0);

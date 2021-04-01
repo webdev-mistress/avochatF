@@ -9,10 +9,10 @@ import {
   Button,
 } from '@material-ui/core';
 import { accessToken } from '@/helpers/localStorage';
-import { clearChat } from '@/redux/store/chat/actions';
 import { selectIsShowLogout } from '@/redux/store/ui/selectors';
-import { requestLogoutUser } from '@/redux/store/user/actions';
 import { setShowLogout } from '@/redux/store/ui/actions';
+import { clearChat } from '@/redux/store/chat/actions';
+import { logout } from '@/redux/store/user/actions';
 
 export const LogoutDialog: React.FunctionComponent = () => {
   const isShowLogoutDialog = useSelector(selectIsShowLogout);
@@ -20,7 +20,7 @@ export const LogoutDialog: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const onAuthLogout = useCallback(() => {
-    dispatch(requestLogoutUser());
+    dispatch(logout());
     dispatch(clearChat());
     accessToken.remove();
   }, [dispatch]);

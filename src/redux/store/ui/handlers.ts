@@ -1,6 +1,6 @@
 import camelcase from 'camelcase';
-import { ChatSettingsShow, DialogSettingsShow } from '@/redux/store/ui/types';
-import { IUI } from '@/types/store/uiActions';
+import { ChatSettingsShow, DialogSettingsShow, IUI } from '@/redux/store/ui/types';
+import { INITIAL_STATE } from '@/redux/store/ui/reducer';
 
 export const setShowChatSettingsHandler = (
   state: IUI,
@@ -26,3 +26,5 @@ export const setDialogsSettingsHandler = (type: string) => (
     [camelcase(type)]: payload.isActive,
   },
 });
+
+export const logoutHandler = (): IUI => INITIAL_STATE;

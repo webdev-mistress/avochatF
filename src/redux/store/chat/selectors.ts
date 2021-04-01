@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { IActiveChat, IChat, IMembersData, IMessage } from '@/types/store/chatActions';
+import { IActiveChat, IChat, IMembersData, IMessage } from '@/redux/store/chat/types';
 
 export const selectActiveChat = (state: IActiveChat): IChat =>
   _.get(state, ('activeChat.info'), {});

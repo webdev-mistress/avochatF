@@ -4,9 +4,10 @@ import io from 'socket.io-client';
 import { call, put, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel } from 'redux-saga';
 import { sendNotification } from '@/helpers';
-import { requestMessages } from '@/redux/store/chat/actions';
+import { SagaIterator } from '@redux-saga/types/types';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
 import { selectUserId } from '@/redux/store/user/selectors';
+import { getMessagesRequest } from '@/redux/store/chat/actions';
 
 function websocketInitChannel() {
   const url = process.env.NODE_ENV === 'development'
@@ -24,7 +25,7 @@ function websocketInitChannel() {
       const store = window.store.getState();
       const chatId = selectActiveChatId(store);
       if (chatId) {
-        emitter(requestMessages(chatId));
+        emitter(getMessagesRequest(chatId));
       }
 
       if (body.author.login !== store.user.login) {
@@ -39,15 +40,14 @@ function websocketInitChannel() {
       const store = window.store.getState();
       const chatId = selectActiveChatId(store);
       if (chatId) {
-        emitter(requestMessages(chatId));
+        emitter(getMessagesRequest(chatId));
       }
     });
     socket.on('deleteMessage', () => {
       const store = window.store.getState();
       const chatId = selectActiveChatId(store);
-
       if (chatId) {
-        emitter(requestMessages(chatId));
+        emitter(getMessagesRequest(chatId));
       }
     });
     socket.onClose = () => emitter(END);
@@ -62,7 +62,7 @@ export function* websocketSaga(): any {
   yield takeEvery('WEBSOCKET_CONNECT', watchWebsocket);
 }
 
-export function* watchWebsocket(): any {
+export function* watchWebsocket(): SagaIterator {
   const channel = yield call(websocketInitChannel);
   while (true) {
     const action = yield take(channel);

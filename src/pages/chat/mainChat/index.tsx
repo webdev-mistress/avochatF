@@ -7,10 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 import { selectUserId } from '@/redux/store/user/selectors';
 import { selectActiveChat, selectMessages } from '@/redux/store/chat/selectors';
-import { sendMessage } from '@/redux/store/chat/actions';
+import { sendMessageRequest } from '@/redux/store/chat/actions';
+import { IMessage } from '@/redux/store/chat/types';
 import { EmptyChat } from '@/pages/chat/mainChat/components/emptyChat';
 import { ChatMessages } from '@/pages/chat/mainChat/components/chatMessages/chatMessages';
-import { IMessage } from '@/types/store/chatActions';
 import styles from './styles.module.scss';
 
 export interface IState {
@@ -51,7 +51,7 @@ export const MainChat: React.FunctionComponent = () => {
     if (!state.messageText) {
       return;
     }
-    dispatch(sendMessage(state.messageText));
+    dispatch(sendMessageRequest(state.messageText));
     setState({ ...state, messageText: '' });
   }, [dispatch, state]);
 
@@ -83,7 +83,7 @@ export const MainChat: React.FunctionComponent = () => {
     <div className={styles.wrapper}>
       <div className={styles.topBlock}>
         <div className={styles.title}>
-          {hasActiveChat ? `Active chat: ${activeChat.name}` : 'Choose a chat'}
+          {hasActiveChat ? `Active chat: ${activeChat.name}` : 'Choose a oldChat'}
         </div>
       </div>
       {hasActiveChat && (
