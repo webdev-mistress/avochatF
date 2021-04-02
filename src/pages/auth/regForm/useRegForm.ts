@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
-import { removeErrorMessage, signUpUserRequest } from '@/redux/store/user/actions';
+// import { removeErrorMessage, signUpUserRequest } from '@/redux/store/user/actions';
+// import { signUpUserRequest } from '@/redux/common/actions/authActions';
+import { removeAuthErrorMessage, signUpRequest } from '@/redux/store/user/actions';
 import { ButtonEvent } from '@/types/components';
 
 export const useRegForm = (): any => {
@@ -46,7 +48,7 @@ export const useRegForm = (): any => {
       return;
     }
     setState({ ...state, disabledButton: true, isRegFinished: true });
-    dispatch(signUpUserRequest({ email, name, login, password: password1 }));
+    dispatch(signUpRequest({ email, name, login, password: password1 }));
   }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
 
   const onKeyUpEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -59,7 +61,7 @@ export const useRegForm = (): any => {
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     if (errorMessage) {
-      dispatch(removeErrorMessage());
+      dispatch(removeAuthErrorMessage());
     }
     const { value } = event.target;
     setState({

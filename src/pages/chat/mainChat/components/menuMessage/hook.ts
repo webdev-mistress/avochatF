@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { deleteMessage } from '@/redux/store/chat/actions';
+import { deleteMessageRequest } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
 
 interface IArgs {
@@ -38,7 +38,7 @@ export const useMenuMessage = (args: IArgs): any => {
   const onDeleteMessage = useCallback(() => {
     const deletedMessageId = state.selectedMessage?.messageId;
     if (deletedMessageId) {
-      dispatch(deleteMessage(deletedMessageId));
+      dispatch(deleteMessageRequest(deletedMessageId));
     } else {
       throw new Error('deletedMessageId does not exist');
     }

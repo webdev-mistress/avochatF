@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { editMessage } from '@/redux/store/chat/actions';
+// import { editMessage } from '@/redux/store/oldChat/actions';
+import { editMessageRequest } from '@/redux/store/chat/actions';
 import { IState } from '@/pages/chat/mainChat';
 
 interface IArgs {
@@ -20,7 +21,9 @@ export const useChatMessages = (args: IArgs): any => {
   const onSendEditMessage = useCallback((content) => () => {
     const { selectedMessage, messageEdit } = state;
     if (selectedMessage && content !== messageEdit) {
-      dispatch(editMessage({ editMessageId: selectedMessage.messageId, messageEdit }));
+      dispatch(editMessageRequest(
+        { editMessageId: selectedMessage.messageId, messageEdit },
+      ));
     }
     onEditClose();
   }, [dispatch, onEditClose, state]);

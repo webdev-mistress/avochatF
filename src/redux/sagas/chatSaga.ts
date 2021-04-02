@@ -1,23 +1,22 @@
-import { call, put, takeEvery, select } from 'redux-saga/effects';
-import { Chat } from '@/constants/store';
-import {
-  checkMembersLoaded, deleteUnwanterUser, addNewChatName,
-} from '@/redux/store/chat/actions';
-import { selectUserLogin } from '@/redux/store/user/selectors';
-import { addNewChat, deleteOldChat } from '@/redux/store/user/actions';
-import { setIsShowCreateChat } from '@/redux/store/ui/actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { IAction } from '@/utils/types';
+import { SagaIterator } from '@redux-saga/types';
 import {
   createChat,
   deleteChat,
   deleteUserFromChat, editChatName,
   getParticipants,
 } from '@/redux/api/chatApi';
+import { setShowCreateChat } from '@/redux/store/ui/actions';
 import {
-  ICheckMembers,
-  ICreateChat,
-  IDeleteChat,
-  IDeleteUserFromChat, IEditChatName,
-} from '@/types/store/chatActions';
+  createChatRequest,
+  createChatSucceed, deleteChatRequest, deleteChatSucceed,
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed, editChatNameRequest,
+  editChatNameSucceed,
+  getParticipantsRequest,
+  getParticipantsSucceed,
+} from '@/redux/store/chat/actions';
 import {
   ICreateChatSaga,
   IDeleteChatSaga,
@@ -25,78 +24,75 @@ import {
   ICkeckMembersSaga, IEditChatNameSaga,
 } from '@/types/sagas';
 
-function* fetchCreateChat(action: ICreateChat) {
+function* fetchCreateChat(action: IAction<string>) {
   try {
-    const login = yield select(selectUserLogin);
-    const { chatName } = action.payload;
-    const response: ICreateChatSaga = yield call(createChat, chatName, login);
+    const response: ICreateChatSaga = yield call(createChat, action.payload);
 
     if (!response.data || !response.ok) {
       throw response.message;
     }
 
-    yield put(addNewChat(response.data));
-    yield put(setIsShowCreateChat(false));
+    yield put(createChatSucceed(response.data));
+    yield put(setShowCreateChat({ isActive: false }));
   } catch (error) {
     console.error(error);
   }
 }
 
-function* fetchDeleteChat(action: IDeleteChat) {
+function* fetchDeleteChat(action: any) {
   try {
-    const { chatId } = action.payload;
-    const response: IDeleteChatSaga = yield call(deleteChat, chatId);
+    const response: IDeleteChatSaga = yield call(deleteChat, action.payload);
 
     if (response.ok) {
-      yield put(deleteOldChat(chatId));
+      yield put(deleteChatSucceed(action.payload));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-function* fetchDeleteUserFromChat(action: IDeleteUserFromChat) {
+function* fetchDeleteUserFromChat(action: any) {
+  console.log(action.payload);
   try {
     const { login, chatId } = action.payload;
     const response: IDeleteUserFromChatSaga = yield call(
       deleteUserFromChat, login, chatId,
     );
     if (response.ok) {
-      yield put(deleteUnwanterUser(login, chatId));
+      yield put(deleteUserFromChatSucceed({ login, chatId }));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-function* fetchGetParticipants(action: ICheckMembers) {
+function* fetchGetParticipants(action: any) {
   try {
-    const { chatId } = action.payload;
-    const response: ICkeckMembersSaga = yield call(getParticipants, chatId);
+    const response: ICkeckMembersSaga = yield call(getParticipants, action.payload);
     if (response.ok) {
-      yield put(checkMembersLoaded(response.data));
+      yield put(getParticipantsSucceed(response.data));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-function* fetchEditChatName(action: IEditChatName) {
+function* fetchEditChatName(action: any) {
   try {
     const { name, id } = action.payload;
     const response: IEditChatNameSaga = yield call(editChatName, name, id);
     if (response.ok) {
-      yield put(addNewChatName(response.data.name, response.data.id));
+      yield put(editChatNameSucceed({ name, id }));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-export function* chatSaga(): any {
-  yield takeEvery(Chat.CREATE_CHAT, fetchCreateChat);
-  yield takeEvery(Chat.DELETE_CHAT, fetchDeleteChat);
-  yield takeEvery(Chat.DELETE_USER_FROM_CHAT, fetchDeleteUserFromChat);
-  yield takeEvery(Chat.GET_CHAT_PARTICIPANTS, fetchGetParticipants);
-  yield takeEvery(Chat.EDIT_CHAT_NAME, fetchEditChatName);
+export function* chatSaga(): SagaIterator {
+  yield takeEvery(createChatRequest, fetchCreateChat);
+  yield takeEvery(deleteChatRequest, fetchDeleteChat);
+  yield takeEvery(deleteUserFromChatRequest, fetchDeleteUserFromChat);
+  yield takeEvery(getParticipantsRequest, fetchGetParticipants);
+  yield takeEvery(editChatNameRequest, fetchEditChatName);
 }

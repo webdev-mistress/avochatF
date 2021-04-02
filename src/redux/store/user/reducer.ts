@@ -1,100 +1,70 @@
-import _ from 'lodash';
-import { User, Chat, Auth } from '@/constants/store';
-import { IUser, UserActions } from '@/types/store/userActions';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
+import { IUser } from '@/redux/store/user/types';
+import {
+  createChatSucceed,
+  deleteChatSucceed,
+  editChatNameRequest, editChatNameSucceed,
+} from '@/redux/store/chat/actions';
+import {
+  createChatSucceedHandler,
+  deleteChatSucceedHandler,
+  editChatNameRequestHandler,
+  editChatNameSucceedHandler,
+  editCurrentUserRequestHandler,
+  editCurrentUserSucceedHandler,
+  getSelectedChatHandler,
+  logoutHandler,
+  removeAuthErrorMessageHandler, signAllFailedHandler,
+  signAllRequestHandler,
+  signInSucceedHandler,
+} from '@/redux/store/user/handlers';
+import {
+  editCurrentUserSucceed,
+  getSelectedChat,
+  logout,
+  removeAuthErrorMessage,
+  signInFailed,
+  signInRequest,
+  signInSucceed, signUpFailed,
+  signUpRequest,
+} from '@/redux/store/user/actions';
 
-const initialState: IUser = {
+export const INITIAL_STATE: IUser = {
   id: 0,
   name: '',
   login: '',
   email: '',
   isAuth: false,
   isAuthSpin: false,
+  isEditCurrentUser: false,
   chats: [],
   selectedChat: null,
   errorMessage: '',
 };
 
-export function userReducer(state = initialState, action: UserActions): IUser {
-  const cloneState = _.cloneDeep(state);
+export const userReducer = reducerWithInitialState(INITIAL_STATE)
+  .case(deleteChatSucceed, deleteChatSucceedHandler)
+  .case(createChatSucceed, createChatSucceedHandler)
+  .case(editChatNameRequest, editChatNameRequestHandler)
+  .case(editChatNameSucceed, editChatNameSucceedHandler)
+  .case(getSelectedChat, getSelectedChatHandler)
+  .case(logout, logoutHandler)
+  .case(editChatNameRequest, editCurrentUserRequestHandler)
+  .case(editCurrentUserSucceed, editCurrentUserSucceedHandler)
+  .case(signInRequest, signAllRequestHandler)
+  .case(signUpRequest, signAllRequestHandler)
+  .case(signInSucceed, signInSucceedHandler)
+  .case(removeAuthErrorMessage, removeAuthErrorMessageHandler)
+  .case(signInFailed, signAllFailedHandler)
+  .case(signUpFailed, signAllFailedHandler)
+  .build();
 
-  switch (action.type) {
-  case Auth.SIGN_IN_REQUEST:
-  case Auth.SIGN_UP_REQUEST:
-    return {
-      ...state,
-      isAuthSpin: true,
-    };
-  case Auth.SIGN_IN_SUCCEED:
-    return {
-      ...cloneState,
-      ...action.payload.userData,
-      isAuth: true,
-      isAuthSpin: false,
-    };
-  case Auth.REMOVE_AUTH_ERROR_MESSAGE:
-    delete cloneState.errorMessage;
+// changePasswordRequest, not ready in old reducer
+// changePasswordSucceed, not ready in old reducer
 
-    return cloneState;
-  case Auth.SIGN_IN_FAILED:
-  case Auth.SIGN_UP_FAILED:
-    return {
-      ...state,
-      isAuth: false,
-      isAuthSpin: false,
-      errorMessage: action.payload.errorMessage,
-    };
-  case Chat.ADD_NEW_CHAT:
-    const { chat } = action.payload;
+// changePasswordFailed,
+// editCurrentUserFailed,
 
-    return {
-      ...state,
-      chats: [...state.chats, chat],
-    };
-  case Chat.DELETE_OLD_CHAT:
-    const { chatId } = action.payload;
+// signUpSucceed - not clearly yet if this function will exist
+// confirmUser - does not exist in old redux
 
-    return {
-      ...state,
-      chats: state.chats.filter(chat => chat.id !== chatId),
-    };
-  case Auth.LOGOUT:
-    return initialState;
-  case User.GET_SELECTED_CHAT:
-    return {
-      ...state,
-      selectedChat: action.payload.selectedChat,
-    };
-  case Chat.EDIT_CHAT_NAME:
-    return {
-      ...state,
-      selectedChat: state.selectedChat ? {
-        ...state.selectedChat,
-        name: action.payload.name,
-      } : null,
-    };
-  case Chat.ADD_NEW_CHAT_NAME: {
-    const newChats = state.chats
-      .map(chat => chat.id === action.payload.id
-        ? { ...chat, name: action.payload.name }
-        : chat);
-    return {
-      ...state,
-      chats: newChats,
-    };
-  }
-  case User.EDIT_CURRENT_USER_SUCCEED:
-    return {
-      ...state,
-      ...action.payload.changedField,
-    };
-  case Auth.CHANGE_PASSWORD_REQUEST:
-    console.log('hello');
-    return state;
-  case Auth.CHANGE_PASSWORD_SUCCEED: {
-    console.log('hi');
-    return state;
-  }
-  default:
-    return state;
-  }
-}

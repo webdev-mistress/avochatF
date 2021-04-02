@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { IUI } from '@/types/store/uiActions';
+import { IUI } from '@/redux/store/ui/types';
 
 export const selectIsShowChatSettings = (state: IUI): boolean =>
-  _.get(state, ('ui.dialog.chatSettings.isShowDialog'), false);
+  _.get(state, ('ui.dialog.chatSettings.isActive'), false);
 
 export const selectIsShowUserSettings = (state: IUI): boolean =>
   _.get(state, ('ui.dialog.isShowUserSettings'), false);

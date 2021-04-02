@@ -1,4 +1,5 @@
 import React from 'react';
+import { IMessage } from '@/redux/store/chat/types';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
 import {
   SettingsMessage,
@@ -6,7 +7,7 @@ import {
 import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
 import { IState } from '@/pages/chat/mainChat';
 import { useChatSettings } from '@/pages/chat/mainChat/components/chatSettings/hook';
-import { IMessage } from '@/types/store/chatActions';
+// import { IMessage } from '@/types/store/chatActions';
 
 interface IProps {
   message: IMessage,

@@ -1,58 +1,34 @@
-import { UI, Auth } from '@/constants/store';
-import { IUI, UIActions } from '@/types/store/uiActions';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
+import { UI } from '@/constants/store';
+import {
+  setShowChatSettings,
+  setShowCreateChat, setShowLogout,
+  setShowUserSettings,
+} from '@/redux/store/ui/actions';
+import {
+  logoutHandler,
+  setDialogsSettingsHandler,
+  setShowChatSettingsHandler,
+} from '@/redux/store/ui/handlers';
+import { IUI } from '@/redux/store/ui/types';
+import { logout } from '@/redux/store/user/actions';
 
-const initialState: IUI = {
+export const INITIAL_STATE: IUI = {
   dialog: {
     isShowLogout: false,
     isShowUserSettings: false,
     isShowCreateChat: false,
     chatSettings: {
-      isShowDialog: false,
-      chatId: 0,
+      isActive: false,
+      chatId: null,
     },
   },
 };
 
-export function uiReducer(state = initialState, action: UIActions): IUI {
-  switch(action.type) {
-  case UI.IS_SHOW_USER_SETTINGS:
-    return {
-      ...state,
-      dialog: {
-        ...state.dialog,
-        isShowUserSettings: action.payload.isShow,
-      },
-    };
-  case UI.IS_SHOW_CHAT_SETTINGS:
-    return {
-      ...state,
-      dialog: {
-        ...state.dialog,
-        chatSettings: {
-          isShowDialog: action.payload.isShowDialog,
-          chatId: action.payload.chatId,
-        },
-      },
-    };
-  case UI.IS_SHOW_LOGOUT:
-    return {
-      ...state,
-      dialog: {
-        ...state.dialog,
-        isShowLogout: action.payload.isShow,
-      },
-    };
-  case UI.IS_SHOW_CREATE_CHAT:
-    return {
-      ...state,
-      dialog: {
-        ...state.dialog,
-        isShowCreateChat: action.payload.isShow,
-      },
-    };
-  case Auth.LOGOUT:
-    return initialState;
-  default:
-    return state;
-  }
-}
+export const uiReducer = reducerWithInitialState(INITIAL_STATE)
+  .case(setShowChatSettings, setShowChatSettingsHandler)
+  .case(setShowUserSettings, setDialogsSettingsHandler(UI.IS_SHOW_USER_SETTINGS))
+  .case(setShowCreateChat, setDialogsSettingsHandler(UI.IS_SHOW_CREATE_CHAT))
+  .case(setShowLogout, setDialogsSettingsHandler(UI.IS_SHOW_LOGOUT))
+  .case(logout, logoutHandler)
+  .build();

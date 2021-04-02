@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectUserName } from '@/redux/store/user/selectors';
+// import { clearChat } from '@/redux/store/oldChat/actions';
+import { setShowLogout, setShowUserSettings } from '@/redux/store/ui/actions';
 import { clearChat } from '@/redux/store/chat/actions';
-import { setIsShowLogout, setIsShowUserSettings } from '@/redux/store/ui/actions';
 
 export const useUserSettingsBlock = (): any => {
   const userName = useSelector(selectUserName);
@@ -14,11 +15,11 @@ export const useUserSettingsBlock = (): any => {
   }, [dispatch]);
 
   const onOpenUserSettings = useCallback(() => {
-    dispatch(setIsShowUserSettings(true));
+    dispatch(setShowUserSettings({ isActive: true }));
   }, [dispatch]);
 
   const onOpenLogoutDialog = useCallback(() => {
-    dispatch(setIsShowLogout(true));
+    dispatch(setShowLogout({ isActive: true }));
   }, [dispatch]);
 
   return {

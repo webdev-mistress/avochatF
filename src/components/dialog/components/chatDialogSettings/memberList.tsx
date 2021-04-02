@@ -10,9 +10,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { checkShowCloseIcon } from '@/components/dialog/helpers';
 import CloseIcon from '@material-ui/icons/Close';
 import { selectChatMembersList } from '@/redux/store/chat/selectors';
-import { deleteUserFromChat } from '@/redux/store/chat/actions';
 import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
-import { IChat, IMembersData } from '@/types/store/chatActions';
+import { deleteUserFromChatRequest } from '@/redux/store/chat/actions';
+import { IChat, IMembersData } from '@/redux/store/chat/types';
 
 export const MembersList: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
@@ -22,7 +22,7 @@ export const MembersList: React.FunctionComponent = () => {
 
   const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
     if(selectedChat) {
-      dispatch(deleteUserFromChat(login, selectedChat.id));
+      dispatch(deleteUserFromChatRequest({ login, chatId: selectedChat.id }));
     }
   }, [dispatch, selectedChat]);
 

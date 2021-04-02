@@ -6,16 +6,15 @@ import {
   selectUserId,
   selectUserLogin,
 } from '@/redux/store/user/selectors';
-import { addUserToChat } from '@/redux/store/user/actions';
+import { selectIsShowChatSettings } from '@/redux/store/ui/selectors';
+import { setShowChatSettings } from '@/redux/store/ui/actions';
 import {
   clearChat,
-  deleteChat,
-  deleteUserFromChat,
-  editOldChatName,
+  deleteChatRequest,
+  deleteUserFromChatRequest, editChatNameRequest,
 } from '@/redux/store/chat/actions';
-import { setIsShowChatSettings } from '@/redux/store/ui/actions';
-import { selectIsShowChatSettings } from '@/redux/store/ui/selectors';
-import { IChat } from '@/types/store/chatActions';
+import { addUserToChatRequest } from '@/redux/store/user/actions';
+import { IChat } from '@/redux/store/chat/types';
 
 export const useChatDialogSettings = (): any => {
   const [isEditMode, setEditMode] = useState(false);
@@ -28,7 +27,7 @@ export const useChatDialogSettings = (): any => {
   const [newChatNameValue, setChatName] = useState('');
 
   const onCloseDialog = useCallback(() => {
-    dispatch(setIsShowChatSettings(false, 0));
+    dispatch(setShowChatSettings({ isActive: false, chatId: null }));
   }, [dispatch]);
 
   const onCloseDialogClick = useCallback(() => {
@@ -45,22 +44,23 @@ export const useChatDialogSettings = (): any => {
 
   const onAddUserToChatDialog = useCallback((fieldValue: string) => () => {
     if(selectedChat) {
-      dispatch(addUserToChat(
-        { login: fieldValue, selectedChatId: selectedChat.id }),
+      dispatch(addUserToChatRequest(
+        { login: fieldValue, selectedChatId: selectedChat.id },
+      ),
       );
       setFieldValue('');
     }
   }, [dispatch, selectedChat]);
 
   const onDeleteChatDialog = useCallback(() => {
-    dispatch(deleteChat(selectedChat.id));
+    dispatch(deleteChatRequest(selectedChat.id));
     dispatch(clearChat());
     onCloseDialog();
   }, [dispatch, onCloseDialog, selectedChat]);
 
   const onLeaveChat = useCallback(() => {
-    dispatch(deleteUserFromChat(selectedUserLogin, selectedChat.id));
-    dispatch(deleteChat(selectedChat.id));
+    dispatch(deleteUserFromChatRequest(selectedUserLogin, selectedChat.id));
+    dispatch(deleteChatRequest(selectedChat.id));
     onCloseDialog();
   }, [dispatch, onCloseDialog, selectedChat, selectedUserLogin]);
 
@@ -77,7 +77,7 @@ export const useChatDialogSettings = (): any => {
   const onEditOldChatName = useCallback((newChatNameValue: string) => () => {
     if(selectedChat) {
       setChatName(selectedChat.name);
-      dispatch(editOldChatName(newChatNameValue, selectedChat.id));
+      dispatch(editChatNameRequest({ name: newChatNameValue, id: selectedChat.id }));
       setEditMode(!isEditMode);
     }
   }, [dispatch, isEditMode, selectedChat]);

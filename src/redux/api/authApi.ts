@@ -1,12 +1,13 @@
 import { getResource, Method } from '@/helpers/api';
+import { IChangePasswordData, ISignInUserData } from '@/redux/store/user/types';
 import {
   IChangePasswordSaga,
   ILogoutUserSaga,
   ISignInUserSaga,
   ISignUpUserSaga,
 } from '@/types/sagas';
-import { ISignInUserData } from '@/types/store/userActions';
-import { IChangePasswordData } from '@/types/store/authActions';
+// import { ISignInUserData } from '@/types/store/userActions';
+// import { IChangePasswordData } from '@/types/store/authActions';
 
 const PREFIX_AUTH = '/api/v0/auth';
 

@@ -1,29 +1,31 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { User } from '@/constants/store';
-import { getChatParticipants } from '@/redux/store/chat/actions';
+import { SagaIterator } from '@redux-saga/types';
 import { addUserToChat } from '@/redux/api/chatApi';
 import { editUser } from '@/redux/api/userApi';
-import { editCurrentUserSucceed } from '@/redux/store/user/actions';
-import { IAddUserToChat } from '@/types/store/chatActions';
+import {
+  editCurrentUserSucceed,
+  addUserToChatRequest,
+  editCurrentUserRequest,
+} from '@/redux/store/user/actions';
+import { getParticipantsRequest } from '@/redux/store/chat/actions';
 import {
   IAddUserToChatSaga,
   IEditUserSaga,
 } from '@/types/sagas';
-import { IEditUserData } from '@/types/store/userActions';
 
-function* fetchAddUserToChat(action: IAddUserToChat) {
+function* fetchAddUserToChat(action: any) {
   try {
-    const { login, selectedChatId } = action.payload.chatData;
+    const { login, selectedChatId } = action.payload;
     const response: IAddUserToChatSaga = yield call(addUserToChat, login, selectedChatId);
     if (response.ok) {
-      yield put(getChatParticipants(response.data.addedChatId));
+      yield put(getParticipantsRequest(response.data.addedChatId));
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-function* fetchEditCurrentUser(action: IEditUserData) {
+function* fetchEditCurrentUser(action: any) {
   try {
     const response: IEditUserSaga = yield call(editUser, action.payload);
     if (response.ok) {
@@ -34,7 +36,7 @@ function* fetchEditCurrentUser(action: IEditUserData) {
   }
 }
 
-export function* userSaga(): any {
-  yield takeEvery(User.ADD_USER_TO_CHAT, fetchAddUserToChat);
-  yield takeEvery(User.EDIT_CURRENT_USER_REQUEST, fetchEditCurrentUser);
+export function* userSaga(): SagaIterator {
+  yield takeEvery(addUserToChatRequest, fetchAddUserToChat);
+  yield takeEvery(editCurrentUserRequest, fetchEditCurrentUser);
 }

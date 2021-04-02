@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { IMessage } from '@/types/store/chatActions';
+import { IMessage } from '@/redux/store/chat/types';
 
 interface IArgs {
   message: IMessage,

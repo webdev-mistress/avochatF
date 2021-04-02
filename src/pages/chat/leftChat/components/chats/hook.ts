@@ -2,15 +2,15 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
+import { selectUserChats } from '@/redux/store/user/selectors';
+import { setShowChatSettings, setShowCreateChat } from '@/redux/store/ui/actions';
 import {
   getActiveChat,
-  getChatParticipants,
-  requestMessages,
+  getMessagesRequest,
+  getParticipantsRequest,
 } from '@/redux/store/chat/actions';
 import { getSelectedChat } from '@/redux/store/user/actions';
-import { selectUserChats } from '@/redux/store/user/selectors';
-import { setIsShowChatSettings, setIsShowCreateChat } from '@/redux/store/ui/actions';
-import { IChat } from '@/types/store/chatActions';
+import { IChat } from '@/redux/store/chat/types';
 
 export const useChat = (): any => {
   const dispatch: Dispatch = useDispatch();
@@ -20,11 +20,11 @@ export const useChat = (): any => {
 
   const onLoadChat = useCallback((chat) => () => {
     dispatch(getActiveChat(chat));
-    dispatch(requestMessages(chat.id));
+    dispatch(getMessagesRequest(chat.id));
   }, [dispatch]);
 
   const onOpenCreateChatDialog = useCallback(() => {
-    dispatch(setIsShowCreateChat(true));
+    dispatch(setShowCreateChat({ isActive: true }));
   }, [dispatch]);
 
   const onOpenChatSettings = useCallback((chat) => (
@@ -32,8 +32,8 @@ export const useChat = (): any => {
   ) => {
     event.stopPropagation();
     dispatch(getSelectedChat(chat));
-    dispatch(getChatParticipants(chat.id));
-    dispatch(setIsShowChatSettings(true, chat.id));
+    dispatch(getParticipantsRequest(chat.id));
+    dispatch(setShowChatSettings({ isActive: true, chatId: chat.id }));
   }, [dispatch]);
 
   return {

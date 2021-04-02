@@ -1,137 +1,113 @@
-import { Chat, Message } from '@/constants/store';
-import {
-  IAddNewChatName,
-  IChat,
-  ICheckMembers, ICheckMembersLoad,
-  IClearChat,
-  ICreateChat,
-  IDeleteChat,
-  IDeleteUnwanterUser,
-  IDeleteUserFromChat,
-  IEditChatName,
-  IGetActiveChat,
-  IMembersData,
-  IMessage,
-  IMessageData,
-} from '@/types/store/chatActions';
-import {
-  IDeleteMessage, IDeleteMessageFailed, IEditMessage,
-  IErrorMessages,
-  IGetMessages,
-  IRequestMessages, ISendMessage, ISendMessageFailed,
-} from '@/types/store/messageActions';
+import { getApiActions } from '@/utils/redux';
+import actionCreatorFactory from 'typescript-fsa';
+import { IChat } from '@/redux/store/chat/types';
+const actionCreator = actionCreatorFactory();
 
-export function getMessages(messages: IMessage[]): IGetMessages {
-  return {
-    type: Message.MESSAGES_SUCCEEDED, payload: messages,
-  };
+export enum Chat {
+  CREATE_CHAT = 'CREATE_CHAT',
+  DELETE_CHAT = 'DELETE_CHAT',
+  GET_ACTIVE_CHAT = 'GET_ACTIVE_CHAT',
+  CLEAR_CHAT = 'CLEAR_CHAT',
+  DELETE_USER_FROM_CHAT = 'DELETE_USER_FROM_CHAT',
+  GET_CHAT_PARTICIPANTS = 'GET_CHAT_PARTICIPANTS',
+  EDIT_CHAT_NAME = 'EDIT_CHAT_NAME',
 }
 
-export function requestMessages(chatId: number): IRequestMessages {
-  return {
-    type: Message.MESSAGES_REQUESTED, payload: { chatId },
-  };
+export enum Message {
+  GET_MESSAGES = 'GET_MESSAGES',
+  SEND_MESSAGE = 'SEND_MESSAGE',
+  DELETE_MESSAGE = 'DELETE_MESSAGE',
+  EDIT_MESSAGE = 'EDIT_MESSAGE',
+  ERROR_MESSAGE = 'ERROR_MESSAGE',
 }
 
-export function errorMessages(errorMessage: any): IErrorMessages {
-  return {
-    type: Message.MESSAGES_FAILED, payload: { errorMessage },
-  };
-}
+const getActiveChat = actionCreator<IChat>(Chat.GET_ACTIVE_CHAT);
+const clearChat = actionCreator(Chat.CLEAR_CHAT);
+const getErrorMessageRequest = actionCreator<unknown>(Message.ERROR_MESSAGE);
 
-export function sendMessage(messageText: string): ISendMessage {
-  return {
-    type: Message.SEND_MESSAGE, payload: { messageText },
-  };
-}
+const [
+  createChatRequest,
+  createChatSucceed,
+  createChatFailed,
+] = getApiActions(Chat.CREATE_CHAT);
 
-export function sendMessageFailed(errorMessage: any): ISendMessageFailed {
-  return {
-    type: Message.SEND_MESSAGE_FAILED, payload: { errorMessage },
-  };
-}
+const [
+  deleteChatRequest,
+  deleteChatSucceed,
+  deleteChatFailed,
+] = getApiActions(Chat.DELETE_CHAT);
 
-export function deleteMessage(messageId: number): IDeleteMessage {
-  return {
-    type: Message.DELETE_MESSAGE, payload: { messageId },
-  };
-}
+const [
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed,
+  deleteUserFromChatFailed,
+] = getApiActions(Chat.DELETE_USER_FROM_CHAT);
 
-export function deleteMessageFailed(errorMessage: any): IDeleteMessageFailed {
-  return {
-    type: Message.DELETE_MESSAGE_FAILED, payload: { errorMessage },
-  };
-}
+const [
+  getParticipantsRequest,
+  getParticipantsSucceed,
+  getParticipantsFailed,
+] = getApiActions(Chat.GET_CHAT_PARTICIPANTS);
 
-export function getActiveChat(activeChat: IChat): IGetActiveChat {
-  return {
-    type: Chat.GET_ACTIVE_CHAT, payload: activeChat,
-  };
-}
+const [
+  editChatNameRequest,
+  editChatNameSucceed,
+  editChatNameFailed,
+] = getApiActions(Chat.EDIT_CHAT_NAME);
 
-export function clearChat(): IClearChat {
-  return {
-    type: Chat.CLEAR_CHAT,
-  };
-}
+const [
+  getMessagesRequest,
+  getMessagesSucceed,
+  getMessagesFailed,
+] = getApiActions(Message.GET_MESSAGES);
 
-export function editMessage(messageData: IMessageData): IEditMessage {
-  return {
-    type: Message.EDIT_MESSAGE, payload: { messageData },
-  };
-}
+const [
+  sendMessageRequest,
+  sendMessageSucceed,
+  sendMessageFailed,
+] = getApiActions(Message.SEND_MESSAGE);
 
-export function createChat(chatName: string): ICreateChat {
-  return {
-    type: Chat.CREATE_CHAT, payload: { chatName },
-  };
-}
+const [
+  deleteMessageRequest,
+  deleteMessageSucceed,
+  deleteMessageFailed,
+] = getApiActions(Message.DELETE_MESSAGE);
 
-export function deleteChat(chatId: number): IDeleteChat {
-  return {
-    type: Chat.DELETE_CHAT, payload: { chatId },
-  };
-}
+const [
+  editMessageRequest,
+  editMessageSucceed,
+  editMessageFailed,
+] = getApiActions(Message.EDIT_MESSAGE);
 
-export function deleteUserFromChat(login: string, chatId: number): IDeleteUserFromChat {
-  return {
-    type: Chat.DELETE_USER_FROM_CHAT, payload: { login, chatId },
-  };
-}
-
-export function getChatParticipants(chatId: number): ICheckMembers {
-  return {
-    type: Chat.GET_CHAT_PARTICIPANTS, payload: { chatId },
-  };
-}
-
-export function checkMembersLoaded(data: IMembersData[]): ICheckMembersLoad {
-  return {
-    type: Chat.GET_CHAT_PARTICIPANTS_LOADED,
-    payload: {
-      data: data,
-    },
-  };
-}
-
-export function deleteUnwanterUser(login: string, chatId: number): IDeleteUnwanterUser {
-  return {
-    type: Chat.DELETE_UNWANTED_USER, payload: { login, chatId },
-  };
-}
-
-export function editOldChatName(name: string, id: number): IEditChatName {
-  return {
-    type: Chat.EDIT_CHAT_NAME,
-    payload: {
-      name,
-      id,
-    },
-  };
-}
-
-export function addNewChatName(name: string, id: number): IAddNewChatName {
-  return {
-    type: Chat.ADD_NEW_CHAT_NAME, payload: { name, id },
-  };
-}
+export {
+  editChatNameRequest,
+  editChatNameSucceed,
+  editChatNameFailed,
+  getParticipantsRequest,
+  getParticipantsSucceed,
+  getParticipantsFailed,
+  createChatRequest,
+  createChatSucceed,
+  createChatFailed,
+  deleteChatRequest,
+  deleteChatSucceed,
+  deleteChatFailed,
+  deleteUserFromChatRequest,
+  deleteUserFromChatSucceed,
+  deleteUserFromChatFailed,
+  getActiveChat,
+  clearChat,
+  getMessagesRequest,
+  getMessagesSucceed,
+  getMessagesFailed,
+  sendMessageRequest,
+  sendMessageSucceed,
+  sendMessageFailed,
+  deleteMessageRequest,
+  deleteMessageSucceed,
+  deleteMessageFailed,
+  editMessageRequest,
+  editMessageSucceed,
+  editMessageFailed,
+  getErrorMessageRequest,
+};
