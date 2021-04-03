@@ -6,16 +6,17 @@ import {
   editChatNameRequest, editChatNameSucceed,
 } from '@/redux/store/chat/actions';
 import {
-  createChatSucceedHandler,
-  deleteChatSucceedHandler,
-  editChatNameRequestHandler,
-  editChatNameSucceedHandler,
-  editCurrentUserRequestHandler,
+  // createChatSucceedHandler,
+  // deleteChatSucceedHandler,
+  // editChatNameRequestHandler,
+  // editChatNameSucceedHandler,
+  // editCurrentUserRequestHandler,
   editCurrentUserSucceedHandler,
-  getSelectedChatHandler,
+  // getSelectedChatHandler,
   logoutHandler,
-  removeAuthErrorMessageHandler, signAllFailedHandler,
-  signAllRequestHandler,
+  // removeAuthErrorMessageHandler,
+  signAllFailedHandler,
+  // signAllRequestHandler,
   signInSucceedHandler,
 } from '@/redux/store/user/handlers';
 import {
@@ -30,31 +31,23 @@ import {
 } from '@/redux/store/user/actions';
 
 export const INITIAL_STATE: IUser = {
-  id: 0,
-  name: '',
-  login: '',
-  email: '',
-  isAuth: false,
-  isAuthSpin: false,
-  isEditCurrentUser: false,
-  chats: [],
-  selectedChat: null,
-  errorMessage: '',
+  userProfileData: null,
+  isAuthUser: false,
 };
 
 export const userReducer = reducerWithInitialState(INITIAL_STATE)
-  .case(deleteChatSucceed, deleteChatSucceedHandler)
-  .case(createChatSucceed, createChatSucceedHandler)
-  .case(editChatNameRequest, editChatNameRequestHandler)
-  .case(editChatNameSucceed, editChatNameSucceedHandler)
-  .case(getSelectedChat, getSelectedChatHandler)
+  // .case(deleteChatSucceed, deleteChatSucceedHandler)
+  // .case(createChatSucceed, createChatSucceedHandler)
+  // .case(editChatNameRequest, editChatNameRequestHandler)
+  // .case(editChatNameSucceed, editChatNameSucceedHandler)
+  // .case(getSelectedChat, getSelectedChatHandler)
   .case(logout, logoutHandler)
-  .case(editChatNameRequest, editCurrentUserRequestHandler)
+  // .case(editChatNameRequest, editCurrentUserRequestHandler)
   .case(editCurrentUserSucceed, editCurrentUserSucceedHandler)
-  .case(signInRequest, signAllRequestHandler)
-  .case(signUpRequest, signAllRequestHandler)
+  // .case(signInRequest, signAllRequestHandler)
+  // .case(signUpRequest, signAllRequestHandler)
   .case(signInSucceed, signInSucceedHandler)
-  .case(removeAuthErrorMessage, removeAuthErrorMessageHandler)
+  // .case(removeAuthErrorMessage, removeAuthErrorMessageHandler)
   .case(signInFailed, signAllFailedHandler)
   .case(signUpFailed, signAllFailedHandler)
   .build();
