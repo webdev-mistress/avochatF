@@ -15,7 +15,7 @@ pipeline {
     stage('Deploy') {
       steps {
         echo 'Deploying...'
-//         ch 'cp -r build/* /var/www/chat.d.ledev.ru/front/'
+        ch 'cp -r build/* /var/www/chat.d.ledev.ru/front/'
       }
     }
   }
