@@ -1,7 +1,7 @@
 import { accessToken } from '@/helpers/localStorage';
 
 const devMode = process.env.NODE_ENV === 'development';
-const baseUrl = devMode ? 'http://localhost:1213' : 'http://194.58.98.17:1213';
+const baseUrl = devMode ? 'http://localhost:1213' : 'http://ledev.ru:1213';
 
 export enum Method {
   POST = 'POST',
