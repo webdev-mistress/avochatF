@@ -52,7 +52,6 @@ function* fetchDeleteChat(action: any) {
 }
 
 function* fetchDeleteUserFromChat(action: any) {
-  console.log(action.payload);
   try {
     const { login, chatId } = action.payload;
     const response: IDeleteUserFromChatSaga = yield call(

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import {
-  selectSelectedChat,
   selectUserId,
   selectUserLogin,
 } from '@/redux/store/user/selectors';
@@ -15,6 +14,7 @@ import {
 } from '@/redux/store/chat/actions';
 import { addUserToChatRequest } from '@/redux/store/user/actions';
 import { IChat } from '@/redux/store/chat/types';
+import { selectSelectedChat } from '@/redux/store/chat/selectors';
 
 export const useChatDialogSettings = (): any => {
   const [isEditMode, setEditMode] = useState(false);
@@ -25,7 +25,6 @@ export const useChatDialogSettings = (): any => {
   const selectedChat: IChat = useSelector(selectSelectedChat);
   const isShowChatSettings = useSelector(selectIsShowChatSettings);
   const [newChatNameValue, setChatName] = useState('');
-
   const onCloseDialog = useCallback(() => {
     dispatch(setShowChatSettings({ isActive: false, chatId: null }));
   }, [dispatch]);

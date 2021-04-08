@@ -1,4 +1,5 @@
 export interface IUI {
+  // loadings: {}
   dialog: {
     isShowLogout: boolean,
     isShowCreateChat: boolean,

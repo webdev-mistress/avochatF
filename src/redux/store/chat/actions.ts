@@ -7,6 +7,7 @@ export enum Chat {
   CREATE_CHAT = 'CREATE_CHAT',
   DELETE_CHAT = 'DELETE_CHAT',
   GET_ACTIVE_CHAT = 'GET_ACTIVE_CHAT',
+  GET_SELECTED_CHAT = 'GET_SELECTED_CHAT',
   CLEAR_CHAT = 'CLEAR_CHAT',
   DELETE_USER_FROM_CHAT = 'DELETE_USER_FROM_CHAT',
   GET_CHAT_PARTICIPANTS = 'GET_CHAT_PARTICIPANTS',
@@ -24,6 +25,7 @@ export enum Message {
 const getActiveChat = actionCreator<IChat>(Chat.GET_ACTIVE_CHAT);
 const clearChat = actionCreator(Chat.CLEAR_CHAT);
 const getErrorMessageRequest = actionCreator<unknown>(Message.ERROR_MESSAGE);
+const getSelectedChat = actionCreator<IChat>(Chat.GET_SELECTED_CHAT);
 
 const [
   createChatRequest,
@@ -110,4 +112,5 @@ export {
   editMessageSucceed,
   editMessageFailed,
   getErrorMessageRequest,
+  getSelectedChat,
 };

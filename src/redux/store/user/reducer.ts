@@ -1,10 +1,10 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { IUser } from '@/redux/store/user/types';
-import {
-  createChatSucceed,
-  deleteChatSucceed,
-  editChatNameRequest, editChatNameSucceed,
-} from '@/redux/store/chat/actions';
+import { IUserStore } from '@/redux/store/user/types';
+// import {
+//   createChatSucceed,
+//   deleteChatSucceed,
+//   editChatNameRequest, editChatNameSucceed,
+// } from '@/redux/store/chat/actions';
 import {
   // createChatSucceedHandler,
   // deleteChatSucceedHandler,
@@ -21,26 +21,23 @@ import {
 } from '@/redux/store/user/handlers';
 import {
   editCurrentUserSucceed,
-  getSelectedChat,
+  // getSelectedChat,
   logout,
-  removeAuthErrorMessage,
+  // removeAuthErrorMessage,
   signInFailed,
-  signInRequest,
+  // signInRequest,
   signInSucceed, signUpFailed,
-  signUpRequest,
+  // signUpRequest,
 } from '@/redux/store/user/actions';
 
-export const INITIAL_STATE: IUser = {
+export const INITIAL_STATE: IUserStore = {
   userProfileData: null,
   isAuthUser: false,
 };
 
 export const userReducer = reducerWithInitialState(INITIAL_STATE)
-  // .case(deleteChatSucceed, deleteChatSucceedHandler)
   // .case(createChatSucceed, createChatSucceedHandler)
   // .case(editChatNameRequest, editChatNameRequestHandler)
-  // .case(editChatNameSucceed, editChatNameSucceedHandler)
-  // .case(getSelectedChat, getSelectedChatHandler)
   .case(logout, logoutHandler)
   // .case(editChatNameRequest, editCurrentUserRequestHandler)
   .case(editCurrentUserSucceed, editCurrentUserSucceedHandler)

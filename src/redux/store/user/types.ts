@@ -1,11 +1,11 @@
-import { IChat } from '@/redux/store/chat/types';
-
-export interface ISucceededUserData {
-  userId: number,
-  name: string,
-  login: string,
-  chats: IChat[],
-}
+// import { IChat } from '@/redux/store/chat/types';
+//
+// export interface ISucceededUserData {
+//   userId: number,
+//   name: string,
+//   login: string,
+//   chats: IChat[],
+// }
 
 // export interface IUser {
 
@@ -30,15 +30,22 @@ export interface ISucceededUserData {
 //   userData?: ISucceededUserData,
 // }
 
+import { IChat } from '@/redux/store/chat/types';
+
 export interface IUserProfileData {
-  id: number,
+  accessToken: string,
+  userId: number,
   name: string,
   login: string,
   email: string,
   lang?: string,
 }
 
-export interface IUser {
+export interface IUserProfileDataWithChats extends IUserProfileData {
+  chats: IChat[],
+}
+
+export interface IUserStore {
   userProfileData: IUserProfileData | null,
   isAuthUser: boolean,
 }

@@ -1,11 +1,9 @@
 import { getApiActions } from '@/utils/redux';
 import actionCreatorFactory from 'typescript-fsa';
-import { IChat } from '@/redux/store/chat/types';
 const actionCreator = actionCreatorFactory();
 
 export enum User {
   ADD_USER_TO_CHAT = 'ADD_USER_TO_CHAT',
-  GET_SELECTED_CHAT = 'GET_SELECTED_CHAT',
   EDIT_CURRENT_USER = 'EDIT_CURRENT_USER',
 }
 
@@ -18,7 +16,6 @@ export enum Auth {
   CHANGE_PASSWORD = 'CHANGE_PASSWORD',
 }
 
-const getSelectedChat = actionCreator<IChat>(User.GET_SELECTED_CHAT);
 const confirmUserRequest = actionCreator(Auth.CONFIRM_USER);
 const logout = actionCreator(Auth.LOGOUT);
 const removeAuthErrorMessage = actionCreator(Auth.REMOVE_AUTH_ERROR_MESSAGE);
@@ -69,7 +66,6 @@ export {
   editCurrentUserRequest,
   editCurrentUserSucceed,
   editCurrentUserFailed,
-  getSelectedChat,
   confirmUserRequest,
   logout,
   signInRequest,

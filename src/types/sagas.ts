@@ -1,20 +1,23 @@
-import { IChat, IMembersData, IMessage } from '@/redux/store/chat/types';
-import { ISucceededUserData } from '@/redux/store/user/types';
+import { IChat, IMemberInfo, IMessage } from '@/redux/store/chat/types';
+import { IUserProfileData, IUserProfileDataWithChats } from '@/redux/store/user/types';
+// import { ISucceededUserData } from '@/redux/store/user/types';
+
+// export interface ISignInData {
+//   accessToken: string,
+//   userId: number,
+//   name: string,
+//   login: string,
+//   chats: IChat[],
+// }
 
 export interface ISignInUserSaga {
   ok: boolean,
-  data: {
-    accessToken: string,
-    userId: number,
-    name: string,
-    login: string,
-    chats: IChat[],
-  }
+  data: IUserProfileDataWithChats,
 }
 
 export interface ISignUpUserSaga {
   ok: boolean,
-  data: ISucceededUserData,
+  data: IUserProfileData,
 }
 
 export interface IGetMessagesSaga {
@@ -72,7 +75,7 @@ export interface IDeleteUserFromChatSaga {
 
 export interface ICkeckMembersSaga {
   ok: boolean,
-  data: IMembersData[]
+  data: IMemberInfo[]
 }
 
 export interface IEditChatNameSaga {
@@ -80,6 +83,7 @@ export interface IEditChatNameSaga {
   data: {
     name: string,
     id: number,
+    userOwnerId: number,
   }
 }
 

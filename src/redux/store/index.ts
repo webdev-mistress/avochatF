@@ -22,10 +22,10 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(combineReducers({
   user: userReducer,
-  activeChat: chatReducer,
+  chat: chatReducer,
   ui: uiReducer,
 }), {
-  activeChat: storageState.activeChat,
+  chat: storageState.chat,
   user: _.omit(storageState.user, ['isAuthSpin']),
 }, composeEnhancers(applyMiddleware(sagaMiddleware)));
 

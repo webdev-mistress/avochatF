@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { selectActiveChatId } from '@/redux/store/chat/selectors';
-import { selectUserChats } from '@/redux/store/user/selectors';
+import { selectActiveChatId, selectUserChats } from '@/redux/store/chat/selectors';
+// import { selectUserChats } from '@/redux/store/user/selectors';
 import { setShowChatSettings, setShowCreateChat } from '@/redux/store/ui/actions';
 import {
   getActiveChat,
   getMessagesRequest,
-  getParticipantsRequest,
+  getParticipantsRequest, getSelectedChat,
 } from '@/redux/store/chat/actions';
-import { getSelectedChat } from '@/redux/store/user/actions';
+// import { getSelectedChat } from '@/redux/store/user/actions';
 import { IChat } from '@/redux/store/chat/types';
 
 export const useChat = (): any => {

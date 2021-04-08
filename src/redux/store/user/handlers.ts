@@ -1,74 +1,11 @@
+import _ from 'lodash';
 import {
   EditUserData,
-  ISucceededUserData,
-  IUser,
-  IUserProfileData,
+  IUserProfileDataWithChats, IUserStore,
 } from '@/redux/store/user/types';
-// import { ChatData, IChat } from '@/redux/store/chat/types';
 import { INITIAL_STATE } from '@/redux/store/user/reducer';
 
-// for chatReducer
-// export const deleteChatSucceedHandler = (
-//   state: IUser,
-//   chatId: number,
-// ): IUser => ({
-//   ...state,
-//   chats: state.chats.filter(chat => chat.id !== chatId),
-// });
-
-// for chatReducer
-// export const createChatSucceedHandler = (
-//   state: IUser,
-//   chat: IChat,
-// ): IUser => ({
-//   ...state,
-//   chats: [
-//     ...state.chats,
-//     chat,
-//   ],
-// });
-
-// for chatReducer
-// export const editChatNameRequestHandler = (
-//   state: IUser,
-//   chatData: ChatData,
-// ): IUser => ({
-//   ...state,
-//   selectedChat: state.selectedChat ? {
-//     ...state.selectedChat,
-//     name: chatData.name,
-//   } : null,
-// });
-
-// for chatReducer
-// export const editChatNameSucceedHandler = (
-//   state: IUser,
-//   chatData: ChatData,
-// ): IUser => {
-//   const newChatList = state.chats
-//     .map((chat) => chat.id === chatData.id
-//       ? { ...chat, name: chatData.name }
-//       : chat);
-//   return ({
-//     ...state,
-//     selectedChat: state.selectedChat ? {
-//       ...state.selectedChat,
-//       ...chatData,
-//     } : null,
-//     chats: newChatList,
-//   });
-// };
-
-// for chatReducer
-// export const getSelectedChatHandler = (
-//   state: IUser,
-//   selectedChat: IChat,
-// ): IUser => ({
-//   ...state,
-//   selectedChat: selectedChat,
-// });
-
-export const logoutHandler = (): IUser => INITIAL_STATE;
+export const logoutHandler = (): IUserStore => INITIAL_STATE;
 
 // for uiReducer
 // export const editCurrentUserRequestHandler = (
@@ -80,9 +17,9 @@ export const logoutHandler = (): IUser => INITIAL_STATE;
 
 // done
 export const editCurrentUserSucceedHandler = (
-  state: IUser,
+  state: IUserStore,
   editUserData: EditUserData,
-): IUser => ({
+): IUserStore => ({
   ...state,
   userProfileData: state.userProfileData ? {
     ...state.userProfileData,
@@ -101,11 +38,11 @@ export const editCurrentUserSucceedHandler = (
 // half done, everything else is chatReducer and AuthReducer
 export const signInSucceedHandler = (
   // chats for chatReducer
-  state: IUser,
-  userData: IUserProfileData,
-): IUser => ({
+  state: IUserStore,
+  userData: IUserProfileDataWithChats,
+): IUserStore => ({
   ...state,
-  ...userData,
+  userProfileData: _.omit(userData, ['chats']),
   isAuthUser: true,
   // for uiReducer
   // isAuthSpin: false,
@@ -121,10 +58,10 @@ export const signInSucceedHandler = (
 
 // half done, everything else is chatReducer and AuthReducer
 export const signAllFailedHandler = (
-  state: IUser,
+  state: IUserStore,
   // for uiReducer
   // errorMessage: string,
-): IUser => ({
+): IUserStore => ({
   ...state,
   isAuthUser: false,
   // for uiReducer
