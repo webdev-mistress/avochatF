@@ -8,7 +8,10 @@ import {
   editCurrentUserRequest,
 } from '@/redux/store/user/actions';
 import { setShowUserSettings } from '@/redux/store/ui/actions';
-import { IChangePasswordData, IUser } from '@/redux/store/user/types';
+import {
+  IChangePasswordData,
+  IUserProfileData,
+} from '@/redux/store/user/types';
 
 interface IEditMode {
   isEditName: boolean,
@@ -18,10 +21,10 @@ interface IEditMode {
 }
 
 interface IEditUserFields {
-  email: string,
-  name: string,
-  login: string,
-  lang?: string,
+  email: string | null,
+  name: string | null,
+  login: string | null,
+  lang?: string | null,
 }
 
 interface IEditPasswordFields {
@@ -36,7 +39,7 @@ type PasswordField = keyof IEditPasswordFields;
 
 export const useUserDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
-  const selectedUser: IUser = useSelector(selectUser);
+  const selectedUser: IUserProfileData | null = useSelector(selectUser);
   const isShowUserSettings = useSelector(selectIsShowUserSettings);
   const [isUserEditMode, setUserEditMode] = useState<IEditMode>({
     isEditName: false,
@@ -45,9 +48,9 @@ export const useUserDialogSettings = (): any => {
     isEditPassword: false,
   });
   const [userValue, setUserValue] = useState<IEditUserFields>({
-    email: selectedUser.email,
-    name: selectedUser.name,
-    login: selectedUser.login,
+    email: selectedUser ? selectedUser.email : '',
+    name: selectedUser ? selectedUser.name : '',
+    login: selectedUser ? selectedUser.login : '',
   });
   const [passwordValue, setPasswordValue] = useState<IEditPasswordFields>({
     oldPassword: '',
@@ -62,13 +65,12 @@ export const useUserDialogSettings = (): any => {
       isEditEmail: false,
       isEditPassword: false });
     setUserValue({
-      ...userValue,
-      name: selectedUser.name,
-      login: selectedUser.login,
-      email: selectedUser.email,
+      email: selectedUser ? selectedUser.email : '',
+      name: selectedUser ? selectedUser.name : '',
+      login: selectedUser ? selectedUser.login : '',
     });
     dispatch(setShowUserSettings({ isActive: false }));
-  }, [dispatch, selectedUser.email, selectedUser.login, selectedUser.name, userValue]);
+  }, [dispatch, selectedUser]);
 
   const onEditUser = useCallback((editType: string) => () => {
     setUserEditMode((prev) => ({ ...prev, [editType]: true }));

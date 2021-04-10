@@ -1,4 +1,8 @@
+import { IErrors, ILoadings } from '@/redux/utils/types';
+
 export interface IUI {
+  loaders: ILoadings,
+  errors: IErrors,
   dialog: {
     isShowLogout: boolean,
     isShowCreateChat: boolean,

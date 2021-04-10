@@ -9,14 +9,14 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import { checkShowCloseIcon } from '@/components/dialog/helpers';
 import CloseIcon from '@material-ui/icons/Close';
-import { selectChatMembersList } from '@/redux/store/chat/selectors';
-import { selectSelectedChat, selectUserId } from '@/redux/store/user/selectors';
+import { selectChatMembersList, selectSelectedChat } from '@/redux/store/chat/selectors';
+import { selectUserId } from '@/redux/store/user/selectors';
 import { deleteUserFromChatRequest } from '@/redux/store/chat/actions';
-import { IChat, IMembersData } from '@/redux/store/chat/types';
+import { IChat, IMemberInfo } from '@/redux/store/chat/types';
 
 export const MembersList: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
-  const membersList: IMembersData[] = useSelector(selectChatMembersList);
+  const membersList: IMemberInfo[] = useSelector(selectChatMembersList);
   const selectedChat: IChat = useSelector(selectSelectedChat);
   const selectedUserId: number = useSelector(selectUserId);
 
@@ -29,7 +29,7 @@ export const MembersList: React.FunctionComponent = () => {
   return (
 
     <List className={styles.membersListWrapper}>
-      {membersList.map((member => (
+      {membersList.map(((member) => (
         <ListItem
           className={styles.infoWrapper}
           key={member.id}

@@ -1,20 +1,20 @@
 import _ from 'lodash';
-import { IActiveChat, IChat, IMembersData, IMessage } from '@/redux/store/chat/types';
+import { IChat, IChatStore, IMemberInfo, IMessage } from '@/redux/store/chat/types';
 
-export const selectActiveChat = (state: IActiveChat): IChat =>
-  _.get(state, ('activeChat.info'), {});
+export const selectActiveChat = (state: IChatStore): IChat =>
+  _.get(state, ('chat.activeChatInfo'), {});
 
-export const selectActiveChatId = (state: IActiveChat): number =>
-  _.get(state, ('activeChat.info.id'), 0);
+export const selectActiveChatId = (state: IChatStore): number =>
+  _.get(state, ('chat.activeChatInfo.id'), null);
 
-export const selectMessages = (state: IActiveChat): IMessage[] =>
-  _.get(state, ('activeChat.info.messages'), []);
+export const selectSelectedChat = (state: IChatStore): IChat =>
+  _.get(state, 'chat.selectedChat', null);
 
-export const selectIsCreateChatSpin = (state: IActiveChat): boolean =>
-  _.get(state, ('activeChat.isCreateChatSpin'), false);
+export const selectUserChats = (state: IChatStore): IChat[] =>
+  _.get(state, 'chat.chats', []);
 
-export const selectIsActiveChatSpin = (state: IActiveChat): boolean =>
-  _.get(state, ('activeChat.isActiveChatSpin'), false);
+export const selectMessages = (state: IChatStore): IMessage[] =>
+  _.get(state, ('chat.activeChatInfo.messages'), []);
 
-export const selectChatMembersList = (state: IActiveChat): IMembersData[] =>
-  _.get(state, ('activeChat.chatMembersList'), []);
+export const selectChatMembersList = (state: IChatStore): IMemberInfo[] =>
+  _.get(state, ('chat.chatMembersList'), []);

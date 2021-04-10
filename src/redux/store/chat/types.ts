@@ -1,23 +1,13 @@
-export interface IActiveChat {
-  info?: IChat | null,
-  editMessageData?: EditMessageData,
-  isCreateChatSpin: boolean,
-  isActiveChatSpin: boolean,
-  isDeleteChatSpin: boolean,
-  isGetMessagesSpin: boolean,
-  isSendMessageSpin: boolean,
-  isDeleteMessageSpin: boolean,
-  isEditMessageSpin: boolean,
-  isGetParticipantsSpin: boolean,
-  isDeleteUserFromChatSpin: boolean,
-  editedMessageId?: number,
-  editedMessage?: string,
-  chatMembersList?: IMembersData[],
-}
-
-export type ChatData = { name: string, id: number };
 export type DeleteUserData = { login: string, chatId: number }
-export type EditMessageData = { messageId: number, message: string }
+export type EditedMessage = { messageId: number, message: string }
+
+export interface IChatStore {
+  activeChatInfo: IChat | null,
+  editedMessageInfo: EditedMessage | null,
+  chatMembersList: IMemberInfo[],
+  chats: IChat[],
+  selectedChat: IChat | null,
+}
 
 export interface IAuthor {
   login: string,
@@ -38,23 +28,15 @@ export interface IChat {
   name: string,
   lastMessage: string,
   userOwnerId: number,
-  messages?: IMessage[],
-  chatMembersList?: IMembersData[],
+  messages: IMessage[],
+  chatMembersList: IMemberInfo[],
 }
 
-// export interface IMessageData {
-//   editMessageId: number,
-//   messageEdit: string,
-// }
+export type EditedChatInfo = { name: string, id: number };
 
-export interface IChatData {
-  login: string,
-  selectedChatId: number,
-}
-
-export interface IMembersData {
+export interface IMemberInfo {
   id: number,
   name: string,
   login: string,
-  isOnline?: boolean,
+  isOnline: boolean,
 }

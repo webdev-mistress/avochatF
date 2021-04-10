@@ -1,49 +1,43 @@
 import { IChat } from '@/redux/store/chat/types';
 
-export interface ISucceededUserData {
+export interface IUserProfileData {
   userId: number,
   name: string,
   login: string,
-  chats: IChat[],
-}
-
-export interface IUser {
-  isAuth: boolean,
-  isAuthSpin: boolean,
-  isEditCurrentUser: boolean,
-  id: number,
-  name: string,
-  login: string,
   email: string,
-  chats: IChat[],
-  userData?: ISucceededUserData,
-  errorMessage?: string,
-  selectedChat: IChat | null,
+  lang?: string,
 }
 
+export interface IUserProfileDataWithChats extends IUserProfileData {
+  chats: IChat[],
+  accessToken: string,
+}
+
+export interface IUserStore {
+  userProfileData: IUserProfileData | null,
+  isAuthUser: boolean,
+}
+
+// TODO refactor editUserData
 export type EditUserData = {
   name?: string, login?: string, email?: string, lang?: string
 }
 
-// not sure if it is necessary
 export interface IChangePasswordData {
   oldPassword: string,
   newPassword: string,
 }
 
-// not sure if it is necessary
 export interface ISignInUserData {
   login: string,
   password: string,
 }
 
-// not sure if it is necessary
 export interface IChangePasswordData {
   oldPassword: string,
   newPassword: string,
 }
 
-// not sure if it is necessary
 export interface IChangeUserData {
   email?: string,
   login?: string,
