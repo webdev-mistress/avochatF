@@ -10,8 +10,8 @@
   "plugins": [
     "react",
     "react-hooks",
-    "@typescript-eslint",
-    "import"
+    "@typescript-eslint"
+//    "import"
   ],
   "parserOptions": {
     "ecmaVersion": 2019,
@@ -196,70 +196,6 @@
     "no-whitespace-before-property": "error",
     "space-infix-ops": [
       "error"
-    ],
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "builtin",
-            "position": "before"
-          },
-          {
-            "pattern": "lodash",
-            "group": "builtin",
-            "position": "after"
-          },
-          {
-            "pattern": "react-redux",
-            "group": "builtin",
-            "position": "after"
-          },
-          {
-            "pattern": "redux",
-            "group": "builtin",
-            "position": "after"
-          },
-          {
-            "pattern": "@material-ui",
-            "group": "builtin",
-            "position": "after"
-          },
-          {
-            "pattern": "@/redux/**",
-            "group": "internal",
-            "position": "before"
-          },
-          {
-            "pattern": "@/pages/**",
-            "group": "internal",
-            "position": "before"
-          },
-          {
-            "pattern": "@/types/**",
-            "group": "internal",
-            "position": "before"
-          },
-          {
-            "pattern": "./styles*",
-            "group": "sibling",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": [
-          "builtin"
-        ],
-        "newlines-between": "never"
-      }
     ],
     "no-duplicate-imports": "error",
     "no-dupe-keys": "error",
