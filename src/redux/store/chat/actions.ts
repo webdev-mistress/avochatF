@@ -19,7 +19,7 @@ export enum Message {
   SEND_MESSAGE = 'SEND_MESSAGE',
   DELETE_MESSAGE = 'DELETE_MESSAGE',
   EDIT_MESSAGE = 'EDIT_MESSAGE',
-  ERROR_MESSAGE = 'ERROR_MESSAGE',
+  ERROR_MESSAGE = 'ERROR_MESSAGE', // what for is it?
 }
 
 const getActiveChat = actionCreator<IChat>(Chat.GET_ACTIVE_CHAT);

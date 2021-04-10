@@ -16,8 +16,6 @@ export const createChatSucceedHandler = (
     chat,
     ...state.chats,
   ],
-  // for uiReducer
-  // isCreateChatSpin: false,
 });
 
 export const getActiveChatHandler = (
@@ -117,63 +115,3 @@ export const clearChatHandler = (
 });
 
 export const logoutHandler = (): IChatStore => INITIAL_STATE;
-
-// for uiReducer
-// export const createChatRequestHandler = (
-//   state: IChatStore,
-// ): IChatStore => ({
-//   ...state,
-//   isCreateChatSpin: true,
-// });
-
-// for uiReducer
-// export const deleteChatRequestHandler = (
-//   state: IChatStore,
-// ): IChatStore => ({
-//   ...state,
-//   isDeleteChatSpin: true,
-// });
-
-// for uiReducer
-// export const getParticipantsRequestHandler = (
-//   state: IActiveChat,
-// ): IActiveChat => ({
-//   ...state,
-//   isGetParticipantsSpin: true,
-// });
-
-// for uiReducer
-// export const deleteUserFromChatRequestHandler = (
-//   state: IActiveChat,
-// ): IActiveChat => ({
-//   ...state,
-//   isDeleteUserFromChatSpin: true,
-// });
-
-// for uiReducer
-// export const getMessagesRequestHandler = (
-//   state: IActiveChat,
-// ): IActiveChat => ({
-//   ...state,
-//   isGetMessagesSpin: true,
-// });
-
-// for uiReducer
-// export const editMessageRequestHandler = (
-//   state: IActiveChat,
-// ): IActiveChat => ({
-//   ...state,
-//   isEditMessageSpin: true,
-// });
-
-// for uiReducer, just spinner
-// export const editChatNameRequestHandler = (
-//   state: IUser,
-//   chatData: ChatData,
-// ): IUser => ({
-//   ...state,
-//   selectedChat: state.selectedChat ? {
-//     ...state.selectedChat,
-//     name: chatData.name,
-//   } : null,
-// });

@@ -16,12 +16,5 @@ export const selectUserChats = (state: IChatStore): IChat[] =>
 export const selectMessages = (state: IChatStore): IMessage[] =>
   _.get(state, ('chat.activeChatInfo.messages'), []);
 
-// for uiStore and uiReducer
-// export const selectIsCreateChatSpin = (state: IChatStore): boolean =>
-//   _.get(state, ('chat.isCreateChatSpin'), false);
-//
-// export const selectIsActiveChatSpin = (state: IChatStore): boolean =>
-//   _.get(state, ('chat.isActiveChatSpin'), false);
-
 export const selectChatMembersList = (state: IChatStore): IMemberInfo[] =>
   _.get(state, ('chat.chatMembersList'), []);

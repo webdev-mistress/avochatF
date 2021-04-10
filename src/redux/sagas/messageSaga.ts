@@ -1,5 +1,4 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { getErrorMessage } from '@/helpers/sagas';
 import { SagaIterator } from '@redux-saga/types';
 import { IAction } from '@/utils/types';
 import {
@@ -11,8 +10,8 @@ import { selectUserLogin } from '@/redux/store/user/selectors';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import {
   deleteMessageFailed,
-  deleteMessageRequest,
-  editMessageRequest, getErrorMessageRequest,
+  deleteMessageRequest, editMessageFailed,
+  editMessageRequest, getMessagesFailed,
   getMessagesRequest,
   getMessagesSucceed, sendMessageFailed, sendMessageRequest,
 } from '@/redux/store/chat/actions';
@@ -23,13 +22,15 @@ function* requestMessages(chatId: number) {
   try {
     const response: IGetMessagesSaga = yield call(getMessagesFromApi, chatId);
 
-    if (!response.data || !response.ok) {
-      throw response.message;
-    }
+    // if (!response.data || !response.ok) {
+    //   throw response.message;
+    // }
 
     yield put(getMessagesSucceed(response.data));
   } catch (error) {
-    yield put(getErrorMessageRequest(getErrorMessage(error)));
+    console.log(error);
+    // yield put(getErrorMessageRequest(getErrorMessage(error)));
+    yield put(getMessagesFailed());
   }
 }
 
@@ -38,7 +39,6 @@ function* fetchRequestMessages(action: IAction<number>) {
 }
 
 function* fetchSendMessage(action: IAction<string>) {
-  console.log(action);
   try {
     const login = yield select(selectUserLogin);
     const chatId = yield select(selectActiveChatId);
@@ -47,12 +47,12 @@ function* fetchSendMessage(action: IAction<string>) {
       sendMessage, login, chatId, action.payload,
     );
 
-    if (!response.data || !response.ok) {
-      throw response.message;
-    }
+    // if (!response.data || !response.ok) {
+    //   throw response.message;
+    // }
     yield call(requestMessages, chatId);
   } catch (error) {
-    yield put(sendMessageFailed(getErrorMessage(error)));
+    yield put(sendMessageFailed());
   }
 }
 
@@ -65,7 +65,7 @@ function* fetchDeleteMessage(action: any) {
 
     yield call(requestMessages, chatId);
   } catch (error) {
-    yield put(deleteMessageFailed(getErrorMessage(error)));
+    yield put(deleteMessageFailed());
   }
 }
 
@@ -78,9 +78,9 @@ function* fetchEditMessage(action: any) {
       editMessage, editMessageId, messageEdit,
     );
 
-    if (!response.data || !response.ok) {
-      throw response.message;
-    }
+    // if (!response.data || !response.ok) {
+    //   throw response.message;
+    // }
 
     const messages = yield select(selectMessages);
     const newMessages = messages.map((message: IMessage) =>
@@ -88,6 +88,7 @@ function* fetchEditMessage(action: any) {
     yield put(getMessagesSucceed(newMessages));
   } catch (error) {
     console.error(error);
+    yield put(editMessageFailed(error));
   }
 }
 

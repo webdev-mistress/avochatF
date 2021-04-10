@@ -5,7 +5,7 @@ import { editUser } from '@/redux/api/userApi';
 import {
   editCurrentUserSucceed,
   addUserToChatRequest,
-  editCurrentUserRequest,
+  editCurrentUserRequest, addUserToChatFailed, editCurrentUserFailed,
 } from '@/redux/store/user/actions';
 import { getParticipantsRequest } from '@/redux/store/chat/actions';
 import {
@@ -22,6 +22,7 @@ function* fetchAddUserToChat(action: any) {
     }
   } catch (error) {
     console.error(error);
+    yield put(addUserToChatFailed(error));
   }
 }
 
@@ -33,6 +34,7 @@ function* fetchEditCurrentUser(action: any) {
     }
   } catch (error) {
     console.log(error);
+    yield put(editCurrentUserFailed(error));
   }
 }
 

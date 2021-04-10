@@ -9,8 +9,9 @@ import {
   signUpUser,
 } from '@/redux/api/authApi';
 import {
+  changePasswordFailed,
   changePasswordRequest,
-  changePasswordSucceed, confirmUserRequest,
+  changePasswordSucceed, confirmUserFailed, confirmUserRequest,
   logout,
   signInFailed,
   signInRequest,
@@ -22,10 +23,10 @@ import { ISignInUserSaga } from '@/types/sagas';
 function* fetchSignIn(action: any) {
   try {
     const userResponse: ISignInUserSaga = yield call(signInUser, action.payload);
-
-    if (!userResponse.data || !userResponse.ok) {
-      throw userResponse;
-    }
+    //
+    // if (!userResponse.data || !userResponse.ok) {
+    //   throw userResponse;
+    // }
     accessToken.set(userResponse.data.accessToken);
     delete userResponse.data.accessToken;
     yield put(signInSucceed(userResponse.data));
@@ -38,11 +39,11 @@ function* fetchSignUp(action: any) {
   try {
     const { email, name, login, password } = action.payload;
     // тут хотелось бы передавать объект
-    const newUserResponse = yield call(signUpUser, email, name, login, password);
+    yield call(signUpUser, email, name, login, password);
 
-    if (!newUserResponse.data || !newUserResponse.ok) {
-      throw newUserResponse;
-    }
+    // if (!newUserResponse.data || !newUserResponse.ok) {
+    //   throw newUserResponse;
+    // }
   } catch (error) {
     yield put(signUpFailed(error.message));
   }
@@ -58,6 +59,7 @@ function* fetchConfirmUser(action: any) {
     }
   } catch (error) {
     console.log(error);
+    yield put(confirmUserFailed(error));
   }
 }
 
@@ -78,6 +80,7 @@ function* fetchChangePassword(action: any) {
     }
   } catch (error) {
     console.log(error);
+    yield put(changePasswordFailed(error));
   }
 }
 

@@ -9,11 +9,17 @@ import {
 } from '@/redux/api/chatApi';
 import { setShowCreateChat } from '@/redux/store/ui/actions';
 import {
+  createChatFailed,
   createChatRequest,
-  createChatSucceed, deleteChatRequest, deleteChatSucceed,
+  createChatSucceed,
+  deleteChatFailed,
+  deleteChatRequest,
+  deleteChatSucceed,
+  deleteUserFromChatFailed,
   deleteUserFromChatRequest,
-  deleteUserFromChatSucceed, editChatNameRequest,
-  editChatNameSucceed,
+  deleteUserFromChatSucceed, editChatNameFailed,
+  editChatNameRequest,
+  editChatNameSucceed, getParticipantsFailed,
   getParticipantsRequest,
   getParticipantsSucceed,
 } from '@/redux/store/chat/actions';
@@ -28,14 +34,15 @@ function* fetchCreateChat(action: IAction<string>) {
   try {
     const response: ICreateChatSaga = yield call(createChat, action.payload);
 
-    if (!response.data || !response.ok) {
-      throw response.message;
-    }
+    // if (!response.data || !response.ok) {
+    //   throw response.message;
+    // }
 
     yield put(createChatSucceed(response.data));
     yield put(setShowCreateChat({ isActive: false }));
   } catch (error) {
     console.error(error);
+    yield put(createChatFailed(error));
   }
 }
 
@@ -48,6 +55,7 @@ function* fetchDeleteChat(action: any) {
     }
   } catch (error) {
     console.error(error);
+    yield put(deleteChatFailed(error));
   }
 }
 
@@ -62,6 +70,7 @@ function* fetchDeleteUserFromChat(action: any) {
     }
   } catch (error) {
     console.error(error);
+    yield put(deleteUserFromChatFailed(error));
   }
 }
 
@@ -73,6 +82,7 @@ function* fetchGetParticipants(action: any) {
     }
   } catch (error) {
     console.error(error);
+    yield put(getParticipantsFailed(error));
   }
 }
 
@@ -85,6 +95,7 @@ function* fetchEditChatName(action: any) {
     }
   } catch (error) {
     console.error(error);
+    yield put(editChatNameFailed(error));
   }
 }
 

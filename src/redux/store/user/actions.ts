@@ -16,7 +16,6 @@ export enum Auth {
   CHANGE_PASSWORD = 'CHANGE_PASSWORD',
 }
 
-const confirmUserRequest = actionCreator(Auth.CONFIRM_USER);
 const logout = actionCreator(Auth.LOGOUT);
 const removeAuthErrorMessage = actionCreator(Auth.REMOVE_AUTH_ERROR_MESSAGE);
 
@@ -32,12 +31,6 @@ const [
   editCurrentUserFailed,
 ] = getApiActions(User.EDIT_CURRENT_USER);
 
-// const [
-//   getSelectedChatRequest,
-//   getSelectedChatSucceed,
-//   getSelectedChatFailed,
-// ] = getApiActions(User.GET_SELECTED_CHAT);
-
 const [
   signInRequest,
   signInSucceed,
@@ -51,6 +44,12 @@ const [
 ] = getApiActions(Auth.SIGN_UP);
 
 const [
+  confirmUserRequest,
+  confirmUserSucceed,
+  confirmUserFailed,
+] = getApiActions(Auth.CONFIRM_USER);
+
+const [
   changePasswordRequest,
   changePasswordSucceed,
   changePasswordFailed,
@@ -60,13 +59,12 @@ export {
   addUserToChatRequest,
   addUserToChatSucceed,
   addUserToChatFailed,
-  // getSelectedChatRequest,
-  // getSelectedChatSucceed,
-  // getSelectedChatFailed,
   editCurrentUserRequest,
   editCurrentUserSucceed,
   editCurrentUserFailed,
   confirmUserRequest,
+  confirmUserSucceed,
+  confirmUserFailed,
   logout,
   signInRequest,
   signInSucceed,
