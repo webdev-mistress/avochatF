@@ -5,8 +5,6 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'rm -rm /var/www/chat.d.ledev.ru/front/'
-        sh 'echo "the server is rebooting" > /var/www/chat.d.ledev.ru/front/index.html'
         sh 'ls -a'
         sh 'node -v'
         sh 'pwd'
