@@ -5,9 +5,9 @@ import {
   deleteChatSucceed,
   deleteUserFromChatSucceed, editChatNameSucceed,
   editMessageSucceed,
-  getActiveChat,
+  getActiveChatId,
   getMessagesSucceed,
-  getParticipantsSucceed, getSelectedChat,
+  getParticipantsSucceed, getSelectedChatId,
 } from '@/redux/store/chat/actions';
 import {
   clearChatHandler,
@@ -27,20 +27,19 @@ import { logout, signInSucceed } from '@/redux/store/user/actions';
 import { IChatStore } from '@/redux/store/chat/types';
 
 export const INITIAL_STATE: IChatStore = {
-  activeChatInfo: null,
+  activeChatId: null,
+  selectedChatId: null,
   editedMessageInfo: null,
-  chatMembersList: [],
   chats: [],
-  selectedChat: null,
 };
 
 export const chatReducer = reducerWithInitialState(INITIAL_STATE)
   .case(createChatSucceed, createChatSucceedHandler)
   .case(deleteChatSucceed, deleteChatSucceedHandler)
   .case(editChatNameSucceed, editChatNameSucceedHandler)
-  .case(getSelectedChat, getSelectedChatHandler)
+  .case(getSelectedChatId, getSelectedChatHandler)
   .case(clearChat, clearChatHandler)
-  .case(getActiveChat, getActiveChatHandler)
+  .case(getActiveChatId, getActiveChatHandler)
   .case(getParticipantsSucceed, getParticipantsSucceedHandler)
   .case(deleteUserFromChatSucceed, deleteUserFromChatSucceedHandler)
   .case(getMessagesSucceed, getMessagesSucceedHandler)

@@ -75,10 +75,11 @@ function* fetchDeleteUserFromChat(action: any) {
 }
 
 function* fetchGetParticipants(action: any) {
+  const chatId: number = action.payload;
   try {
-    const response: ICkeckMembersSaga = yield call(getParticipants, action.payload);
+    const response: ICkeckMembersSaga = yield call(getParticipants, chatId);
     if (response.ok) {
-      yield put(getParticipantsSucceed(response.data));
+      yield put(getParticipantsSucceed({ chatMembersInfo: response.data, chatId }));
     }
   } catch (error) {
     console.error(error);

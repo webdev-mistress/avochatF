@@ -13,8 +13,12 @@ import {
   deleteUserFromChatRequest, editChatNameRequest,
 } from '@/redux/store/chat/actions';
 import { addUserToChatRequest } from '@/redux/store/user/actions';
-import { IChat } from '@/redux/store/chat/types';
-import { selectSelectedChat } from '@/redux/store/chat/selectors';
+// import { IChat } from '@/redux/store/chat/types';
+import {
+  selectSelectedChatId,
+  selectSelectedChatName, selectSelectedUserOwnerId,
+} from '@/redux/store/chat/selectors';
+// import { selectSelectedChat } from '@/redux/store/chat/selectors';
 
 export const useChatDialogSettings = (): any => {
   const [isEditMode, setEditMode] = useState(false);
@@ -22,7 +26,10 @@ export const useChatDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
   const selectedUserId: number = useSelector(selectUserId);
   const selectedUserLogin: string = useSelector(selectUserLogin);
-  const selectedChat: IChat = useSelector(selectSelectedChat);
+  // const selectedChat: IChat = useSelector(selectSelectedChat);
+  const selectedChatId: number | null = useSelector(selectSelectedChatId);
+  const selectedChatName: string | null = useSelector(selectSelectedChatName);
+  const selectedUserOwnerId: number | null = useSelector(selectSelectedUserOwnerId);
   const isShowChatSettings = useSelector(selectIsShowChatSettings);
   const [newChatNameValue, setChatName] = useState('');
   const onCloseDialog = useCallback(() => {
@@ -42,26 +49,21 @@ export const useChatDialogSettings = (): any => {
   }, []);
 
   const onAddUserToChatDialog = useCallback((fieldValue: string) => () => {
-    if(selectedChat) {
-      dispatch(addUserToChatRequest(
-        { login: fieldValue, selectedChatId: selectedChat.id },
-      ),
-      );
-      setFieldValue('');
-    }
-  }, [dispatch, selectedChat]);
+    dispatch(addUserToChatRequest({ login: fieldValue, selectedChatId }));
+    setFieldValue('');
+  }, [dispatch, selectedChatId]);
 
   const onDeleteChatDialog = useCallback(() => {
-    dispatch(deleteChatRequest(selectedChat.id));
+    dispatch(deleteChatRequest(selectedChatId));
     dispatch(clearChat());
     onCloseDialog();
-  }, [dispatch, onCloseDialog, selectedChat]);
+  }, [dispatch, onCloseDialog, selectedChatId]);
 
   const onLeaveChat = useCallback(() => {
-    dispatch(deleteUserFromChatRequest(selectedUserLogin, selectedChat.id));
-    dispatch(deleteChatRequest(selectedChat.id));
+    dispatch(deleteUserFromChatRequest(selectedUserLogin, selectedChatId));
+    dispatch(deleteChatRequest(selectedChatId));
     onCloseDialog();
-  }, [dispatch, onCloseDialog, selectedChat, selectedUserLogin]);
+  }, [dispatch, onCloseDialog, selectedChatId, selectedUserLogin]);
 
   const onEditChatName = useCallback(() => {
     setEditMode(!isEditMode);
@@ -74,12 +76,12 @@ export const useChatDialogSettings = (): any => {
   }, []);
 
   const onEditOldChatName = useCallback((newChatNameValue: string) => () => {
-    if(selectedChat) {
-      setChatName(selectedChat.name);
-      dispatch(editChatNameRequest({ name: newChatNameValue, id: selectedChat.id }));
+    if(selectedChatName) {
+      setChatName(selectedChatName);
+      dispatch(editChatNameRequest({ name: newChatNameValue, id: selectedChatId }));
       setEditMode(!isEditMode);
     }
-  }, [dispatch, isEditMode, selectedChat]);
+  }, [dispatch, isEditMode, selectedChatId, selectedChatName]);
 
   const onKeyUpEditChatEnter = useCallback((event) => {
     if(event.key === 'Enter') {
@@ -94,16 +96,18 @@ export const useChatDialogSettings = (): any => {
   }, [fieldValue, onAddUserToChatDialog]);
 
   useEffect(() => {
-    if(selectedChat) {
-      setChatName(selectedChat.name);
+    if(selectedChatName) {
+      setChatName(selectedChatName);
     }
-  }, [selectedChat]);
+  }, [selectedChatName]);
 
   return {
     isEditMode,
     fieldValue,
     selectedUserId,
-    selectedChat,
+    selectedChatId,
+    selectedChatName,
+    selectedUserOwnerId,
     newChatNameValue,
     onCloseDialogClick,
     onChangeFieldValue,

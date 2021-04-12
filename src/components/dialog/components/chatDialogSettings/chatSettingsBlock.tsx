@@ -12,7 +12,8 @@ import {
 export const ChatSettingsBlock = (): any => {
   const {
     isEditMode,
-    selectedChat,
+    // selectedChatId,
+    selectedChatName,
     newChatNameValue,
     onCloseDialogClick,
     onEditChatName,
@@ -24,7 +25,7 @@ export const ChatSettingsBlock = (): any => {
     <div className={styles.chatSettings}>
       <div className={styles.chatSettingsName}>
         <DialogTitle id="alert-dialog-title">
-          {`Chat ${selectedChat.name}`}
+          {`Chat ${selectedChatName}`}
         </DialogTitle>
         {isEditMode ? (
           <div className={styles.iconsWrapper}>

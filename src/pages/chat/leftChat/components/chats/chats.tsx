@@ -25,7 +25,7 @@ export const Chats: React.FunctionComponent = () => {
             chat={chat}
             activeChatId={activeChatId}
             onLoadChat={onLoadChat}
-            onOpenChatSettings={onOpenChatSettings}
+            onOpenChatSettings={onOpenChatSettings(chat.id)}
           />
         ))}
 

@@ -1,6 +1,6 @@
 import {
   DeleteUserData, EditedChatInfo, EditedMessage,
-  IChat, IChatStore, IMemberInfo,
+  IChat, IChatStore, IGetParticipantsInfo,
   IMessage,
 } from '@/redux/store/chat/types';
 import { INITIAL_STATE } from '@/redux/store/chat/reducer';
@@ -8,30 +8,38 @@ import { IUserProfileDataWithChats } from '@/redux/store/user/types';
 
 export const createChatSucceedHandler = (
   state: IChatStore,
-  chat: IChat,
+  createdChat: IChat,
 ): IChatStore => ({
   ...state,
-  activeChatInfo: chat,
+  activeChatId: createdChat.id,
   chats: [
-    chat,
+    createdChat,
     ...state.chats,
   ],
+  // activeChatInfo: chat,
+  // chats: [
+  //   chat,
+  //   ...state.chats,
+  // ],
 });
 
 export const getActiveChatHandler = (
   state: IChatStore,
-  activeChat: IChat,
+  activeChatId: number,
 ): IChatStore => ({
   ...state,
-  activeChatInfo: activeChat,
+  activeChatId,
 });
 
 export const getParticipantsSucceedHandler = (
   state: IChatStore,
-  chatMembersInfo: IMemberInfo[],
+  getParticipantsInfo: IGetParticipantsInfo,
 ): IChatStore => ({
   ...state,
-  chatMembersList: chatMembersInfo,
+  chats: state.chats.map((chat) => chat.id === getParticipantsInfo.chatId
+    ? ({ ...chat, chatMembersList: getParticipantsInfo.chatMembersInfo })
+    : chat),
+  // chatMembersList: chatMembersInfo,
 });
 
 export const deleteUserFromChatSucceedHandler = (
@@ -39,8 +47,12 @@ export const deleteUserFromChatSucceedHandler = (
   deleteUserData: DeleteUserData,
 ): IChatStore => ({
   ...state,
-  chatMembersList: state.chatMembersList && state.chatMembersList
-    .filter(member => member.login !== deleteUserData.login),
+  chats: state.chats.map((chat) => chat.id === deleteUserData.chatId
+    ? ({ ...chat, chatMembersList: chat.chatMembersList
+      .filter((member) => member.login !== deleteUserData.login) })
+    : chat),
+  // chatMembersList: state.chatMembersList && state.chatMembersList
+  //   .filter(member => member.login !== deleteUserData.login),
 });
 
 export const getMessagesSucceedHandler = (
@@ -48,10 +60,12 @@ export const getMessagesSucceedHandler = (
   messages: IMessage[],
 ): IChatStore => ({
   ...state,
-  activeChatInfo: state.activeChatInfo ? {
-    ...state.activeChatInfo,
-    messages: messages,
-  } : null,
+  chats: state.chats.map((chat) => chat.id === state.activeChatId
+    ? ({ ...chat, messages }) : chat),
+  // activeChatInfo: state.activeChatInfo ? {
+  //   ...state.activeChatInfo,
+  //   messages: messages,
+  // } : null,
 });
 
 export const editMessageSucceedHandler = (
@@ -76,27 +90,31 @@ export const deleteChatSucceedHandler = (
 export const editChatNameSucceedHandler = (
   state: IChatStore,
   editedChatInfo: EditedChatInfo,
-): IChatStore => {
-  const newChatList = state.chats
+): IChatStore => ({
+  ...state,
+  chats: state.chats
     .map((chat) => chat.id === editedChatInfo.id
       ? { ...chat, name: editedChatInfo.name }
-      : chat);
-  return ({
-    ...state,
-    selectedChat: state.selectedChat && {
-      ...state.selectedChat,
-      name: editedChatInfo.name,
-    },
-    chats: newChatList,
-  });
-};
+      : chat),
+});
+// {
+//   const newChatList =
+// return ({
+//   ...state,
+//   selectedChat: state.selectedChat && {
+//     ...state.selectedChat,
+//     name: editedChatInfo.name,
+//   },
+//   chats: newChatList,
+// });
+// };
 
 export const getSelectedChatHandler = (
   state: IChatStore,
-  selectedChat: IChat,
+  selectedChatId: number,
 ): IChatStore => ({
   ...state,
-  selectedChat,
+  selectedChatId,
 });
 
 export const signInSucceedHandler = (
@@ -111,7 +129,10 @@ export const clearChatHandler = (
   state: IChatStore,
 ): IChatStore => ({
   ...state,
-  chatMembersList: [],
+  chats: state.chats.map((chat) => chat.id === state.selectedChatId
+    ? ({ ...chat, chatMembersList: [] })
+    : chat),
+  // chatMembersList: [],
 });
 
 export const logoutHandler = (): IChatStore => INITIAL_STATE;

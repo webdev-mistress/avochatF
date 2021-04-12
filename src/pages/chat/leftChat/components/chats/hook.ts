@@ -5,9 +5,10 @@ import { selectActiveChatId, selectUserChats } from '@/redux/store/chat/selector
 // import { selectUserChats } from '@/redux/store/user/selectors';
 import { setShowChatSettings, setShowCreateChat } from '@/redux/store/ui/actions';
 import {
-  getActiveChat,
+  getActiveChatId,
+  // getActiveChat,
   getMessagesRequest,
-  getParticipantsRequest, getSelectedChat,
+  getParticipantsRequest, getSelectedChatId,
 } from '@/redux/store/chat/actions';
 // import { getSelectedChat } from '@/redux/store/user/actions';
 import { IChat } from '@/redux/store/chat/types';
@@ -16,10 +17,10 @@ export const useChat = (): any => {
   const dispatch: Dispatch = useDispatch();
   const chats: IChat[] = useSelector(selectUserChats);
 
-  const activeChatId: number = useSelector(selectActiveChatId);
+  const activeChatId: number | null = useSelector(selectActiveChatId);
 
   const onLoadChat = useCallback((chat) => () => {
-    dispatch(getActiveChat(chat));
+    dispatch(getActiveChatId(chat.id));
     dispatch(getMessagesRequest(chat.id));
   }, [dispatch]);
 
@@ -27,13 +28,13 @@ export const useChat = (): any => {
     dispatch(setShowCreateChat({ isActive: true }));
   }, [dispatch]);
 
-  const onOpenChatSettings = useCallback((chat) => (
+  const onOpenChatSettings = useCallback((chatId) => (
     event: React.MouseEvent<SVGSVGElement>,
   ) => {
     event.stopPropagation();
-    dispatch(getSelectedChat(chat));
-    dispatch(getParticipantsRequest(chat.id));
-    dispatch(setShowChatSettings({ isActive: true, chatId: chat.id }));
+    dispatch(getSelectedChatId(chatId));
+    dispatch(getParticipantsRequest(chatId));
+    dispatch(setShowChatSettings({ isActive: true, chatId }));
   }, [dispatch]);
 
   return {
