@@ -2,11 +2,13 @@ export type DeleteUserData = { login: string, chatId: number }
 export type EditedMessage = { messageId: number, message: string }
 
 export interface IChatStore {
-  activeChatInfo: IChat | null,
+  // activeChatInfo: IChat | null,
+  // chatMembersList: IMemberInfo[],
+  // selectedChat: IChat | null,
+  activeChatId: number | null,
+  selectedChatId: number | null,
   editedMessageInfo: EditedMessage | null,
-  chatMembersList: IMemberInfo[],
   chats: IChat[],
-  selectedChat: IChat | null,
 }
 
 export interface IAuthor {
@@ -39,4 +41,9 @@ export interface IMemberInfo {
   name: string,
   login: string,
   isOnline: boolean,
+}
+
+export interface IGetParticipantsInfo {
+  chatMembersInfo: IMemberInfo[],
+  chatId: number,
 }

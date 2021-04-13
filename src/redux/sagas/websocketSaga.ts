@@ -11,8 +11,8 @@ import { getMessagesRequest } from '@/redux/store/chat/actions';
 
 function websocketInitChannel() {
   const url = process.env.NODE_ENV === 'development'
-    ? 'ws://localhost:4001'
-    : 'ws://80.87.201.216:4001';
+    ? 'ws://localhost:1214'
+    : 'ws://80.87.201.216:1214';
   const socket = io(url);
   socket.on('connect', () => {
     socket.emit('online', {

@@ -22,7 +22,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
   const {
     fieldValue,
     selectedUserId,
-    selectedChat,
+    selectedUserOwnerId,
     onCloseDialogClick,
     onChangeFieldValue,
     onAddUserToChatDialog,
@@ -69,7 +69,7 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
         </DialogContent>
         <DialogActions className={styles.infoWrapper}>
         </DialogActions>
-        {selectedChat && selectedUserId === selectedChat.userOwnerId
+        {selectedUserId === selectedUserOwnerId
           ? (
             <Button
               color="secondary"

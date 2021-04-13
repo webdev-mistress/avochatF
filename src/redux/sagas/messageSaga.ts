@@ -18,14 +18,17 @@ import {
 import { IMessage } from '@/redux/store/chat/types';
 import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
 
-function* requestMessages(chatId: number) {
+function* requestMessages(chatId: number | null) {
   try {
+    if(!chatId) {
+      return;
+    }
     const response: IGetMessagesSaga = yield call(getMessagesFromApi, chatId);
 
     // if (!response.data || !response.ok) {
     //   throw response.message;
     // }
-
+    console.log(response.data, 'myLog response.data');
     yield put(getMessagesSucceed(response.data));
   } catch (error) {
     console.log(error);
@@ -43,7 +46,7 @@ function* fetchSendMessage(action: IAction<string>) {
     const login = yield select(selectUserLogin);
     const chatId = yield select(selectActiveChatId);
 
-    const response: ISendMessageSaga = yield call(
+    yield call(
       sendMessage, login, chatId, action.payload,
     );
 

@@ -9,22 +9,27 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import { checkShowCloseIcon } from '@/components/dialog/helpers';
 import CloseIcon from '@material-ui/icons/Close';
-import { selectChatMembersList, selectSelectedChat } from '@/redux/store/chat/selectors';
+// import { selectChatMembersList, selectSelectedChat } from '@/redux/store/chat/selectors';
 import { selectUserId } from '@/redux/store/user/selectors';
 import { deleteUserFromChatRequest } from '@/redux/store/chat/actions';
-import { IChat, IMemberInfo } from '@/redux/store/chat/types';
+import { IMemberInfo } from '@/redux/store/chat/types';
+import {
+  selectChatMembersList,
+  selectSelectedChatId, selectSelectedUserOwnerId,
+} from '@/redux/store/chat/selectors';
 
 export const MembersList: React.FunctionComponent = () => {
   const dispatch: Dispatch = useDispatch();
   const membersList: IMemberInfo[] = useSelector(selectChatMembersList);
-  const selectedChat: IChat = useSelector(selectSelectedChat);
+  const selectedChatId: number | null = useSelector(selectSelectedChatId);
+  const selectedUserOwnerId = useSelector(selectSelectedUserOwnerId);
   const selectedUserId: number = useSelector(selectUserId);
 
   const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
-    if(selectedChat) {
-      dispatch(deleteUserFromChatRequest({ login, chatId: selectedChat.id }));
-    }
-  }, [dispatch, selectedChat]);
+    // if(selectedChatId) {
+    dispatch(deleteUserFromChatRequest({ login, chatId: selectedChatId }));
+    // }
+  }, [dispatch, selectedChatId]);
 
   return (
 
@@ -49,7 +54,7 @@ export const MembersList: React.FunctionComponent = () => {
             primary={member.name}
             secondary={member.isOnline ? 'online' : 'offline'}
           />
-          {checkShowCloseIcon(selectedChat, member, selectedUserId)
+          {checkShowCloseIcon(selectedUserOwnerId, member, selectedUserId)
            && (
              <CloseIcon
                onClick={onDeleteUserFromChatDialog(member.login)}

@@ -1,13 +1,13 @@
 import { getApiActions } from '@/utils/redux';
 import actionCreatorFactory from 'typescript-fsa';
-import { IChat } from '@/redux/store/chat/types';
+// import { IChat } from '@/redux/store/chat/types';
 const actionCreator = actionCreatorFactory();
 
 export enum Chat {
   CREATE_CHAT = 'CREATE_CHAT',
   DELETE_CHAT = 'DELETE_CHAT',
   GET_ACTIVE_CHAT = 'GET_ACTIVE_CHAT',
-  GET_SELECTED_CHAT = 'GET_SELECTED_CHAT',
+  GET_SELECTED_CHAT_ID = 'GET_SELECTED_CHAT_ID',
   CLEAR_CHAT = 'CLEAR_CHAT',
   DELETE_USER_FROM_CHAT = 'DELETE_USER_FROM_CHAT',
   GET_CHAT_PARTICIPANTS = 'GET_CHAT_PARTICIPANTS',
@@ -22,10 +22,10 @@ export enum Message {
   ERROR_MESSAGE = 'ERROR_MESSAGE', // what for is it?
 }
 
-const getActiveChat = actionCreator<IChat>(Chat.GET_ACTIVE_CHAT);
+const getActiveChatId = actionCreator<number>(Chat.GET_ACTIVE_CHAT);
 const clearChat = actionCreator(Chat.CLEAR_CHAT);
 const getErrorMessageRequest = actionCreator<unknown>(Message.ERROR_MESSAGE);
-const getSelectedChat = actionCreator<IChat>(Chat.GET_SELECTED_CHAT);
+const getSelectedChatId = actionCreator<number>(Chat.GET_SELECTED_CHAT_ID);
 
 const [
   createChatRequest,
@@ -97,7 +97,7 @@ export {
   deleteUserFromChatRequest,
   deleteUserFromChatSucceed,
   deleteUserFromChatFailed,
-  getActiveChat,
+  getActiveChatId,
   clearChat,
   getMessagesRequest,
   getMessagesSucceed,
@@ -112,5 +112,5 @@ export {
   editMessageSucceed,
   editMessageFailed,
   getErrorMessageRequest,
-  getSelectedChat,
+  getSelectedChatId,
 };
