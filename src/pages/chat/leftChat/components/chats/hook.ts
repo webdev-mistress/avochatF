@@ -32,6 +32,7 @@ export const useChat = (): any => {
     event: React.MouseEvent<SVGSVGElement>,
   ) => {
     event.stopPropagation();
+
     dispatch(getSelectedChatId(chatId));
     dispatch(getParticipantsRequest(chatId));
     dispatch(setShowChatSettings({ isActive: true, chatId }));

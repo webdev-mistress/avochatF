@@ -9,7 +9,6 @@ import {
   setDialogsSettingsHandler, setErrorHandler, setLoaderHandler,
   setShowChatSettingsHandler,
 } from '@/redux/store/ui/handlers';
-import { IUI } from '@/redux/store/ui/types';
 import {
   addUserToChatFailed,
   addUserToChatRequest,
@@ -51,8 +50,9 @@ import {
   sendMessageRequest,
   sendMessageSucceed,
 } from '@/redux/store/chat/actions';
+import { IUIStore } from '@/redux/store/ui/types';
 
-export const INITIAL_STATE: IUI = {
+export const INITIAL_STATE: IUIStore = {
   ...getInitialState(loadersAndErrorsTypes),
   dialog: {
     isShowLogout: false,

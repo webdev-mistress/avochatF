@@ -13,7 +13,7 @@ interface IProps {
   chat: IChat,
   activeChatId: number,
   onLoadChat: (chat: IChat) => any,
-  onOpenChatSettings: (chat: IChat) => any,
+  onOpenChatSettings: (chatId: number) => any,
 }
 
 export const ChatItem: React.FunctionComponent<IProps> = ({
@@ -40,7 +40,7 @@ export const ChatItem: React.FunctionComponent<IProps> = ({
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
-        onClick={onOpenChatSettings(chat)}
+        onClick={onOpenChatSettings(chat.id)}
         className={styles.icons}
       />
     </ListItem>

@@ -1,10 +1,10 @@
-import { IChat, IMemberInfo } from '@/redux/store/chat/types';
+import { IMemberInfo } from '@/redux/store/chat/types';
 
 export function checkShowCloseIcon(
-  selectedChat: IChat,
+  selectedUserOwnerId: number | null,
   member: IMemberInfo,
   selectedUserId: number,
 ): boolean {
-  return selectedChat.userOwnerId !== member.id
-      && selectedChat.userOwnerId === selectedUserId;
+  return selectedUserOwnerId !== member.id
+      && selectedUserOwnerId === selectedUserId;
 }

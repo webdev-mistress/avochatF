@@ -1,12 +1,12 @@
 import camelcase from 'camelcase';
-import { ChatSettingsShow, DialogSettingsShow, IUI } from '@/redux/store/ui/types';
+import { ChatSettingsShow, DialogSettingsShow, IUIStore } from '@/redux/store/ui/types';
 import { INITIAL_STATE } from '@/redux/store/ui/reducer';
 import { getErrorName, getLoaderName } from '@/redux/utils/redux';
 
 export const setShowChatSettingsHandler = (
-  state: IUI,
+  state: IUIStore,
   payload: ChatSettingsShow,
-): IUI => ({
+): IUIStore => ({
   ...state,
   dialog: {
     ...state.dialog,
@@ -18,9 +18,9 @@ export const setShowChatSettingsHandler = (
 });
 
 export const setDialogsSettingsHandler = (type: string) => (
-  state: IUI,
+  state: IUIStore,
   payload: DialogSettingsShow,
-): IUI => ({
+): IUIStore => ({
   ...state,
   dialog: {
     ...state.dialog,
@@ -29,8 +29,8 @@ export const setDialogsSettingsHandler = (type: string) => (
 });
 
 export const setLoaderHandler = (loaderType: string, isLoading: boolean) => (
-  state: IUI,
-): IUI => ({
+  state: IUIStore,
+): IUIStore => ({
   ...state,
   loaders: {
     ...state.loaders,
@@ -41,9 +41,9 @@ export const setLoaderHandler = (loaderType: string, isLoading: boolean) => (
 export const setErrorHandler = (
   errorType: string, isError: boolean,
 ) => (
-  state: IUI,
+  state: IUIStore,
   payload?: string,
-):IUI => ({
+):IUIStore => ({
   ...state,
   errors: {
     ...state.errors,
@@ -54,4 +54,4 @@ export const setErrorHandler = (
   },
 });
 
-export const logoutHandler = (): IUI => INITIAL_STATE;
+export const logoutHandler = (): IUIStore => INITIAL_STATE;

@@ -1,6 +1,6 @@
 import { IErrors, ILoadings } from '@/redux/utils/types';
 
-export interface IUI {
+export interface IUIStore {
   loaders: ILoadings,
   errors: IErrors,
   dialog: {
