@@ -82,7 +82,6 @@ export const MainChat: React.FunctionComponent = () => {
     setState({ ...state, messageText: event.target.value });
   }, [state]);
 
-  // const hasActiveChat = !_.isEmpty(activeChat);
   const hasMessages = !_.isEmpty(messages);
 
   return (
