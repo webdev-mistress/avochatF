@@ -1,7 +1,7 @@
 import { IChat } from '@/redux/store/chat/types';
 
 export interface IUserProfileData {
-  userId: number,
+  id: number,
   name: string,
   login: string,
   email: string,

@@ -24,8 +24,8 @@ export const useChatDialogSettings = (): any => {
   const [isEditMode, setEditMode] = useState(false);
   const [fieldValue, setFieldValue] = useState('');
   const dispatch: Dispatch = useDispatch();
-  const selectedUserId: number = useSelector(selectUserId);
-  const selectedUserLogin: string = useSelector(selectUserLogin);
+  const selectedUserId: number | null = useSelector(selectUserId);
+  const selectedUserLogin: string | null = useSelector(selectUserLogin);
   // const selectedChat: IChat = useSelector(selectSelectedChat);
   const selectedChatId: number | null = useSelector(selectSelectedChatId);
   const selectedChatName: string | null = useSelector(selectSelectedChatName);

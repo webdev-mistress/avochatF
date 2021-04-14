@@ -1,24 +1,24 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
+// import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 import {
-  removeAuthErrorMessage,
+  // removeAuthErrorMessage,
   signInRequest,
 } from '@/redux/store/user/actions';
 
 export const useAuthForm = (): any => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const errorMessage = useSelector(selectErrorMessage);
-  const isAuthSpin = useSelector(selectIsAuthSpin);
+  // const errorMessage = useSelector(selectErrorMessage);
+  // const isAuthSpin = useSelector(selectIsAuthSpin);
   const dispatch: Dispatch = useDispatch();
 
-  useEffect(() => {
-    if (errorMessage) {
-      setPassword('');
-    }
-  }, [errorMessage]);
+  // useEffect(() => {
+  //   if (errorMessage) {
+  //     setPassword('');
+  //   }
+  // }, [errorMessage]);
 
   const onAuth = useCallback((event) => {
     event.preventDefault();
@@ -40,18 +40,18 @@ export const useAuthForm = (): any => {
     const { value } = event.target;
     setState(name === 'login' ? value.trim() : value);
 
-    if (errorMessage) {
-      dispatch(removeAuthErrorMessage());
-    }
-  }, [dispatch, errorMessage]);
+    // if (errorMessage) {
+    //   dispatch(removeAuthErrorMessage());
+    // }
+  }, []);
 
   return {
     login,
     setLogin,
     password,
     setPassword,
-    errorMessage,
-    isAuthSpin,
+    // errorMessage,
+    // isAuthSpin,
     onAuthEnter,
     onChange,
     onAuth,

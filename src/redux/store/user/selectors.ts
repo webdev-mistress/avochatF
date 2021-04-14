@@ -1,24 +1,28 @@
-import _ from 'lodash';
+import { createSelector } from 'reselect';
+// import _ from 'lodash';
 import { IUserProfileData } from '@/redux/store/user/types';
 import { IStore } from '@/redux/utils/types';
 
-export const selectUserId = (state: IStore): number =>
-  _.get(state, 'user.userProfileData.id', 0);
+export const selectUser = (state: IStore): IUserProfileData | null => {
+  if(!state.user.userProfileData) {
+    throw new Error('user is not found');
+  }
+  return state.user.userProfileData;
+};
 
-export const selectUserLogin = (state: IStore): string =>
-  _.get(state, 'user.userProfileData.login', '');
+export const selectUserId = createSelector(
+  selectUser,
+  (user) => user?.id || null,
+);
 
-export const selectUserName = (state: IStore): string =>
-  _.get(state, 'user.userProfileData.name', '');
+export const selectUserLogin = createSelector(
+  selectUser,
+  (user) => user?.login || null,
+);
 
-export const selectUser = (state: IStore): IUserProfileData | null =>
-  _.get(state, 'user.userProfileData', null);
+export const selectUserName = createSelector(
+  selectUser,
+  (user) => user?.name || null,
+);
 
-export const selectErrorMessage = (state: IStore): string =>
-  _.get(state, 'user.errorMessage', '');
-
-export const selectUserIsAuth = (state: IStore): boolean =>
-  _.get(state, 'user.isAuthUser', false);
-
-export const selectIsAuthSpin = (state: IStore): boolean =>
-  _.get(state, 'user.isAuthSpin', false);
+export const selectUserIsAuth = (state: IStore): boolean => state.user.isAuthUser;

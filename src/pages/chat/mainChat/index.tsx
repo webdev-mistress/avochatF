@@ -38,7 +38,7 @@ export const MainChat: React.FunctionComponent = () => {
 
   const [state, setState] = useState(initialState);
   const dispatch: Dispatch = useDispatch();
-  const userId = useSelector(selectUserId);
+  const userId: number | null = useSelector(selectUserId);
   const activeChatId = useSelector(selectActiveChatId);
   console.log(activeChatId, 'myLog activeChatId');
   const activeChatName = useSelector(selectActiveChatName);
