@@ -23,7 +23,7 @@ export const MembersList: React.FunctionComponent = () => {
   const membersList: IMemberInfo[] = useSelector(selectChatMembersList);
   const selectedChatId: number | null = useSelector(selectSelectedChatId);
   const selectedUserOwnerId = useSelector(selectSelectedUserOwnerId);
-  const selectedUserId: number = useSelector(selectUserId);
+  const selectedUserId: number | null = useSelector(selectUserId);
 
   const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
     // if(selectedChatId) {

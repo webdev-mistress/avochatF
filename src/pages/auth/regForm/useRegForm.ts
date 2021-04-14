@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
+import { useDispatch } from 'react-redux';
+// import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 // import { removeErrorMessage, signUpUserRequest } from '@/redux/store/user/actions';
 // import { signUpUserRequest } from '@/redux/common/actions/authActions';
-import { removeAuthErrorMessage, signUpRequest } from '@/redux/store/user/actions';
+import { signUpRequest } from '@/redux/store/user/actions';
 import { ButtonEvent } from '@/types/components';
 
 export const useRegForm = (): any => {
@@ -27,8 +27,8 @@ export const useRegForm = (): any => {
     disabledButton,
     isRegFinished,
   } = state;
-  const isAuthSpin = useSelector(selectIsAuthSpin);
-  const errorMessage = useSelector(selectErrorMessage);
+  // const isAuthSpin = useSelector(selectIsAuthSpin);
+  // const errorMessage = useSelector(selectErrorMessage);
   const dispatch = useDispatch();
 
   const onCreateUser = useCallback((
@@ -60,9 +60,9 @@ export const useRegForm = (): any => {
   const onChange = useCallback((name) => (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
-    if (errorMessage) {
-      dispatch(removeAuthErrorMessage());
-    }
+    // if (errorMessage) {
+    //   dispatch(removeAuthErrorMessage());
+    // }
     const { value } = event.target;
     setState({
       ...state,
@@ -72,7 +72,7 @@ export const useRegForm = (): any => {
       disabledButton: false,
       errorText: '',
     });
-  }, [dispatch, errorMessage, state]);
+  }, [state]);
 
   const disabledRegFormButton = !name
     || !login
@@ -81,8 +81,8 @@ export const useRegForm = (): any => {
     || state.disabledButton;
 
   return {
-    isAuthSpin,
-    errorMessage,
+    // isAuthSpin,
+    // errorMessage,
     onKeyUpEnter,
     onCreateUser,
     onChange,

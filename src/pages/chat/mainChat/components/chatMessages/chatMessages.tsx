@@ -16,7 +16,7 @@ interface IProps {
   state: IState,
   setState: (state: IState) => void,
   messages: IMessage[],
-  userId: number,
+  userId: number | null,
   anchorEl: Element | null,
   setAnchorEl: (anchorEl: Element | null) => void,
 }

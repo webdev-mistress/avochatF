@@ -25,7 +25,7 @@ export enum Message {
 const getActiveChatId = actionCreator<number>(Chat.GET_ACTIVE_CHAT);
 const clearChat = actionCreator(Chat.CLEAR_CHAT);
 const getErrorMessageRequest = actionCreator<unknown>(Message.ERROR_MESSAGE);
-const getSelectedChatId = actionCreator<number>(Chat.GET_SELECTED_CHAT_ID);
+const getSelectedChatId = actionCreator<number | null>(Chat.GET_SELECTED_CHAT_ID);
 
 const [
   createChatRequest,

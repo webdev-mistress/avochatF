@@ -1,53 +1,69 @@
+import { createSelector } from 'reselect';
 import _ from 'lodash';
-import { IChat, IMemberInfo, IMessage } from '@/redux/store/chat/types';
+import { IChat } from '@/redux/store/chat/types';
 import { IStore } from '@/redux/utils/types';
 
-// export const selectActiveChat = (state: IChatStore): IChat =>
-//   _.get(state, ('chat.activeChatId'), {});
-
-// export const selectSelectedChat = (state: IChatStore): IChat =>
-//   _.get(state, 'chat.selectedChat', null);
-
-// export const selectChatMembersList = (state: IChatStore): IMemberInfo[] =>
-//   _.get(state, ('chat.chatMembersList'), []);
-
-export const selectActiveChatId = (state: IStore): number | null =>
-  _.get(state, ('chat.activeChatId'), null);
-
-export const selectActiveChatName = (state: IStore): string | null => {
-  const activeChatName = state.chat.chats
-    .find((chat) => chat.id === state.chat.activeChatId)?.name;
-  return activeChatName || null;
-};
+export const selectUserChats = (state: IStore): IChat[] =>
+  state.chat.chats;
 
 export const selectSelectedChatId = (state: IStore): number | null =>
-  _.get(state, 'chat.selectedChatId', null);
+  state.chat.selectedChatId;
 
-export const selectSelectedChatName = (state: IStore): string | null => {
-  const selectedChatName = state.chat.chats
-    .find((chat) => chat.id === state.chat.selectedChatId)?.name;
-  return selectedChatName || null;
-};
+export const selectActiveChatId = (state: IStore): number | null =>
+  state.chat.activeChatId;
 
-export const selectChatMembersList = (state: IStore): IMemberInfo[] => {
-  const chatMemberList = state.chat.chats
-    .find((chat) => chat.id === state.chat.selectedChatId)?.chatMembersList;
-  return chatMemberList || [];
-};
+export const selectActiveChat = createSelector(
+  selectUserChats,
+  selectActiveChatId,
+  (chats, activeChatId) => {
+    if(activeChatId === null) {
+      return null;
+    }
+    const activeChat = chats.find((chat) => chat.id === activeChatId);
+    if (_.isUndefined(activeChat)) {
+      throw new Error('activeChat is not found');
+    }
+    return activeChat;
+  },
+);
 
-export const selectSelectedUserOwnerId = (state: IStore): number | null => {
-  const selectedUserOwnerId = state.chat.chats
-    .find((chat) => chat.id === state.chat.selectedChatId)?.userOwnerId;
-  return selectedUserOwnerId || null;
-};
+export const selectSelectedChat = createSelector(
+  selectUserChats,
+  selectSelectedChatId,
+  (chats, selectedChatId) => {
+    if(selectedChatId === null) {
+      return null;
+    }
+    const selectedChat = chats.find((chat) => chat.id === selectedChatId);
+    if(_.isUndefined(selectedChat)) {
+      throw new Error('selectedChat is not found');
+    }
+    return selectedChat;
+  },
+);
 
-export const selectUserChats = (state: IStore): IChat[] =>
-  _.get(state, 'chat.chats', []);
+export const selectActiveChatName = createSelector(
+  selectUserChats,
+  selectActiveChat,
+  (chats, activeChat) => activeChat?.name || null,
+);
 
-export const selectMessages = (state: IStore): IMessage[] => {
-  const messages = state.chat.chats
-    .find((chat) => chat.id === state.chat.activeChatId)?.messages;
-  return messages || [];
-};
-// _.get(state, ('chat.activeChatInfo.messages'), []);
+export const selectSelectedChatName = createSelector(
+  selectSelectedChat,
+  (selectedChat) => selectedChat?.name || null,
+);
 
+export const selectChatMembersList = createSelector(
+  selectSelectedChat,
+  (selectedChat) => selectedChat?.chatMembersList || [],
+);
+
+export const selectSelectedUserOwnerId = createSelector(
+  selectSelectedChat,
+  (selectedChat) => selectedChat?.userOwnerId || null,
+);
+
+export const selectMessages = createSelector(
+  selectActiveChat,
+  (activeChat) => activeChat?.messages || [],
+);
