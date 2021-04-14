@@ -10,7 +10,7 @@ import { setShowChatSettings } from '@/redux/store/ui/actions';
 import {
   clearChat,
   deleteChatRequest,
-  deleteUserFromChatRequest, editChatNameRequest,
+  deleteUserFromChatRequest, editChatNameRequest, getSelectedChatId,
 } from '@/redux/store/chat/actions';
 import { addUserToChatRequest } from '@/redux/store/user/actions';
 // import { IChat } from '@/redux/store/chat/types';
@@ -32,8 +32,10 @@ export const useChatDialogSettings = (): any => {
   const selectedUserOwnerId: number | null = useSelector(selectSelectedUserOwnerId);
   const isShowChatSettings = useSelector(selectIsShowChatSettings);
   const [newChatNameValue, setChatName] = useState('');
+
   const onCloseDialog = useCallback(() => {
     dispatch(setShowChatSettings({ isActive: false, chatId: null }));
+    dispatch(getSelectedChatId(null));
   }, [dispatch]);
 
   const onCloseDialogClick = useCallback(() => {

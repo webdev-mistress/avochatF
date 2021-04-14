@@ -111,7 +111,7 @@ export const editChatNameSucceedHandler = (
 
 export const getSelectedChatHandler = (
   state: IChatStore,
-  selectedChatId: number,
+  selectedChatId: number | null,
 ): IChatStore => ({
   ...state,
   selectedChatId,
