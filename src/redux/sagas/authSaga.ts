@@ -30,7 +30,7 @@ function* fetchSignIn(action: any) {
   } catch (error) {
     yield put(setToggleFailed({
       errorType: Auth.SIGN_IN,
-      textError: error.message,
+      textError: error,
       isError: true,
     }));
   }
@@ -45,7 +45,7 @@ function* fetchSignUp(action: any) {
   } catch (error) {
     yield put(setToggleFailed({
       errorType: Auth.SIGN_UP,
-      textError: error.message,
+      textError: error,
       isError: true,
     }));
   }

@@ -31,7 +31,7 @@ export const SnackBarError: React.FunctionComponent = () => {
               severity={'error'}
               variant="filled"
             >
-              This is an error message!
+              {`This is an error message: ${error.textError}`}
             </Alert>
           </Snackbar>
         ))}
