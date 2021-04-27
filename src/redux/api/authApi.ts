@@ -6,8 +6,6 @@ import {
   ISignInUserSaga,
   ISignUpUserSaga,
 } from '@/types/sagas';
-// import { ISignInUserData } from '@/types/store/userActions';
-// import { IChangePasswordData } from '@/types/store/authActions';
 
 const PREFIX_AUTH = '/api/v0/auth';
 

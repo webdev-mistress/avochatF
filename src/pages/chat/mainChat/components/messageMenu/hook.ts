@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { deleteMessageRequest } from '@/redux/store/chat/actions';
-import { IState } from '@/pages/chat/mainChat';
+import { deleteMessageRequest, Message } from '@/redux/store/chat/actions';
+import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
+import { selectError } from '@/redux/store/ui/selectors';
 
 interface IArgs {
   setAnchorEl: (anchorEl: Element | null) => void,
@@ -10,12 +11,15 @@ interface IArgs {
   setState: (state: IState) => void,
 }
 
-export const useMenuMessage = (args: IArgs): any => {
+export const useMessageMenu = (args: IArgs): any => {
   const {
     setAnchorEl,
     state,
     setState,
   } = args;
+  const deleteMessageErrorInfo = useSelector(selectError(Message.DELETE_MESSAGE));
+  const editMessageErrorInfo = useSelector(selectError(Message.EDIT_MESSAGE));
+
   const dispatch: Dispatch = useDispatch();
 
   const onCloseMenu = useCallback(() => {
@@ -48,5 +52,7 @@ export const useMenuMessage = (args: IArgs): any => {
     onCloseMenu,
     onEditMode,
     onDeleteMessage,
+    deleteMessageErrorInfo,
+    editMessageErrorInfo,
   };
 };

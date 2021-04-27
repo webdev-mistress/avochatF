@@ -22,58 +22,46 @@ const removeAuthErrorMessage = actionCreator(Auth.REMOVE_AUTH_ERROR_MESSAGE);
 const [
   addUserToChatRequest,
   addUserToChatSucceed,
-  addUserToChatFailed,
 ] = getApiActions(User.ADD_USER_TO_CHAT);
 
 const [
   editCurrentUserRequest,
   editCurrentUserSucceed,
-  editCurrentUserFailed,
 ] = getApiActions(User.EDIT_CURRENT_USER);
 
 const [
   signInRequest,
   signInSucceed,
-  signInFailed,
 ] = getApiActions(Auth.SIGN_IN);
 
 const [
   signUpRequest,
   signUpSucceed,
-  signUpFailed,
 ] = getApiActions(Auth.SIGN_UP);
 
 const [
   confirmUserRequest,
   confirmUserSucceed,
-  confirmUserFailed,
 ] = getApiActions(Auth.CONFIRM_USER);
 
 const [
   changePasswordRequest,
   changePasswordSucceed,
-  changePasswordFailed,
 ] = getApiActions(Auth.CHANGE_PASSWORD);
 
 export {
   addUserToChatRequest,
   addUserToChatSucceed,
-  addUserToChatFailed,
   editCurrentUserRequest,
   editCurrentUserSucceed,
-  editCurrentUserFailed,
   confirmUserRequest,
   confirmUserSucceed,
-  confirmUserFailed,
   logout,
   signInRequest,
   signInSucceed,
-  signInFailed,
   signUpRequest,
   signUpSucceed,
-  signUpFailed,
   removeAuthErrorMessage,
   changePasswordRequest,
   changePasswordSucceed,
-  changePasswordFailed,
 };

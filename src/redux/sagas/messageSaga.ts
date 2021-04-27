@@ -9,14 +9,15 @@ import {
 import { selectUserLogin } from '@/redux/store/user/selectors';
 import { selectActiveChatId, selectMessages } from '@/redux/store/chat/selectors';
 import {
-  deleteMessageFailed,
-  deleteMessageRequest, editMessageFailed,
-  editMessageRequest, getMessagesFailed,
+  deleteMessageRequest,
+  editMessageRequest,
   getMessagesRequest,
-  getMessagesSucceed, sendMessageFailed, sendMessageRequest,
+  getMessagesSucceed, Message,
+  sendMessageRequest,
 } from '@/redux/store/chat/actions';
 import { IMessage } from '@/redux/store/chat/types';
 import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
+import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* requestMessages(chatId: number | null) {
   try {
@@ -24,16 +25,14 @@ function* requestMessages(chatId: number | null) {
       return;
     }
     const response: IGetMessagesSaga = yield call(getMessagesFromApi, chatId);
-
-    // if (!response.data || !response.ok) {
-    //   throw response.message;
-    // }
-    console.log(response.data, 'myLog response.data');
     yield put(getMessagesSucceed(response.data));
   } catch (error) {
     console.log(error);
-    // yield put(getErrorMessageRequest(getErrorMessage(error)));
-    yield put(getMessagesFailed());
+    yield put(setToggleFailed({
+      errorType: Message.GET_MESSAGES,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -49,13 +48,13 @@ function* fetchSendMessage(action: IAction<string>) {
     yield call(
       sendMessage, login, chatId, action.payload,
     );
-
-    // if (!response.data || !response.ok) {
-    //   throw response.message;
-    // }
     yield call(requestMessages, chatId);
   } catch (error) {
-    yield put(sendMessageFailed());
+    yield put(setToggleFailed({
+      errorType: Message.SEND_MESSAGE,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -68,7 +67,11 @@ function* fetchDeleteMessage(action: any) {
 
     yield call(requestMessages, chatId);
   } catch (error) {
-    yield put(deleteMessageFailed());
+    yield put(setToggleFailed({
+      errorType: Message.DELETE_MESSAGE,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -81,17 +84,17 @@ function* fetchEditMessage(action: any) {
       editMessage, editMessageId, messageEdit,
     );
 
-    // if (!response.data || !response.ok) {
-    //   throw response.message;
-    // }
-
     const messages = yield select(selectMessages);
     const newMessages = messages.map((message: IMessage) =>
       message.messageId === editMessageId ? response.data : message);
     yield put(getMessagesSucceed(newMessages));
   } catch (error) {
     console.error(error);
-    yield put(editMessageFailed(error));
+    yield put(setToggleFailed({
+      errorType: Message.EDIT_MESSAGE,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 

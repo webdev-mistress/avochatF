@@ -2,23 +2,22 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
   setShowChatSettings,
   setShowCreateChat, setShowLogout,
-  setShowUserSettings, UI,
+  setShowUserSettings, setToggleFailed, UI,
 } from '@/redux/store/ui/actions';
 import {
   logoutHandler,
-  setDialogsSettingsHandler, setErrorHandler, setLoaderHandler,
-  setShowChatSettingsHandler,
+  setDialogsSettingsHandler, setLoaderHandler,
+  setShowChatSettingsHandler, setToggleFailedHandler, signUpSucceedHandler,
 } from '@/redux/store/ui/handlers';
 import {
-  addUserToChatFailed,
   addUserToChatRequest,
   addUserToChatSucceed,
-  Auth, changePasswordFailed,
-  changePasswordRequest, changePasswordSucceed, confirmUserFailed,
-  confirmUserRequest, confirmUserSucceed, editCurrentUserFailed,
+  Auth,
+  changePasswordRequest, changePasswordSucceed,
+  confirmUserRequest, confirmUserSucceed,
   editCurrentUserRequest, editCurrentUserSucceed,
-  logout, signInFailed,
-  signInRequest, signInSucceed, signUpFailed,
+  logout,
+  signInRequest, signInSucceed,
   signUpRequest, signUpSucceed,
   User,
 } from '@/redux/store/user/actions';
@@ -27,26 +26,21 @@ import {
   Chat,
   createChatRequest,
   createChatSucceed,
-  deleteChatFailed,
   deleteChatRequest,
   deleteChatSucceed,
-  deleteMessageFailed,
   deleteMessageRequest,
   deleteMessageSucceed,
-  deleteUserFromChatFailed,
   deleteUserFromChatRequest,
   deleteUserFromChatSucceed,
-  editChatNameFailed,
   editChatNameRequest,
-  editChatNameSucceed, editMessageFailed,
+  editChatNameSucceed,
   editMessageRequest,
-  editMessageSucceed, getMessagesFailed, getMessagesRequest,
+  editMessageSucceed,
+  getMessagesRequest,
   getMessagesSucceed,
-  getParticipantsFailed,
   getParticipantsRequest,
   getParticipantsSucceed,
   Message,
-  sendMessageFailed,
   sendMessageRequest,
   sendMessageSucceed,
 } from '@/redux/store/chat/actions';
@@ -54,6 +48,9 @@ import { IUIStore } from '@/redux/store/ui/types';
 
 export const INITIAL_STATE: IUIStore = {
   ...getInitialState(loadersAndErrorsTypes),
+  toggles: {
+    isRegFinished: false,
+  },
   dialog: {
     isShowLogout: false,
     isShowUserSettings: false,
@@ -102,23 +99,9 @@ export const uiReducer = reducerWithInitialState(INITIAL_STATE)
   .case(addUserToChatSucceed, setLoaderHandler(User.ADD_USER_TO_CHAT, false))
   .case(editCurrentUserSucceed, setLoaderHandler(User.EDIT_CURRENT_USER, false))
   .case(signInSucceed, setLoaderHandler(Auth.SIGN_IN, false))
-  .case(signUpSucceed, setLoaderHandler(Auth.SIGN_UP, false))
+  .case(signUpSucceed, signUpSucceedHandler(Auth.SIGN_UP))
   .case(confirmUserSucceed, setLoaderHandler(Auth.CONFIRM_USER, false))
   .case(changePasswordSucceed, setLoaderHandler(Auth.CHANGE_PASSWORD, false))
   .case(createChatRequest, setLoaderHandler(Chat.CREATE_CHAT, true))
-  .case(deleteChatFailed, setErrorHandler(Chat.DELETE_CHAT, true))
-  .case(
-    deleteUserFromChatFailed, setErrorHandler(Chat.DELETE_USER_FROM_CHAT, true))
-  .case(getParticipantsFailed, setErrorHandler(Chat.GET_CHAT_PARTICIPANTS, true))
-  .case(editChatNameFailed, setErrorHandler(Chat.EDIT_CHAT_NAME, true))
-  .case(sendMessageFailed, setErrorHandler(Message.SEND_MESSAGE, true))
-  .case(deleteMessageFailed, setErrorHandler(Message.DELETE_MESSAGE, true))
-  .case(editMessageFailed, setErrorHandler(Message.EDIT_MESSAGE, true))
-  .case(getMessagesFailed, setErrorHandler(Message.GET_MESSAGES, true))
-  .case(addUserToChatFailed, setErrorHandler(User.ADD_USER_TO_CHAT, true))
-  .case(editCurrentUserFailed, setErrorHandler(User.EDIT_CURRENT_USER, true))
-  .case(signInFailed, setErrorHandler(Auth.SIGN_IN, true))
-  .case(signUpFailed, setErrorHandler(Auth.SIGN_UP, true))
-  .case(confirmUserFailed, setErrorHandler(Auth.CONFIRM_USER, true))
-  .case(changePasswordFailed, setErrorHandler(Auth.CHANGE_PASSWORD, true))
+  .case(setToggleFailed, setToggleFailedHandler)
   .build();

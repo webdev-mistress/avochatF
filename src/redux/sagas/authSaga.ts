@@ -9,29 +9,30 @@ import {
   signUpUser,
 } from '@/redux/api/authApi';
 import {
-  changePasswordFailed,
+  Auth,
   changePasswordRequest,
-  changePasswordSucceed, confirmUserFailed, confirmUserRequest,
+  changePasswordSucceed,
+  confirmUserRequest, confirmUserSucceed,
   logout,
-  signInFailed,
   signInRequest,
-  signInSucceed, signUpFailed,
-  signUpRequest,
+  signInSucceed,
+  signUpRequest, signUpSucceed,
 } from '@/redux/store/user/actions';
 import { ISignInUserSaga } from '@/types/sagas';
+import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* fetchSignIn(action: any) {
   try {
     const userResponse: ISignInUserSaga = yield call(signInUser, action.payload);
-    //
-    // if (!userResponse.data || !userResponse.ok) {
-    //   throw userResponse;
-    // }
     accessToken.set(userResponse.data.accessToken);
     delete userResponse.data.accessToken;
     yield put(signInSucceed(userResponse.data));
   } catch (error) {
-    yield put(signInFailed(error.message));
+    yield put(setToggleFailed({
+      errorType: Auth.SIGN_IN,
+      textError: error.message,
+      isError: true,
+    }));
   }
 }
 
@@ -40,12 +41,13 @@ function* fetchSignUp(action: any) {
     const { email, name, login, password } = action.payload;
     // тут хотелось бы передавать объект
     yield call(signUpUser, email, name, login, password);
-
-    // if (!newUserResponse.data || !newUserResponse.ok) {
-    //   throw newUserResponse;
-    // }
+    yield put(signUpSucceed());
   } catch (error) {
-    yield put(signUpFailed(error.message));
+    yield put(setToggleFailed({
+      errorType: Auth.SIGN_UP,
+      textError: error.message,
+      isError: true,
+    }));
   }
 }
 
@@ -56,10 +58,15 @@ function* fetchConfirmUser(action: any) {
     delete userResponse.data.accessToken;
     if (userResponse.ok) {
       yield put(signInSucceed(userResponse.data));
+      yield put(confirmUserSucceed());
     }
   } catch (error) {
     console.log(error);
-    yield put(confirmUserFailed(error));
+    yield put(setToggleFailed({
+      errorType: Auth.CONFIRM_USER,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -80,7 +87,11 @@ function* fetchChangePassword(action: any) {
     }
   } catch (error) {
     console.log(error);
-    yield put(changePasswordFailed(error));
+    yield put(setToggleFailed({
+      errorType: Auth.CHANGE_PASSWORD,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -89,5 +100,5 @@ export function* authSaga(): SagaIterator {
   yield takeEvery(signUpRequest, fetchSignUp);
   yield takeEvery(confirmUserRequest, fetchConfirmUser);
   yield takeEvery(logout, fetchLogout);
-  yield takeEvery(changePasswordRequest,fetchChangePassword);
+  yield takeEvery(changePasswordRequest, fetchChangePassword);
 }
