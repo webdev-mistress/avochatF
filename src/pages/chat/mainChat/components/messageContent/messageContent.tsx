@@ -2,8 +2,8 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { IMessage } from '@/redux/store/chat/types';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
-import { IState } from '@/pages/chat/mainChat';
 import { useMessageContent } from '@/pages/chat/mainChat/components/messageContent/hook';
+import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
 
 interface IProps {
   message: IMessage,

@@ -2,16 +2,17 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectUser } from '@/redux/store/user/selectors';
-import { selectIsShowUserSettings } from '@/redux/store/ui/selectors';
+import { selectIsShowUserSettings, selectLoaderStatus } from '@/redux/store/ui/selectors';
 import {
   changePasswordRequest,
-  editCurrentUserRequest,
+  editCurrentUserRequest, User,
 } from '@/redux/store/user/actions';
 import { setShowUserSettings } from '@/redux/store/ui/actions';
 import {
   IChangePasswordData,
   IUserProfileData,
 } from '@/redux/store/user/types';
+import { pascalCase } from '@/redux/utils/redux';
 
 interface IEditMode {
   isEditName: boolean,
@@ -41,6 +42,8 @@ export const useUserDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
   const selectedUser: IUserProfileData | null = useSelector(selectUser);
   const isShowUserSettings = useSelector(selectIsShowUserSettings);
+  const isEditCurrentUserLoading = useSelector(
+    selectLoaderStatus(User.EDIT_CURRENT_USER));
   const [isUserEditMode, setUserEditMode] = useState<IEditMode>({
     isEditName: false,
     isEditLogin: false,
@@ -77,27 +80,25 @@ export const useUserDialogSettings = (): any => {
   }, []);
 
   const onChangeUser = useCallback((changeType: string) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { value } = event.target;
     setUserValue((prev) => ({ ...prev, [changeType]: value }));
   }, []);
 
-  const onEditUserEnter = useCallback(
-    (editField: EditUserField) => (event: React.KeyboardEvent) => {
-      if(event.key === 'Enter') {
-        dispatch(editCurrentUserRequest({ [editField]: userValue[editField] }));
-        setUserEditMode((prev) => (
-          { ...prev, isEditLogin: false, isEditName: false, isEditEmail: false }
-        ));
-      }
-    }, [dispatch, userValue]);
-
   const onEditCurrentUser = useCallback((editField: EditUserField) => () => {
     dispatch(editCurrentUserRequest({ [editField]: userValue[editField] }));
     setUserEditMode((prev) => (
-      { ...prev, isEditLogin: false, isEditName: false, isEditEmail: false }
+      { ...prev, [`isEdit${pascalCase(editField)}`]: false }
     ));
   }, [dispatch, userValue]);
+
+  const onEditUserEnter = useCallback(
+    (editField: EditUserField) => (event: React.KeyboardEvent) => {
+      if(event.key === 'Enter') {
+        onEditCurrentUser(editField)();
+      }
+    }, [onEditCurrentUser]);
 
   const onChangePassword = useCallback((changeType: PasswordField) => (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -135,6 +136,7 @@ export const useUserDialogSettings = (): any => {
     onChangePassword,
     passwordValue,
     onEditPassword,
+    isEditCurrentUserLoading,
   };
 };
 

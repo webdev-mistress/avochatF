@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
-  Button,
   TextField,
 } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -17,6 +16,7 @@ import {
   ChatSettingsBlock,
 } from '@/components/dialog/components/chatDialogSettings/chatSettingsBlock';
 import styles from '../../styles.module.scss';
+import { ButtonWithLoader } from '@/components/ui/buttonWithLoader';
 
 export const ChatSettingsDialog: React.FunctionComponent = () => {
   const {
@@ -30,6 +30,9 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
     onLeaveChat,
     isShowChatSettings,
     onKeyUpAddUser,
+    isDeleteChatLoading,
+    isDeleteUserFromChatLoading,
+    isAddUserToChatLoading,
   } = useChatDialogSettings();
 
   return (
@@ -53,16 +56,16 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
                 onKeyUp={onKeyUpAddUser}
                 onChange={onChangeFieldValue}
               />
-              <Button
+              <ButtonWithLoader
                 className={styles.addButton}
+                text={'ADD'}
+                isLoading={isAddUserToChatLoading}
                 disabled={!fieldValue}
                 onClick={onAddUserToChatDialog(fieldValue)}
                 variant="contained"
                 color="primary"
-                endIcon={<PersonAddIcon>add</PersonAddIcon>}
-              >
-                ADD
-              </Button>
+                endIcon={!isAddUserToChatLoading && (<PersonAddIcon>add</PersonAddIcon>)}
+              />
             </div>
           </DialogContent>
           <MembersList />
@@ -71,22 +74,22 @@ export const ChatSettingsDialog: React.FunctionComponent = () => {
         </DialogActions>
         {selectedUserId === selectedUserOwnerId
           ? (
-            <Button
+            <ButtonWithLoader
               color="secondary"
               variant="contained"
+              isLoading={isDeleteChatLoading}
+              text={'Delete the chat'}
               onClick={onDeleteChatDialog}
-            >
-              Delete the chat
-            </Button>
+            />
           )
           : (
-            <Button
+            <ButtonWithLoader
               color="secondary"
               variant="contained"
+              text={'Leave the chat'}
+              isLoading={isDeleteUserFromChatLoading}
               onClick={onLeaveChat}
-            >
-              Leave the chat
-            </Button>
+            />
           )
         }
       </Dialog>

@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import { IChat } from '@/redux/store/chat/types';
 import { useChat } from '@/pages/chat/leftChat/components/chats/hook';
 import { ChatItem } from '@/pages/chat/leftChat/components/chats/chatItem';
-// import { IChat } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
 
 export const Chats: React.FunctionComponent = () => {
@@ -14,6 +13,9 @@ export const Chats: React.FunctionComponent = () => {
     onOpenChatSettings,
     onOpenCreateChatDialog,
     chats,
+    getParticipantsErrorInfo,
+    onCloseError,
+    getMessagesErrorInfo,
   } = useChat();
 
   return (
@@ -26,6 +28,9 @@ export const Chats: React.FunctionComponent = () => {
             activeChatId={activeChatId}
             onLoadChat={onLoadChat}
             onOpenChatSettings={onOpenChatSettings}
+            getParticipantsErrorInfo={getParticipantsErrorInfo}
+            getMessagesErrorInfo={getMessagesErrorInfo}
+            onCloseError={onCloseError}
           />
         ))}
 

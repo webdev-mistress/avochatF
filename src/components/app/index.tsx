@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { AuthPage, ChatPage, ConfirmPage } from '@/pages';
 import { selectUserIsAuth } from '@/redux/store/user/selectors';
 import styles from './styles.module.scss';
+import { SnackBarError } from '@/components/ui/snackBarError/snackBarError';
 
 export const App: React.FunctionComponent = () => {
   const hasUser = useSelector(selectUserIsAuth);
@@ -19,6 +20,7 @@ export const App: React.FunctionComponent = () => {
           <Redirect from="/" to={hasUser ? '/chat' : '/auth'} />
         </Switch>
       </BrowserRouter>
+      <SnackBarError />
     </div>
   );
 };

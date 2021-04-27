@@ -12,6 +12,7 @@ import {
 import {
   UserDialogContentPassword,
 } from '@/components/dialog/components/userDialogSettings/userDialogContentPassword';
+import { IconButtonWithLoader } from '@/components/ui/iconButtonWithLoader';
 
 export const UserDialogContentValue = (): any => {
   const {
@@ -22,6 +23,7 @@ export const UserDialogContentValue = (): any => {
     onEditUserEnter,
     onEditCurrentUser,
     selectedUser,
+    isEditCurrentUserLoading,
   } = useUserDialogSettings();
   return (
     <DialogContent>
@@ -40,17 +42,19 @@ export const UserDialogContentValue = (): any => {
               onKeyUp={onEditUserEnter('email')}
               onChange={onChangeUser('email')}
             />
-            <IconButton
+            <IconButtonWithLoader
               className={styles.addButton}
               disabled={!userValue.email}
+              isLoading={isEditCurrentUserLoading}
               onClick={onEditCurrentUser('email')}
               color="primary"
+              loaderSize={20}
             >
               <EditAttributesIcon
                 fontSize={'large'}
               >
               </EditAttributesIcon>
-            </IconButton>
+            </IconButtonWithLoader>
           </div>
         ) : (
           <BorderColorIcon

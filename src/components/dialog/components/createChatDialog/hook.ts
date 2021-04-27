@@ -1,13 +1,16 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsShowCreateChat } from '@/redux/store/ui/selectors';
-// import { createChat } from '@/redux/store/oldChat/actions';
+import {
+  selectIsShowCreateChat,
+  selectLoaderStatus,
+} from '@/redux/store/ui/selectors';
 import { setShowCreateChat } from '@/redux/store/ui/actions';
-import { createChatRequest } from '@/redux/store/chat/actions';
+import { Chat, createChatRequest } from '@/redux/store/chat/actions';
 
 export const useCreateChatDialog = (): any => {
   const [chatName, setChatName] = useState('');
   const isShowDialog = useSelector(selectIsShowCreateChat);
+  const isCreateChatLoading = useSelector(selectLoaderStatus(Chat.CREATE_CHAT));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,5 +47,6 @@ export const useCreateChatDialog = (): any => {
     onCreateChat,
     isShowDialog,
     onKeyUpEnter,
+    isCreateChatLoading,
   };
 };

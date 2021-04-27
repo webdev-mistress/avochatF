@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { selectUserName } from '@/redux/store/user/selectors';
-// import { clearChat } from '@/redux/store/oldChat/actions';
 import { setShowLogout, setShowUserSettings } from '@/redux/store/ui/actions';
 import { clearChat } from '@/redux/store/chat/actions';
 

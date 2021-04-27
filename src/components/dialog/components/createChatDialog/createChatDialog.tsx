@@ -8,12 +8,12 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import ChatIcon from '@material-ui/icons/Chat';
 import {
   useCreateChatDialog,
 } from '@/components/dialog/components/createChatDialog/hook';
 import styles from '../../styles.module.scss';
+import { ButtonWithLoader } from '@/components/ui/buttonWithLoader';
 
 export const CreateChatDialog: React.FunctionComponent = () => {
   const {
@@ -23,6 +23,7 @@ export const CreateChatDialog: React.FunctionComponent = () => {
     onCreateChat,
     isShowDialog,
     onKeyUpEnter,
+    isCreateChatLoading,
   } = useCreateChatDialog();
 
   return (
@@ -66,16 +67,17 @@ export const CreateChatDialog: React.FunctionComponent = () => {
                 onKeyUp={onKeyUpEnter}
                 onChange={onChangeFieldValue()}
               />
-              <Button
+              <ButtonWithLoader
                 className={styles.addButton}
+                text={'Create'}
+                isLoading={isCreateChatLoading}
                 disabled={!chatName}
                 onClick={onCreateChat(chatName)}
                 variant="contained"
                 color="primary"
-                endIcon={<ChatIcon>Create</ChatIcon>}
-              >
-                Create
-              </Button>
+                loaderSize={40}
+                endIcon={!isCreateChatLoading && (<ChatIcon>Create</ChatIcon>)}
+              />
             </div>
           </DialogContent>
         </DialogContent>

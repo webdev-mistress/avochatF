@@ -1,7 +1,6 @@
 import { getResource, Method } from '@/helpers/api';
 import { IChangeUserData } from '@/redux/store/user/types';
 import { IEditUserSaga } from '@/types/sagas';
-// import { IChangeUserData } from '@/types/store/userActions';
 
 const PREFIX_USER = '/api/v0/user';
 

@@ -7,19 +7,17 @@ import {
   deleteUserFromChat, editChatName,
   getParticipants,
 } from '@/redux/api/chatApi';
-import { setShowCreateChat } from '@/redux/store/ui/actions';
+import { setShowCreateChat, setToggleFailed } from '@/redux/store/ui/actions';
 import {
-  createChatFailed,
+  Chat,
   createChatRequest,
   createChatSucceed,
-  deleteChatFailed,
   deleteChatRequest,
   deleteChatSucceed,
-  deleteUserFromChatFailed,
   deleteUserFromChatRequest,
-  deleteUserFromChatSucceed, editChatNameFailed,
+  deleteUserFromChatSucceed,
   editChatNameRequest,
-  editChatNameSucceed, getParticipantsFailed,
+  editChatNameSucceed,
   getParticipantsRequest,
   getParticipantsSucceed,
 } from '@/redux/store/chat/actions';
@@ -34,15 +32,15 @@ function* fetchCreateChat(action: IAction<string>) {
   try {
     const response: ICreateChatSaga = yield call(createChat, action.payload);
 
-    // if (!response.data || !response.ok) {
-    //   throw response.message;
-    // }
-
     yield put(createChatSucceed(response.data));
     yield put(setShowCreateChat({ isActive: false }));
   } catch (error) {
     console.error(error);
-    yield put(createChatFailed(error));
+    yield put(setToggleFailed({
+      errorType: Chat.CREATE_CHAT,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -55,7 +53,11 @@ function* fetchDeleteChat(action: any) {
     }
   } catch (error) {
     console.error(error);
-    yield put(deleteChatFailed(error));
+    yield put(setToggleFailed({
+      errorType: Chat.DELETE_CHAT,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -70,7 +72,11 @@ function* fetchDeleteUserFromChat(action: any) {
     }
   } catch (error) {
     console.error(error);
-    yield put(deleteUserFromChatFailed(error));
+    yield put(setToggleFailed({
+      errorType: Chat.DELETE_USER_FROM_CHAT,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -83,7 +89,11 @@ function* fetchGetParticipants(action: any) {
     }
   } catch (error) {
     console.error(error);
-    yield put(getParticipantsFailed(error));
+    yield put(setToggleFailed({
+      errorType: Chat.GET_CHAT_PARTICIPANTS,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 
@@ -96,7 +106,11 @@ function* fetchEditChatName(action: any) {
     }
   } catch (error) {
     console.error(error);
-    yield put(editChatNameFailed(error));
+    yield put(setToggleFailed({
+      errorType: Chat.EDIT_CHAT_NAME,
+      textError: error,
+      isError: true,
+    }));
   }
 }
 

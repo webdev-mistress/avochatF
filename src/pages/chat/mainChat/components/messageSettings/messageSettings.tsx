@@ -2,12 +2,14 @@ import React from 'react';
 import { IMessage } from '@/redux/store/chat/types';
 import styles from '@/pages/chat/mainChat/styles.module.scss';
 import {
-  SettingsMessage,
-} from '@/pages/chat/mainChat/components/settingsMessage/settingsMessage';
-import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
-import { IState } from '@/pages/chat/mainChat';
-import { useChatSettings } from '@/pages/chat/mainChat/components/chatSettings/hook';
-// import { IMessage } from '@/types/store/chatActions';
+  MessageSettingsIconsBlock,
+
+} from '@/pages/chat/mainChat/components/messageSettingsIconsBlock';
+import { EditIcon } from '@/pages/chat/mainChat/components/messageIcons/editIcon';
+import {
+  useMessageSettings,
+} from '@/pages/chat/mainChat/components/messageSettings/hook';
+import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
 
 interface IProps {
   message: IMessage,
@@ -21,7 +23,7 @@ interface IProps {
   onSendEditMessage: (content: string) => void,
 }
 
-export const ChatSettings: React.FunctionComponent<IProps> = ({
+export const MessageSettings: React.FunctionComponent<IProps> = ({
   message,
   isEditMessage,
   anchorEl,
@@ -32,11 +34,11 @@ export const ChatSettings: React.FunctionComponent<IProps> = ({
   onEditClose,
   onSendEditMessage,
 }) => {
-  const messageDateChange = useChatSettings({ message });
+  const messageDateChange = useMessageSettings({ message });
 
   return userIsAuthor ? (
     <div className={styles.buttonBlock}>
-      <SettingsMessage
+      <MessageSettingsIconsBlock
         isEditMessage={isEditMessage}
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
