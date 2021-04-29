@@ -1,14 +1,14 @@
 import React from 'react';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { IMessage } from '@/redux/store/chat/types';
-import { MessageMenu } from '@/pages/chat/mainChat/components/messageMenu/messageMenu';
-import { EditIcon } from '@/pages/chat/mainChat/components/messageIcons/editIcon';
-import { OptionIcons } from '@/pages/chat/mainChat/components/messageIcons/optionIcons';
+import { MenuMessage } from '@/pages/chat/mainChat/components/menuMessage/menuMessage';
+import { EditIcon } from '@/pages/chat/mainChat/components/editIcon';
+import { IState } from '@/pages/chat/mainChat';
+import { OptionIcons } from '@/pages/chat/mainChat/components/optionIcons';
 import {
-  useMessageSettingsIconsBlock,
-} from '@/pages/chat/mainChat/components/messageSettingsIconsBlock/hook';
+  useSettingsMessage,
+} from '@/pages/chat/mainChat/components/settingsMessage/hook';
 import styles from '../../styles.module.scss';
-import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
 
 interface IProps {
   isEditMessage: boolean,
@@ -22,7 +22,7 @@ interface IProps {
   onSendEditMessage: (content: string) => void,
 }
 
-export const MessageSettingsIconsBlock: React.FunctionComponent<IProps> = ({
+export const SettingsMessage: React.FunctionComponent<IProps> = ({
   isEditMessage,
   anchorEl,
   setAnchorEl,
@@ -33,9 +33,7 @@ export const MessageSettingsIconsBlock: React.FunctionComponent<IProps> = ({
   onEditClose,
   onSendEditMessage,
 }) => {
-  const {
-    onOpenMenu,
-  } = useMessageSettingsIconsBlock({ state, setState, setAnchorEl });
+  const { onOpenMenu } = useSettingsMessage({ state, setState, setAnchorEl });
 
   if (isEditMessage) {
     return (
@@ -58,7 +56,7 @@ export const MessageSettingsIconsBlock: React.FunctionComponent<IProps> = ({
         className={styles.icons}
       />
       <div>
-        <MessageMenu
+        <MenuMessage
           anchorEl={anchorEl}
           setAnchorEl={setAnchorEl}
           state={state}

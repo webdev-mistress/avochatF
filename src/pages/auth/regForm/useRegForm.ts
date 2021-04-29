@@ -1,13 +1,12 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Auth, signUpRequest } from '@/redux/store/user/actions';
+import { useDispatch } from 'react-redux';
+// import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
+// import { removeErrorMessage, signUpUserRequest } from '@/redux/store/user/actions';
+// import { signUpUserRequest } from '@/redux/common/actions/authActions';
+import { signUpRequest } from '@/redux/store/user/actions';
 import { ButtonEvent } from '@/types/components';
-import {
-  selectIsRegFinished,
-  selectLoaderStatus,
-} from '@/redux/store/ui/selectors';
 
-export const useSignUpForm = (): any => {
+export const useRegForm = (): any => {
   const initialState = {
     email: '',
     name: '',
@@ -16,6 +15,7 @@ export const useSignUpForm = (): any => {
     password2: '',
     disabledButton: false,
     errorText: '',
+    isRegFinished: false,
   };
   const [state, setState] = useState(initialState);
   const {
@@ -25,9 +25,10 @@ export const useSignUpForm = (): any => {
     password1,
     password2,
     disabledButton,
+    isRegFinished,
   } = state;
-  const isSignUpLoading = useSelector(selectLoaderStatus(Auth.SIGN_UP));
-  const isRegFinished = useSelector(selectIsRegFinished);
+  // const isAuthSpin = useSelector(selectIsAuthSpin);
+  // const errorMessage = useSelector(selectErrorMessage);
   const dispatch = useDispatch();
 
   const onCreateUser = useCallback((
@@ -46,7 +47,7 @@ export const useSignUpForm = (): any => {
 
       return;
     }
-    setState({ ...state, disabledButton: true });
+    setState({ ...state, disabledButton: true, isRegFinished: true });
     dispatch(signUpRequest({ email, name, login, password: password1 }));
   }, [disabledButton, dispatch, email, login, name, password1, password2, state]);
 
@@ -54,7 +55,7 @@ export const useSignUpForm = (): any => {
     if (event.key === 'Enter' && isRegFinished) {
       onCreateUser(event);
     }
-  }, [isRegFinished, onCreateUser]);
+  }, [onCreateUser, isRegFinished]);
 
   const onChange = useCallback((name) => (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -80,7 +81,8 @@ export const useSignUpForm = (): any => {
     || state.disabledButton;
 
   return {
-    isSignUpLoading,
+    // isAuthSpin,
+    // errorMessage,
     onKeyUpEnter,
     onCreateUser,
     onChange,
@@ -91,6 +93,5 @@ export const useSignUpForm = (): any => {
     name,
     email,
     state,
-    isRegFinished,
   };
 };

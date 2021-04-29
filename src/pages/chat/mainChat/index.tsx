@@ -1,16 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import _ from 'lodash';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import SendIcon from '@material-ui/icons/Send';
 import { selectUserId } from '@/redux/store/user/selectors';
 import {
   selectActiveChatId,
   selectActiveChatName,
   selectMessages,
 } from '@/redux/store/chat/selectors';
-import { Message, sendMessageRequest } from '@/redux/store/chat/actions';
-import _ from 'lodash';
+import { sendMessageRequest } from '@/redux/store/chat/actions';
 import { IMessage } from '@/redux/store/chat/types';
-import { selectLoaderStatus } from '@/redux/store/ui/selectors';
+import { EmptyChat } from '@/pages/chat/mainChat/components/emptyChat';
+import { ChatMessages } from '@/pages/chat/mainChat/components/chatMessages/chatMessages';
+import styles from './styles.module.scss';
 
 export interface IState {
   messageText: string,
@@ -21,7 +26,7 @@ export interface IState {
   isRefreshing: boolean,
 }
 
-export const useMainChatBlock = (): any => {
+export const MainChat: React.FunctionComponent = () => {
   const initialState: IState = {
     messageText: '',
     isEditMode: false,
@@ -30,13 +35,14 @@ export const useMainChatBlock = (): any => {
     message: null,
     isRefreshing: false,
   };
+
   const [state, setState] = useState(initialState);
   const dispatch: Dispatch = useDispatch();
   const userId: number | null = useSelector(selectUserId);
   const activeChatId = useSelector(selectActiveChatId);
+  console.log(activeChatId, 'myLog activeChatId');
   const activeChatName = useSelector(selectActiveChatName);
   const messages = useSelector(selectMessages);
-  const isSendMessageLoading = useSelector(selectLoaderStatus(Message.SEND_MESSAGE));
   const messageScroll = useRef<HTMLInputElement>(null);
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
@@ -78,20 +84,49 @@ export const useMainChatBlock = (): any => {
 
   const hasMessages = !_.isEmpty(messages);
 
-  return {
-    activeChatId,
-    activeChatName,
-    messageScroll,
-    hasMessages,
-    state,
-    setState,
-    messages,
-    userId,
-    anchorEl,
-    setAnchorEl,
-    onChangeMessage,
-    onPressEvent,
-    onSendMessage,
-    isSendMessageLoading,
-  };
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.topBlock}>
+        <div className={styles.title}>
+          {activeChatId ? `Active chat: ${activeChatName}` : 'Choose an oldChat'}
+        </div>
+      </div>
+      {activeChatId && (
+        <>
+          <div ref={messageScroll} className={styles.messageWrapper}>
+            {hasMessages
+              ? (
+                <ChatMessages
+                  state={state}
+                  setState={setState}
+                  messages={messages}
+                  userId={userId}
+                  anchorEl={anchorEl}
+                  setAnchorEl={setAnchorEl}
+                />)
+              : <EmptyChat />}
+          </div>
+          <div className={styles.form}>
+            <TextField
+              autoFocus
+              id="standard-basic"
+              color="primary"
+              label="Enter Your Message"
+              onChange={onChangeMessage}
+              onKeyUp={onPressEvent}
+              value={state.messageText}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onSendMessage}
+              disabled={!state.messageText}
+            >
+              <SendIcon />
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };

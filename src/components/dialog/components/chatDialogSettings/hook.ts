@@ -5,24 +5,20 @@ import {
   selectUserId,
   selectUserLogin,
 } from '@/redux/store/user/selectors';
-import {
-  selectIsShowChatSettings,
-  selectLoaderStatus,
-} from '@/redux/store/ui/selectors';
+import { selectIsShowChatSettings } from '@/redux/store/ui/selectors';
 import { setShowChatSettings } from '@/redux/store/ui/actions';
 import {
-  Chat,
   clearChat,
   deleteChatRequest,
   deleteUserFromChatRequest, editChatNameRequest, getSelectedChatId,
 } from '@/redux/store/chat/actions';
-import { addUserToChatRequest, User } from '@/redux/store/user/actions';
+import { addUserToChatRequest } from '@/redux/store/user/actions';
+// import { IChat } from '@/redux/store/chat/types';
 import {
-  selectChatMembersList,
   selectSelectedChatId,
   selectSelectedChatName, selectSelectedUserOwnerId,
 } from '@/redux/store/chat/selectors';
-import { IMemberInfo } from '@/redux/store/chat/types';
+// import { selectSelectedChat } from '@/redux/store/chat/selectors';
 
 export const useChatDialogSettings = (): any => {
   const [isEditMode, setEditMode] = useState(false);
@@ -30,23 +26,12 @@ export const useChatDialogSettings = (): any => {
   const dispatch: Dispatch = useDispatch();
   const selectedUserId: number | null = useSelector(selectUserId);
   const selectedUserLogin: string | null = useSelector(selectUserLogin);
+  // const selectedChat: IChat = useSelector(selectSelectedChat);
   const selectedChatId: number | null = useSelector(selectSelectedChatId);
   const selectedChatName: string | null = useSelector(selectSelectedChatName);
   const selectedUserOwnerId: number | null = useSelector(selectSelectedUserOwnerId);
   const isShowChatSettings = useSelector(selectIsShowChatSettings);
   const [newChatNameValue, setChatName] = useState('');
-  const isDeleteChatLoading = useSelector(selectLoaderStatus(Chat.DELETE_CHAT));
-  const isDeleteUserFromChatLoading = useSelector(selectLoaderStatus(
-    Chat.DELETE_USER_FROM_CHAT));
-  const isAddUserToChatLoading = useSelector(selectLoaderStatus(User.ADD_USER_TO_CHAT));
-  const isEditChatNameLoading = useSelector(selectLoaderStatus(Chat.EDIT_CHAT_NAME));
-  const membersList: IMemberInfo[] = useSelector(selectChatMembersList);
-  const isGetParticipantsLoading = useSelector(
-    selectLoaderStatus(Chat.GET_CHAT_PARTICIPANTS));
-
-  const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
-    dispatch(deleteUserFromChatRequest({ login, chatId: selectedChatId }));
-  }, [dispatch, selectedChatId]);
 
   const onCloseDialog = useCallback(() => {
     dispatch(setShowChatSettings({ isActive: false, chatId: null }));
@@ -58,12 +43,6 @@ export const useChatDialogSettings = (): any => {
     setFieldValue('');
     onCloseDialog();
   }, [onCloseDialog]);
-
-  useEffect(() => {
-    if(!selectedChatId) {
-      onCloseDialog();
-    }
-  }, [onCloseDialog, selectedChatId]);
 
   const onChangeFieldValue = useCallback((
     event: React.ChangeEvent<HTMLInputElement>,
@@ -79,12 +58,14 @@ export const useChatDialogSettings = (): any => {
   const onDeleteChatDialog = useCallback(() => {
     dispatch(deleteChatRequest(selectedChatId));
     dispatch(clearChat());
-  }, [dispatch, selectedChatId]);
+    onCloseDialog();
+  }, [dispatch, onCloseDialog, selectedChatId]);
 
   const onLeaveChat = useCallback(() => {
     dispatch(deleteUserFromChatRequest(selectedUserLogin, selectedChatId));
     dispatch(deleteChatRequest(selectedChatId));
-  }, [dispatch, selectedChatId, selectedUserLogin]);
+    onCloseDialog();
+  }, [dispatch, onCloseDialog, selectedChatId, selectedUserLogin]);
 
   const onEditChatName = useCallback(() => {
     setEditMode(!isEditMode);
@@ -141,12 +122,5 @@ export const useChatDialogSettings = (): any => {
     isShowChatSettings,
     onKeyUpEditChatEnter,
     onKeyUpAddUser,
-    isDeleteChatLoading,
-    isDeleteUserFromChatLoading,
-    isAddUserToChatLoading,
-    isEditChatNameLoading,
-    membersList,
-    isGetParticipantsLoading,
-    onDeleteUserFromChatDialog,
   };
 };

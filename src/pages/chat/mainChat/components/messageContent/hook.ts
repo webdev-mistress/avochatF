@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
+import { IState } from '@/pages/chat/mainChat';
 
 interface IArgs {
   state: IState,

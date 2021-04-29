@@ -1,8 +1,5 @@
 import React, { useCallback } from 'react';
-import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
-import { useSelector } from 'react-redux';
-import { selectLoaderStatus } from '@/redux/store/ui/selectors';
-import { Message } from '@/redux/store/chat/actions';
+import { IState } from '@/pages/chat/mainChat';
 
 interface IArgs {
   setAnchorEl: (anchorEl: Element | null) => void,
@@ -10,8 +7,7 @@ interface IArgs {
   setState: (state: IState) => void,
 }
 
-export const useMessageSettingsIconsBlock = (args: IArgs): any => {
-  const isEditMessageLoading = useSelector(selectLoaderStatus(Message.EDIT_MESSAGE));
+export const useSettingsMessage = (args: IArgs): any => {
   const { state, setState, setAnchorEl } = args;
 
   const onOpenMenu = useCallback((message) => (
@@ -23,6 +19,5 @@ export const useMessageSettingsIconsBlock = (args: IArgs): any => {
 
   return {
     onOpenMenu,
-    isEditMessageLoading,
   };
 };

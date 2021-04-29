@@ -5,18 +5,19 @@ import {
   Card,
   CardContent,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
+import { useRegForm } from '@/pages/auth/regForm/useRegForm';
 import styles from './styles.module.scss';
-import { ButtonWithLoader } from '@/components/ui/buttonWithLoader';
-import { useSignUpForm } from '@/pages/auth/signUpForm/hook';
 
 interface IProps {
-  onOpenSignInForm: (isAuth: boolean) => any;
+  onOpenAuthForm: (isAuth: boolean) => any;
 }
 
-export const SignUpForm: React.FunctionComponent<IProps> = ({ onOpenSignInForm }) => {
+export const RegForm: React.FunctionComponent<IProps> = ({ onOpenAuthForm }) => {
   const {
-    isSignUpLoading,
+    isAuthSpin,
+    errorMessage,
     onCreateUser,
     onChange,
     onKeyUpEnter,
@@ -27,16 +28,16 @@ export const SignUpForm: React.FunctionComponent<IProps> = ({ onOpenSignInForm }
     name,
     email,
     state,
-    isRegFinished,
-  } = useSignUpForm();
+  } = useRegForm();
 
   return (
     <Card className={styles.card}>
-      {isRegFinished
+      {state.isRegFinished
         ? (<div>Check your email and confirm registration</div>)
         : (
           <CardContent className={styles.cardContent} onKeyUp={onKeyUpEnter}>
             <Typography variant="h4">Registration</Typography>
+            <div className={styles.errorMessage}>{errorMessage}</div>
             <form className={styles.form}>
               <TextField
                 required
@@ -79,26 +80,35 @@ export const SignUpForm: React.FunctionComponent<IProps> = ({ onOpenSignInForm }
               {!!state.errorText && (
                 <div className={styles.errorText}>{state.errorText}</div>
               )}
-              <>
-                <ButtonWithLoader
-                  text={'Sign Up'}
-                  color="primary"
-                  variant="contained"
-                  isLoading={isSignUpLoading}
-                  onClick={onCreateUser}
-                  disabled={disabledRegFormButton}
-                />
-                <div className={styles.signUpWrapper}>
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    disabled={isSignUpLoading}
-                    onClick={onOpenSignInForm(true)}
-                  >
-                    Sign In
-                  </Button>
-                </div>
-              </>
+              {isAuthSpin
+                ?
+                (
+                  <div className={styles.authSpin}>
+                    <CircularProgress />
+                  </div>
+                )
+                : (
+                  <>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={onCreateUser}
+                      disabled={disabledRegFormButton}
+                    >
+                      Sign Up
+                    </Button>
+                    <div className={styles.signUpWrapper}>
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        onClick={onOpenAuthForm(true)}
+                      >
+                        Sign In
+                      </Button>
+                    </div>
+                  </>
+                )
+              }
             </form>
           </CardContent>)
       }

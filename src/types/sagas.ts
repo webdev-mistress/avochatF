@@ -1,5 +1,14 @@
 import { IChat, IMemberInfo, IMessage } from '@/redux/store/chat/types';
 import { IUserProfileData, IUserProfileDataWithChats } from '@/redux/store/user/types';
+// import { ISucceededUserData } from '@/redux/store/user/types';
+
+// export interface ISignInData {
+//   accessToken: string,
+//   userId: number,
+//   name: string,
+//   login: string,
+//   chats: IChat[],
+// }
 
 export interface ISignInUserSaga {
   ok: boolean,

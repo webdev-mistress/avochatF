@@ -1,17 +1,18 @@
 import React from 'react';
 import styles from '@/components/dialog/styles.module.scss';
 import { DialogTitle, TextField } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import EditAttributesIcon from '@material-ui/icons/EditAttributes';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import CloseIcon from '@material-ui/icons/Close';
 import {
   useChatDialogSettings,
 } from '@/components/dialog/components/chatDialogSettings/hook';
-import { IconButtonWithLoader } from '@/components/ui/iconButtonWithLoader';
 
 export const ChatSettingsBlock = (): any => {
   const {
     isEditMode,
+    // selectedChatId,
     selectedChatName,
     newChatNameValue,
     onCloseDialogClick,
@@ -19,7 +20,6 @@ export const ChatSettingsBlock = (): any => {
     onChangeChatName,
     onEditOldChatName,
     onKeyUpEditChatEnter,
-    isEditChatNameLoading,
   } = useChatDialogSettings();
   return (
     <div className={styles.chatSettings}>
@@ -38,20 +38,17 @@ export const ChatSettingsBlock = (): any => {
               onKeyUp={onKeyUpEditChatEnter}
               onChange={onChangeChatName}
             />
-            <IconButtonWithLoader
+            <IconButton
               className={styles.addButton}
               disabled={!newChatNameValue}
-              isLoading={isEditChatNameLoading}
               onClick={onEditOldChatName(newChatNameValue)}
               color="primary"
             >
-              {!isEditChatNameLoading && (
-                <EditAttributesIcon
-                  fontSize={'large'}
-                >
-                </EditAttributesIcon>
-              )}
-            </IconButtonWithLoader>
+              <EditAttributesIcon
+                fontSize={'large'}
+              >
+              </EditAttributesIcon>
+            </IconButton>
           </div>
         ) : (
           <BorderColorIcon

@@ -5,15 +5,13 @@ import { editUser } from '@/redux/api/userApi';
 import {
   editCurrentUserSucceed,
   addUserToChatRequest,
-  editCurrentUserRequest,
-  addUserToChatSucceed, User,
+  editCurrentUserRequest, addUserToChatFailed, editCurrentUserFailed,
 } from '@/redux/store/user/actions';
 import { getParticipantsRequest } from '@/redux/store/chat/actions';
 import {
   IAddUserToChatSaga,
   IEditUserSaga,
 } from '@/types/sagas';
-import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* fetchAddUserToChat(action: any) {
   try {
@@ -21,15 +19,10 @@ function* fetchAddUserToChat(action: any) {
     const response: IAddUserToChatSaga = yield call(addUserToChat, login, selectedChatId);
     if (response.ok) {
       yield put(getParticipantsRequest(response.data.addedChatId));
-      yield put(addUserToChatSucceed());
     }
   } catch (error) {
     console.error(error);
-    yield put(setToggleFailed({
-      errorType: User.ADD_USER_TO_CHAT,
-      textError: error,
-      isError: true,
-    }));
+    yield put(addUserToChatFailed(error));
   }
 }
 
@@ -41,11 +34,7 @@ function* fetchEditCurrentUser(action: any) {
     }
   } catch (error) {
     console.log(error);
-    yield put(setToggleFailed({
-      errorType: User.EDIT_CURRENT_USER,
-      textError: error,
-      isError: true,
-    }));
+    yield put(editCurrentUserFailed(error));
   }
 }
 

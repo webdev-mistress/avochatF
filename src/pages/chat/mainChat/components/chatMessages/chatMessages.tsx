@@ -3,17 +3,14 @@ import _ from 'lodash';
 import format from 'date-fns/format';
 import cn from 'classnames';
 import { IMessage } from '@/redux/store/chat/types';
-import {
-  MessageSettings,
-} from '@/pages/chat/mainChat/components/messageSettings/messageSettings';
+import { IState } from '@/pages/chat/mainChat';
+import { ChatSettings } from '@/pages/chat/mainChat/components/chatSettings/chatSettings';
 import {
   MessageContent,
 } from '@/pages/chat/mainChat/components/messageContent/messageContent';
-import {
-  useMessageList,
-} from '@/pages/chat/mainChat/components/messageList/hook';
+import { useChatMessages } from '@/pages/chat/mainChat/components/chatMessages/hook';
+// import { IMessage } from '@/types/store/chatActions';
 import styles from '../../styles.module.scss';
-import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
 
 interface IProps {
   state: IState,
@@ -24,7 +21,7 @@ interface IProps {
   setAnchorEl: (anchorEl: Element | null) => void,
 }
 
-export const MessageList: React.FunctionComponent<IProps> = ({
+export const ChatMessages: React.FunctionComponent<IProps> = ({
   messages,
   state,
   userId,
@@ -35,7 +32,7 @@ export const MessageList: React.FunctionComponent<IProps> = ({
   const {
     onEditClose,
     onSendEditMessage,
-  } = useMessageList({ state, setState });
+  } = useChatMessages({ state, setState });
 
   return (
     <>
@@ -66,7 +63,7 @@ export const MessageList: React.FunctionComponent<IProps> = ({
                   onEditClose={onEditClose}
                 />
               </div>
-              <MessageSettings
+              <ChatSettings
                 message={message}
                 anchorEl={anchorEl}
                 setAnchorEl={setAnchorEl}

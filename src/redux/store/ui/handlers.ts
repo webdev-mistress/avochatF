@@ -2,7 +2,6 @@ import camelcase from 'camelcase';
 import { ChatSettingsShow, DialogSettingsShow, IUIStore } from '@/redux/store/ui/types';
 import { INITIAL_STATE } from '@/redux/store/ui/reducer';
 import { getErrorName, getLoaderName } from '@/redux/utils/redux';
-import { IErrorInfo } from '@/redux/utils/types';
 
 export const setShowChatSettingsHandler = (
   state: IUIStore,
@@ -39,42 +38,19 @@ export const setLoaderHandler = (loaderType: string, isLoading: boolean) => (
   },
 });
 
-export const setToggleFailedHandler = (
+export const setErrorHandler = (
+  errorType: string, isError: boolean,
+) => (
   state: IUIStore,
-  payload: IErrorInfo,
-): IUIStore => {
-  const {
-    errorType,
-    textError,
-    isError,
-  } = payload;
-  return ({
-    ...state,
-    errors: {
-      ...state.errors,
-      [getErrorName(errorType)]: {
-        textError,
-        isError,
-      },
-    },
-    loaders: {
-      ...state.loaders,
-      [getLoaderName(errorType)]: false,
-    },
-  });
-};
-
-export const signUpSucceedHandler = (loaderType: string) => (
-  state: IUIStore,
-): IUIStore => ({
+  payload?: string,
+):IUIStore => ({
   ...state,
-  loaders: {
-    ...state.loaders,
-    [getLoaderName(loaderType)]: false,
-  },
-  toggles: {
-    ...state.toggles,
-    isRegFinished: true,
+  errors: {
+    ...state.errors,
+    [getErrorName(errorType)]: {
+      textError: payload,
+      isError,
+    },
   },
 });
 
