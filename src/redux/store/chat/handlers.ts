@@ -16,6 +16,11 @@ export const createChatSucceedHandler = (
     createdChat,
     ...state.chats,
   ],
+  // activeChatInfo: chat,
+  // chats: [
+  //   chat,
+  //   ...state.chats,
+  // ],
 });
 
 export const getActiveChatHandler = (
@@ -34,6 +39,7 @@ export const getParticipantsSucceedHandler = (
   chats: state.chats.map((chat) => chat.id === getParticipantsInfo.chatId
     ? ({ ...chat, chatMembersList: getParticipantsInfo.chatMembersInfo })
     : chat),
+  // chatMembersList: chatMembersInfo,
 });
 
 export const deleteUserFromChatSucceedHandler = (
@@ -45,6 +51,8 @@ export const deleteUserFromChatSucceedHandler = (
     ? ({ ...chat, chatMembersList: chat.chatMembersList
       .filter((member) => member.login !== deleteUserData.login) })
     : chat),
+  // chatMembersList: state.chatMembersList && state.chatMembersList
+  //   .filter(member => member.login !== deleteUserData.login),
 });
 
 export const getMessagesSucceedHandler = (
@@ -54,6 +62,10 @@ export const getMessagesSucceedHandler = (
   ...state,
   chats: state.chats.map((chat) => chat.id === state.activeChatId
     ? ({ ...chat, messages }) : chat),
+  // activeChatInfo: state.activeChatInfo ? {
+  //   ...state.activeChatInfo,
+  //   messages: messages,
+  // } : null,
 });
 
 export const editMessageSucceedHandler = (
@@ -73,8 +85,6 @@ export const deleteChatSucceedHandler = (
 ): IChatStore => ({
   ...state,
   chats: state.chats.filter(chat => chat.id !== chatId),
-  activeChatId: null,
-  selectedChatId: null,
 });
 
 export const editChatNameSucceedHandler = (
@@ -87,13 +97,17 @@ export const editChatNameSucceedHandler = (
       ? { ...chat, name: editedChatInfo.name }
       : chat),
 });
-
-// export const sendMessageRequestHandler = (
-//   state: IChatStore,
-// ) => ({
+// {
+//   const newChatList =
+// return ({
 //   ...state,
-//
+//   selectedChat: state.selectedChat && {
+//     ...state.selectedChat,
+//     name: editedChatInfo.name,
+//   },
+//   chats: newChatList,
 // });
+// };
 
 export const getSelectedChatHandler = (
   state: IChatStore,
@@ -118,6 +132,7 @@ export const clearChatHandler = (
   chats: state.chats.map((chat) => chat.id === state.selectedChatId
     ? ({ ...chat, chatMembersList: [] })
     : chat),
+  // chatMembersList: [],
 });
 
 export const logoutHandler = (): IChatStore => INITIAL_STATE;

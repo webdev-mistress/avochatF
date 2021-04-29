@@ -26,3 +26,10 @@ export const signInSucceedHandler = (
   userProfileData: _.omit(userData, ['chats']),
   isAuthUser: true,
 });
+
+export const signAllFailedHandler = (
+  state: IUserStore,
+): IUserStore => ({
+  ...state,
+  isAuthUser: false,
+});

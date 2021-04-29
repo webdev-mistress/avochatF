@@ -14,11 +14,6 @@ export const pascalCase = (string: string): any => {
   return _.upperFirst(_.camelCase(string));
 };
 
-export const screamSnakeCaseWithSlicingError = (string: string): string => {
-  const stringWithoutError = string.slice(0, -5);
-  return _.snakeCase(stringWithoutError).toUpperCase();
-};
-
 export const getLoaderName = (type: string): string => `is${pascalCase(type)}Loading`;
 export const getErrorName = (type: string): string => `${camelCase(type)}Error`;
 

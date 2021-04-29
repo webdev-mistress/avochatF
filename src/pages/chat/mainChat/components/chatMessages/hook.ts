@@ -1,15 +1,16 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+// import { editMessage } from '@/redux/store/oldChat/actions';
 import { editMessageRequest } from '@/redux/store/chat/actions';
-import { IState } from '@/pages/chat/mainChat/components/mainChatBlock/hook';
+import { IState } from '@/pages/chat/mainChat';
 
 interface IArgs {
   state: IState,
   setState: (state: IState) => void,
 }
 
-export const useMessageList = (args: IArgs): any => {
+export const useChatMessages = (args: IArgs): any => {
   const dispatch: Dispatch = useDispatch();
   const { state, setState } = args;
 

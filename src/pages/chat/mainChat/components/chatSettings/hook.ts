@@ -5,7 +5,7 @@ interface IArgs {
   message: IMessage,
 }
 
-export const useMessageSettings = (args: IArgs): any => {
+export const useChatSettings = (args: IArgs): any => {
   const { message } = args;
 
   return message.dateChange

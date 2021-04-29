@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
 import List from '@material-ui/core/List';
 import styles from '@/components/dialog/styles.module.scss';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,64 +9,61 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import { checkShowCloseIcon } from '@/components/dialog/helpers';
 import CloseIcon from '@material-ui/icons/Close';
-import { CircularProgress } from '@material-ui/core';
-import {
-  useChatDialogSettings,
-} from '@/components/dialog/components/chatDialogSettings/hook';
+// import { selectChatMembersList, selectSelectedChat } from '@/redux/store/chat/selectors';
+import { selectUserId } from '@/redux/store/user/selectors';
+import { deleteUserFromChatRequest } from '@/redux/store/chat/actions';
 import { IMemberInfo } from '@/redux/store/chat/types';
+import {
+  selectChatMembersList,
+  selectSelectedChatId, selectSelectedUserOwnerId,
+} from '@/redux/store/chat/selectors';
 
 export const MembersList: React.FunctionComponent = () => {
-  const {
-    isGetParticipantsLoading,
-    membersList,
-    selectedUserOwnerId,
-    selectedUserId,
-    isDeleteUserFromChatLoading,
-    onDeleteUserFromChatDialog,
-  } = useChatDialogSettings();
+  const dispatch: Dispatch = useDispatch();
+  const membersList: IMemberInfo[] = useSelector(selectChatMembersList);
+  const selectedChatId: number | null = useSelector(selectSelectedChatId);
+  const selectedUserOwnerId = useSelector(selectSelectedUserOwnerId);
+  const selectedUserId: number | null = useSelector(selectUserId);
+
+  const onDeleteUserFromChatDialog = useCallback((login: string) => () => {
+    // if(selectedChatId) {
+    dispatch(deleteUserFromChatRequest({ login, chatId: selectedChatId }));
+    // }
+  }, [dispatch, selectedChatId]);
 
   return (
-    <>
-      {isGetParticipantsLoading ? (<CircularProgress size={30} />)
-        : (
-          <List className={styles.membersListWrapper}>
-            {membersList.map(((member: IMemberInfo) => (
-              <ListItem
-                className={styles.infoWrapper}
-                key={member.id}
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    className={styles.avatar}
-                    alt={member.name}
-                    src="/static/invalide.path"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  className={member.isOnline
-                    ? styles.listItemTextOnline
-                    : styles.listItemTextOffline
-                  }
-                  primary={member.name}
-                  secondary={member.isOnline ? 'online' : 'offline'}
-                />
-                {checkShowCloseIcon(selectedUserOwnerId, member, selectedUserId)
-                  ? isDeleteUserFromChatLoading ? (<CircularProgress size={30} />)
-                    : (
-                      <>
-                        <CloseIcon
-                          onClick={onDeleteUserFromChatDialog(member.login)}
-                          className={styles.chatSettingsIcon}
-                        />
-                      </>
-                    )
-                  : null
-                }
-              </ListItem>
-            )))}
-          </List>
-        )
-      }
-    </>
+
+    <List className={styles.membersListWrapper}>
+      {membersList.map(((member) => (
+        <ListItem
+          className={styles.infoWrapper}
+          key={member.id}
+        >
+          <ListItemAvatar>
+            <Avatar
+              className={styles.avatar}
+              alt={member.name}
+              src="/static/invalide.path"
+            />
+          </ListItemAvatar>
+          <ListItemText
+            className={member.isOnline
+              ? styles.listItemTextOnline
+              : styles.listItemTextOffline
+            }
+            primary={member.name}
+            secondary={member.isOnline ? 'online' : 'offline'}
+          />
+          {checkShowCloseIcon(selectedUserOwnerId, member, selectedUserId)
+           && (
+             <CloseIcon
+               onClick={onDeleteUserFromChatDialog(member.login)}
+               className={styles.chatSettingsIcon}
+             />
+           )
+          }
+        </ListItem>
+      )))}
+    </List>
   );
 };

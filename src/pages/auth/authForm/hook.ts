@@ -1,16 +1,17 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
+// import { selectErrorMessage, selectIsAuthSpin } from '@/redux/store/user/selectors';
 import {
-  Auth,
+  // removeAuthErrorMessage,
   signInRequest,
 } from '@/redux/store/user/actions';
-import { selectLoaderStatus } from '@/redux/store/ui/selectors';
 
-export const useSignInForm = (): any => {
+export const useAuthForm = (): any => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const isSignInLoading = useSelector(selectLoaderStatus(Auth.SIGN_IN));
+  // const errorMessage = useSelector(selectErrorMessage);
+  // const isAuthSpin = useSelector(selectIsAuthSpin);
   const dispatch: Dispatch = useDispatch();
 
   // useEffect(() => {
@@ -19,7 +20,7 @@ export const useSignInForm = (): any => {
   //   }
   // }, [errorMessage]);
 
-  const onSignIn = useCallback((event) => {
+  const onAuth = useCallback((event) => {
     event.preventDefault();
     if (!login || !password) {
       return;
@@ -27,11 +28,11 @@ export const useSignInForm = (): any => {
     dispatch(signInRequest({ login, password }));
   }, [dispatch, login, password]);
 
-  const onSignInEnter = useCallback((event) => {
+  const onAuthEnter = useCallback((event) => {
     if (event.key === 'Enter') {
-      onSignIn(event);
+      onAuth(event);
     }
-  }, [onSignIn]);
+  }, [onAuth]);
 
   const onChange = useCallback((name, setState) => (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -49,9 +50,10 @@ export const useSignInForm = (): any => {
     setLogin,
     password,
     setPassword,
-    isSignInLoading,
-    onSignInEnter,
+    // errorMessage,
+    // isAuthSpin,
+    onAuthEnter,
     onChange,
-    onSignIn,
+    onAuth,
   };
 };

@@ -7,12 +7,7 @@ import { sendNotification } from '@/helpers';
 import { SagaIterator } from '@redux-saga/types/types';
 import { selectActiveChatId } from '@/redux/store/chat/selectors';
 import { selectUserId } from '@/redux/store/user/selectors';
-import {
-  deleteMessageSucceed,
-  editMessageSucceed,
-  getMessagesRequest,
-  sendMessageSucceed,
-} from '@/redux/store/chat/actions';
+import { getMessagesRequest } from '@/redux/store/chat/actions';
 
 function websocketInitChannel() {
   const url = process.env.NODE_ENV === 'development'
@@ -31,7 +26,6 @@ function websocketInitChannel() {
       const chatId = selectActiveChatId(store);
       if (chatId) {
         emitter(getMessagesRequest(chatId));
-        emitter(sendMessageSucceed());
       }
 
       if (body.author.login !== store.user.login) {
@@ -47,7 +41,6 @@ function websocketInitChannel() {
       const chatId = selectActiveChatId(store);
       if (chatId) {
         emitter(getMessagesRequest(chatId));
-        emitter(editMessageSucceed());
       }
     });
     socket.on('deleteMessage', () => {
@@ -55,7 +48,6 @@ function websocketInitChannel() {
       const chatId = selectActiveChatId(store);
       if (chatId) {
         emitter(getMessagesRequest(chatId));
-        emitter(deleteMessageSucceed());
       }
     });
     socket.onClose = () => emitter(END);
