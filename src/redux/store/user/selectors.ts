@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { IUserProfileData } from '@/redux/store/user/types';
-import { IStore } from '@/redux/utils/types';
+import { IStore } from '@/redux/utils/types2';
 
 export const selectUser = (state: IStore): IUserProfileData | null => {
   if(!state.user.userProfileData) {

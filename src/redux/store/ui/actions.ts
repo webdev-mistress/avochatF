@@ -1,6 +1,6 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { ChatSettingsShow, DialogSettingsShow } from '@/redux/store/ui/types';
-import { IErrorInfo } from '@/redux/utils/types';
+import { IErrorInfo } from '@/redux/utils/types2';
 const actionCreator = actionCreatorFactory();
 
 export enum UI {

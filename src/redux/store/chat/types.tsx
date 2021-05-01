@@ -1,3 +1,5 @@
+import { IReadableUserResponse } from '@/redux/sagas/utils/types';
+
 export type DeleteUserData = { login: string, chatId: number }
 export type EditedMessage = { messageId: number, message: string }
 
@@ -41,6 +43,7 @@ export interface IMemberInfo {
 }
 
 export interface IGetParticipantsInfo {
-  chatMembersInfo: IMemberInfo[],
+  // chatMembersInfo: IMemberInfo[],
+  participantsInfo: IReadableUserResponse,
   chatId: number,
 }

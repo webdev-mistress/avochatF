@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 import { IChat } from '@/redux/store/chat/types';
-import { IStore } from '@/redux/utils/types';
+import { IStore } from '@/redux/utils/types2';
 
 export const selectUserChats = (state: IStore): IChat[] =>
   state.chat.chats;

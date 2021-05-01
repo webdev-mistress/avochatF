@@ -18,15 +18,15 @@ import {
   signInSucceed,
   signUpRequest, signUpSucceed,
 } from '@/redux/store/user/actions';
-import { ISignInUserSaga } from '@/types/sagas';
+// import { ISignInUserSaga } from '@/utils/sagas';
 import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* fetchSignIn(action: any) {
   try {
-    const userResponse: ISignInUserSaga = yield call(signInUser, action.payload);
-    accessToken.set(userResponse.data.accessToken);
-    delete userResponse.data.accessToken;
-    yield put(signInSucceed(userResponse.data));
+    const userResponse: any = yield call(signInUser, action.payload);
+    accessToken.set(userResponse.accessToken);
+    delete userResponse.accessToken;
+    yield put(signInSucceed(userResponse));
   } catch (error) {
     yield put(setToggleFailed({
       errorType: Auth.SIGN_IN,
@@ -54,10 +54,10 @@ function* fetchSignUp(action: any) {
 function* fetchConfirmUser(action: any) {
   try {
     const userResponse = yield call(confirmUser, action.payload);
-    accessToken.set(userResponse.data.accessToken);
-    delete userResponse.data.accessToken;
+    accessToken.set(userResponse.accessToken);
+    delete userResponse.accessToken;
     if (userResponse.ok) {
-      yield put(signInSucceed(userResponse.data));
+      yield put(signInSucceed(userResponse));
       yield put(confirmUserSucceed());
     }
   } catch (error) {
@@ -81,10 +81,8 @@ function* fetchLogout() {
 
 function* fetchChangePassword(action: any) {
   try {
-    const userResponse = yield call(changePassword, action.payload);
-    if(userResponse.ok) {
-      yield put(changePasswordSucceed());
-    }
+    yield call(changePassword, action.payload);
+    yield put(changePasswordSucceed());
   } catch (error) {
     console.log(error);
     yield put(setToggleFailed({

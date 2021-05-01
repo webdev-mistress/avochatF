@@ -16,7 +16,7 @@ import {
   sendMessageRequest,
 } from '@/redux/store/chat/actions';
 import { IMessage } from '@/redux/store/chat/types';
-import { IGetMessagesSaga, ISendMessageSaga } from '@/types/sagas';
+// import { IGetMessagesSaga, ISendMessageSaga } from '@/utils/sagas';
 import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* requestMessages(chatId: number | null) {
@@ -24,8 +24,8 @@ function* requestMessages(chatId: number | null) {
     if(!chatId) {
       return;
     }
-    const response: IGetMessagesSaga = yield call(getMessagesFromApi, chatId);
-    yield put(getMessagesSucceed(response.data));
+    const response: any = yield call(getMessagesFromApi, chatId);
+    yield put(getMessagesSucceed(response));
   } catch (error) {
     console.log(error);
     yield put(setToggleFailed({
@@ -80,13 +80,13 @@ function* fetchEditMessage(action: any) {
   try {
     const { editMessageId, messageEdit } = action.payload;
 
-    const response: ISendMessageSaga = yield call(
+    const response: any = yield call(
       editMessage, editMessageId, messageEdit,
     );
 
     const messages = yield select(selectMessages);
     const newMessages = messages.map((message: IMessage) =>
-      message.messageId === editMessageId ? response.data : message);
+      message.messageId === editMessageId ? response : message);
     yield put(getMessagesSucceed(newMessages));
   } catch (error) {
     console.error(error);

@@ -1,15 +1,20 @@
 import { getResource, Method } from '@/helpers/api';
-import { IChangePasswordData, ISignInUserData } from '@/redux/store/user/types';
 import {
-  IChangePasswordSaga,
-  ILogoutUserSaga,
-  ISignInUserSaga,
-  ISignUpUserSaga,
-} from '@/types/sagas';
+  IChangePasswordData,
+  ISignInUserData,
+  IUserProfileDataWithChats,
+} from '@/redux/store/user/types';
+// import {
+//   IChangePasswordSaga,
+//   ILogoutUserSaga,
+//   ISignInUserSaga,
+//   ISignUpUserSaga,
+// } from '@/utils/sagas';
 
 const PREFIX_AUTH = '/api/v0/auth';
 
-export const signInUser = function(user: ISignInUserData): Promise<ISignInUserSaga> {
+export const signInUser = function(
+  user: ISignInUserData): Promise<IUserProfileDataWithChats> {
   return getResource({
     url: `${PREFIX_AUTH}/signIn?withChats=true`,
     method: Method.POST,
@@ -22,7 +27,7 @@ export const signUpUser = function (
   name: string,
   login: string,
   password: string,
-): Promise<ISignUpUserSaga> {
+): Promise<ISignInUserData> {
   return getResource({
     url: `${PREFIX_AUTH}/signUp`,
     method: Method.POST,
@@ -37,7 +42,7 @@ export const confirmUser = function(token: string): Promise<any> {
   });
 };
 
-export const logoutUser = function(token: string): Promise<ILogoutUserSaga> {
+export const logoutUser = function(token: string): Promise<any> {
   return getResource({
     url: `${PREFIX_AUTH}/logout?token=${token}`,
     method: Method.POST,
@@ -45,7 +50,7 @@ export const logoutUser = function(token: string): Promise<ILogoutUserSaga> {
 };
 
 export const changePassword = function(
-  passwordData: IChangePasswordData): Promise<IChangePasswordSaga> {
+  passwordData: IChangePasswordData): Promise<any> {
   return getResource({
     url: `${PREFIX_AUTH}/changePassword`,
     method: Method.POST,

@@ -9,20 +9,18 @@ import {
   addUserToChatSucceed, User,
 } from '@/redux/store/user/actions';
 import { getParticipantsRequest } from '@/redux/store/chat/actions';
-import {
-  IAddUserToChatSaga,
-  IEditUserSaga,
-} from '@/types/sagas';
+// import {
+//   IAddUserToChatSaga,
+//   IEditUserSaga,
+// } from '@/utils/sagas';
 import { setToggleFailed } from '@/redux/store/ui/actions';
 
 function* fetchAddUserToChat(action: any) {
   try {
     const { login, selectedChatId } = action.payload;
-    const response: IAddUserToChatSaga = yield call(addUserToChat, login, selectedChatId);
-    if (response.ok) {
-      yield put(getParticipantsRequest(response.data.addedChatId));
-      yield put(addUserToChatSucceed());
-    }
+    const response: any = yield call(addUserToChat, login, selectedChatId);
+    yield put(getParticipantsRequest(response));
+    yield put(addUserToChatSucceed());
   } catch (error) {
     console.error(error);
     yield put(setToggleFailed({
@@ -35,10 +33,8 @@ function* fetchAddUserToChat(action: any) {
 
 function* fetchEditCurrentUser(action: any) {
   try {
-    const response: IEditUserSaga = yield call(editUser, action.payload);
-    if (response.ok) {
-      yield put(editCurrentUserSucceed(action.payload));
-    }
+    yield call(editUser, action.payload);
+    yield put(editCurrentUserSucceed(action.payload));
   } catch (error) {
     console.log(error);
     yield put(setToggleFailed({

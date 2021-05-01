@@ -1,14 +1,14 @@
 import { getResource, Method } from '@/helpers/api';
-import {
-  IDeleteMessageSaga,
-  IEditMessageSaga,
-  IGetMessagesSaga,
-  ISendMessageSaga,
-} from '@/types/sagas';
+// import {
+//   IDeleteMessageSaga,
+//   IEditMessageSaga,
+//   IGetMessagesSaga,
+//   ISendMessageSaga,
+// } from '@/utils/sagas';
 
 const PREFIX_MESSAGES = '/api/v0/message';
 
-export const getMessages = function(chatId: number): Promise<IGetMessagesSaga> {
+export const getMessages = function(chatId: number): Promise<any> {
   return getResource({
     url: `${PREFIX_MESSAGES}/get?chatId=${chatId}`,
     method: Method.GET,
@@ -17,7 +17,7 @@ export const getMessages = function(chatId: number): Promise<IGetMessagesSaga> {
 
 export const sendMessage = function(
   login: string, chatId: number, message: string,
-): Promise<ISendMessageSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_MESSAGES}/send`,
     method: Method.POST,
@@ -25,7 +25,7 @@ export const sendMessage = function(
   });
 };
 
-export const deleteMessage = function(messageId: number): Promise<IDeleteMessageSaga> {
+export const deleteMessage = function(messageId: number): Promise<any> {
   return getResource({
     url: `${PREFIX_MESSAGES}/delete`,
     method: Method.POST,
@@ -35,7 +35,7 @@ export const deleteMessage = function(messageId: number): Promise<IDeleteMessage
 
 export const editMessage = function(
   messageId: number, message: string,
-): Promise<IEditMessageSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_MESSAGES}/edit`,
     method: Method.POST,

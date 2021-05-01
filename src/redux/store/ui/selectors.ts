@@ -1,4 +1,4 @@
-import { IError, IErrors, IStore } from '@/redux/utils/types';
+import { IError, IErrors, IStore } from '@/redux/utils/types2';
 import { getErrorName, getLoaderName } from '@/redux/utils/redux';
 
 export const selectIsShowChatSettings = (state: IStore): boolean =>

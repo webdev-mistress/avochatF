@@ -1,16 +1,16 @@
 import { getResource, Method } from '@/helpers/api';
-import {
-  IAddUserToChatSaga, ICkeckMembersSaga,
-  ICreateChatSaga,
-  IDeleteChatSaga,
-  IDeleteUserFromChatSaga, IEditChatNameSaga,
-} from '@/types/sagas';
+// import {
+//   IAddUserToChatSaga, ICkeckMembersSaga,
+//   ICreateChatSaga,
+//   IDeleteChatSaga,
+//   IDeleteUserFromChatSaga, IEditChatNameSaga,
+// } from '@/utils/sagas';
 
 const PREFIX_CHAT = '/api/v0/chat';
 
 export const createChat = function(
   chatName: string,
-): Promise<ICreateChatSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/create`,
     method: Method.POST,
@@ -18,7 +18,7 @@ export const createChat = function(
   });
 };
 
-export const deleteChat = function(chatId: number): Promise<IDeleteChatSaga> {
+export const deleteChat = function(chatId: number): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/delete`,
     method: Method.POST,
@@ -28,7 +28,7 @@ export const deleteChat = function(chatId: number): Promise<IDeleteChatSaga> {
 
 export const addUserToChat = function(
   login: string, chatId: number,
-): Promise<IAddUserToChatSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/addUserToChat`,
     method: Method.POST,
@@ -38,7 +38,7 @@ export const addUserToChat = function(
 
 export const deleteUserFromChat = function(
   login: string, chatId: number,
-): Promise<IDeleteUserFromChatSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/deleteUserFromChat`,
     method: Method.POST,
@@ -46,7 +46,7 @@ export const deleteUserFromChat = function(
   });
 };
 
-export const getParticipants = function(chatId: number): Promise<ICkeckMembersSaga> {
+export const getParticipants = function(chatId: number): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/getParticipants?chatId=${chatId}`,
     method: Method.GET,
@@ -55,7 +55,7 @@ export const getParticipants = function(chatId: number): Promise<ICkeckMembersSa
 
 export const editChatName = function(
   newName: string, chatId: number,
-): Promise<IEditChatNameSaga> {
+): Promise<any> {
   return getResource({
     url: `${PREFIX_CHAT}/edit`,
     method: Method.POST,

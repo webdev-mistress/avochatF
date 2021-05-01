@@ -2,7 +2,7 @@ import camelcase from 'camelcase';
 import { ChatSettingsShow, DialogSettingsShow, IUIStore } from '@/redux/store/ui/types';
 import { INITIAL_STATE } from '@/redux/store/ui/reducer';
 import { getErrorName, getLoaderName } from '@/redux/utils/redux';
-import { IErrorInfo } from '@/redux/utils/types';
+import { IErrorInfo } from '@/redux/utils/types2';
 
 export const setShowChatSettingsHandler = (
   state: IUIStore,

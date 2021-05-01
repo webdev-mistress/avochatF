@@ -32,7 +32,7 @@ export const getParticipantsSucceedHandler = (
 ): IChatStore => ({
   ...state,
   chats: state.chats.map((chat) => chat.id === getParticipantsInfo.chatId
-    ? ({ ...chat, chatMembersList: getParticipantsInfo.chatMembersInfo })
+    ? ({ ...chat, chatMembersList: getParticipantsInfo.participantsInfo.usersList })
     : chat),
 });
 

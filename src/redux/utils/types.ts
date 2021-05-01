@@ -22,7 +22,6 @@ export interface IErrors {
 export interface IToggles {
   isRegFinished: boolean,
 }
-
 export interface IDialog {
   isShowLogout: boolean,
   isShowCreateChat: boolean,

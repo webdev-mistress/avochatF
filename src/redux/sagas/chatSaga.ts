@@ -21,18 +21,13 @@ import {
   getParticipantsRequest,
   getParticipantsSucceed,
 } from '@/redux/store/chat/actions';
-import {
-  ICreateChatSaga,
-  IDeleteChatSaga,
-  IDeleteUserFromChatSaga,
-  ICkeckMembersSaga, IEditChatNameSaga,
-} from '@/types/sagas';
+import { IReadableUserResponse } from '@/redux/sagas/utils/types';
 
 function* fetchCreateChat(action: IAction<string>) {
   try {
-    const response: ICreateChatSaga = yield call(createChat, action.payload);
+    const response: any = yield call(createChat, action.payload);
 
-    yield put(createChatSucceed(response.data));
+    yield put(createChatSucceed(response));
     yield put(setShowCreateChat({ isActive: false }));
   } catch (error) {
     console.error(error);
@@ -46,11 +41,8 @@ function* fetchCreateChat(action: IAction<string>) {
 
 function* fetchDeleteChat(action: any) {
   try {
-    const response: IDeleteChatSaga = yield call(deleteChat, action.payload);
-
-    if (response.ok) {
-      yield put(deleteChatSucceed(action.payload));
-    }
+    yield call(deleteChat, action.payload);
+    yield put(deleteChatSucceed(action.payload));
   } catch (error) {
     console.error(error);
     yield put(setToggleFailed({
@@ -64,12 +56,8 @@ function* fetchDeleteChat(action: any) {
 function* fetchDeleteUserFromChat(action: any) {
   try {
     const { login, chatId } = action.payload;
-    const response: IDeleteUserFromChatSaga = yield call(
-      deleteUserFromChat, login, chatId,
-    );
-    if (response.ok) {
-      yield put(deleteUserFromChatSucceed({ login, chatId }));
-    }
+    yield call(deleteUserFromChat, login, chatId);
+    yield put(deleteUserFromChatSucceed({ login, chatId }));
   } catch (error) {
     console.error(error);
     yield put(setToggleFailed({
@@ -83,10 +71,8 @@ function* fetchDeleteUserFromChat(action: any) {
 function* fetchGetParticipants(action: any) {
   const chatId: number = action.payload;
   try {
-    const response: ICkeckMembersSaga = yield call(getParticipants, chatId);
-    if (response.ok) {
-      yield put(getParticipantsSucceed({ chatMembersInfo: response.data, chatId }));
-    }
+    const participantsInfo: IReadableUserResponse = yield call(getParticipants, chatId);
+    yield put(getParticipantsSucceed({ participantsInfo, chatId }));
   } catch (error) {
     console.error(error);
     yield put(setToggleFailed({
@@ -100,10 +86,9 @@ function* fetchGetParticipants(action: any) {
 function* fetchEditChatName(action: any) {
   try {
     const { name, id } = action.payload;
-    const response: IEditChatNameSaga = yield call(editChatName, name, id);
-    if (response.ok) {
-      yield put(editChatNameSucceed({ name, id }));
-    }
+    const response: any = yield call(editChatName, name, id);
+    console.log(response, 'myLog response');
+    yield put(editChatNameSucceed({ name, id }));
   } catch (error) {
     console.error(error);
     yield put(setToggleFailed({
